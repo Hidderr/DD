@@ -1,3 +1,106 @@
 <resources>
     <string name="app_name">袋鼠大师</string>
+
+
+    <!--自定义-->
+    <string name="login_phone">用户名/手机号</string>
+    <string name="login">登   录</string>
+    <string name="logining">登录中...</string>
+    <string name="loading">加载中...</string>
+    <string name="fast_register">快速注册</string>
+    <string name="password">密码</string>
+    <string name="exit_app_tip">双击退出应用</string>
+    <string name="third_party_login">第三方账号快速登录</string>
+    <string name="login_loading">正在登录，请稍候...</string>
+    <string name="login_limit">0123456789abcdefghigklmnopqrstuvwxyz</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="welcome_to_shop">欢迎来到**商城</string>
+    <string name="in_shop">进入商城</string>
+    <string name="in_collect">进入收藏</string>
+
+
+    <!--LoginActivity-->
+    <string name="no_account">没有账号？</string>
+    <string name="go_register">去注册</string>
+
+    <!--RegisterActivity-->
+    <string name="register">注   册</string>
+    <string name="logout">注销</string>
+    <string name="go_login">去登陆</string>
+    <string name="finish">完成</string>
+    <string name="have_account">已有账号？</string>
+    <string name="registering">注册中...</string>
+    <string name="register_account">请输入注册账号</string>
+    <string name="register_password">请输入密码</string>
+    <string name="register_password_limit">密码不能少于6个字符</string>
+    <string name="register_phone">请输入手机号</string>
+    <string name="register_verification">请输入验证码</string>
+    <string name="xieyi">注册即表示同意</string>
+    <string name="use_xieyi">《来赛服务条款》</string>
+    <string name="get_verification">获取验证码</string>
+    <string name="smssdk_unreceive_identify_code">点击重新发送</string>
+    <string name="agree_xiyi">请同意用户协议</string>
+    <string name="smssdk_receive_msg">
+        <Data>
+            &lt;font color=#ff0000>%s&lt;/font>秒后重新发送
+        </Data>
+    </string>
+    <string name="bangding_qq">正在绑定qq登录,请稍候...</string>
+
+    <!--forgetPasswordActivity-->
+    <string name="forget_password">忘记密码?</string>
+    <string name="forget_password_1">忘记密码</string>
+    <string name="new_password">请输入密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="save_password">保存密码</string>
+    <string name="update_password">修改中...</string>
+
+    <!--MainActivity-->
+    <string name="nav_title_home">首页</string>
+    <string name="nav_title_read">阅读</string>
+    <string name="nav_title_shop">商城</string>
+    <string name="nav_title_me">我的</string>
+
+    <!--HomeFragment-->
+    <string name="jiahe_xingshi">家和姓氏</string>
+    <string name="jiahe_guoxue">家和国学</string>
+    <string name="yima_jiyin">易码基因</string>
+    <string name="yima_jiankang">易码健康</string>
+    <string name="yima_shenghuo">易码生活</string>
+    <string name="yima_huiyuan">易码会员</string>
+
+    <!--contactsfrag-->
+    <string name="find">搜索</string>
+    <string name="add">添加</string>
+    <string name="add_ing">请求中</string>
+    <string name="agree">同意</string>
+    <string name="has_added">已添加</string>
+    <string name="input_phone_or_nickname">请输入手机号/昵称</string>
+    <string name="add_friend">添加好友</string>
+    <string name="del_friend">删除好友</string>
+    <string name="confirm_del_friend">您确定要删除</string>
+
+    <!--meFrag-->
+    <string name="me">我</string>
+    <string name="my_e_fen">我的e分</string>
+    <string name="order_manager">订单管理</string>
+    <string name="goods_manager">商品管理</string>
+    <string name="address_manager">地址管理</string>
+    <string name="vip_collect_manager">会员收藏管理</string>
+    <string name="vip_zhuanshu_qrcode">会员专属二维码</string>
+
+    <!--我的收藏-->
+    <string name="e_chuan">我的e传</string>
+    <string name="e_kang">我的e康</string>
+    <string name="e_cang">我的藏</string>
+    <string name="e_bao">我的e包</string>
+
+    <!--RankFrag-->
+    <string name="result_publish">成绩公布</string>
+    <string name="event_rank">名次</string>
+    <string name="event_name">队伍名称</string>
+    <string name="event_finish_time">比赛用时</string>
+
 </resources>

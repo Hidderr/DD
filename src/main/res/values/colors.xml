@@ -3,4 +3,55 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--自定义-->
+    <color name="white">#FFFFFF</color>
+    <color name="white_1">#eeeeee</color>
+    <color name="white_2">#e5e5e5</color>
+    <color name="white_3">#d4d4d4</color>
+    <color name="black_2">#cccccc</color>
+    <color name="text_color_1">#696969</color>
+    <color name="text_color_2">#a6a6a6</color>
+    <color name="text_color_3">#a4a9ad</color>
+    <color name="text_color_4">#8b8786</color>
+    <color name="text_color_6">#b5b5b5</color>
+    <color name="text_color_7">#bdbdbd</color>
+    <color name="text_color_8">#e0e0e0</color>
+    <color name="text_color_9">#e7e7e7</color>
+    <color name="text_color_10">#f7f7f7</color>
+    <color name="text_color_11">#fafafa</color>
+
+    <color name="text_brown">#795549</color>
+
+    <color name="text_color_blue_1">#5caff1</color>
+    <color name="text_color_blue_2">#5c8ff1</color>
+    <color name="text_color_blue_3">#9ccff2</color>
+    <color name="text_color_blue_4">#229eff</color>
+    <color name="text_color_red">#d65164</color>
+    <color name="text_color_red_1">#ff9a9a</color>
+    <color name="text_color_yellow_1">#ffb301</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="transparent2">#88000000</color>
+    <color name="transparent3">#b0000000</color>
+    <color name="transparent4">#00ffffff</color>
+
+
+    <!-- 下拉刷新时，颜色值 -->
+    <color name="swiperefresh_color1">#ff00ddff</color>
+    <color name="swiperefresh_color2">#ffffbb33</color>
+    <color name="swiperefresh_color3">#ffff4444</color>
+    <color name="swiperefresh_color4">#ffaa66cc</color>
+
+    <color name="black_overlay">#66000000</color>
+
+
+
+    <!--相机-->
+    <color name="result_text">#ffffffff</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="possible_result_points">#c0ffbd21</color>
+
+
+
 </resources>
