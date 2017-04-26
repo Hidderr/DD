@@ -33,6 +33,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
     //
+    public static boolean isForeground = false;
     int mCurrNavIndex = -1;  //目前选中的地步导航的哪一个
 
 
@@ -98,6 +99,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
+        isForeground = true;
     }
 
     @Override
@@ -231,6 +233,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isForeground = false;
         CurrUnreadBroadcast.unregisterBroadcast();
         systemBroadcast.unregisterBroadcast();
     }

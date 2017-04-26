@@ -90,6 +90,9 @@ public class DataUrl {
      * 查看是否有任务书
      **/
     public static final String CHECKOUT_IF_HAS_MISSION = BASE_URL + "game_member/check_game";
-
+    /**
+     * 新版本检测
+     **/
+    public static final String GET_NEW_VERSION = BASE_URL + "index/version";
 
 }

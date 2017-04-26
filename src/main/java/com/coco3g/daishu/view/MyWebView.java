@@ -1,0 +1,331 @@
+package com.coco3g.daishu.view;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.http.SslError;
+import android.os.Handler;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+
+import com.andview.refreshview.XRefreshView;
+import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.data.TypevauleGotoDictionary;
+import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
+
+
+/**
+ * Created by lisen on 16/2/29 16:16.
+ */
+public class MyWebView extends RelativeLayout {
+    Context mContext;
+    View mView;
+    WebView webView;
+    XRefreshView mXRefreshView;
+    String mUrl = "";
+    String mUserID = "";
+    //    MyProgressDialog mProgress;
+    SetTitleListener settitlelistener;
+    OnRefreshFinished onRefreshFinished;
+    private ProgressBar mProgressBar;
+    //
+    RelativeLayout mRelativeRoot;
+    //
+    Coco3gBroadcastUtils mCurrBoardCast;
+
+    public MyWebView(Context context) {
+        super(context);
+        mContext = context;
+    }
+
+    public MyWebView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mContext = context;
+        initView();
+    }
+
+    public MyWebView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        mContext = context;
+    }
+
+    private void initView() {
+        LayoutInflater lay = LayoutInflater.from(mContext);
+        mView = lay.inflate(R.layout.view_webview, this);
+        webView = (WebView) mView.findViewById(R.id.view_webview);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar_webview);
+        mProgressBar.setMax(100);
+        //
+        mXRefreshView = (XRefreshView) findViewById(R.id.xrefresh_webview_view);
+        mXRefreshView.setPullRefreshEnable(true);
+        mXRefreshView.setPullLoadEnable(false);
+        mXRefreshView.setPinnedTime(100);
+        mXRefreshView.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                webView.reload();
+            }
+
+            @Override
+            public void onLoadMore(boolean isSlience) {
+//                mWebView.reLoadUrl("javascript: pullup()");
+            }
+        });
+        //
+        mCurrBoardCast = new Coco3gBroadcastUtils(mContext);
+        mCurrBoardCast.receiveBroadcast(Coco3gBroadcastUtils.RETURN_UPDATE_FLAG)
+                .setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+                    @Override
+                    public void receiveReturn(Intent intent) {
+//                        mScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+                        mXRefreshView.setPullRefreshEnable(true);
+                        mXRefreshView.setPullLoadEnable(false);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+//                                mScrollView.setRefreshing();
+                                mXRefreshView.startRefresh();
+                            }
+                        }, 500);
+                    }
+                });
+    }
+
+    public void setRootView(RelativeLayout mRelativeRoot) {
+        this.mRelativeRoot = mRelativeRoot;
+    }
+
+
+    public void loadUrl(String url) {
+        this.mUrl = url;
+        //
+//        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setSupportZoom(false);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                setTitle(title);    //目前先禁用获取自动获取H5页的标题，现在是自己传递过来的
+            }
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    mProgressBar.setVisibility(GONE);
+                } else {
+                    mProgressBar.setProgress(newProgress);
+                }
+                super.onProgressChanged(view, newProgress);
+            }
+        });
+//        webView.setWebChromeClient(new WebChromeClient());
+        webView.addJavascriptInterface(getHtmlObject(), "CocoObj");
+        //
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // 设置缓存模式
+        // 开启DOM storage API 功能
+        webView.getSettings().setDomStorageEnabled(true);
+        // 开启database storage API功能
+        webView.getSettings().setDatabaseEnabled(true);
+        String cacheDirPath = mContext.getFilesDir().getAbsolutePath() + "webview";
+        // 设置数据库缓存路径
+        webView.getSettings().setDatabasePath(cacheDirPath); // API 19 deprecated
+        // 设置Application caches缓存目录
+        webView.getSettings().setAppCachePath(cacheDirPath);
+        // 开启Application Cache功能
+        webView.getSettings().setAppCacheEnabled(true);
+        //
+        webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // TODO Auto-generated method stub
+                Log.e("coco3g协议", url);
+                if (url.equals("#")) {
+                    return true;
+                }
+                if (!TextUtils.isEmpty(url) && url.startsWith("http://coco3g-app")) {
+                    TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(mContext);
+                    typevauleGotoDictionary.setWebview(webView);
+                    typevauleGotoDictionary.setRootView(mRelativeRoot);
+                    typevauleGotoDictionary.gotoViewChoose(url);
+                    return true;
+                } else {
+                    mUrl = url;
+                    Intent intent = new Intent(mContext, WebActivity.class);
+                    intent.putExtra("url", url);
+                    mContext.startActivity(intent);
+                    return true;
+//                    return super.shouldOverrideUrlLoading(view, url);
+                }
+
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+//                mProgress = MyProgressDialog.show(mContext, mContext.getString(R.string.jia_zai_zhong), false, true);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // TODO Auto-generated method stub
+                super.onPageFinished(view, url);
+
+                mXRefreshView.stopRefresh();
+
+                if (onRefreshFinished != null) {
+                    onRefreshFinished.refreshFinished();
+                }
+//                if (mProgress != null) {
+//                    try {
+//                        mProgress.cancel();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+            }
+
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                // handler.cancel(); // Android默认的处理方式
+                handler.proceed(); // 接受所有网站的证书
+                // handleMessage(Message msg); // 进行其他处理
+            }
+
+        });
+        webView.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return true;
+            }
+        });
+        if (Global.USERINFOMAP != null && !TextUtils.isEmpty(Global.USERINFOMAP.get("id"))) {
+            CookieSyncManager.createInstance(mContext);
+            CookieManager cookieManager = CookieManager.getInstance();
+            String cookie = cookieManager.getCookie("cookie");
+//            cookieManager.setAcceptCookie(true);
+//            cookieManager.removeSessionCookie();// 移除
+            cookieManager.setCookie(mUrl, cookie);// cookies是在HttpClient中获得的cookie
+            CookieSyncManager.getInstance().sync();
+        }
+        //
+        webView.loadUrl(mUrl, Global.getTokenTimeStampHeader(mContext));
+    }
+
+    public void reLoadUrl() {
+        webView.reload();
+    }
+
+
+    public void execJsUrl(String jsStr) {
+        webView.loadUrl(jsStr);
+    }
+//    public void reLoadUrl(String url) {
+//        webView.loadUrl(url);
+//    }
+
+    public WebView getCurrentWebview() {
+        return webView;
+    }
+
+    public String getCurrentUrl() {
+        return mUrl;
+    }
+
+    private Object getHtmlObject() {
+        Object insertObj = new Object() {
+
+            public void JavacallHtml() {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript: edit_info()");
+                        Global.showToast("clickBtn", mContext);
+                    }
+                });
+            }
+
+            public void JavacallHtml2() {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript: showFromHtml2('IT-homer blog')");
+                        Global.showToast("clickBtn2", mContext);
+                    }
+                });
+            }
+        };
+
+        return insertObj;
+    }
+
+    public void save() {
+//        webView.loadUrl("javascript:edit_info()");
+        webView.loadUrl("javascript:$('#dosubmit').click();");
+//        webView.destroy();
+    }
+
+//    public void update() {
+//        webView.reload();
+//    }
+
+
+    public void setPullLoadEnable(String pullrefresh) {
+        if (!TextUtils.isEmpty(pullrefresh)) {
+            if (pullrefresh.equals("1")) {
+                mXRefreshView.setPullLoadEnable(true);
+            } else {
+                mXRefreshView.setPullLoadEnable(false);
+            }
+        }
+    }
+
+
+    public void setOnTitleListener(SetTitleListener settitlelistener) {
+        this.settitlelistener = settitlelistener;
+    }
+
+    public interface SetTitleListener {
+        void setTitle(String title);
+    }
+
+    private void setTitle(String title) {
+        Log.e("标题", title);
+        if (settitlelistener != null && !title.endsWith(".html")) {
+            settitlelistener.setTitle(title);
+        }
+    }
+
+    public interface OnRefreshFinished {
+        void refreshFinished();
+    }
+
+    public void setOnRefreshFinished(OnRefreshFinished onRefreshFinished) {
+        this.onRefreshFinished = onRefreshFinished;
+    }
+
+
+    public void unRegisterBroadcast() {
+        mCurrBoardCast.unregisterBroadcast();
+    }
+
+
+}

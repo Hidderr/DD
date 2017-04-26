@@ -10,4 +10,9 @@
         <item name="android:textColor">@color/text_color_3</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="PopupWindowAnim" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/enter_popupwindow</item>
+        <item name="android:windowExitAnimation">@anim/exit_popupwindow</item>
+    </style>
 </resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/white"
+    android:gravity="top|left"
+    android:padding="10dp"
+    android:textColor="@color/text_color_1"
+    android:textColorHint="@color/text_color_2"
+    android:textSize="14sp"/>

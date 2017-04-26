@@ -52,12 +52,13 @@ import java.util.regex.Pattern;
 
 
 public class Global {
-    public static final String APP_CACHE = "data"; // 用户信息
-    public static final String LOGIN_INFO = "login"; // 用户登录信息
-    public static final String LOGIN_INFO_LAST = "loginlastperson"; // 最后一位用户登录信息
+    public static final String rootPath = "com_app_daishudashi";
+    public static final String APP_CACHE = rootPath + "data"; // 用户信息
+    public static final String LOGIN_INFO = rootPath + "login"; // 用户登录信息
+    public static final String LOGIN_INFO_LAST = rootPath + "loginlastperson"; // 最后一位用户登录信息
     public static final String LOGIN_PASSWORD = "loginpassword"; // 登录密码
     public static final String RONGTOKEN_INFO = "rongtokeninfo"; // 融云token保存
-    public static final String rootPath = "com_app_qym";
+
     public static final String localThumbPath = "thumbnail"; // 应用的图片存放目录
     public static final String DOWNLOAD = "download"; // 应用的图片下载目录
     public static final String START_PIC = "qymtemp"; // 启动界面存储目录

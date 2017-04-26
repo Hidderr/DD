@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_webview_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <com.coco3g.daishu.view.TopBarView
+        android:id="@+id/topbar_my_webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.coco3g.daishu.view.TopBarView>
+
+    <!--<ImageView-->
+    <!--android:id="@+id/image_webview_line"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0.5dp"-->
+    <!--android:layout_below="@+id/topbar_my_webview"-->
+    <!--android:background="@color/text_color_7" />-->
+
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/topbar_my_webview">-->
+
+    <!--<com.andview.refreshview.XRefreshView-->
+    <!--android:id="@+id/xrefresh_webview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="#fff"-->
+    <!--android:orientation="vertical">-->
+
+    <com.coco3g.daishu.view.MyWebView
+        android:id="@+id/view_my_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topbar_my_webview">
+
+    </com.coco3g.daishu.view.MyWebView>
+
+    <!--</com.andview.refreshview.XRefreshView>-->
+    <!--</ScrollView>-->
+</RelativeLayout>

@@ -31,7 +31,7 @@ public class BaseActivity extends Activity {
         CONTEXTLIST.add(this);
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarTintResource(R.color.colorPrimary);
     }
 
     @TargetApi(19)
