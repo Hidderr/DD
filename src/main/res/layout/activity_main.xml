@@ -48,7 +48,7 @@
                 android:id="@+id/view_nav_home"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:src="@drawable/nav_home_icon" />
 
@@ -56,15 +56,23 @@
                 android:id="@+id/view_nav_read"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:src="@drawable/nav_home_icon" />
+
+            <com.coco3g.daishu.view.BottomNavImageView
+                android:id="@+id/view_nav_income"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:src="@drawable/nav_income_icon" />
 
             <com.coco3g.daishu.view.BottomNavImageView
                 android:id="@+id/view_nav_shop"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:src="@drawable/nav_home_icon" />
 
@@ -72,7 +80,7 @@
                 android:id="@+id/view_nav_me"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:src="@drawable/nav_home_icon" />
 

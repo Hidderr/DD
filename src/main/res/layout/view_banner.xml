@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <com.coco3g.daishu.view.LoopViewPager
+        android:id="@+id/viewpager_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" >
+    </com.coco3g.daishu.view.LoopViewPager>
+
+    <com.coco3g.daishu.view.BannerSelectPointView
+        android:id="@+id/viewpage_banner_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/viewpager_banner"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

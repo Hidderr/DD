@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fbcc00</color>
+    <color name="colorPrimary">#000000</color>
 
     <!--自定义-->
     <color name="white">#FFFFFF</color>
@@ -16,7 +16,7 @@
     <color name="text_color_7">#bdbdbd</color>
     <color name="text_color_8">#e0e0e0</color>
     <color name="text_color_9">#e7e7e7</color>
-    <color name="text_color_10">#f7f7f7</color>
+    <color name="text_color_10">#f3f3f3</color>
     <color name="text_color_11">#fafafa</color>
 
     <color name="text_brown">#795549</color>
@@ -25,8 +25,9 @@
     <color name="text_color_blue_2">#5c8ff1</color>
     <color name="text_color_blue_3">#9ccff2</color>
     <color name="text_color_blue_4">#229eff</color>
-    <color name="text_color_red">#d65164</color>
+    <color name="text_color_red">#FF0000</color>
     <color name="text_color_red_1">#ff9a9a</color>
+    <color name="text_color_red_2">#f15555</color>
     <color name="text_color_yellow_1">#ffb301</color>
     <color name="transparent">#00ffffff</color>
     <color name="transparent2">#88000000</color>

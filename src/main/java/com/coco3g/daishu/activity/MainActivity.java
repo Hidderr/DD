@@ -11,6 +11,7 @@ import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.fragment.GoodsFragment;
 import com.coco3g.daishu.fragment.HomeFragment;
+import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
 import com.coco3g.daishu.fragment.RepairFragment;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
@@ -22,14 +23,15 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private TopBarView mTopbar;
     //底部导航标题
     BottomNavImageView[] mImageRes;
-    BottomNavImageView mImageHome, mImageRead, mImageShop, mImageMe;
+    BottomNavImageView mImageHome, mImageRead, mImageIncome, mImageShop, mImageMe;
     String[] mNavTitles;
-    int[] mNavIconResID = new int[]{R.drawable.nav_home_icon, R.drawable.nav_goods_icon, R.drawable.nav_repair_icon,
+    int[] mNavIconResID = new int[]{R.drawable.nav_home_icon, R.drawable.nav_goods_icon, R.drawable.nav_income_icon, R.drawable.nav_repair_icon,
             R.drawable.nav_me_icon};
     private static FragmentManager mFragManager = null;
     //
     private HomeFragment mHomeFrag;
     private GoodsFragment mGoodsFrag;
+    private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
     //
@@ -55,18 +57,20 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //
         mImageHome = (BottomNavImageView) findViewById(R.id.view_nav_home);
         mImageRead = (BottomNavImageView) findViewById(R.id.view_nav_read);
+        mImageIncome = (BottomNavImageView) findViewById(R.id.view_nav_income);
         mImageShop = (BottomNavImageView) findViewById(R.id.view_nav_shop);
         mImageMe = (BottomNavImageView) findViewById(R.id.view_nav_me);
         //
-        mNavTitles = new String[]{getString(R.string.nav_title_home), getString(R.string.nav_title_read), getString(R.string.nav_title_shop),
+        mNavTitles = new String[]{getString(R.string.nav_title_home), getString(R.string.nav_title_read), getString(R.string.nav_title_income), getString(R.string.nav_title_shop),
                 getString(R.string.nav_title_me)};
-        mImageRes = new BottomNavImageView[]{mImageHome, mImageRead, mImageShop, mImageMe};
+        mImageRes = new BottomNavImageView[]{mImageHome, mImageRead, mImageIncome, mImageShop, mImageMe};
         for (int i = 0; i < mImageRes.length; i++) {
             mImageRes[i].setIcon(mNavIconResID[i], mNavTitles[i]);
         }
         //
         mImageHome.setOnClickListener(this);
         mImageRead.setOnClickListener(this);
+        mImageIncome.setOnClickListener(this);
         mImageShop.setOnClickListener(this);
         mImageMe.setOnClickListener(this);
         //
@@ -108,14 +112,17 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             case R.id.view_nav_home: //首页
                 setTabSelection(0);
                 break;
-            case R.id.view_nav_read://通讯录
+            case R.id.view_nav_read://阅读
                 setTabSelection(1);
                 break;
-            case R.id.view_nav_shop://排行版
+            case R.id.view_nav_income:// 收益
                 setTabSelection(2);
                 break;
-            case R.id.view_nav_me://我
+            case R.id.view_nav_shop:// 商城
                 setTabSelection(3);
+                break;
+            case R.id.view_nav_me://我
+                setTabSelection(4);
                 break;
         }
     }
@@ -153,7 +160,18 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     transaction.show(mGoodsFrag);
                 }
                 break;
-            case 2: // 商城
+            case 2: // 收益
+                mTopbar.setVisibility(View.VISIBLE);
+                mTopbar.setMsgVisible();
+                mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
+                if (mIncomeFrag == null) {
+                    mIncomeFrag = new IncomeFragment();
+                    transaction.add(R.id.frame_main_content, mIncomeFrag);
+                } else {
+                    transaction.show(mIncomeFrag);
+                }
+                break;
+            case 3: // 商城
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
@@ -164,7 +182,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     transaction.show(mRepairFrag);
                 }
                 break;
-            case 3: //我
+            case 4: //我
                 mTopbar.setVisibility(View.GONE);
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();

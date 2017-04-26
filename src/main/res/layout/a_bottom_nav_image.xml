@@ -24,9 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/image_bottom_nav_item_icon"
             android:layout_centerHorizontal="true"
-            android:paddingLeft="5dp"
-            android:paddingRight="3dp"
-            android:paddingTop="1dp"
+            android:padding="5dp"
             android:text="附近"
             android:textColor="@drawable/nav_title_txt_color_normal_selector"
             android:textSize="12sp" />
