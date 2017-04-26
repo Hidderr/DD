@@ -1,11 +1,14 @@
 package com.coco3g.daishu.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
@@ -15,8 +18,12 @@ import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
 import com.coco3g.daishu.fragment.RepairFragment;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
+import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.BottomNavImageView;
 import com.coco3g.daishu.view.TopBarView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
@@ -37,8 +44,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     //
     public static boolean isForeground = false;
     int mCurrNavIndex = -1;  //目前选中的地步导航的哪一个
-
-
+    //点击返回键退出app
+    private static Boolean isExit = false;
     Coco3gBroadcastUtils CurrUnreadBroadcast, systemBroadcast;
 
     @Override
@@ -205,7 +212,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
     }
 
-
     //隐藏所有fragment
     private void hideFragments(FragmentTransaction transaction) {
         if (mHomeFrag != null) {
@@ -229,7 +235,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         requestPermission(); // 申请相关权限
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -240,13 +245,61 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
      * 申请相关权限
      */
     private void requestPermission() {
-//        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.CAMERA, 1);
-//        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-//        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
-//        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
-//        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.READ_PHONE_STATE, 1);
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.CAMERA, 1);
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.READ_PHONE_STATE, 1);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitAPPFromBack();
+        }
+        return true;
+    }
+
+    /**
+     * 双击退出函数
+     */
+    private void exitAPPFromBack() {
+        Timer timer = null;
+        TimerTask timerTask = null;
+        if (isExit == false) {
+            isExit = true;
+            Toast.makeText(this, getResources().getString(R.string.exit_app_tip), Toast.LENGTH_SHORT).show();
+            timer = new Timer();
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false;
+                }
+            };
+            timer.schedule(timerTask, 2000);
+        } else {
+            realeaseData();
+            finish();
+        }
+    }
+
+    private void realeaseData() {
+        try {
+            Global.screenWidth = 0;
+            Global.screenHeight = 0;
+            Global.USERINFOMAP = null;
+            Global.IMEI = null;
+            Global.MODEL = null;
+            BaseActivity.CONTEXTLIST.clear();
+            BaseActivity.CONTEXTLIST = null;
+            Global.deleteSerializeData(this, Global.APP_CACHE); //清除token
+            Global.deleteSerializeData(this, Global.LOGIN_PASSWORD); //清除密码
+            //
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onDestroy() {

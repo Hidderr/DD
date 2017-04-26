@@ -79,7 +79,6 @@ public class BaseFragmentActivity extends FragmentActivity {
         Global.screenHeight = 0;
         Global.IMEI = null;
         Global.MODEL = null;
-        Global.RONG_TOKEN = null;
     }
 
 }

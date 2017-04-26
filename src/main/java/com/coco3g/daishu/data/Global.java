@@ -86,10 +86,6 @@ public class Global {
      **/
     public static int SDK_VERSION = 0;
     public static HashMap<String, String> LOGIN_INFO_MAP = null;
-    /**
-     * 融云token
-     **/
-    public static String RONG_TOKEN = "";
     //
     public final static int RESULT_CHECK_GALLERY_CODE = 1; // 系统相册中，选择的图片后，返回的code
     public static final int REQUEST_CODE_GETIMAGE_BYSDCARD = 10; //相册返回code
@@ -967,7 +963,6 @@ public class Global {
             Global.USERINFOMAP = null;
             Global.IMEI = null;
             Global.MODEL = null;
-            Global.RONG_TOKEN = null;
             BaseActivity.CONTEXTLIST.clear();
             BaseActivity.CONTEXTLIST = null;
             Global.deleteSerializeData(context, Global.APP_CACHE); //清除token
@@ -991,7 +986,6 @@ public class Global {
 
     public static void logout(Context mContext) {
         Global.USERINFOMAP = null;
-        Global.RONG_TOKEN = null;
         Global.deleteSerializeData(mContext, Global.APP_CACHE);
         Global.deleteSerializeData(mContext, Global.LOGIN_PASSWORD);  //删除登录密码
         Global.deleteSerializeData(mContext, Global.LOGIN_INFO);  //删除个人信息
