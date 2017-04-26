@@ -171,7 +171,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     transaction.show(mIncomeFrag);
                 }
                 break;
-            case 3: // 商城
+            case 3: // 维修救援
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
@@ -182,7 +182,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     transaction.show(mRepairFrag);
                 }
                 break;
-            case 4: //我
+            case 4: // 我的
                 mTopbar.setVisibility(View.GONE);
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();
