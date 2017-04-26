@@ -16,11 +16,14 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:src="@mipmap/pic_bugle_icon" />
 
         <ImageView
@@ -28,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/text_color_6" />
+            android:background="@color/text_color_8" />
 
         <TextView
             android:id="@+id/tv_home_boardcast"
@@ -43,12 +46,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -60,7 +63,7 @@
             android:layout_height="match_parent"
             android:background="@color/text_color_10" />
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -72,7 +75,7 @@
             android:layout_height="match_parent"
             android:background="@color/text_color_10" />
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -84,7 +87,7 @@
             android:layout_height="match_parent"
             android:background="@color/text_color_10" />
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -100,7 +103,7 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -112,7 +115,7 @@
             android:layout_height="match_parent"
             android:background="@color/text_color_10" />
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -124,7 +127,7 @@
             android:layout_height="match_parent"
             android:background="@color/text_color_10" />
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -136,7 +139,7 @@
             android:layout_height="match_parent"
             android:background="@color/text_color_10" />
 
-        <com.coco3g.daishu.view.BottomNavImageView
+        <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_8"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

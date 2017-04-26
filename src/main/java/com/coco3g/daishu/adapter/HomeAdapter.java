@@ -24,11 +24,14 @@ import java.util.Map;
 public class HomeAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<Map<String, String>> mList = new ArrayList<>();
-    LinearLayout.LayoutParams lp = null;
+    RelativeLayout.LayoutParams lp = null;
 
     public HomeAdapter(Context mContext) {
         this.mContext = mContext;
-        lp = new LinearLayout.LayoutParams(Global.screenWidth / 4, Global.screenWidth / 4);
+        lp = new RelativeLayout.LayoutParams(Global.screenWidth / 4, Global.screenWidth / 4);
+        lp.addRule(RelativeLayout.ALIGN_TOP, R.id.relative_home_item_content);
+        lp.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.relative_home_item_content);
+        lp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
     }
 
     public void setList(ArrayList<Map<String, String>> list) {
@@ -38,7 +41,7 @@ public class HomeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mList.size();
+        return 10;
     }
 
     @Override
@@ -52,6 +55,7 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     ViewHolder viewHolder;
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {
@@ -59,7 +63,7 @@ public class HomeAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.a_home_item, null);
             viewHolder.mImageThumb = (ImageView) view.findViewById(R.id.image_home_item_thumb);
             viewHolder.mImageThumb.setLayoutParams(lp);
-            viewHolder.mImageThumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            viewHolder.mImageThumb.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             viewHolder.mTxtTitle = (TextView) view.findViewById(R.id.tv_home_item_title);
             viewHolder.mTxtSubTitle1 = (TextView) view.findViewById(R.id.tv_home_item_subtitle1);
             viewHolder.mTxtSubTitle2 = (TextView) view.findViewById(R.id.tv_home_item_subtitle2);

@@ -13,8 +13,10 @@
             android:id="@+id/listview_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:cacheColorHint="@color/transparent"
             android:divider="@color/transparent"
-            android:dividerHeight="0dp" />
+            android:dividerHeight="5dp"
+            android:listSelector="@color/transparent" />
     </com.coco3g.daishu.view.SuperRefreshLayout>
 
 </RelativeLayout>

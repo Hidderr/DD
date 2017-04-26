@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
-import com.coco3g.daishu.fragment.GoodsFragment;
+import com.coco3g.daishu.fragment.ReadFragment;
 import com.coco3g.daishu.fragment.HomeFragment;
 import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
@@ -30,7 +30,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private static FragmentManager mFragManager = null;
     //
     private HomeFragment mHomeFrag;
-    private GoodsFragment mGoodsFrag;
+    private ReadFragment mReadFrag;
     private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
@@ -153,11 +153,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_read));
-                if (mGoodsFrag == null) {
-                    mGoodsFrag = new GoodsFragment();
-                    transaction.add(R.id.frame_main_content, mGoodsFrag);
+                if (mReadFrag == null) {
+                    mReadFrag = new ReadFragment();
+                    transaction.add(R.id.frame_main_content, mReadFrag);
                 } else {
-                    transaction.show(mGoodsFrag);
+                    transaction.show(mReadFrag);
                 }
                 break;
             case 2: // 收益
@@ -211,8 +211,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if (mHomeFrag != null) {
             transaction.hide(mHomeFrag);
         }
-        if (mGoodsFrag != null) {
-            transaction.hide(mGoodsFrag);
+        if (mReadFrag != null) {
+            transaction.hide(mReadFrag);
         }
         if (mRepairFrag != null) {
             transaction.hide(mRepairFrag);
