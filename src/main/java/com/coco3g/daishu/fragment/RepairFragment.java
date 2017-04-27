@@ -1,6 +1,7 @@
 package com.coco3g.daishu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
@@ -74,22 +76,47 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
                 mSuperRefreshLayout.onLoadComplete();
             }
         });
+        //
+        mRepairMenu1.setOnClickListener(this);
+        mRepairMenu2.setOnClickListener(this);
+        mRepairMenu3.setOnClickListener(this);
+        mRepairMenu4.setOnClickListener(this);
+        mRepairMenu5.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.tv_go_frag_mission:  //任务书
-//                Intent intent1 = new Intent(mContext, MissionBookActivity.class);
-//                startActivity(intent1);
-////                checkIfHasMission();
-//
-//                break;
-//            case R.id.tv_go_frag_saoma:  //扫码
-//                new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.START_LOCATION, null);
-//                Intent intent = new Intent(mContext, CaptureActivity.class);
-//                ((Activity) mContext).startActivityForResult(intent, Constants.RESULT_SCAN);
-//                break;
-//        }
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.view_repair_menu_1:  //
+
+                break;
+
+            case R.id.view_repair_menu_2:  //
+
+                break;
+
+            case R.id.view_repair_menu_3:  //服务确认
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.FU_WU_QUE_REN);
+                startActivity(intent);
+
+                break;
+
+            case R.id.view_repair_menu_4:  //我的账单
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.MY_ZHANG_DAN);
+                startActivity(intent);
+
+                break;
+
+            case R.id.view_repair_menu_5:  //历史记录
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.LISHI_JI_LU);
+                startActivity(intent);
+
+                break;
+        }
     }
 
     //获取banner图片

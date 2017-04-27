@@ -68,7 +68,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         mImageShop = (BottomNavImageView) findViewById(R.id.view_nav_shop);
         mImageMe = (BottomNavImageView) findViewById(R.id.view_nav_me);
         //
-        mNavTitles = new String[]{getString(R.string.nav_title_home), getString(R.string.nav_title_read), getString(R.string.nav_title_income), getString(R.string.nav_title_shop),
+        mNavTitles = new String[]{getString(R.string.nav_title_home), getString(R.string.nav_title_goods_hui), getString(R.string.nav_title_income), getString(R.string.nav_title_shop),
                 getString(R.string.nav_title_me)};
         mImageRes = new BottomNavImageView[]{mImageHome, mImageRead, mImageIncome, mImageShop, mImageMe};
         for (int i = 0; i < mImageRes.length; i++) {
@@ -159,7 +159,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             case 1: // 阅读
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
-                mTopbar.setTitle(getResources().getString(R.string.nav_title_read));
+                mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
                 if (mReadFrag == null) {
                     mReadFrag = new ReadFragment();
                     transaction.add(R.id.frame_main_content, mReadFrag);

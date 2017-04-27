@@ -1,6 +1,7 @@
 package com.coco3g.daishu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.data.DataUrl;
 
 
 public class MeFragment extends Fragment implements View.OnClickListener {
@@ -63,10 +66,17 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         //
         mImageRightArrow.setOnClickListener(this);
         mTxtCarNurse.setOnClickListener(this);
+        mTxtAccount.setOnClickListener(this);
+        mTxtShoppingAccount.setOnClickListener(this);
+        mTxtBalance.setOnClickListener(this);
+        mTxtCompact.setOnClickListener(this);
+        mTxtMemberRecommend.setOnClickListener(this);
+        mTxtUpdateMember.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.image_me_top_arrow:
                 break;
@@ -83,6 +93,44 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     mHorizontalScroll.setVisibility(View.VISIBLE);
                 }
                 break;
+
+            case R.id.tv_me_mime_account:  //个人账户
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.GE_REN_SETTING);
+                startActivity(intent);
+
+                break;
+            case R.id.tv_me_shopping_account:  //购物账单
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.GOU_WU_ZHANG_DAN);
+                startActivity(intent);
+
+                break;
+            case R.id.tv_me_account_balance:  //账户余额
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.ZHANG_HU_YU_E);
+                startActivity(intent);
+
+                break;
+            case R.id.tv_me_compact:  //合同摘要
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.HE_TONG_ZHAI_YAO);
+                startActivity(intent);
+
+                break;
+            case R.id.tv_me_member_recommend:  //会员推荐
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.HUI_YUAN_TUI_JIAN);
+                startActivity(intent);
+
+                break;
+            case R.id.tv_me_update_member:  //升级会员
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.SHENG_JI_HUI_YUAN);
+                startActivity(intent);
+
+                break;
+
         }
     }
 

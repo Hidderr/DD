@@ -1,6 +1,7 @@
 package com.coco3g.daishu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.adapter.HomeAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -90,6 +92,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mSuperRefreshLayout.onLoadComplete();
             }
         });
+
+
+        //
+        mMenu8.setOnClickListener(this);
+
     }
 
     @Override
@@ -99,19 +106,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.tv_go_frag_mission:  //任务书
-//                Intent intent1 = new Intent(mContext, MissionBookActivity.class);
-//                startActivity(intent1);
-////                checkIfHasMission();
-//
-//                break;
-//            case R.id.tv_go_frag_saoma:  //扫码
-//                new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.START_LOCATION, null);
-//                Intent intent = new Intent(mContext, CaptureActivity.class);
-//                ((Activity) mContext).startActivityForResult(intent, Constants.RESULT_SCAN);
-//                break;
-//        }
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.view_home_menu_8:  //  机动车险
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.JI_DONG_CHE_XIAN);
+                startActivity(intent);
+
+                break;
+
+        }
     }
 
     //获取banner图片

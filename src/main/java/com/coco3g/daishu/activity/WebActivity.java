@@ -108,10 +108,12 @@ public class WebActivity extends BaseActivity {
             @Override
             public void setTitle(String title1) {
                 if (!TextUtils.isEmpty(title1)) {
-                    return;
-                } else if (!TextUtils.isEmpty(title1) && !title1.startsWith("qym.test.coco3g.com")) {
                     mTopBar.setTitle(title1);
+                    return;
                 }
+//                else if (!TextUtils.isEmpty(title1) && !title1.startsWith("qym.test.coco3g.com")) {
+//                    mTopBar.setTitle(title1);
+//                }
             }
         });
 //        mWebView.setOnRefreshFinished(new MyWebView.OnRefreshFinished() {

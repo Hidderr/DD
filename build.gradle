@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        dashudashi {
+            keyAlias 'DaiShuDaShi'
+            keyPassword 'daishudashi.com'
+            storeFile file('/Users/coco3g/Documents/project/MyApplication1/DaiShuDaShi/daishudashi.jks')
+            storePassword 'daishudashi.com'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
-
     defaultConfig {
         applicationId "com.coco3g.daishu"
         minSdkVersion 16

@@ -1,6 +1,7 @@
 package com.coco3g.daishu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
@@ -79,23 +81,47 @@ public class ReadFragment extends Fragment implements View.OnClickListener {
                 mSuperRefreshLayout.onLoadComplete();
             }
         });
+        //
+        mReadMenu1.setOnClickListener(this);
+        mReadMenu2.setOnClickListener(this);
+        mReadMenu3.setOnClickListener(this);
+        mReadMenu4.setOnClickListener(this);
+        mReadMenu5.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.tv_go_frag_mission:  //任务书
-//                Intent intent1 = new Intent(mContext, MissionBookActivity.class);
-//                startActivity(intent1);
-////                checkIfHasMission();
-//
-//                break;
-//            case R.id.tv_go_frag_saoma:  //扫码
-//                new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.START_LOCATION, null);
-//                Intent intent = new Intent(mContext, CaptureActivity.class);
-//                ((Activity) mContext).startActivityForResult(intent, Constants.RESULT_SCAN);
-//                break;
-//        }
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.view_read_menu_1:  //
+
+                break;
+
+            case R.id.view_read_menu_2:  //汽车保险
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.QI_CHE_BAO_XIAN);
+                startActivity(intent);
+
+
+                break;
+
+            case R.id.view_read_menu_3:  //
+
+                break;
+
+            case R.id.view_read_menu_4:  //油品区
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", DataUrl.YOU_PIN_QU);
+                startActivity(intent);
+
+                break;
+
+            case R.id.view_read_menu_5:  //
+
+                break;
+        }
     }
 
     //获取banner图片
