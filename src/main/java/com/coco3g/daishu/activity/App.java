@@ -1,6 +1,10 @@
 package com.coco3g.daishu.activity;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -8,6 +12,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 
 /**
@@ -33,7 +41,7 @@ public class App extends Application {
         config.threadPoolSize(5);
         ImageLoader.getInstance().init(config.build());
         //
-//        Log.e("打印SHA1", sHA1(this));
+        Log.e("打印SHA1", sHA1(this));
 
 //        /**
 //         * OnCreate 会被多个进程重入，这段保护代码，确保只有您需要使用 RongIM 的进程和 Push 进程执行了 init。
@@ -83,32 +91,32 @@ public class App extends Application {
 
 
 
-//    //获取高德的sha1值 ，没用的可以删去
-//    public String sHA1(Context context) {
-//        try {
-//            PackageInfo info = context.getPackageManager().getPackageInfo(
-//                    context.getPackageName(), PackageManager.GET_SIGNATURES);
-//            byte[] cert = info.signatures[0].toByteArray();
-//            MessageDigest md = MessageDigest.getInstance("SHA1");
-//            byte[] publicKey = md.digest(cert);
-//            StringBuffer hexString = new StringBuffer();
-//            for (int i = 0; i < publicKey.length; i++) {
-//                String appendString = Integer.toHexString(0xFF & publicKey[i])
-//                        .toUpperCase(Locale.US);
-//                if (appendString.length() == 1)
-//                    hexString.append("0");
-//                hexString.append(appendString);
-//                hexString.append(":");
-//            }
-//            String result = hexString.toString();
-//            return result.substring(0, result.length() - 1);
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    //获取高德的sha1值 ，没用的可以删去
+    public String sHA1(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            String result = hexString.toString();
+            return result.substring(0, result.length() - 1);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 

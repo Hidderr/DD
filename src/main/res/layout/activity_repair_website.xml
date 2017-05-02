@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    tools:context="com.coco3g.daishu.activity.RepairWebsiteActivity">
+
+
+    <com.coco3g.daishu.view.TopBarView
+        android:id="@+id/topbar_repair_website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.coco3g.daishu.view.TopBarView>
+
+
+    <com.coco3g.daishu.view.MyMapView
+        android:id="@+id/map_repair_website"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/relative_repair_website_repair_store"
+        android:layout_below="@+id/topbar_repair_website">
+
+    </com.coco3g.daishu.view.MyMapView>
+
+    <RelativeLayout
+        android:id="@+id/relative_repair_website_repair_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/image_repair_website_store_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/pic_car_other" />
+
+        <RelativeLayout
+            android:id="@+id/relative_repair_website_store_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/image_repair_website_store_gps"
+            android:layout_toRightOf="@+id/image_repair_website_store_thumb">
+
+
+            <TextView
+                android:id="@+id/tv_repair_website_store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dkad"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_repair_website_store_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_repair_website_store_name"
+                android:maxLines="2"
+                android:text="dkad"
+                android:textColor="@color/text_color_1"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_repair_website_store_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_repair_website_store_address"
+                android:text="dkad"
+                android:textColor="@color/text_color_1"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/image_repair_website_store_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/checkbox_checked" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.RepairWebsiteActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -88,11 +89,13 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.view_repair_menu_1:  //
+            case R.id.view_repair_menu_1:  //救援电话
 
                 break;
 
-            case R.id.view_repair_menu_2:  //
+            case R.id.view_repair_menu_2:  //车辆维修
+                intent = new Intent(getActivity(), RepairWebsiteActivity.class);
+                startActivity(intent);
 
                 break;
 

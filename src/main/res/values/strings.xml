@@ -104,4 +104,7 @@
     <string name="event_name">队伍名称</string>
     <string name="event_finish_time">比赛用时</string>
 
+    <!--汽车维修点-->
+    <string name="no_result">没有搜索到相关数据！</string>
+
 </resources>
