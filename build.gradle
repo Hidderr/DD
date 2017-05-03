@@ -5,7 +5,7 @@ android {
         dashudashi {
             keyAlias 'DaiShuDaShi'
             keyPassword 'daishudashi.com'
-            storeFile file('/Users/lisen/Documents/AS-workspace/DaiShu/daishudashi.jks')
+            storeFile file('/Users/coco3g/Documents/project/MyApplication1/DaiShuDaShi/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
     }
@@ -52,8 +52,6 @@ dependencies {
     compile files('libs/open_sdk_r5788_lite.jar')
     compile files('libs/libammsdk.jar')
     compile files('libs/umeng-analytics-v6.0.1.jar')
-    compile files('libs/Android_Map3D_SDK_V5.0.0_20170311.jar')
-    compile files('libs/AMap_Location_V3.3.0_20170118.jar')
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:design:25.2.0'
@@ -61,4 +59,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     compile files('libs/AMap_Search_V5.0.0_20170309.jar')
+//    compile files('libs/AMap3DMap_5.0.0_AMapNavi_5.0.1_20170410.jar')
+    compile files('libs/Android_Map3D_SDK_V5.0.0_20170311.jar')
+    compile files('libs/AMap_Location_V3.3.0_20170118.jar')
 }

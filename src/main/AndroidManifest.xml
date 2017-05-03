@@ -61,6 +61,16 @@
         <activity
             android:name=".activity.TabViewWebActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RepairWebsiteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DriveRouteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RouteNavigationActivity"
+            android:screenOrientation="portrait" />
+
 
         <!-- 高德地图 -->
         <meta-data
@@ -179,7 +189,7 @@
             android:value="5b8108f6f5d4d687c621984f" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- android:value="40b8a220aca7c0bfd8dae113"/> &lt;!&ndash;  </>值来自开发者平台取得的AppKey&ndash;&gt; -->
 
-        <activity android:name=".activity.RepairWebsiteActivity"></activity>
+
     </application>
 
 </manifest>

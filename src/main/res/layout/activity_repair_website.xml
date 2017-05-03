@@ -30,24 +30,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image_repair_website_store_thumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/pic_car_other" />
+            android:scaleType="centerCrop" />
 
         <RelativeLayout
             android:id="@+id/relative_repair_website_store_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/image_repair_website_store_gps"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/image_repair_website_store_route"
             android:layout_toRightOf="@+id/image_repair_website_store_thumb">
 
 
@@ -55,7 +53,10 @@
                 android:id="@+id/tv_repair_website_store_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="dkad"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text=""
                 android:textColor="@color/text_color_1"
                 android:textSize="16sp" />
 
@@ -64,8 +65,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_repair_website_store_name"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
                 android:maxLines="2"
-                android:text="dkad"
+                android:text=""
                 android:textColor="@color/text_color_1"
                 android:textSize="14sp" />
 
@@ -74,7 +77,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_repair_website_store_address"
-                android:text="dkad"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
                 android:textColor="@color/text_color_1"
                 android:textSize="14sp" />
 
@@ -82,13 +88,17 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/image_repair_website_store_gps"
+            android:id="@+id/image_repair_website_store_route"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/checkbox_checked" />
+            android:src="@mipmap/pic_route_icon" />
 
 
     </RelativeLayout>

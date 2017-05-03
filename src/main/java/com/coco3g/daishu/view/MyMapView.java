@@ -72,6 +72,7 @@ public class MyMapView extends RelativeLayout {
         }
         mUiSettings = aMap.getUiSettings();
         //
+        mUiSettings.setZoomControlsEnabled(false);  //缩放按钮设置不可见
         mUiSettings.setTiltGesturesEnabled(false);  //设置不可倾斜
         mUiSettings.setRotateGesturesEnabled(false);  //设置不可旋转
 //        aMap.animateCamera(CameraUpdateFactory.zoomTo(18f));  //缩放级别
