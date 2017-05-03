@@ -64,7 +64,7 @@ public class MyMapView extends RelativeLayout {
     }
 
     //初始化地图的配置
-    public void init(Bundle savedInstanceState, boolean moveToMyLocation) {
+    public void init(Bundle savedInstanceState, boolean startLocation) {
         mMapView.onCreate(savedInstanceState);// 此方法必须重写
 
         if (aMap == null) {
@@ -104,8 +104,9 @@ public class MyMapView extends RelativeLayout {
 //            }
 //        });
 
-
-        startLocation(moveToMyLocation);
+        if (startLocation) {
+            startLocation();
+        }
     }
 
 
@@ -116,7 +117,7 @@ public class MyMapView extends RelativeLayout {
 
 
     //定位添加marker
-    public void startLocation(final boolean moveToMyLocation) {
+    public void startLocation() {
         new RequestPermissionUtils(mContext).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
         //定位
         new LocationUtil(mContext).initLocationAndStart(true, 1000, false, null).setAMapLocationChanged(new LocationUtil.AMapLocationChanged() {
@@ -127,32 +128,29 @@ public class MyMapView extends RelativeLayout {
                 mCurrLng = aMapLocation.getLongitude();
                 Log.e("定位结果", "city " + city + "  lat   " + mCurrLat + "  lng" + mCurrLng);
                 locationSuccessed(new LatLng(mCurrLat, mCurrLng));
-                if (moveToMyLocation) {
-                    moveToMyLocation();
-                }
             }
         });
     }
 
-    //地图视图移动到我的位置
-    public void moveToMyLocation() {
-        if (mCurrLat == 0 || mCurrLng == 0) {
-            startLocation(true);
-            return;
-        }
-        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrLat, mCurrLng), 16));
-        //
-        MarkerOptions markerOptions = new MarkerOptions();
-        LatLng latLng = new LatLng(mCurrLat, mCurrLng);
-        markerOptions.position(latLng);
-        markerOptions.title("定位点");
-        markerOptions.visible(true);
-        //
-        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_icon);
-        markerOptions.icon(bitmapDescriptor);
-        aMap.addMarker(markerOptions);
-
-    }
+//    //地图视图移动到我的位置
+//    public void moveToMyLocation() {
+//        if (mCurrLat == 0 || mCurrLng == 0) {
+//            startLocation();
+//            return;
+//        }
+//        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrLat, mCurrLng), 16));
+//        //
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        LatLng latLng = new LatLng(mCurrLat, mCurrLng);
+//        markerOptions.position(latLng);
+//        markerOptions.title("定位点");
+//        markerOptions.visible(true);
+//        //
+//        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_icon);
+//        markerOptions.icon(bitmapDescriptor);
+//        aMap.addMarker(markerOptions);
+//
+//    }
 
 
     /**

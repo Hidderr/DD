@@ -1,8 +1,10 @@
 package com.coco3g.daishu.data;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,8 +14,10 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -66,6 +70,7 @@ public class Global {
     public static final String localAudioPath = "audio"; // 应用的音频存放目录
     public static String NOTICE_MSG_TYPE = ""; // 通知下发，携带的数据
     public static Map<String, String> USERINFOMAP = null;  //用户信息
+    public static Map<String, String> H5Map = null;  //所有的h5
     //
     public static Map<String, String> MISSIONMAP = null;  //当前用户的任务书
     //
@@ -575,14 +580,15 @@ public class Global {
      * @param username
      * @param password
      */
-    public static void saveLoginInfo(Context context, String username, String password, String avatar, String dir) {
+    public static void saveLoginInfo(Context context, String phone, String username, String userid, String password, String avatar, String dir) {
         HashMap<String, String> loginmap = new HashMap<String, String>();
-        loginmap.put("phone", username);    //目前电话号码有个问题啊，不知是存在哪里，username,nickname还是phone
+        loginmap.put("phone", phone);    //目前电话号码有个问题啊，不知是存在哪里，username,nickname还是phone
         loginmap.put("password", password);
         loginmap.put("avatar", avatar);
+        loginmap.put("name", username);
+        loginmap.put("id", userid);
         serializeData(context, loginmap, dir);
     }
-
     /**
      * 读取登录信息
      *
@@ -931,29 +937,29 @@ public class Global {
         return false;
     }
 
-//    /**
-//     * 拨打电话
-//     *
-//     * @param context
-//     * @param number
-//     */
-//    public static void callPhone(Context context, String number) {
-//        Intent intent = new Intent(Intent.ACTION_CALL);
-//        Uri data = Uri.parse("tel:" + number);
-//        intent.setData(data);
-//        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            Global.showToast("没有相关权限", context);
-//            return;
-//        }
-//        context.startActivity(intent);
-//    }
+    /**
+     * 拨打电话
+     *
+     * @param context
+     * @param number
+     */
+    public static void callPhone(Context context, String number) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + number);
+        intent.setData(data);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Global.showToast("没有相关权限", context);
+            return;
+        }
+        context.startActivity(intent);
+    }
 
 
     public static void realeaseData(Context context) {

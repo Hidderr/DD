@@ -44,7 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * 驾车出行路线规划 实现
  */
-public class DriveRouteActivity extends Activity implements OnMapClickListener,
+public class DriveRouteActivity extends BaseActivity implements OnMapClickListener,
         OnMarkerClickListener, OnInfoWindowClickListener, InfoWindowAdapter, OnRouteSearchListener {
     private TopBarView mTopbar;
     private AMap aMap;
@@ -96,10 +96,10 @@ public class DriveRouteActivity extends Activity implements OnMapClickListener,
     private void setfromandtoMarker() {
         aMap.addMarker(new MarkerOptions()
                 .position(AMapUtil.convertToLatLng(mStartPoint))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_amap_start_icon)));
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon)));
         aMap.addMarker(new MarkerOptions()
                 .position(AMapUtil.convertToLatLng(mEndPoint))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_amap_end_icon)));
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_red_icon)));
     }
 
     /**
@@ -127,7 +127,7 @@ public class DriveRouteActivity extends Activity implements OnMapClickListener,
         mRelativeStore.setLayoutParams(store_lp);
         thumb_lp = new RelativeLayout.LayoutParams(Global.screenHeight / 5, Global.screenHeight / 5);
         thumb_lp.addRule(RelativeLayout.CENTER_VERTICAL);
-        thumb_lp.setMargins(margin_10, margin_10, margin_10, margin_10);
+        thumb_lp.setMargins(margin_10, margin_10, Global.dipTopx(this, 5f), Global.dipTopx(this, 5f));
         mImageThumb.setLayoutParams(thumb_lp);
         //
         mImageNavigation.setOnClickListener(new View.OnClickListener() {
@@ -161,8 +161,8 @@ public class DriveRouteActivity extends Activity implements OnMapClickListener,
     //设置修理店信息
     private void setRepairStoreInfo() {
         mTxtName.setText(currStoreBean.title);
-        mTxtAddress.setText(currStoreBean.address);
-        mTxtPhone.setText(currStoreBean.phone);
+        mTxtAddress.setText("地址： " + currStoreBean.address);
+        mTxtPhone.setText("电话： " + currStoreBean.phone);
         //
         ImageLoader.getInstance().displayImage(currStoreBean.photos, mImageThumb, new DisplayImageOptionsUtils().init());
     }

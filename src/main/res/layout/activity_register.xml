@@ -83,6 +83,44 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/edit_register_verification"
+                android:layout_alignTop="@+id/edit_register_verification"
+                android:alpha="0.5"
+                android:background="@drawable/shape_edit_bg"></RelativeLayout>
+
+            <EditText
+                android:id="@+id/edit_register_verification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@null"
+                android:digits="@string/login_limit"
+                android:drawableLeft="@mipmap/pic_login_paw_icon"
+                android:drawablePadding="10dp"
+                android:hint="@string/phone_verification"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingBottom="20dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_1"
+                android:textSize="15sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/edit_register_password"
                 android:layout_alignTop="@+id/edit_register_password"
                 android:alpha="0.5"
@@ -92,8 +130,10 @@
                 android:id="@+id/edit_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:background="@null"
-                android:digits="@string/login_limit"
                 android:drawableLeft="@mipmap/pic_login_paw_icon"
                 android:drawablePadding="10dp"
                 android:hint="@string/password"
@@ -105,10 +145,7 @@
                 android:paddingTop="20dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white_1"
-                android:textSize="15sp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:textSize="15sp" />
 
 
         </RelativeLayout>
@@ -185,5 +222,37 @@
 
         </RelativeLayout>
     </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/tv_register_xieyi_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/register_xiyi_1"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_register_xieyi_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_register_xieyi_1"
+            android:gravity="center"
+            android:text="@string/register_xiyi_2"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

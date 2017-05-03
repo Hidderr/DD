@@ -47,13 +47,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
     String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "附近门店", "我要买车", "车载用品", "打折油卡", "机动车险"};
 
+    //
+    OnRepairClickListener onRepairClickListener = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
         mAdapter = new HomeAdapter(getActivity());
         mHomeView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home, null);
         init();
-        getBanner();
+        mSuperRefreshLayout.setRefreshingLoad();
         return mHomeView;
     }
 
@@ -95,6 +98,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         //
+        mMenu1.setOnClickListener(this);
+        mMenu2.setOnClickListener(this);
+        mMenu3.setOnClickListener(this);
+        mMenu4.setOnClickListener(this);
+        mMenu5.setOnClickListener(this);
+        mMenu6.setOnClickListener(this);
+        mMenu7.setOnClickListener(this);
         mMenu8.setOnClickListener(this);
 
     }
@@ -108,6 +118,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
+            case R.id.view_home_menu_1:  //我的汽车
+
+                break;
+
+            case R.id.view_home_menu_2:  //维护养修
+                onRepairClick();
+
+                break;
+
+            case R.id.view_home_menu_3:  //洗车
+
+                break;
+
+            case R.id.view_home_menu_4:  //附近门店
+
+                break;
+
+            case R.id.view_home_menu_5:  //我要买车
+
+                break;
+
+            case R.id.view_home_menu_6:  //车载用品
+
+                break;
+
+            case R.id.view_home_menu_7:  //打折油卡
+
+                break;
+
             case R.id.view_home_menu_8:  //  机动车险
                 intent = new Intent(getActivity(), WebActivity.class);
                 intent.putExtra("url", DataUrl.JI_DONG_CHE_XIAN);
@@ -121,15 +160,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //获取banner图片
     public void getBanner() {
         HashMap<String, String> params = new HashMap<>();
-        new BaseDataPresenter(mContext).loadData(DataUrl.GET_BANNER_IMAGE, params, mContext.getResources().getString(R.string.loading), new IBaseDataListener() {
+        params.put("type", "1");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                Map<String, Object> dataMap = (Map<String, Object>) data.response;
-                ArrayList<Map<String, String>> bannerImageList = (ArrayList<Map<String, String>>) dataMap.get("banner");
-                mBanner.loadData(bannerImageList);
-                mSuperRefreshLayout.onLoadComplete();
+                ArrayList<Map<String, String>> bannerList = (ArrayList<Map<String, String>>) data.response;
+                mBanner.loadData(bannerList);
                 //
                 mListView.setAdapter(mAdapter);
+                getH5URL();
             }
 
             @Override
@@ -143,6 +182,46 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mSuperRefreshLayout.onLoadComplete();
             }
         });
+    }
+
+    //获取banner图片
+    public void getH5URL() {
+        HashMap<String, String> params = new HashMap<>();
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_H5, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                Global.H5Map = (Map<String, String>) data.response;
+
+
+                mSuperRefreshLayout.onLoadComplete();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+                mSuperRefreshLayout.onLoadComplete();
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefreshLayout.onLoadComplete();
+            }
+        });
+    }
+
+
+    public interface OnRepairClickListener {
+        void repairClick();
+    }
+
+    public void setOnRepairClickListener(OnRepairClickListener onRepairClickListener) {
+        this.onRepairClickListener = onRepairClickListener;
+    }
+
+    public void onRepairClick() {
+        if (onRepairClickListener != null) {
+            onRepairClickListener.repairClick();
+        }
     }
 
 }

@@ -1,11 +1,8 @@
 package com.coco3g.daishu.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ReadFragment extends Fragment implements View.OnClickListener {
+public class GoodsFragment extends Fragment implements View.OnClickListener {
     SuperRefreshLayout mSuperRefreshLayout;
     private View mReadView;
     BannerView mBanner;
@@ -44,7 +41,7 @@ public class ReadFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mReadView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_read, null);
+        mReadView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods, null);
         lpLinear = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Global.screenWidth * 3 / 2 + Global.dipTopx(getActivity(), 20));
         lpLinear.topMargin = Global.dipTopx(getActivity(), 10);
         init();
@@ -124,15 +121,18 @@ public class ReadFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
     //获取banner图片
-    private void getBanner() {
+    public void getBanner() {
         HashMap<String, String> params = new HashMap<>();
-        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_BANNER_IMAGE, params, getActivity().getResources().getString(R.string.loading), new IBaseDataListener() {
+        params.put("type", "2");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                Map<String, Object> dataMap = (Map<String, Object>) data.response;
-                ArrayList<Map<String, String>> bannerImageList = (ArrayList<Map<String, String>>) dataMap.get("banner");
-                mBanner.loadData(bannerImageList);
+
+                ArrayList<Map<String, String>> bannerList = (ArrayList<Map<String, String>>) data.response;
+                mBanner.loadData(bannerList);
+                //
                 mSuperRefreshLayout.onLoadComplete();
             }
 

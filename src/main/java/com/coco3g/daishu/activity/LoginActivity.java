@@ -13,8 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.Constants;
+import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener {
@@ -92,26 +99,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.tv_login_start:  //登录
-//                mPhone = mEditPhone.getText().toString().trim();
-//                if (TextUtils.isEmpty(mPhone)) {
-//                    Global.showToast("请输入手机号或账号", this);
-//                    return;
-//                }
-//                mPassWord = mEditPassWord.getText().toString().trim();
-//                if (TextUtils.isEmpty(mPassWord)) {
-//                    Global.showToast("密码不能为空", this);
-//                    return;
-//                }
-//                if (mPassWord.length() < 6) {
-//                    Global.showToast("密码长度不能小于6个字符", this);
-//                    return;
-//                }
+                mPhone = mEditPhone.getText().toString().trim();
+                if (TextUtils.isEmpty(mPhone)) {
+                    Global.showToast("请输入手机号或账号", this);
+                    return;
+                }
+                mPassWord = mEditPassWord.getText().toString().trim();
+                if (TextUtils.isEmpty(mPassWord)) {
+                    Global.showToast("密码不能为空", this);
+                    return;
+                }
+                if (mPassWord.length() < 6) {
+                    Global.showToast("密码长度不能小于6个字符", this);
+                    return;
+                }
 
-                intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-
-
-//                login(mPhone, mPassWord);
+                login(mPhone, mPassWord);
 
                 break;
 
@@ -136,39 +139,43 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
 
-//    //登录
-//    public void login(final String mLoginPhone, final String mLoginPassWord) {
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("phone", mLoginPhone);
-//        params.put("password", mLoginPassWord);
-//        new BaseDataPresenter(this).loadData(DataUrl.LOGIN, params, getResources().getString(R.string.logining), new IBaseDataListener() {
-//            @Override
-//            public void onSuccess(BaseDataBean data) {
-//                Global.USERINFOMAP = (Map<String, String>) data.response;
-//                Global.savePassWord(LoginActivity.this, mLoginPassWord);
-//                Global.saveLoginInfo(LoginActivity.this, mLoginPhone, mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-//                Global.saveLoginInfo(LoginActivity.this, mLoginPhone, mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
-//                //
-//                ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
-//                Global.MAINACTIVITY_CONTEXT = null;
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                //连接融云
-//                new RongUtils(LoginActivity.this).init();
-//                finish();
-//            }
-//
-//            @Override
-//            public void onFailure(BaseDataBean data) {
-//                Global.showToast(data.msg, LoginActivity.this);
-//            }
-//
-//            @Override
-//            public void onError() {
-//
-//            }
-//        });
-//    }
+    //登录
+    public void login(final String mLoginPhone, final String mLoginPassWord) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("phone", mLoginPhone);
+        params.put("password", mLoginPassWord);
+        new BaseDataPresenter(this).loadData(DataUrl.LOGIN, params, getResources().getString(R.string.logining), new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                if (data.code == 200) {
+                    Global.USERINFOMAP = (Map<String, String>) data.response;
+                    Global.savePassWord(LoginActivity.this, mLoginPassWord);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    //
+                    if (Global.MAINACTIVITY_CONTEXT != null) {
+                        ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
+                        Global.MAINACTIVITY_CONTEXT = null;
+                    }
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Global.showToast(data.msg, LoginActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, LoginActivity.this);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
 
 
 }

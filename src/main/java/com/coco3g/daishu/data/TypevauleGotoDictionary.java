@@ -1,5 +1,6 @@
 package com.coco3g.daishu.data;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -8,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
@@ -17,13 +17,12 @@ import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
-import com.coco3g.daishu.alipay.AliPayUtils;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.DateTime;
+import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.EditTextItemView;
 import com.coco3g.daishu.view.MyProgressDialog;
 import com.coco3g.daishu.view.MyWebView;
-import com.coco3g.daishu.view.SharePopupWindow;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.lqr.imagepicker.ImagePicker;
@@ -67,7 +66,7 @@ public class TypevauleGotoDictionary {
     public static HashMap<String, String> CALLBACKTAG = new HashMap<>();
     private MyProgressDialog myProgressDialog;
     //
-    SharePopupWindow mSharePopupWindow;
+//    SharePopupWindow mSharePopupWindow;
     Coco3gBroadcastUtils mWXShareSuccessBroadcast;  //微信分享成功监听
     OnWebConfigurationListener onWebConfigurationListener;  //配置是否下拉刷新和topbar右上角是否有视图
     //
@@ -83,12 +82,12 @@ public class TypevauleGotoDictionary {
         mWXShareSuccessBroadcast.receiveBroadcast(Coco3gBroadcastUtils.SHARE_SUCCESS).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
             @Override
             public void receiveReturn(Intent intent) {     //typeid  1：qq   2:微信    3：朋友圈  4：微博
-                if (mSharePopupWindow != null) {
-                    mSharePopupWindow.dismiss();
-                    String shareType = mSharePopupWindow.getmShareType() + "";
-                    String js = "javascript:c3_navtive_user.callback('" + TypevauleGotoDictionary.CALLBACKTAG.get("callbackTag") + "','" + shareType + "');";
-                    mWebview.loadUrl(js);
-                }
+//                if (mSharePopupWindow != null) {
+//                    mSharePopupWindow.dismiss();
+//                    String shareType = mSharePopupWindow.getmShareType() + "";
+//                    String js = "javascript:c3_navtive_user.callback('" + TypevauleGotoDictionary.CALLBACKTAG.get("callbackTag") + "','" + shareType + "');";
+//                    mWebview.loadUrl(js);
+//                }
             }
         });
     }
@@ -116,43 +115,48 @@ public class TypevauleGotoDictionary {
         CALLBACKTAG = hashMap;
         if (value.startsWith(indexNativeKey_gotopage)) {   /***h5页面跳转***/
             Map<String, String> urlDecodeMap = Global.parseCustomUrl(value);
-            Log.e("是否在当前页面打开", urlDecodeMap.get("target") + " 到底那一页");
+            Log.e("打开当前页面", urlDecodeMap.get("target"));
             if (urlDecodeMap.get("target").equals("self")) {  //当前webview加载url,不重新跳转到新的页面
-                //myWebview是从WebActivity传递过来的，mWebView是从MyWebview传递过来的
-                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
-                    myWebView.loadUrl(urlDecodeMap.get("url"));
-                    Log.e("gotopager加载的网址", "MyWebview" + urlDecodeMap.get("url"));
-                } else {
-                    mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
-                    Log.e("gotopager加载的网址", "mWebview" + urlDecodeMap.get("url"));
-                }
-                //webactivity的配置信息
-                String pullrefresh = hashMap.get("pullrefresh");
-                String rightBtn = hashMap.get("rightBtn");
-                if (!TextUtils.isEmpty(rightBtn)) {
-                    Gson gson = new Gson();
-                    ArrayList<Map<String, String>> listdata = gson.fromJson(rightBtn, ArrayList.class);
-                    configurationData(pullrefresh, listdata);
-                } else {
-                    configurationData(pullrefresh, null);
-                }
-
+//                mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
+                myWebView.loadUrl(urlDecodeMap.get("url"));
+                Log.e("打开当前页面", urlDecodeMap.get("url"));
+//                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+//                    myWebView.loadUrl(urlDecodeMap.get("url"));
+//                    Log.e("gotopager加载的网址", "MyWebview" + urlDecodeMap.get("url"));
+//                } else {
+//                    mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
+//                    Log.e("gotopager加载的网址", "mWebview" + urlDecodeMap.get("url"));
+//                }
+//                //webactivity的配置信息
+//                String pullrefresh = hashMap.get("pullrefresh");
+//                String rightBtn = hashMap.get("rightBtn");
+//                if (!TextUtils.isEmpty(rightBtn)) {
+//                    Gson gson = new Gson();
+//                    ArrayList<Map<String, String>> listdata = gson.fromJson(rightBtn, ArrayList.class);
+//                    configurationData(pullrefresh, listdata);
+//                } else {
+//                    configurationData(pullrefresh, null);
+//                }
             } else if (urlDecodeMap.get("target").equals("blank")) {   //跳转到新的页面
                 intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("url", urlDecodeMap.get("url"));
                 ((Activity) mContext).startActivityForResult(intent, Global.REFRESH_DATA);
+            } else {  //如果用没有target时候，默认当前页打开
+                myWebView.loadUrl(urlDecodeMap.get("url"));
+                Log.e("打开当前页面", urlDecodeMap.get("url"));
             }
 
+
         } else if (value.startsWith(OPEN_GALLERY)) {  /***打开相册，上传图片***/
+            new RequestPermissionUtils(mContext).aleraPermission(Manifest.permission.CAMERA, 1);  //首先检查权限
             openGallery();
             CALLBACKTAG = Global.parseCustomUrl(value);
 
 
         } else if (value.startsWith(SHARE)) {  /***分享***/
 
-            mSharePopupWindow = new SharePopupWindow(mContext, hashMap);
-            mSharePopupWindow.showAtLocation(mRelativeRoot, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-//            new AliPayUtils(mContext).payV2("20170322114826", "商品名称", "商品描述", 0.01f);
+//            mSharePopupWindow = new SharePopupWindow(mContext, hashMap);
+//            mSharePopupWindow.showAtLocation(mRelativeRoot, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         } else if (value.startsWith(CLOSE_WINDOW)) {  /***关闭当前页面***/
             ((Activity) mContext).finish();
 
@@ -161,10 +165,17 @@ public class TypevauleGotoDictionary {
             mWebview.reload();
 
         } else if (value.startsWith(CLOSE_OPEN_NEW_WINDOW)) {  /***关闭当前界面，打开指定界面(newtag代表指定界面的标识)***/
-            Global.showToast("关闭当前界面未做好", mContext);
-
-
-        } else if (value.startsWith(OPEN_NEW_WINDOW)) {  /***打开指定界面(newtag代表指定界面的标识)***/
+            ((Activity) mContext).finish();
+            try {
+                String tag = hashMap.get("newtag");
+                if ("login".equalsIgnoreCase(tag)) {
+                    Intent intent_login = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent_login);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (value.startsWith(OPEN_NEW_WINDOW)) {  /***git push -u origin master打开指定界面(newtag代表指定界面的标识)***/
             Global.showToast("打开指定界面还未做好", mContext);
 
 
@@ -177,7 +188,11 @@ public class TypevauleGotoDictionary {
                 public void onClick(DialogInterface dialog, int which) {
                     // TODO Auto-generated method stub
                     Global.USERINFOMAP = null;
+//                    Global.RONG_TOKEN = null;
                     Global.deleteSerializeData(mContext, Global.APP_CACHE);
+                    Global.deleteSerializeData(mContext, Global.LOGIN_PASSWORD);  //删除登录密码
+                    Global.deleteSerializeData(mContext, Global.LOGIN_INFO);  //删除个人信息
+                    Global.deleteSerializeData(mContext, Global.RONGTOKEN_INFO);  //删除融云的token
                     //
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
@@ -236,11 +251,11 @@ public class TypevauleGotoDictionary {
             openAlertDialog(hashMap.get("title"), hashMap.get("message"), hashMap.get("callbackTag"), true);
         } else if (value.startsWith(CALL_PAY)) {
 //            getOrderDetail(hashMap.get("orderid"));
-            try {
-                new AliPayUtils(mContext).payV2(hashMap.get("orderid"), hashMap.get("goodsname"), hashMap.get("goodsdetail"), Float.parseFloat(hashMap.get("price")));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                new AliPayUtils(mContext).payV2(hashMap.get("orderid"), hashMap.get("goodsname"), hashMap.get("goodsdetail"), Float.parseFloat(hashMap.get("price")));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         } else if (value.startsWith(CALL_EDIT_DIALOG)) {
             callEditDialog(hashMap);
 //            try {
@@ -251,17 +266,12 @@ public class TypevauleGotoDictionary {
         } else if (value.startsWith(OPEN_TAB_VIEW)) {
             String title = hashMap.get("title");
             String content = hashMap.get("content");
-            String rightBtn = hashMap.get("rightBtn");
-            String defaultPosition = hashMap.get("default");
             if (!TextUtils.isEmpty(content)) {
                 Gson gson = new Gson();
                 ArrayList<HashMap<String, String>> listdata = gson.fromJson(content, ArrayList.class);
-                ArrayList<HashMap<String, String>> rightBtnList = gson.fromJson(rightBtn, ArrayList.class);
                 intent = new Intent(mContext, TabViewWebActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("data", listdata);
-                intent.putExtra("rightBtnList", rightBtnList);
-                intent.putExtra("default", defaultPosition);
                 mContext.startActivity(intent);
             }
         }
@@ -455,12 +465,6 @@ public class TypevauleGotoDictionary {
     public void configurationData(String pullrefresh, ArrayList<Map<String, String>> topbarRight) {
         if (onWebConfigurationListener != null) {
             onWebConfigurationListener.configuration(pullrefresh, topbarRight);
-        }
-    }
-
-    public void unregister() {
-        if (mWXShareSuccessBroadcast != null) {
-            mWXShareSuccessBroadcast.unregisterBroadcast();
         }
     }
 

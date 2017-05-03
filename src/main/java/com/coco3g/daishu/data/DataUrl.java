@@ -6,7 +6,9 @@ package com.coco3g.daishu.data;
 
 public class DataUrl {
 
-    public static final String BASE_URL = "http://laisai.test.coco3g.com/v1/"; // 测试域名
+    public static final String BASE_URL = "http://daishu.test.coco3g.com/v1/"; // 测试域名
+
+    public static final String BASE_XIEYI_URL = "http://daishu.test.coco3g.com/"; // 协议(注册)
 
 
     /**
@@ -17,6 +19,10 @@ public class DataUrl {
      * 注册
      **/
     public static final String REGISTER = BASE_URL + "member/register";
+    /*
+     * 注册协议wap页面
+     * */
+    public static final String REGISTER_XIEYI = BASE_XIEYI_URL + "index/news/protocol";
     /**
      * 获取手机验证码
      **/
@@ -26,17 +32,17 @@ public class DataUrl {
      **/
     public static final String GET_USERINFO = BASE_URL + "member/memberinfo";
     /*
-    * 获取首页轮播图和比赛情况
+    * 获取banner
     * */
-    public static final String GET_BANNER_IMAGE = BASE_URL + "news/index";
+    public static final String GET_BANNER_IMAGE = BASE_URL + "lunbo/index";
     /*
-    * 获取首页比赛列表
+    * 获取车辆维修（店铺）
     * */
-    public static final String GET_EVENT_LIST = BASE_URL + "game/index";
+    public static final String GET_REPAIR_STORE = BASE_URL + "store/getlist";
     /*
-     * 获取我的信息的4个h5
+     * 拨打电话上传经纬度
      * */
-    public static final String GET_MY_INFO_H5 = BASE_URL + "member/h5member";
+    public static final String TAKE_PHONE_UPLOAD_LATLNG = BASE_URL + "member/rescue_phone";
     /*
      * 忘记密码
      * */

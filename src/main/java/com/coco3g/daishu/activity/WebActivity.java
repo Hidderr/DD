@@ -1,6 +1,7 @@
 package com.coco3g.daishu.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,19 +14,24 @@ import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.bean.BaseDataBean;
+import com.coco3g.daishu.bean.ConfigMenuDataBean;
+import com.coco3g.daishu.bean.JsCallBackDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
-import com.coco3g.daishu.net.utils.ShareAppUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.utils.ImageSelectUtils;
 import com.coco3g.daishu.view.MyWebView;
 import com.coco3g.daishu.view.TopBarView;
+import com.google.gson.Gson;
 import com.lqr.imagepicker.ImagePicker;
 import com.lqr.imagepicker.bean.ImageItem;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -46,7 +52,7 @@ public class WebActivity extends BaseActivity {
     //
     private ImageSelectUtils mImageSelectUtils;
     //
-    TypevauleGotoDictionary typevauleGotoDictionary;
+    Coco3gBroadcastUtils mCurrBoardCast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +69,25 @@ public class WebActivity extends BaseActivity {
             return;
         }
         if (!TextUtils.isEmpty(url)) {
+            Log.e("打开WebActivity的第一个url", url);
+            //判断是否是viewpager形式的h5
             if (url.startsWith("http://coco3g-app/")) {
-                typevauleGotoDictionary = new TypevauleGotoDictionary(WebActivity.this);
+
+                TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(WebActivity.this);
                 typevauleGotoDictionary.setWebview(mWebView.getCurrentWebview());
                 typevauleGotoDictionary.setMyWebview(mWebView);
+                typevauleGotoDictionary.setOnWebConfigurationListener(new TypevauleGotoDictionary.OnWebConfigurationListener() {
+                    @Override
+                    public void configuration(String pullrefresh, ArrayList<Map<String, String>> topbarRight) {
+                        mWebView.setPullLoadEnable(pullrefresh);  //设置是否可以下拉
+                        setTopbarRightView(topbarRight);
+                    }
+                });
                 typevauleGotoDictionary.gotoViewChoose(url);
-                finish();
-            } else {
-                mWebView.loadUrl(url);
+
+                return;
             }
+            mWebView.loadUrl(url);
             return;
         }
     }
@@ -106,14 +122,28 @@ public class WebActivity extends BaseActivity {
         mWebView.setRootView(relativeRoot);
         mWebView.setOnTitleListener(new MyWebView.SetTitleListener() {
             @Override
-            public void setTitle(String title1) {
-                if (!TextUtils.isEmpty(title1)) {
-                    mTopBar.setTitle(title1);
-                    return;
+            public void setTitle(String title) {
+                if (!TextUtils.isEmpty(title) && !title.contains("coco3g.com")) {
+                    mTopBar.setTitle(title);
+                    Log.e("webactivity标题",title);
                 }
-//                else if (!TextUtils.isEmpty(title1) && !title1.startsWith("qym.test.coco3g.com")) {
-//                    mTopBar.setTitle(title1);
-//                }
+            }
+        });
+        mWebView.setOnConfigMenuListener(new MyWebView.ConfigTopBarMenu() {
+            @Override
+            public void configmenu(String json, String callback) {
+                Gson gson = new Gson();
+                ConfigMenuDataBean[] list = gson.fromJson(json, new ConfigMenuDataBean[]{}.getClass());
+                if (list != null) {
+                    if (list.length == 1) {
+                        configTopBarMenuFromHtml(list[0].title, list[0].returnTag, callback);
+                    } else if (list.length == 2) {
+                        configTopBarMenuFromHtml(list[0].title, list[0].returnTag, callback);
+                        configTopBarTwoMenuFromHtml(list[1].title, list[1].returnTag, callback);
+                    }
+//                    configTopBarMenuFromHtml(list[0].title);
+                }
+
             }
         });
 //        mWebView.setOnRefreshFinished(new MyWebView.OnRefreshFinished() {
@@ -168,6 +198,47 @@ public class WebActivity extends BaseActivity {
 //                });
     }
 
+//    /**
+//     * 获取url并打开
+//     *
+//     * @param action
+//     */
+//    public void getUrl(String action) {
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("linkname", action);
+//        new BaseDataPresenter(this).loadData(DataUrl.GET_H5, params, null, new IBaseDataListener() {
+//            @Override
+//            public void onSuccess(BaseDataBean data) {
+//                Map<String, String> urlMap = (Map<String, String>) data.response;
+//                String beginUrl = urlMap.get("url");
+//                if (!TextUtils.isEmpty(beginUrl)) {
+//                    try {
+//                        beginUrl = URLDecoder.decode(beginUrl, "utf-8");
+////                        int lastposition = beginUrl.lastIndexOf("?");
+////                        String newurl = beginUrl.substring(lastposition + 1);
+//                        Map<String, String> urlDecodeMap = Global.parseCustomUrl(beginUrl);
+//                        Log.e("网址", urlDecodeMap.get("url"));
+//                        url = urlDecodeMap.get("url");
+//                        mWebView.loadUrl(url);
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(BaseDataBean data) {
+//
+//            }
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
+//    }
+
+
     /**
      * 获取url并打开
      *
@@ -185,7 +256,7 @@ public class WebActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(beginUrl)) {
                     try {
                         if (beginUrl.startsWith("http://coco3g-app")) {
-                            typevauleGotoDictionary = new TypevauleGotoDictionary(WebActivity.this);
+                            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(WebActivity.this);
                             typevauleGotoDictionary.setWebview(mWebView.getCurrentWebview());
                             typevauleGotoDictionary.setMyWebview(mWebView);
                             typevauleGotoDictionary.setOnWebConfigurationListener(new TypevauleGotoDictionary.OnWebConfigurationListener() {
@@ -231,9 +302,6 @@ public class WebActivity extends BaseActivity {
                 ArrayList<ImageItem> avatarImages = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 mImageSelectUtils.compressImage(avatarImages);
             }
-        }
-        if (null != ShareAppUtils.TENCENT) {
-            ShareAppUtils.TENCENT.onActivityResultData(requestCode, resultCode, data, ShareAppUtils.qqShareListener);
         }
     }
 
@@ -305,14 +373,158 @@ public class WebActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 根据html中的js，配置菜单
+     *
+     * @param title
+     */
+    private void configTopBarMenuFromHtml(final String title, final String returnTag, final String callback) {
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+        if (title.startsWith("http://") || title.startsWith("https://")) {
+            ImageLoader.getInstance().loadImage(title, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String s, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+//                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mTopBar.getHeight() * 2 / 3, mTopBar.getHeight() * 2 / 3);
+                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    ImageView imageView = new ImageView(WebActivity.this);
+                    imageView.setImageBitmap(bitmap);
+//                    imageView.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                    lp.rightMargin = Global.dipTopx(WebActivity.this, 10);
+                    imageView.setLayoutParams(lp);
+//                    int padding = Global.dipTopx(WebActivity.this, 10);
+//                    imageView.setPadding(padding, padding, padding, padding);
+                    mTopBar.setRightView(imageView);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            JsCallBackDataBean calldata = new JsCallBackDataBean();
+                            calldata.returnTag = returnTag;
+                            Gson gson = new Gson();
+                            String json = gson.toJson(calldata);
+                            String js = "javascript: c3_navtive_user.callback('" + callback + "','" + json + "');";
+                            mWebView.execJsUrl(js);
+                        }
+                    });
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+
+                }
+            });
+        } else {
+            TextView tv = new TextView(this);
+            tv.setGravity(Gravity.START | Gravity.CENTER);
+            tv.setText(title);
+            tv.setTextSize(14f);
+            int padding = Global.dipTopx(this, 10);
+            tv.setPadding(padding, padding, padding, padding);
+            tv.setTextColor(getResources().getColor(R.color.text_color_1));
+            mTopBar.setRightView(tv);
+            mTopBar.setOnClickRightListener(new TopBarView.OnClickRightView() {
+                @Override
+                public void onClickTopbarView() {
+//                    mScrollWebView.execJsUrl("javascript: c3_navtive_user.right_button_item.callback()");
+                    JsCallBackDataBean calldata = new JsCallBackDataBean();
+                    calldata.returnTag = returnTag;
+                    Gson gson = new Gson();
+                    String json = gson.toJson(calldata);
+                    String js = "javascript: c3_navtive_user.callback('" + callback + "','" + json + "');";
+                    mWebView.execJsUrl(js);
+                }
+            });
+        }
+    }
+
+    /**
+     * 根据html中的js，配置菜单
+     *
+     * @param title
+     */
+    private void configTopBarTwoMenuFromHtml(final String title, final String returnTag, final String callback) {
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+        if (title.startsWith("http://") || title.startsWith("https://")) {
+            ImageLoader.getInstance().loadImage(title, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String s, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+//                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mTopBar.getHeight() * 2 / 3, mTopBar.getHeight() * 2 / 3);
+//                    ImageView imageView = new ImageView(WebActivity.this);
+//                    imageView.setBackgroundDrawable(new BitmapDrawable(bitmap));
+//                    imageView.setLayoutParams(lp);
+//                    int padding = Global.dipTopx(WebActivity.this, 10);
+//                    imageView.setPadding(padding * 3, padding, padding * 3, padding);
+//                    mTopBar.setTwoRightView(imageView);
+//                    imageView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            JsCallBackDataBean calldata = new JsCallBackDataBean();
+//                            calldata.returnTag = returnTag;
+//                            Gson gson = new Gson();
+//                            String json = gson.toJson(calldata);
+//                            String js = "javascript: c3_navtive_user.callback('" + callback + "','" + json + "');";
+//                            mWebView.execJsUrl(js);
+//                        }
+//                    });
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+
+                }
+            });
+        } else {
+//            TextView tv = new TextView(this);
+//            tv.setGravity(Gravity.START | Gravity.CENTER);
+//            tv.setText(title);
+//            tv.setTextSize(14f);
+//            int padding = Global.dipTopx(this, 10);
+//            tv.setPadding(padding, padding, padding, padding);
+//            tv.setTextColor(getResources().getColor(R.color.white));
+//            mTopBar.setTwoRightView(tv);
+//            mTopBar.setOnClickTwoRightListener(new TopBarView.OnClickTwoRightView() {
+//                @Override
+//                public void onClickTwoTopbarView() {
+//                    JsCallBackDataBean calldata = new JsCallBackDataBean();
+//                    calldata.returnTag = returnTag;
+//                    Gson gson = new Gson();
+//                    String json = gson.toJson(calldata);
+//                    String js = "javascript: c3_navtive_user.callback('" + callback + "','" + json + "');";
+//                    mWebView.execJsUrl(js);
+//                }
+//            });
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 //        mCurrBoardCast.unregisterBroadcast();
         mWebView.unRegisterBroadcast();
-        if (typevauleGotoDictionary != null) {
-            typevauleGotoDictionary.unregister();
-        }
     }
 }

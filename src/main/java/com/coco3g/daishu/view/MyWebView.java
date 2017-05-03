@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -27,6 +29,10 @@ import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
+import com.coco3g.daishu.utils.JsCallMethod;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 /**
@@ -47,10 +53,12 @@ public class MyWebView extends RelativeLayout {
     RelativeLayout mRelativeRoot;
     //
     Coco3gBroadcastUtils mCurrBoardCast;
+    ConfigTopBarMenu configtopbarmenu;
 
     public MyWebView(Context context) {
         super(context);
         mContext = context;
+        initView();
     }
 
     public MyWebView(Context context, AttributeSet attrs) {
@@ -62,6 +70,7 @@ public class MyWebView extends RelativeLayout {
     public MyWebView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
+        initView();
     }
 
     private void initView() {
@@ -136,7 +145,8 @@ public class MyWebView extends RelativeLayout {
             }
         });
 //        webView.setWebChromeClient(new WebChromeClient());
-        webView.addJavascriptInterface(getHtmlObject(), "CocoObj");
+
+        webView.addJavascriptInterface(new getHtmlObject(), "CocoObj");
         //
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // 设置缓存模式
         // 开启DOM storage API 功能
@@ -157,7 +167,10 @@ public class MyWebView extends RelativeLayout {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub
                 Log.e("coco3g协议", url);
-                if (url.equals("#")) {
+                if (url.startsWith("tel:")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(url));
+                    mContext.startActivity(intent);
                     return true;
                 }
                 if (!TextUtils.isEmpty(url) && url.startsWith("http://coco3g-app")) {
@@ -172,7 +185,6 @@ public class MyWebView extends RelativeLayout {
                     intent.putExtra("url", url);
                     mContext.startActivity(intent);
                     return true;
-//                    return super.shouldOverrideUrlLoading(view, url);
                 }
 
             }
@@ -230,6 +242,7 @@ public class MyWebView extends RelativeLayout {
         webView.loadUrl(mUrl, Global.getTokenTimeStampHeader(mContext));
     }
 
+
     public void reLoadUrl() {
         webView.reload();
     }
@@ -250,31 +263,26 @@ public class MyWebView extends RelativeLayout {
         return mUrl;
     }
 
-    private Object getHtmlObject() {
-        Object insertObj = new Object() {
-
-            public void JavacallHtml() {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        webView.loadUrl("javascript: edit_info()");
-                        Global.showToast("clickBtn", mContext);
-                    }
-                });
+    public class getHtmlObject {
+        @JavascriptInterface
+        public void AppAction(String action, String json, String callback) {
+            try {
+                Class classes = Class.forName("com.coco3g.jiahe.utils.JsCallMethod");
+                Method method = classes.getDeclaredMethod(action, String.class, String.class);
+                JsCallMethod jsCallMethod = new JsCallMethod();
+                jsCallMethod.setOnJsReturnDataListener(onJsReturnInterface);
+                method.invoke(jsCallMethod, json, callback);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
+        }
 
-            public void JavacallHtml2() {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        webView.loadUrl("javascript: showFromHtml2('IT-homer blog')");
-                        Global.showToast("clickBtn2", mContext);
-                    }
-                });
-            }
-        };
-
-        return insertObj;
     }
 
     public void save() {
@@ -286,7 +294,6 @@ public class MyWebView extends RelativeLayout {
 //    public void update() {
 //        webView.reload();
 //    }
-
 
     public void setPullLoadEnable(String pullrefresh) {
         if (!TextUtils.isEmpty(pullrefresh)) {
@@ -327,5 +334,31 @@ public class MyWebView extends RelativeLayout {
         mCurrBoardCast.unregisterBroadcast();
     }
 
+    public void setOnConfigMenuListener(ConfigTopBarMenu configtopbarmenu) {
+        this.configtopbarmenu = configtopbarmenu;
+    }
 
+    public interface ConfigTopBarMenu {
+        void configmenu(String json, String callback);
+    }
+
+    private void configTopMenu(String json, String callback) {
+        if (configtopbarmenu != null) {
+            configtopbarmenu.configmenu(json, callback);
+        }
+    }
+
+    JsCallMethod.OnJsReturnInterface onJsReturnInterface = new JsCallMethod.OnJsReturnInterface() {
+        @Override
+        public void returnData(final String json, final String callback) {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    configTopMenu(json, callback);
+                }
+            });
+
+        }
+    };
 }

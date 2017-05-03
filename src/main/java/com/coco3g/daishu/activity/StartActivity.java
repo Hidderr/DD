@@ -117,6 +117,7 @@ public class StartActivity extends BaseActivity {
             if (Global.LOGIN_INFO_MAP != null) {
                 login(Global.LOGIN_INFO_MAP.get("phone"), Global.LOGIN_INFO_MAP.get("password"));
             } else {
+
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -149,15 +150,10 @@ public class StartActivity extends BaseActivity {
             public void onSuccess(BaseDataBean data) {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, String>) data.response;
-                    Global.saveLoginInfo(StartActivity.this, phone, password, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(StartActivity.this, phone, password, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    Global.savePassWord(StartActivity.this, password);
+                    Global.saveLoginInfo(StartActivity.this, password, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), password, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
+                    Global.saveLoginInfo(StartActivity.this, password, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), password, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
                     Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                    intent.putExtra("msgtype", getIntent().getStringExtra("msgtype"));
-                    if ("2".equals(getIntent().getStringExtra("msgtype"))) {
-                        intent.putExtra("value", getIntent().getIntExtra("value", 0));
-                    } else {
-                        intent.putExtra("value", getIntent().getStringExtra("value"));
-                    }
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(StartActivity.this, MainActivity.class);

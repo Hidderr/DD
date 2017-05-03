@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
-import com.coco3g.daishu.fragment.ReadFragment;
+import com.coco3g.daishu.fragment.GoodsFragment;
 import com.coco3g.daishu.fragment.HomeFragment;
 import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
@@ -37,7 +37,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private static FragmentManager mFragManager = null;
     //
     private HomeFragment mHomeFrag;
-    private ReadFragment mReadFrag;
+    private GoodsFragment mReadFrag;
     private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
@@ -152,22 +152,31 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 if (mHomeFrag == null) {
                     mHomeFrag = (HomeFragment) new HomeFragment();
                     transaction.add(R.id.frame_main_content, mHomeFrag);
+                    mHomeFrag.setOnRepairClickListener(new HomeFragment.OnRepairClickListener() {
+                        @Override
+                        public void repairClick() {
+                            setTabSelection(3);
+                        }
+                    });
                 } else {
                     transaction.show(mHomeFrag);
                 }
                 break;
-            case 1: // 阅读
+            case 1: // 商品汇
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
                 if (mReadFrag == null) {
-                    mReadFrag = new ReadFragment();
+                    mReadFrag = new GoodsFragment();
                     transaction.add(R.id.frame_main_content, mReadFrag);
                 } else {
                     transaction.show(mReadFrag);
                 }
                 break;
             case 2: // 收益
+                if (!checkoutIfLogin()) {
+                    return;
+                }
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
@@ -179,6 +188,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 3: // 维修救援
+                if (!checkoutIfLogin()) {
+                    return;
+                }
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
@@ -190,6 +202,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 4: // 我的
+                if (!checkoutIfLogin()) {
+                    return;
+                }
                 mTopbar.setVisibility(View.GONE);
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();
@@ -229,6 +244,17 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
 
+    //检查是否登录
+    public boolean checkoutIfLogin() {
+        if (Global.USERINFOMAP == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            return false;
+        }
+        return true;
+    }
+
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -250,6 +276,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         new RequestPermissionUtils(this).aleraPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
         new RequestPermissionUtils(this).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
         new RequestPermissionUtils(this).aleraPermission(Manifest.permission.READ_PHONE_STATE, 1);
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.CALL_PHONE, 1);
     }
 
     @Override

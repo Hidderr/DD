@@ -23,11 +23,16 @@ import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.poisearch.Photo;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.bean.RepairStoreBean;
+import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.MyMapView;
 import com.coco3g.daishu.view.MyMarkerView;
@@ -35,7 +40,9 @@ import com.coco3g.daishu.view.TopBarView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnPoiSearchListener, AMap.OnMarkerClickListener, View.OnClickListener {
     private MyMapView myMapView;
@@ -54,12 +61,13 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
     private int currentPage = 0;// 当前页面，从0开始计数
     private PoiSearch.Query query;// Poi查询条件类
     private LatLonPoint mCurrLatLonPoint = null;
+    private double mCurrLat = 0, mCurrLng = 0;
     private Marker locationMarker; // 选择的点
     private Marker detailMarker;
     private Marker mlastMarker;
     private PoiSearch poiSearch;
     private MyPoiOverlay poiOverlay;// poi图层
-    private List<PoiItem> poiItems;// poi数据
+    private ArrayList<PoiItem> poiItems = new ArrayList<>();// poi数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,14 +98,20 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
         mRelativeStore.setLayoutParams(store_lp);
         thumb_lp = new RelativeLayout.LayoutParams(Global.screenHeight / 5, Global.screenHeight / 5);
         thumb_lp.addRule(RelativeLayout.CENTER_VERTICAL);
-        thumb_lp.setMargins(margin_10, margin_10, margin_10, margin_10);
+        thumb_lp.setMargins(margin_10, margin_10, Global.dipTopx(this, 5f), Global.dipTopx(this, 5f));
         mImageThumb.setLayoutParams(thumb_lp);
         //
         myMapView.setOnLocationSuccessedListener(new MyMapView.OnLocationSuccessedListener() {
             @Override
             public void locationSuccessed(LatLng latLng) {
                 mCurrLatLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
-                doSearchQuery();
+                mCurrLat = latLng.latitude;
+                mCurrLng = latLng.longitude;
+//                doSearchQuery();   //高德地图搜索附近的汽车修理店信息
+                if (mCurrLat != 0 && mCurrLng != 0) {
+                    getRepairStoreList();  //接口获取信息
+                }
+
             }
         });
         //
@@ -262,11 +276,6 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
         MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
         markerView.setInfo(mlastMarker.getTitle());
         mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
-//        if (index < 10) {
-//            mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
-//        } else {
-//            mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
-//        }
         mlastMarker = null;
 
     }
@@ -274,8 +283,8 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
     //设置修理店信息
     private void setRepairStoreInfo(final PoiItem mCurrentPoi) {
         mTxtName.setText(mCurrentPoi.getTitle());
-        mTxtAddress.setText(mCurrentPoi.getSnippet());
-        mTxtPhone.setText(mCurrentPoi.getTel());
+        mTxtAddress.setText("地址： " + mCurrentPoi.getSnippet());
+        mTxtPhone.setText("电话： " + mCurrentPoi.getTel());
         //
         String thumb = mCurrentPoi.getPhotos().get(0).getUrl();
         if (TextUtils.isEmpty(thumb)) {
@@ -427,20 +436,6 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
             markerView.setInfo(storeName);
             BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6));
             return icon;
-
-//            if (arg0 < 10) {
-////                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.pic_location_red_icon));
-//                MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
-//                markerView.setInfo(storeName);
-//                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6));
-//                return icon;
-//            } else {
-////                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.pic_location_red_icon));
-//                MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
-//                markerView.setInfo(storeName);
-//                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6));
-//                return icon;
-//            }
         }
 
     }
@@ -487,6 +482,81 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
         }
         mImageThumb.setImageBitmap(bitmap);
         return bitmap;
+    }
+
+
+    //获取附近的汽车修理店的信息
+    public void getRepairStoreList() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("lat", mCurrLatLonPoint.getLatitude() + "");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        params.put("lng", mCurrLatLonPoint.getLongitude() + "");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        params.put("distance", "10000");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_STORE, params, getResources().getString(R.string.loading), new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+
+                ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
+                if (repairList == null || repairList.size() <= 0) {
+                    return;
+                }
+
+                showRepairStore(repairList);
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, RepairWebsiteActivity.this);
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+    }
+
+
+    public void showRepairStore(ArrayList<Map<String, String>> repairList) {
+
+//        ArrayList<PoiItem> poiItemList = new ArrayList<PoiItem>();
+        for (int i = 0; i < repairList.size(); i++) {
+            Map<String, String> itemMap = repairList.get(i);
+            double lat = Double.parseDouble(itemMap.get("lat"));
+            double lng = Double.parseDouble(itemMap.get("lng"));
+            LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
+            PoiItem poiItem = new PoiItem(itemMap.get("id"), latLonPoint, itemMap.get("name"), itemMap.get("address"));
+            poiItem.setTel(itemMap.get("phone"));
+            //
+            ArrayList<Photo> photos = new ArrayList<Photo>();
+            Photo photo = new Photo();
+            photo.setUrl(itemMap.get("thumb"));
+            photos.add(photo);
+            poiItem.setPhotos(photos);
+            //
+            poiItems.add(poiItem);
+        }
+
+        //清除POI信息显示
+        whetherToShowDetailInfo(false);
+        //并还原点击marker样式
+        if (mlastMarker != null) {
+            resetlastmarker();
+        }
+        //清理之前搜索结果的marker
+        if (poiOverlay != null) {
+            poiOverlay.removeFromMap();
+        }
+        aMap.clear();
+        poiOverlay = new MyPoiOverlay(aMap, poiItems);
+        poiOverlay.addToMap();
+        poiOverlay.zoomToSpan();
+
+
+        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+                getResources(), R.mipmap.pic_location_arrow_icon)))
+                .position(new LatLng(mCurrLng, mCurrLng)));
+
+
     }
 
 
