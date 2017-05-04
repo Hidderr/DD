@@ -71,8 +71,10 @@ public class Global {
     public static String NOTICE_MSG_TYPE = ""; // 通知下发，携带的数据
     public static Map<String, String> USERINFOMAP = null;  //用户信息
     public static Map<String, String> H5Map = null;  //所有的h5
-    //
-    public static Map<String, String> MISSIONMAP = null;  //当前用户的任务书
+    //当前定位的数据
+    public static String locationCity = ""; // 定位城市
+    public static double mCurrLat = 0; // 定位城市纬度
+    public static double mCurrLng = 0; // 定位城市经度
     //
     public static Context MAINACTIVITY_CONTEXT = null;  //当前MainActivity的上下文
     //
@@ -589,6 +591,7 @@ public class Global {
         loginmap.put("id", userid);
         serializeData(context, loginmap, dir);
     }
+
     /**
      * 读取登录信息
      *

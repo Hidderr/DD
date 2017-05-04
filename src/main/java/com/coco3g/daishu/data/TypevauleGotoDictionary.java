@@ -214,10 +214,10 @@ public class TypevauleGotoDictionary {
             Global.showToast("获取经纬度还未做好", mContext);
 //            new LocationUtil(mContext).initLocationAndStart(true, 10000, false, "0").setLocationComplete(new LocationUtil.LocationComplete() {
 //                @Override
-//                public void locationcomplete(String address, String lat, String lng) {
+//                public void locationcomplete(String address, String mCurrLat, String mCurrLng) {
 //                    LocationBean locationBean = new LocationBean();
-//                    locationBean.lat = lat;
-//                    locationBean.lng = lng;
+//                    locationBean.mCurrLat = mCurrLat;
+//                    locationBean.mCurrLng = mCurrLng;
 //                    String json = new Gson().toJson(locationBean);
 //                    //Log.e("tag", "javascript:c3_navtive_user.callback('" + hm.get("callbackTag") + "','" + json + "');");
 //                    webview.loadUrl("javascript:c3_navtive_user.callback('" + hashMap.get("callbackTag") + "','" + json + "');");

@@ -95,11 +95,11 @@ public class LocationUtil implements AMapLocationListener {
             String lat = amapLocation.getLatitude() + "";//获取纬度
             String lng = amapLocation.getLongitude() + "";//获取经度
             String address = amapLocation.getProvince() + amapLocation.getCity() + amapLocation.getDistrict() + amapLocation.getStreet() + amapLocation.getStreetNum();
-//            Log.e("location", address + "--" + lat + "--" + lng);
+//            Log.e("location", address + "--" + mCurrLat + "--" + mCurrLng);
             locationComplete(address, lat, lng);
             aMapLocationChanged(amapLocation);
             if (commitLatLng) {
-//                commitLatLng(lat, lng, manyou); // 上传定位结果
+//                commitLatLng(mCurrLat, mCurrLng, manyou); // 上传定位结果
             }
             if (onceLocation) { // 如果只定位一次，则定位完毕后关闭定位服务
                 stopLocation(); // 停止定位
@@ -153,8 +153,8 @@ public class LocationUtil implements AMapLocationListener {
         }
     }
 
-//    private void commitLatLng(String lat, String lng, String manyou) {
-//        new CommitLatLngPresenter(mContext).commitLatLng(lat, lng, manyou, new ICommitLatLngListener() {
+//    private void commitLatLng(String mCurrLat, String mCurrLng, String manyou) {
+//        new CommitLatLngPresenter(mContext).commitLatLng(mCurrLat, mCurrLng, manyou, new ICommitLatLngListener() {
 //            @Override
 //            public void onSuccess(BaseDataBean data) {
 //

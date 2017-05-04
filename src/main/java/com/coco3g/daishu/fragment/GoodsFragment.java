@@ -3,6 +3,7 @@ package com.coco3g.daishu.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.HomeMenuImageView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
+import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
     private View mReadView;
     BannerView mBanner;
     LinearLayout mLinearMenu, mLinearRoot;
-    TextView mTxtReadBoradcast;
+    MarqueeView mTxtReadBoradcast;
     //
     LinearLayout.LayoutParams lpLinear;
     HomeMenuImageView[] mMenuRes;
@@ -40,6 +42,8 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
     int[] mNavIconResID = new int[]{R.mipmap.pic_car_shop, R.mipmap.pic_car_insurance, R.mipmap.pic_car_tyre, R.mipmap.pic_car_gasoline,
             R.mipmap.pic_car_other};
     String[] mNavTitles = new String[]{"汽车商城", "汽车保险", "车载用品", "油品区", "其他产品"};
+
+    private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +62,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
         mLinearRoot.setVisibility(View.GONE);
         mLinearMenu = (LinearLayout) mReadView.findViewById(R.id.linear_read_menu);
         mLinearMenu.setLayoutParams(lpLinear);
-        mTxtReadBoradcast = (TextView) mReadView.findViewById(R.id.tv_read_boardcast);
+        mTxtReadBoradcast = (MarqueeView) mReadView.findViewById(R.id.tv_read_boardcast);
         mReadMenu1 = (HomeMenuImageView) mReadView.findViewById(R.id.view_read_menu_1);
         mReadMenu2 = (HomeMenuImageView) mReadView.findViewById(R.id.view_read_menu_2);
         mReadMenu3 = (HomeMenuImageView) mReadView.findViewById(R.id.view_read_menu_3);
@@ -89,6 +93,18 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
         mReadMenu3.setOnClickListener(this);
         mReadMenu4.setOnClickListener(this);
         mReadMenu5.setOnClickListener(this);
+        //跑马灯
+        mTxtReadBoradcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+                String url = mBroadCastList.get(position).get("linkurl");
+                if (!TextUtils.isEmpty(url)) {
+                    Intent intent = new Intent(getActivity(), WebActivity.class);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                }
+            }
+        });
 
 
     }
@@ -155,8 +171,39 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
 
                 ArrayList<Map<String, String>> bannerList = (ArrayList<Map<String, String>>) data.response;
                 mBanner.loadData(bannerList);
-                mLinearRoot.setVisibility(View.VISIBLE);
                 //
+                getBroadCastData();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, getActivity());
+                mSuperRefreshLayout.onLoadComplete();
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefreshLayout.onLoadComplete();
+            }
+        });
+    }
+
+    //获取跑马灯
+    public void getBroadCastData() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("type", "6");    //1:首页轮播图， 2:商品汇， 3:维修救援， 4:汽车商城， 5:首页广播， 6:商城头条， 7:维修通告，
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                mBroadCastList = (ArrayList<Map<String, String>>) data.response;
+                if (mBroadCastList != null && mBroadCastList.size() > 0) {
+                    ArrayList<String> list = new ArrayList<String>();
+                    for (int i = 0; i < mBroadCastList.size(); i++) {
+                        list.add(mBroadCastList.get(i).get("title"));
+                    }
+                    mTxtReadBoradcast.startWithList(list);
+                }
+                mLinearRoot.setVisibility(View.VISIBLE);
                 mSuperRefreshLayout.onLoadComplete();
             }
 

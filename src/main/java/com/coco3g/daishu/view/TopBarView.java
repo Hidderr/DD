@@ -2,16 +2,24 @@ package com.coco3g.daishu.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.coco3g.daishu.R;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 public class TopBarView extends RelativeLayout implements OnClickListener {
@@ -20,15 +28,20 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     ImageView mImageLeft = null;
     RelativeLayout mRelativeLeft, mRelativeRight = null;
     TextView mTxtTitle = null;
-    EditText mEditSearch = null;
+
     //
     OnClickLeftView onclickleftview;
     OnClickRightView onclickrightview = null;
     boolean mOverrideClick = false;
 
-    //
-    RelativeLayout mRelativeMainRightView;
+    //r
+    RelativeLayout mRelativeMainRightView, mRelativeNormal, mRelativeHome;
     ImageView mImageMsg, mImageMsgRemind;
+
+    //首页里
+    TextView mTxtLocation;
+    EditText mEditSearch;
+    OnHomeSearchListener onHomeSearchListener;
 
 
     public TopBarView(Context context, AttributeSet attrs) {
@@ -47,10 +60,35 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mRelativeLeft = (RelativeLayout) mView.findViewById(R.id.relative_topbar_left);
         mRelativeRight = (RelativeLayout) mView.findViewById(R.id.relative_topbar_right);
         mRelativeMainRightView = (RelativeLayout) mView.findViewById(R.id.relative_topbar_right_main_view);
+        mRelativeNormal = (RelativeLayout) mView.findViewById(R.id.relative_topbar_nomal);
+        mRelativeHome = (RelativeLayout) mView.findViewById(R.id.relative_main_topbar);
         mTxtTitle = (TextView) mView.findViewById(R.id.tv_topbar_title);
+        mTxtLocation = (TextView) mView.findViewById(R.id.tv_topbar_location);
+        mEditSearch = (EditText) mView.findViewById(R.id.edit_topbar_search);
         mRelativeLeft.setOnClickListener(this);
         mRelativeRight.setOnClickListener(this);
         mImageMsg.setOnClickListener(this);
+        //
+        mEditSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    // 先隐藏键盘
+                    ((InputMethodManager) mContext.getSystemService(INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(((Activity) mContext).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    //进行搜索操作的方法，在该方法中可以加入mEditSearchUser的非空判断
+                    String searchKey = mEditSearch.getText().toString().trim();
+                    if (TextUtils.isEmpty(searchKey)) {
+
+                    } else {
+                        onHomeSearch(searchKey);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     /* 设置顶部栏左侧view */
@@ -98,6 +136,24 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mRelativeMainRightView.setVisibility(VISIBLE);
         mImageMsg.setVisibility(VISIBLE);
         mImageMsgRemind.setVisibility(VISIBLE);
+    }
+
+
+    //显示主页面的
+    public void showHomeTopbar() {
+        mRelativeNormal.setVisibility(GONE);
+        mRelativeHome.setVisibility(VISIBLE);
+    }
+
+    //显示正常的
+    public void showNomalTopbar() {
+        mRelativeNormal.setVisibility(VISIBLE);
+        mRelativeHome.setVisibility(View.GONE);
+    }
+
+    //显示正常的
+    public void setLocationCity(String city) {
+        mTxtLocation.setText(city);
     }
 
 
@@ -153,5 +209,20 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     public interface OnClickRightView {
         void onClickTopbarView();
     }
+
+    public interface OnHomeSearchListener {
+        void homeSearch(String searchKey);
+    }
+
+    public void setOnHomeSearchListener(OnHomeSearchListener onHomeSearchListener) {
+        this.onHomeSearchListener = onHomeSearchListener;
+    }
+
+    public void onHomeSearch(String searchKey) {
+        if (onHomeSearchListener != null) {
+            onHomeSearchListener.homeSearch(searchKey);
+        }
+    }
+
 
 }

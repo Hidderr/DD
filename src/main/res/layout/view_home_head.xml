@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -33,13 +34,26 @@
             android:layout_marginRight="10dp"
             android:background="@color/text_color_8" />
 
-        <TextView
+        <!--<TextView-->
+        <!--android:id="@+id/tv_home_boardcast"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="广播滚动"-->
+        <!--android:textColor="@color/text_color_6"-->
+        <!--android:textSize="14sp" />-->
+
+        <com.sunfusheng.marqueeview.MarqueeView
             android:id="@+id/tv_home_boardcast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="广播滚动"
-            android:textColor="@color/text_color_6"
-            android:textSize="14sp" />
+            app:mvAnimDuration="1000"
+            app:mvInterval="3000"
+            app:mvSingleLine="true"
+            app:mvTextColor="@color/text_color_red_2"
+            app:mvTextSize="14sp">
+
+        </com.sunfusheng.marqueeview.MarqueeView>
+
 
     </LinearLayout>
 

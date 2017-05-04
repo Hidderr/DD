@@ -3,7 +3,6 @@ package com.coco3g.daishu.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,9 +23,9 @@ import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BannerView;
-import com.coco3g.daishu.view.BottomNavImageView;
 import com.coco3g.daishu.view.HomeMenuImageView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
+import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +38,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ListView mListView;
     private View mHomeView, mHeadView;
     BannerView mBanner;
-    TextView mTxtBoardcast;
+    MarqueeView mTxtBoardcast;
     HomeMenuImageView[] mMenuRes;
     HomeMenuImageView mMenu1, mMenu2, mMenu3, mMenu4, mMenu5, mMenu6, mMenu7, mMenu8;
     ImageView mImageMiddleBanner;
@@ -51,6 +50,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //
     OnRepairClickListener onRepairClickListener = null;
+    private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         /* 头部数据 */
         mHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.view_home_head, null);
         mBanner = (BannerView) mHeadView.findViewById(R.id.banner_home_frag);
-        mTxtBoardcast = (TextView) mHeadView.findViewById(R.id.tv_home_boardcast);
+        mTxtBoardcast = (MarqueeView) mHeadView.findViewById(R.id.tv_home_boardcast);
         mMenu1 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_1);
         mMenu2 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_2);
         mMenu3 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_3);
@@ -85,10 +85,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         mListView.addHeaderView(mHeadView);
         //
-        mSuperRefreshLayout.setCanLoadMore();
+//        mSuperRefreshLayout.setCanLoadMore();
         mSuperRefreshLayout.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
+                mBanner.clearList();
                 getBanner();
             }
 
@@ -108,6 +109,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mMenu6.setOnClickListener(this);
         mMenu7.setOnClickListener(this);
         mMenu8.setOnClickListener(this);
+        //跑马灯
+        mTxtBoardcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+                String url = mBroadCastList.get(position).get("linkurl");
+                if (!TextUtils.isEmpty(url)) {
+                    Intent intent = new Intent(getActivity(), WebActivity.class);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
 
@@ -193,7 +206,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mBanner.loadData(bannerList);
                 //
                 mListView.setAdapter(mAdapter);
-                getBroadCastReceiver();
+                getBroadCastData();
             }
 
             @Override
@@ -209,15 +222,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    //获取banner图片
-    public void getBroadCastReceiver() {
+    //获取跑马灯
+    public void getBroadCastData() {
         HashMap<String, String> params = new HashMap<>();
         params.put("type", "5");    //1:首页轮播图， 2:商品汇， 3:维修救援， 4:汽车商城， 5:首页广播， 6:商城头条， 7:维修通告，
         new BaseDataPresenter(mContext).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                ArrayList<Map<String, String>> broadCastList = (ArrayList<Map<String, String>>) data.response;
-//                mTxtBoardcast.setText();
+                mBroadCastList = (ArrayList<Map<String, String>>) data.response;
+                if (mBroadCastList != null && mBroadCastList.size() > 0) {
+                    ArrayList<String> list = new ArrayList<String>();
+                    for (int i = 0; i < mBroadCastList.size(); i++) {
+                        list.add(mBroadCastList.get(i).get("title"));
+                    }
+                    mTxtBoardcast.startWithList(list);
+                }
                 getH5URL();
             }
 
@@ -234,7 +253,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    //获取banner图片
+    //获取所有的H5
     public void getH5URL() {
         HashMap<String, String> params = new HashMap<>();
         new BaseDataPresenter(mContext).loadData(DataUrl.GET_H5, params, null, new IBaseDataListener() {

@@ -126,7 +126,7 @@ public class MyMapView extends RelativeLayout {
                 String city = aMapLocation.getCity();
                 mCurrLat = aMapLocation.getLatitude();
                 mCurrLng = aMapLocation.getLongitude();
-                Log.e("定位结果", "city " + city + "  lat   " + mCurrLat + "  lng" + mCurrLng);
+                Log.e("定位结果", "city " + city + "  mCurrLat   " + mCurrLat + "  mCurrLng" + mCurrLng);
                 locationSuccessed(new LatLng(mCurrLat, mCurrLng));
             }
         });

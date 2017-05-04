@@ -19,11 +19,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingBottom="20dp"
-                android:paddingLeft="20dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
-                android:src="@mipmap/pic_me_top_setting" />
+                android:src="@mipmap/pic_me_setting_icon" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

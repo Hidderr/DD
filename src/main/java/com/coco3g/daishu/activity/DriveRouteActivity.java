@@ -134,7 +134,7 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse("androidamap://navi?sourceApplication=softname&lat=" + currStoreBean.lat
+                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse("androidamap://navi?sourceApplication=softname&mCurrLat=" + currStoreBean.lat
                             + "&lon=" + currStoreBean.lng + "&dev=0&style=0"));
                     intent.setPackage("com.autonavi.minimap");
                     startActivity(intent);

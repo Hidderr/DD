@@ -5,68 +5,129 @@
     android:background="@color/white">
 
     <RelativeLayout
-        android:id="@+id/relative_topbar_left"
-        android:layout_width="wrap_content"
+        android:id="@+id/relative_topbar_nomal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/image_topbar_left"
+        <RelativeLayout
+            android:id="@+id/relative_topbar_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/image_topbar_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@mipmap/pic_back_icon" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_topbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp">
+
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/relative_topbar_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_topbar_right_main_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:src="@mipmap/pic_back_icon" />
-    </RelativeLayout>
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/relative_topbar_right"
+            android:visibility="gone">
 
+            <ImageView
+                android:id="@+id/image_topbar_main_home_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/tv_topbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp">
+            <!--消息通知的红点-->
+            <ImageView
+                android:id="@+id/image_topbar_system_msg_remind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/image_topbar_main_home_msg"
+                android:layout_alignTop="@+id/image_topbar_main_home_msg"
+                android:background="@drawable/shape_oveal_txt_red_bg"
+                android:visibility="gone" />
 
-    </TextView>
-
-    <RelativeLayout
-        android:id="@+id/relative_topbar_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true">
-
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relative_topbar_right_main_view"
-        android:layout_width="wrap_content"
+        android:id="@+id/relative_main_topbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/relative_topbar_right"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
-        <ImageView
-            android:id="@+id/image_topbar_main_home_msg"
+        <TextView
+            android:id="@+id/tv_topbar_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible" />
+            android:drawablePadding="1dp"
+            android:drawableRight="@mipmap/pic_arrow_down_icon"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="定位中"
+            android:textColor="@color/text_color_1"
+            android:textSize="14sp" />
 
-        <!--消息通知的红点-->
+        <EditText
+            android:id="@+id/edit_topbar_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/image_topbar_main_thumb"
+            android:layout_toRightOf="@+id/tv_topbar_location"
+            android:background="@drawable/shape_edit_white_bg"
+            android:drawableLeft="@mipmap/pic_home_search_icon"
+            android:drawablePadding="5dp"
+            android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:paddingBottom="7dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="7dp"
+            android:singleLine="true"
+            android:textColor="@color/text_color_1"
+            android:textColorHint="@color/text_color_2"
+            android:textSize="14sp" />
+
         <ImageView
-            android:id="@+id/image_topbar_system_msg_remind"
+            android:id="@+id/image_topbar_main_thumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/image_topbar_main_home_msg"
-            android:layout_alignTop="@+id/image_topbar_main_home_msg"
-            android:background="@drawable/shape_oveal_txt_red_bg"
-            android:visibility="gone" />
-
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/pic_home_frag_logo_icon" />
 
     </RelativeLayout>
+
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.fragment.GoodsFragment;
@@ -18,6 +19,7 @@ import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
 import com.coco3g.daishu.fragment.RepairFragment;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
+import com.coco3g.daishu.utils.LocationUtil;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.BottomNavImageView;
 import com.coco3g.daishu.view.TopBarView;
@@ -54,6 +56,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         setContentView(R.layout.activity_main);
         Global.MAINACTIVITY_CONTEXT = this;
         initView();
+        startLocation();
     }
 
     private void initView() {
@@ -61,6 +64,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         mTopbar.hideLeftView();
         mTopbar.setTitle(getResources().getString(R.string.app_name));
         mTopbar.setMsgRemindVisible();
+        mTopbar.setOnHomeSearchListener(new TopBarView.OnHomeSearchListener() {
+            @Override
+            public void homeSearch(String searchKey) {
+
+            }
+        });
         //
         mImageHome = (BottomNavImageView) findViewById(R.id.view_nav_home);
         mImageRead = (BottomNavImageView) findViewById(R.id.view_nav_read);
@@ -83,26 +92,26 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //
         mFragManager = getSupportFragmentManager();
         setTabSelection(0);
-        // 接收融云未读消息（私聊）的广播
-        CurrUnreadBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
-        CurrUnreadBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
-            @Override
-            public void receiveReturn(Intent intent) {
-                Bundle bundle = intent.getBundleExtra("data");
-                int count = bundle.getInt("unreadcount");
-
-                Log.e("未读消息", count + "***");
-                mImageRead.setUnReadCount(count);
-            }
-        });
-        //接收融云未读消息（系统消息）的广播
-        systemBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
-        systemBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG_SYSTEM).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
-            @Override
-            public void receiveReturn(Intent intent) {
-//                mImageMe.setSystemRemind(true);
-            }
-        });
+//        // 接收融云未读消息（私聊）的广播
+//        CurrUnreadBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
+//        CurrUnreadBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+//            @Override
+//            public void receiveReturn(Intent intent) {
+//                Bundle bundle = intent.getBundleExtra("data");
+//                int count = bundle.getInt("unreadcount");
+//
+//                Log.e("未读消息", count + "***");
+//                mImageRead.setUnReadCount(count);
+//            }
+//        });
+//        //接收融云未读消息（系统消息）的广播
+//        systemBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
+//        systemBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG_SYSTEM).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+//            @Override
+//            public void receiveReturn(Intent intent) {
+////                mImageMe.setSystemRemind(true);
+//            }
+//        });
 
     }
 
@@ -149,6 +158,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_home));
+                mTopbar.showHomeTopbar();
                 if (mHomeFrag == null) {
                     mHomeFrag = (HomeFragment) new HomeFragment();
                     transaction.add(R.id.frame_main_content, mHomeFrag);
@@ -165,6 +175,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             case 1: // 商品汇
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
+                mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
                 if (mReadFrag == null) {
                     mReadFrag = new GoodsFragment();
@@ -179,6 +190,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
+                mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
                 if (mIncomeFrag == null) {
                     mIncomeFrag = new IncomeFragment();
@@ -193,12 +205,14 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
+                mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
                 if (mRepairFrag == null) {
                     mRepairFrag = new RepairFragment();
                     transaction.add(R.id.frame_main_content, mRepairFrag);
                 } else {
                     transaction.show(mRepairFrag);
+                    mRepairFrag.startLocation(false);
                 }
                 break;
             case 4: // 我的
@@ -279,6 +293,25 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         new RequestPermissionUtils(this).aleraPermission(Manifest.permission.CALL_PHONE, 1);
     }
 
+
+    //定位
+    public void startLocation() {
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
+        //定位
+        new LocationUtil(this).initLocationAndStart(true, 1000, false, null).setAMapLocationChanged(new LocationUtil.AMapLocationChanged() {
+            @Override
+            public void aMapLocation(AMapLocation aMapLocation) {
+                Global.locationCity = aMapLocation.getCity();
+                Global.mCurrLat = aMapLocation.getLatitude();
+                Global.mCurrLng = aMapLocation.getLongitude();
+                //
+                mTopbar.setLocationCity(Global.locationCity);
+                Log.e("定位结果", "city " + Global.locationCity + "  mCurrLat   " + Global.mCurrLat + "  mCurrLng" + Global.mCurrLng);
+            }
+        });
+    }
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
@@ -332,7 +365,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         isForeground = false;
-        CurrUnreadBroadcast.unregisterBroadcast();
-        systemBroadcast.unregisterBroadcast();
+//        CurrUnreadBroadcast.unregisterBroadcast();
+//        systemBroadcast.unregisterBroadcast();
     }
 }
