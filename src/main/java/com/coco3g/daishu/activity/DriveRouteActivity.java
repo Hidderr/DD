@@ -78,6 +78,7 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
         mContext = this;
         mapView = (MapView) findViewById(R.id.map_dirve_route);
         mapView.onCreate(bundle);// 此方法必须重写
+        //
         init();
         //
         Bundle bundle1 = getIntent().getExtras();
@@ -86,20 +87,11 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
         startLng = getIntent().getDoubleExtra("startlng", 0);
         mStartPoint = new LatLonPoint(startLat, startLng);
         mEndPoint = new LatLonPoint(currStoreBean.lat, currStoreBean.lng);
+        //
         setRepairStoreInfo();
 
-
-        setfromandtoMarker();
+        //开始规划路径
         searchRouteResult(ROUTE_TYPE_DRIVE, RouteSearch.DrivingDefault);
-    }
-
-    private void setfromandtoMarker() {
-        aMap.addMarker(new MarkerOptions()
-                .position(AMapUtil.convertToLatLng(mStartPoint))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon)));
-        aMap.addMarker(new MarkerOptions()
-                .position(AMapUtil.convertToLatLng(mEndPoint))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_red_icon)));
     }
 
     /**
@@ -242,27 +234,6 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
                     drivingRouteOverlay.removeFromMap();
                     drivingRouteOverlay.addToMap();
                     drivingRouteOverlay.zoomToSpan();
-
-
-//                    mBottomLayout.setVisibility(View.VISIBLE);
-                    int dis = (int) drivePath.getDistance();
-                    int dur = (int) drivePath.getDuration();
-                    String des = AMapUtil.getFriendlyTime(dur) + "(" + AMapUtil.getFriendlyLength(dis) + ")";
-//                    mRotueTimeDes.setText(des);
-//                    mRouteDetailDes.setVisibility(View.VISIBLE);
-                    int taxiCost = (int) mDriveRouteResult.getTaxiCost();
-//                    mRouteDetailDes.setText("打车约" + taxiCost + "元");
-//                    mBottomLayout.setOnClickListener(new OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(mContext,
-//                                    DriveRouteDetailActivity.class);
-//                            intent.putExtra("drive_path", drivePath);
-//                            intent.putExtra("drive_result",
-//                                    mDriveRouteResult);
-//                            startActivity(intent);
-//                        }
-//                    });
 
                 } else if (result != null && result.getPaths() == null) {
                     Global.showToast(getResources().getString(R.string.no_result), mContext);
