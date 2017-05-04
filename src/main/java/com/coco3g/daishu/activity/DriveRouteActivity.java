@@ -125,15 +125,22 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
         mImageNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse("androidamap://navi?sourceApplication=softname&mCurrLat=" + currStoreBean.lat
-                            + "&lon=" + currStoreBean.lng + "&dev=0&style=0"));
-                    intent.setPackage("com.autonavi.minimap");
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                    Global.showToast("请安装高德地图", DriveRouteActivity.this);
-                }
+//                try {
+//                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse("androidamap://navi?sourceApplication=softname&mCurrLat=" + currStoreBean.lat
+//                            + "&lon=" + currStoreBean.lng + "&dev=0&style=0"));
+//                    intent.setPackage("com.autonavi.minimap");
+//                    startActivity(intent);
+//                } catch (ActivityNotFoundException e) {
+//                    e.printStackTrace();
+//                    Global.showToast("请安装高德地图", DriveRouteActivity.this);
+//                }
+
+                Intent intent = new Intent(DriveRouteActivity.this, DriveRouteNavActivity.class);
+                intent.putExtra("startlat", mStartPoint.getLatitude());
+                intent.putExtra("startlng", mStartPoint.getLongitude());
+                intent.putExtra("endlat", mEndPoint.getLatitude());
+                intent.putExtra("endlng", mEndPoint.getLongitude());
+                startActivity(intent);
             }
         });
 

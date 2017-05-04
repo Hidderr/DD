@@ -6,21 +6,10 @@ package com.coco3g.daishu.data;
 
 public class Constants {
 
-//    //获取的H5网页对应的请求的action
-//    public static final String MEMBER_INFO = "member_info";  //个人资料
-//    public static final String MY_INVITE = "member_yaoqing";  //我的邀请
-//    public static final String MY_MESSAGE = "member_msg";  //我的消息
-//    public static final String RENZHENG_MANAGER = "renzheng";  //认证管理
-//    public static final String UPDATE_PASSWORD = "edit_pwd";  //修改密码
-//    public static final String BANGDING_ZHIFUBAO = "bind_zhifubao";  //绑定支付宝
-//    public static final String BANGDING_CARD = "bind_card";  //绑定银行卡
-//    public static final String BANGDING_PHONE = "bind_phone";  //绑定银行卡
-//    public static final String ZIJIN_ACCOUNT = "zijin";  //资金账户
-//    public static final String YINLIANG_YUE = "yinliang";  //银两余额
-//    public static final String QINGYUN_BI = "qingyunbi";  //青云币
-//    public static final String YOUHUI_QUAN = "youhuiquan";  //优惠券
-//    public static final String CHONGZHI = "chongzhi";  //充值
-//    public static final String TiXian = "tixian";  //提现
+
+    // 讯飞语音AppID
+    public static final String XUN_FEI_APPID = "590b2eff";
+
 
     /* 支付宝相关 */
     // 商户PID

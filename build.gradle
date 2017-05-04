@@ -64,8 +64,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     compile files('libs/AMap_Search_V5.0.0_20170309.jar')
-//    compile files('libs/AMap3DMap_5.0.0_AMapNavi_5.0.1_20170410.jar')
-    compile files('libs/Android_Map3D_SDK_V5.0.0_20170311.jar')
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
-    compile 'com.sunfusheng:marqueeview:1.2.0'   //跑马灯
+    //跑马灯
+    compile 'com.sunfusheng:marqueeview:1.2.0'
+    compile files('libs/AMap3DMap_5.0.0_AMapNavi_5.0.1_20170410.jar')
+    compile files('libs/Msc.jar')
 }

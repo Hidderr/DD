@@ -73,6 +73,9 @@
         <activity
             android:name=".activity.CarShopActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DriveRouteNavActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- 高德地图 -->
