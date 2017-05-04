@@ -16,7 +16,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/topbar_main"
         android:src="@color/text_color_7"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/frame_main_content"

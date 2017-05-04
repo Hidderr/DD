@@ -112,4 +112,8 @@
     <!--汽车维修点-->
     <string name="no_result">没有搜索到相关数据！</string>
 
+    <!--汽车商城-->
+    <string name="car_shop">汽车商城</string>
+
+
 </resources>

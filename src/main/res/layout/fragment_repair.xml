@@ -10,6 +10,7 @@
         android:background="@color/text_color_10">
 
         <LinearLayout
+            android:id="@+id/linear_repair_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">

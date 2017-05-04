@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -125,7 +126,7 @@ public class WebActivity extends BaseActivity {
             public void setTitle(String title) {
                 if (!TextUtils.isEmpty(title) && !title.contains("coco3g.com")) {
                     mTopBar.setTitle(title);
-                    Log.e("webactivity标题",title);
+                    Log.e("webactivity标题", title);
                 }
             }
         });
@@ -358,7 +359,7 @@ public class WebActivity extends BaseActivity {
                 TextView rightView = new TextView(this);
                 rightView.setText(title);
                 rightView.setTextSize(14);
-                rightView.setTextColor(Color.WHITE);
+                rightView.setTextColor(ContextCompat.getColor(this, R.color.text_color_1));
                 rightView.setPadding(0, Global.dipTopx(this, 3f), Global.dipTopx(this, 10f), Global.dipTopx(this, 3f));
                 rightView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -432,7 +433,7 @@ public class WebActivity extends BaseActivity {
             tv.setTextSize(14f);
             int padding = Global.dipTopx(this, 10);
             tv.setPadding(padding, padding, padding, padding);
-            tv.setTextColor(getResources().getColor(R.color.white));
+            tv.setTextColor(getResources().getColor(R.color.text_color_1));
             mTopBar.setRightView(tv);
             mTopBar.setOnClickRightListener(new TopBarView.OnClickRightView() {
                 @Override

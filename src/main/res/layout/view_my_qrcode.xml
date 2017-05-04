@@ -1,56 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_alignBottom="@+id/linear_my_qrcode_detail"
+        android:layout_alignTop="@+id/image_my_qrcode_avatar"
+        android:alpha="1">
 
-        <ImageView
-            android:id="@+id/image_my_qrcode_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/pic_default_avatar_icon" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_my_qrcode_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/shape_txt_white_corner_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/tv_my_qrcode_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="王 二"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/image_my_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/pic_qrcode_default" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_my_qrcode_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_my_qrcode_avatar"
-            android:layout_centerHorizontal="true"
-            android:text="王 二"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/image_my_qrcode_avatar"
+            android:text="微信扫一扫，下载注册"
             android:textColor="@color/text_color_1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_my_qrcode_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/image_my_qrcode_avatar"
+            android:paddingBottom="10dp"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/shape_txt_blue_bg"
+            android:text="推荐给好友"
+            android:textColor="@color/text_color_blue_5"
             android:textSize="16sp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
 
-        <ImageView
-            android:id="@+id/image_my_qrcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/pic_qrcode_default" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/image_my_qrcode_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/pic_default_avatar_icon" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/image_my_qrcode_avatar"
-        android:textColor="@color/text_color_1"
-        android:textSize="14sp" />
-</LinearLayout>
+
+</RelativeLayout>

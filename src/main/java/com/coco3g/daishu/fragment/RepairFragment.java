@@ -41,7 +41,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     SuperRefreshLayout mSuperRefreshLayout;
     private View mRepairView;
     BannerView mBanner;
-    LinearLayout mLinearMenu;
+    LinearLayout mLinearMenu, mLinearRoot;
     TextView mTxtRepairBoradcast;
     //
     HomeMenuImageView[] mMenuRes;
@@ -56,13 +56,15 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRepairView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_repair, null);
         init();
-        getBanner();
+        mSuperRefreshLayout.setRefreshingLoad();
         return mRepairView;
     }
 
     private void init() {
         mSuperRefreshLayout = (SuperRefreshLayout) mRepairView.findViewById(R.id.superrefresh_repair);
         mBanner = (BannerView) mRepairView.findViewById(R.id.banner_repair_frag);
+        mLinearRoot = (LinearLayout) mRepairView.findViewById(R.id.linear_repair_root);
+        mLinearRoot.setVisibility(View.GONE);
         mLinearMenu = (LinearLayout) mRepairView.findViewById(R.id.linear_repair_menu);
         mTxtRepairBoradcast = (TextView) mRepairView.findViewById(R.id.tv_repair_boardcast);
         mRepairMenu1 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_1);
@@ -80,6 +82,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         mSuperRefreshLayout.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
+                mBanner.clearList();
                 getBanner();
             }
 
@@ -170,6 +173,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
 
                 ArrayList<Map<String, String>> bannerList = (ArrayList<Map<String, String>>) data.response;
                 mBanner.loadData(bannerList);
+                mLinearRoot.setVisibility(View.VISIBLE);
                 //
                 mSuperRefreshLayout.onLoadComplete();
             }

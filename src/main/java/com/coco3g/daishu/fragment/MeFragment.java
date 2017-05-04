@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.TextViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -27,6 +29,7 @@ import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.coco3g.daishu.view.MyQRcodeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
@@ -96,14 +99,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtMemberRecommend.setOnClickListener(this);
         mTxtUpdateMember.setOnClickListener(this);
         mImageSetting.setOnClickListener(this);
+        mImageQRCode.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.image_me_top_arrow:
-                break;
             case R.id.tv_me_mime_car_nurse: // 车保姆面板
                 if (isNurseExpands) { // 隐藏
                     isNurseExpands = false;
@@ -142,6 +144,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intentToWeb(Global.H5Map.get("vip"));
 
                 break;
+            case R.id.image_me_top_qr:  //二维码
+                myQRcodeDialog();
+
+                break;
+            case R.id.image_me_top_arrow:  //二维码箭头
+                myQRcodeDialog();
+
+                break;
 
         }
     }
@@ -162,6 +172,22 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", url);
         startActivity(intent);
+    }
+
+
+    //我的专属二维码
+    public void myQRcodeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MyQRcodeView view = new MyQRcodeView(getActivity());
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        dialog.show();
+        //
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = Global.screenWidth * 3 / 4;
+//        params.height = p ;
+        dialog.getWindow().setAttributes(params);
     }
 
 

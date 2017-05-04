@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.CarShopActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -30,7 +31,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
     SuperRefreshLayout mSuperRefreshLayout;
     private View mReadView;
     BannerView mBanner;
-    LinearLayout mLinearMenu;
+    LinearLayout mLinearMenu, mLinearRoot;
     TextView mTxtReadBoradcast;
     //
     LinearLayout.LayoutParams lpLinear;
@@ -46,13 +47,15 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
         lpLinear = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Global.screenWidth * 3 / 2 + Global.dipTopx(getActivity(), 20));
         lpLinear.topMargin = Global.dipTopx(getActivity(), 10);
         init();
-        getBanner();
+        mSuperRefreshLayout.setRefreshingLoad();
         return mReadView;
     }
 
     private void init() {
         mSuperRefreshLayout = (SuperRefreshLayout) mReadView.findViewById(R.id.superrefresh_read);
         mBanner = (BannerView) mReadView.findViewById(R.id.banner_read_frag);
+        mLinearRoot = (LinearLayout) mReadView.findViewById(R.id.linear_goods_frag);
+        mLinearRoot.setVisibility(View.GONE);
         mLinearMenu = (LinearLayout) mReadView.findViewById(R.id.linear_read_menu);
         mLinearMenu.setLayoutParams(lpLinear);
         mTxtReadBoradcast = (TextView) mReadView.findViewById(R.id.tv_read_boardcast);
@@ -71,6 +74,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
         mSuperRefreshLayout.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
+                mBanner.clearList();
                 getBanner();
             }
 
@@ -94,7 +98,8 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.view_read_menu_1:  //汽车商城
-//                intentToWeb(Global.H5Map.get("baoxian"));
+                intent = new Intent(getActivity(), CarShopActivity.class);
+                startActivity(intent);
 
                 break;
 
@@ -150,6 +155,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
 
                 ArrayList<Map<String, String>> bannerList = (ArrayList<Map<String, String>>) data.response;
                 mBanner.loadData(bannerList);
+                mLinearRoot.setVisibility(View.VISIBLE);
                 //
                 mSuperRefreshLayout.onLoadComplete();
             }
