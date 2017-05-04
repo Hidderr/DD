@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.coco3g.daishu.adapter.HomeAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BannerView;
@@ -119,6 +121,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.view_home_menu_1:  //我的汽车
+                intentToWeb(Global.H5Map.get("mycar"));
 
                 break;
 
@@ -128,34 +131,56 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_3:  //洗车
+//                intentToWeb(Global.H5Map.get("mycar"));
 
                 break;
 
             case R.id.view_home_menu_4:  //附近门店
+//                intentToWeb(Global.H5Map.get("mycar"));
 
                 break;
 
             case R.id.view_home_menu_5:  //我要买车
+//                intentToWeb(Global.H5Map.get("mycar"));
 
                 break;
 
             case R.id.view_home_menu_6:  //车载用品
+//                intentToWeb(Global.H5Map.get("mycar"));
 
                 break;
 
             case R.id.view_home_menu_7:  //打折油卡
+                intentToWeb(Global.H5Map.get("youka"));
 
                 break;
 
             case R.id.view_home_menu_8:  //  机动车险
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.JI_DONG_CHE_XIAN);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("baoxian"));
 
                 break;
 
         }
     }
+
+
+    public void intentToWeb(String url) {
+
+        if (url.equals("#")) {
+            return;
+        }
+
+        if (url.startsWith("http://coco3g-app/open_tabview")) {
+            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(mContext);
+            typevauleGotoDictionary.gotoViewChoose(url);
+            return;
+        }
+
+        Intent intent = new Intent(mContext, WebActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
+    }
+
 
     //获取banner图片
     public void getBanner() {
@@ -168,6 +193,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mBanner.loadData(bannerList);
                 //
                 mListView.setAdapter(mAdapter);
+                getBroadCastReceiver();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+                mSuperRefreshLayout.onLoadComplete();
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefreshLayout.onLoadComplete();
+            }
+        });
+    }
+
+    //获取banner图片
+    public void getBroadCastReceiver() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("type", "5");    //1:首页轮播图， 2:商品汇， 3:维修救援， 4:汽车商城， 5:首页广播， 6:商城头条， 7:维修通告，
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> broadCastList = (ArrayList<Map<String, String>>) data.response;
+//                mTxtBoardcast.setText();
                 getH5URL();
             }
 

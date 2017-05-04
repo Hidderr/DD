@@ -8,6 +8,7 @@ android {
             storeFile file('/Users/coco3g/Documents/project/MyApplication1/DaiShuDaShi/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
+
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
@@ -23,6 +24,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.dashudashi
+        }
+        debug {
+            signingConfig signingConfigs.dashudashi
         }
     }
     compileOptions {

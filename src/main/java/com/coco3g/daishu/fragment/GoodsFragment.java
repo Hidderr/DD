@@ -14,6 +14,7 @@ import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BannerView;
@@ -92,33 +93,50 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.view_read_menu_1:  //
+            case R.id.view_read_menu_1:  //汽车商城
+//                intentToWeb(Global.H5Map.get("baoxian"));
 
                 break;
 
             case R.id.view_read_menu_2:  //汽车保险
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.QI_CHE_BAO_XIAN);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("baoxian"));
 
 
                 break;
 
-            case R.id.view_read_menu_3:  //
+            case R.id.view_read_menu_3:  //车载用品
+//                intentToWeb(Global.H5Map.get("baoxian"));
 
                 break;
 
             case R.id.view_read_menu_4:  //油品区
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.YOU_PIN_QU);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("youka"));
 
                 break;
 
-            case R.id.view_read_menu_5:  //
+            case R.id.view_read_menu_5:  // 其他产品
+//                intentToWeb(Global.H5Map.get("youka"));
 
                 break;
         }
+    }
+
+
+    public void intentToWeb(String url) {
+
+        if (url.equals("#")) {
+            return;
+        }
+
+        if (url.startsWith("http://coco3g-app/open_tabview")) {
+            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(getActivity());
+            typevauleGotoDictionary.gotoViewChoose(url);
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 
 

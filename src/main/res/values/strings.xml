@@ -13,7 +13,6 @@
     <string name="exit_app_tip">双击退出应用</string>
     <string name="third_party_login">第三方账号快速登录</string>
     <string name="login_loading">正在登录，请稍候...</string>
-    <string name="login_limit">0123456789abcdefghigklmnopqrstuvwxyz</string>
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="confirm">确认</string>

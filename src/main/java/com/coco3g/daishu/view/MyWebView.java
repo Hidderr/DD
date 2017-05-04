@@ -267,7 +267,7 @@ public class MyWebView extends RelativeLayout {
         @JavascriptInterface
         public void AppAction(String action, String json, String callback) {
             try {
-                Class classes = Class.forName("com.coco3g.jiahe.utils.JsCallMethod");
+                Class classes = Class.forName("com.coco3g.daishu.utils.JsCallMethod");
                 Method method = classes.getDeclaredMethod(action, String.class, String.class);
                 JsCallMethod jsCallMethod = new JsCallMethod();
                 jsCallMethod.setOnJsReturnDataListener(onJsReturnInterface);

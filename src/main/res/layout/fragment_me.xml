@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/pic_default_avatar" />
+                    android:src="@mipmap/pic_default_avatar_icon" />
 
                 <LinearLayout
                     android:id="@+id/linear_me_top_info"
@@ -143,7 +143,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@color/white"
-            android:drawableRight="@mipmap/pic_arrow_grey_right"
             android:padding="10dp"
             android:text="我的个人账户"
             android:textColor="@color/text_color_1" />

@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 public class LoginActivity extends Activity implements View.OnClickListener {
     private ImageView mImageDel;
     private EditText mEditPhone, mEditPassWord;
@@ -88,6 +89,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mTxtLogin.setOnClickListener(this);
         mTxtForgetPassWord.setOnClickListener(this);
         mTxtRegister.setOnClickListener(this);
+        //
+        final HashMap<String, String> loginMap = Global.readLoginInfo(LoginActivity.this, Global.LOGIN_INFO_LAST);
+        if (loginMap != null) {
+            mEditPhone.setText(loginMap.get("phone"));
+//            mEditPassWord.setText("123456");
+        }
     }
 
     @Override

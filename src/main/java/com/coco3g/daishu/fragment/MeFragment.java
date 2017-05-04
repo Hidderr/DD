@@ -15,21 +15,37 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
+import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.data.TypevauleGotoDictionary;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
     ImageView mImageSetting, mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
-    TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember;
+    TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember,
+            mTxtName, mTxtVipID;
     //
     Drawable drawableRight, drawableDown;
     boolean isNurseExpands = false;
+
+    private RelativeLayout.LayoutParams avatar_lp;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +62,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+
+        getUserInfo();
     }
 
     private void initView() {
@@ -63,15 +81,21 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtCompact = (TextView) mMeView.findViewById(R.id.tv_me_compact);
         mTxtMemberRecommend = (TextView) mMeView.findViewById(R.id.tv_me_member_recommend);
         mTxtUpdateMember = (TextView) mMeView.findViewById(R.id.tv_me_update_member);
+        mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
+        mTxtVipID = (TextView) mMeView.findViewById(R.id.tv_me_top_id);
+        //
+        avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
+        avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
+        mImageAvatar.setLayoutParams(avatar_lp);
         //
         mImageRightArrow.setOnClickListener(this);
         mTxtCarNurse.setOnClickListener(this);
-        mTxtAccount.setOnClickListener(this);
         mTxtShoppingAccount.setOnClickListener(this);
         mTxtBalance.setOnClickListener(this);
         mTxtCompact.setOnClickListener(this);
         mTxtMemberRecommend.setOnClickListener(this);
         mTxtUpdateMember.setOnClickListener(this);
+        mImageSetting.setOnClickListener(this);
     }
 
     @Override
@@ -94,71 +118,105 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
-            case R.id.tv_me_mime_account:  //个人账户
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.GE_REN_SETTING);
-                startActivity(intent);
+            case R.id.image_me_top_setting:  //个人账户
+                intentToWeb(Global.H5Map.get("myinfo"));
 
                 break;
             case R.id.tv_me_shopping_account:  //购物账单
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.GOU_WU_ZHANG_DAN);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("goodsorder"));
 
                 break;
             case R.id.tv_me_account_balance:  //账户余额
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.ZHANG_HU_YU_E);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("amount"));
 
                 break;
             case R.id.tv_me_compact:  //合同摘要
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.HE_TONG_ZHAI_YAO);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("hetong"));
 
                 break;
             case R.id.tv_me_member_recommend:  //会员推荐
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.HUI_YUAN_TUI_JIAN);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("tuijian"));
 
                 break;
             case R.id.tv_me_update_member:  //升级会员
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", DataUrl.SHENG_JI_HUI_YUAN);
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("vip"));
 
                 break;
 
         }
     }
 
-//    //获取banner图片
-//    public void getLunBoImage() {
-//        HashMap<String, String> params = new HashMap<>();
-//        new BaseDataPresenter(mContext).loadData(DataUrl.GET_BANNER_IMAGE, params, mContext.getResources().getString(R.string.loading), new IBaseDataListener() {
-//            @Override
-//            public void onSuccess(BaseDataBean data) {
-//                Log.e("获取到了banner", "banner");
-//                Map<String, Object> dataMap = (Map<String, Object>) data.response;
-//
-//                ArrayList<Map<String, String>> bannerImageList = (ArrayList<Map<String, String>>) dataMap.get("banner");
-//                mBannerImage.loadData(bannerImageList);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(BaseDataBean data) {
+
+    public void intentToWeb(String url) {
+
+        if (url.equals("#")) {
+            return;
+        }
+
+        if (url.startsWith("http://coco3g-app/open_tabview")) {
+            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(getActivity());
+            typevauleGotoDictionary.gotoViewChoose(url);
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
+    }
+
+
+    //登录
+    public void getUserInfo() {
+        HashMap<String, String> params = new HashMap<>();
+//        params.put("id", Global.USERINFOMAP.get("id"));
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_USERINFO, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                if (data.response instanceof List) { //有时候返回的是空数组
+                    return;
+                } else {
+                    Global.USERINFOMAP = (Map<String, String>) data.response;
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    //
+                }
+                setMyInfo();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
 //                Global.showToast(data.msg, mContext);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+
+    public void setMyInfo() {
+        //头像
+        if (Global.USERINFOMAP != null) {
+            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar"), mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
+            //名字
+            mTxtName.setText(Global.USERINFOMAP.get("nickname"));
+            mTxtVipID.setText("会员ID号：" + Global.USERINFOMAP.get("vipno"));
+//            //会员专属二维码
+//            String vip = Global.USERINFOMAP.get("groupid");
+//            if (!TextUtils.isEmpty(vip) && vip.equals("1")) {
+//                mRelativeQRcode.setVisibility(View.VISIBLE);
+//                mCollectManager.setVisibility(View.VISIBLE);
+//            } else {
+//                mRelativeQRcode.setVisibility(View.GONE);
+//                mCollectManager.setVisibility(View.GONE);
 //            }
-//
-//            @Override
-//            public void onError() {
-//
-//            }
-//        });
-//    }
+            //
+//            mSettingItemList.get(0).setEFen(Global.USERINFOMAP.get("ecoin"));
+        }
+
+    }
 
 
 }

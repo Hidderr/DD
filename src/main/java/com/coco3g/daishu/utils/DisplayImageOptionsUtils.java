@@ -16,12 +16,12 @@ public class DisplayImageOptionsUtils {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(false).build();
     }
 
-//    //圆形头像
-//    public DisplayImageOptions circleImageInit() {
-//        return new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.pic_default_avatar_icon).showImageForEmptyUri(R.mipmap.pic_default_avatar_icon)
-//                .showImageOnFail(R.mipmap.pic_default_avatar_icon).cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
-//                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(true).displayer(new RoundedBitmapDisplayer(200)).build();
-//    }
+    //圆形头像
+    public DisplayImageOptions circleImageInit() {
+        return new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.pic_default_avatar_icon).showImageForEmptyUri(R.mipmap.pic_default_avatar_icon)
+                .showImageOnFail(R.mipmap.pic_default_avatar_icon).cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(true).displayer(new RoundedBitmapDisplayer(200)).build();
+    }
 
 
 }

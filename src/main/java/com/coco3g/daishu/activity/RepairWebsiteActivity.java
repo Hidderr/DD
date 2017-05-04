@@ -36,6 +36,7 @@ import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.MyMapView;
 import com.coco3g.daishu.view.MyMarkerView;
+import com.coco3g.daishu.view.MyProgressDialog;
 import com.coco3g.daishu.view.TopBarView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -44,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnPoiSearchListener, AMap.OnMarkerClickListener, View.OnClickListener {
+public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarkerClickListener, View.OnClickListener {
     private MyMapView myMapView;
     private TopBarView mTopbar;
     private RelativeLayout mRelativeStore;
@@ -54,6 +55,7 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
     private ImageView mImageThumb, mImageRoute;
     //
     private String keyWord = "汽车修理店";
+    private MyProgressDialog myProgressDialog = null;
 
     //
 
@@ -73,6 +75,7 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_website);
+        myProgressDialog = MyProgressDialog.show(this, "定位中...", false, true);
 
         init(savedInstanceState);
 
@@ -108,6 +111,15 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
                 mCurrLat = latLng.latitude;
                 mCurrLng = latLng.longitude;
 //                doSearchQuery();   //高德地图搜索附近的汽车修理店信息
+                myProgressDialog.cancel();
+
+
+                //添加自己定义的名字
+                aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+                        getResources(), R.mipmap.pic_location_arrow_icon)))
+                        .position(new LatLng(mCurrLng, mCurrLng)));
+
+
                 if (mCurrLat != 0 && mCurrLng != 0) {
                     getRepairStoreList();  //接口获取信息
                 }
@@ -151,83 +163,76 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
     }
 
 
-    /**
-     * 开始进行poi搜索
-     */
-    /**
-     * 开始进行poi搜索
-     */
-    protected void doSearchQuery() {
-        currentPage = 0;
-        query = new PoiSearch.Query(keyWord, "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
-        query.setPageSize(20);// 设置每页最多返回多少条poiitem
-        query.setPageNum(currentPage);// 设置查第一页
-
-        if (mCurrLatLonPoint != null) {
-            poiSearch = new PoiSearch(this, query);
-            poiSearch.setOnPoiSearchListener(this);
-            poiSearch.setBound(new PoiSearch.SearchBound(mCurrLatLonPoint, 5000, true));//
-            // 设置搜索区域为以lp点为圆心，其周围5000米范围
-            poiSearch.searchPOIAsyn();// 异步搜索
-        }
-    }
-
-
-    @Override
-    public void onPoiSearched(PoiResult result, int rcode) {
-        if (rcode == AMapException.CODE_AMAP_SUCCESS) {
-            if (result != null && result.getQuery() != null) {// 搜索poi的结果
-                if (result.getQuery().equals(query)) {// 是否是同一条
-                    poiResult = result;
-                    poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
-                    List<SuggestionCity> suggestionCities = poiResult
-                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
-                    if (poiItems != null && poiItems.size() > 0) {
-                        //清除POI信息显示
-                        whetherToShowDetailInfo(false);
-                        //并还原点击marker样式
-                        if (mlastMarker != null) {
-                            resetlastmarker();
-                        }
-                        //清理之前搜索结果的marker
-                        if (poiOverlay != null) {
-                            poiOverlay.removeFromMap();
-                        }
-                        aMap.clear();
-                        poiOverlay = new MyPoiOverlay(aMap, poiItems);
-                        poiOverlay.addToMap();
-                        poiOverlay.zoomToSpan();
-
-                        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-                                getResources(), R.mipmap.pic_location_arrow_icon)))
-                                .position(new LatLng(mCurrLatLonPoint.getLatitude(), mCurrLatLonPoint.getLongitude())));
-
-//                        aMap.addCircle(new CircleOptions()
-//                                .center(new LatLng(mCurrLatLonPoint.getLatitude(),
-//                                        mCurrLatLonPoint.getLongitude())).radius(5000)
-//                                .strokeColor(Color.BLUE)
-//                                .fillColor(Color.argb(50, 1, 1, 1))
-//                                .strokeWidth(2));
-
-                    } else if (suggestionCities != null
-                            && suggestionCities.size() > 0) {
-//                        showSuggestCity(suggestionCities);
-                    } else {
-                        Global.showToast(getResources().getString(R.string.no_result), this);
-                    }
-                }
-            } else {
-                Global.showToast(getResources().getString(R.string.no_result), this);
-            }
-        } else {
-            Global.showToast(rcode + "", this);
-        }
-    }
-
-    @Override
-    public void onPoiItemSearched(com.amap.api.services.core.PoiItem poiItem, int i) {
-
-    }
+//    /**
+//     * 开始进行poi搜索
+//     */
+//    /**
+//     * 开始进行poi搜索
+//     */
+//    protected void doSearchQuery() {
+//        currentPage = 0;
+//        query = new PoiSearch.Query(keyWord, "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+//        query.setPageSize(20);// 设置每页最多返回多少条poiitem
+//        query.setPageNum(currentPage);// 设置查第一页
+//
+//        if (mCurrLatLonPoint != null) {
+//            poiSearch = new PoiSearch(this, query);
+//            poiSearch.setOnPoiSearchListener(this);
+//            poiSearch.setBound(new PoiSearch.SearchBound(mCurrLatLonPoint, 5000, true));//
+//            // 设置搜索区域为以lp点为圆心，其周围5000米范围
+//            poiSearch.searchPOIAsyn();// 异步搜索
+//        }
+//    }
+//
+//
+//    @Override
+//    public void onPoiSearched(PoiResult result, int rcode) {
+//        if (rcode == AMapException.CODE_AMAP_SUCCESS) {
+//            if (result != null && result.getQuery() != null) {// 搜索poi的结果
+//                if (result.getQuery().equals(query)) {// 是否是同一条
+//                    poiResult = result;
+//                    poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+//                    List<SuggestionCity> suggestionCities = poiResult
+//                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+//                    if (poiItems != null && poiItems.size() > 0) {
+//                        //清除POI信息显示
+//                        whetherToShowDetailInfo(false);
+//                        //并还原点击marker样式
+//                        if (mlastMarker != null) {
+//                            resetlastmarker();
+//                        }
+//                        //清理之前搜索结果的marker
+//                        if (poiOverlay != null) {
+//                            poiOverlay.removeFromMap();
+//                        }
+//                        aMap.clear();
+//                        poiOverlay = new MyPoiOverlay(aMap, poiItems);
+//                        poiOverlay.addToMap();
+//                        poiOverlay.zoomToSpan();
+//
+//                        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+//                                getResources(), R.mipmap.pic_location_arrow_icon)))
+//                                .position(new LatLng(mCurrLatLonPoint.getLatitude(), mCurrLatLonPoint.getLongitude())));
+//
+//
+//                    } else if (suggestionCities != null
+//                            && suggestionCities.size() > 0) {
+//                    } else {
+//                        Global.showToast(getResources().getString(R.string.no_result), this);
+//                    }
+//                }
+//            } else {
+//                Global.showToast(getResources().getString(R.string.no_result), this);
+//            }
+//        } else {
+//            Global.showToast(rcode + "", this);
+//        }
+//    }
+//
+//    @Override
+//    public void onPoiItemSearched(com.amap.api.services.core.PoiItem poiItem, int i) {
+//
+//    }
 
 
     @Override
@@ -244,7 +249,8 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
                     mlastMarker = marker;
                 }
                 detailMarker = marker;
-                detailMarker.setIcon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.pic_location_icon)));
+                detailMarker.showInfoWindow();
+//                detailMarker.setIcon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.pic_location_icon)));
 
                 setRepairStoreInfo(mCurrentPoi);
             } catch (Exception e) {
@@ -552,10 +558,9 @@ public class RepairWebsiteActivity extends BaseActivity implements PoiSearch.OnP
         poiOverlay.zoomToSpan();
 
 
-        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-                getResources(), R.mipmap.pic_location_arrow_icon)))
-                .position(new LatLng(mCurrLng, mCurrLng)));
-
+//        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+//                getResources(), R.mipmap.pic_location_arrow_icon)))
+//                .position(new LatLng(mCurrLng, mCurrLng)));
 
     }
 

@@ -43,7 +43,6 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/image_login_username_del"
                     android:background="@null"
-                    android:digits="@string/login_limit"
                     android:drawableLeft="@mipmap/pic_login_account_icon"
                     android:drawablePadding="10dp"
                     android:hint="@string/login_phone"

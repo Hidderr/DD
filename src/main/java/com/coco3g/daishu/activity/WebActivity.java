@@ -432,7 +432,7 @@ public class WebActivity extends BaseActivity {
             tv.setTextSize(14f);
             int padding = Global.dipTopx(this, 10);
             tv.setPadding(padding, padding, padding, padding);
-            tv.setTextColor(getResources().getColor(R.color.text_color_1));
+            tv.setTextColor(getResources().getColor(R.color.white));
             mTopBar.setRightView(tv);
             mTopBar.setOnClickRightListener(new TopBarView.OnClickRightView() {
                 @Override
