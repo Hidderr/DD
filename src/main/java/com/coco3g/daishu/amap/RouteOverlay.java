@@ -15,6 +15,9 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.view.MyEndMarkerView;
+import com.coco3g.daishu.view.MyLocationMarkerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +90,11 @@ public class RouteOverlay {
      * @since V2.1.0
      */
     protected BitmapDescriptor getStartBitmapDescriptor() {
-        return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon);
+//        return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon);
+
+
+        MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(mContext);
+        return BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(myLocationMarkerView, Global.screenWidth / 5, Global.screenWidth / 6));
     }
 
     /**
@@ -96,8 +103,13 @@ public class RouteOverlay {
      * @return 更换的Marker图片。
      * @since V2.1.0
      */
-    protected BitmapDescriptor getEndBitmapDescriptor() {
-        return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_red_icon);
+    protected BitmapDescriptor getEndBitmapDescriptor(String title) {
+//        return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_red_icon);
+
+        MyEndMarkerView myEndMarkerView = new MyEndMarkerView(mContext);
+        myEndMarkerView.setInfo(title);
+
+        return BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(myEndMarkerView, Global.screenWidth / 5, Global.screenWidth / 6));
     }
 
     /**
@@ -124,14 +136,14 @@ public class RouteOverlay {
         return BitmapDescriptorFactory.fromResource(R.mipmap.pic_amap_end_icon);
     }
 
-    protected void addStartAndEndMarker() {
+    protected void addStartAndEndMarker(String endTitle) {
         startMarker = mAMap.addMarker((new MarkerOptions())
                 .position(startPoint).icon(getStartBitmapDescriptor())
                 .title("\u8D77\u70B9"));
         // startMarker.showInfoWindow();
 
         endMarker = mAMap.addMarker((new MarkerOptions()).position(endPoint)
-                .icon(getEndBitmapDescriptor()).title("\u7EC8\u70B9"));
+                .icon(getEndBitmapDescriptor(endTitle)).title("\u7EC8\u70B9"));
         // mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint,
         // getShowRouteZoom()));
     }

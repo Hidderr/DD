@@ -78,7 +78,7 @@ public class DrivingRouteOverlay extends RouteOverlay{
     /**
      * 添加驾车路线添加到地图上显示。
      */
-	public void addToMap() {
+	public void addToMap(String endTitle) {
 		initPolylineOptions();
         try {
             if (mAMap == null) {
@@ -111,7 +111,7 @@ public class DrivingRouteOverlay extends RouteOverlay{
                 endMarker.remove();
                 endMarker = null;
             }
-            addStartAndEndMarker();
+            addStartAndEndMarker(endTitle);
             addThroughPointMarker();
             if (isColorfulline && tmcs.size()>0 ) {
             	colorWayUpdate(tmcs);

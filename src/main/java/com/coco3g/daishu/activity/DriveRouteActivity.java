@@ -240,7 +240,7 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
                     drivingRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
                     drivingRouteOverlay.setIsColorfulline(true);//是否用颜色展示交通拥堵情况，默认true
                     drivingRouteOverlay.removeFromMap();
-                    drivingRouteOverlay.addToMap();
+                    drivingRouteOverlay.addToMap(currStoreBean.title);
                     drivingRouteOverlay.zoomToSpan();
 
                 } else if (result != null && result.getPaths() == null) {

@@ -34,6 +34,7 @@ import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.coco3g.daishu.view.MyLocationMarkerView;
 import com.coco3g.daishu.view.MyMapView;
 import com.coco3g.daishu.view.MyMarkerView;
 import com.coco3g.daishu.view.MyProgressDialog;
@@ -253,9 +254,17 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (marker.getObject() != null) {
+
+            PoiItem mCurrentPoi = (PoiItem) marker.getObject();
+            if (mCurrentPoi.getPoiId().equals("#")) {  //代表我的位置
+                marker.showInfoWindow();
+                whetherToShowDetailInfo(false);
+                return true;
+            }
+
             whetherToShowDetailInfo(true);
             try {
-                PoiItem mCurrentPoi = (PoiItem) marker.getObject();
+
                 if (mlastMarker == null) {
                     mlastMarker = marker;
                 } else {
@@ -265,7 +274,6 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
                 }
                 detailMarker = marker;
                 detailMarker.showInfoWindow();
-//                detailMarker.setIcon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.pic_location_icon)));
 
                 setRepairStoreInfo(mCurrentPoi);
             } catch (Exception e) {
@@ -296,7 +304,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
 
         MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
         markerView.setInfo(mlastMarker.getTitle());
-        mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
+        mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
         mlastMarker = null;
 
     }
@@ -363,7 +371,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
             for (int i = 0; i < mPois.size(); i++) {
 
                 com.amap.api.services.core.PoiItem item = mPois.get(i);
-                Marker marker = mamap.addMarker(getMarkerOptions(i, item.getTitle()));
+                Marker marker = mamap.addMarker(getMarkerOptions(i, item.getTitle(), item.getPoiId()));
                 marker.setObject(item);
                 mPoiMarks.add(marker);
             }
@@ -404,11 +412,11 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         }
 
         //添加一个marker信息（到地图上）
-        private MarkerOptions getMarkerOptions(int index, String storeName) {
+        private MarkerOptions getMarkerOptions(int index, String storeName, String markerId) {
             return new MarkerOptions().position(new LatLng(mPois.get(index).getLatLonPoint()
                     .getLatitude(), mPois.get(index).getLatLonPoint().getLongitude()))
                     .title(getTitle(index)).snippet(getSnippet(index))
-                    .icon(getBitmapDescriptor(index, storeName));
+                    .icon(getBitmapDescriptor(index, storeName, markerId));
         }
 
         protected String getTitle(int index) {
@@ -451,59 +459,67 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
 
 
         //添加marker到地图上时候的bitmap
-        protected BitmapDescriptor getBitmapDescriptor(int arg0, String storeName) {
+        protected BitmapDescriptor getBitmapDescriptor(int arg0, String storeName, String markerId) {
+            View view = null;
+            if (markerId.equals("#")) {
+                MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(RepairWebsiteActivity.this);
+                view = myLocationMarkerView;
 
-            MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
-            markerView.setInfo(storeName);
-            BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6));
+            } else {
+                MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
+                markerView.setInfo(storeName);
+                view = markerView;
+            }
+
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(view,
+                    Global.screenWidth / 5, Global.screenWidth / 6));
             return icon;
         }
 
     }
 
-    //将加载的ma头像转换为bitmap
-    public Bitmap getViewBitmap(View comBitmap, int width, int height) {
-        Bitmap bitmap = null;
-        if (comBitmap != null) {
-            comBitmap.clearFocus();
-            comBitmap.setPressed(false);
-
-            boolean willNotCache = comBitmap.willNotCacheDrawing();
-            comBitmap.setWillNotCacheDrawing(false);
-
-            // Reset the drawing cache background color to fully transparent
-            // for the duration of this operation
-            int color = comBitmap.getDrawingCacheBackgroundColor();
-            comBitmap.setDrawingCacheBackgroundColor(0);
-            float alpha = comBitmap.getAlpha();
-            comBitmap.setAlpha(1.0f);
-
-            if (color != 0) {
-                comBitmap.destroyDrawingCache();
-            }
-
-            int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-            int heightSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
-            comBitmap.measure(widthSpec, heightSpec);
-            comBitmap.layout(0, 0, width, height);
-
-            comBitmap.buildDrawingCache();
-            Bitmap cacheBitmap = comBitmap.getDrawingCache();
-            if (cacheBitmap == null) {
-                Log.e("view.ProcessImageToBlur", "failed getViewBitmap(" + comBitmap + ")",
-                        new RuntimeException());
-                return null;
-            }
-            bitmap = Bitmap.createBitmap(cacheBitmap);
-            // Restore the view
-            comBitmap.setAlpha(alpha);
-            comBitmap.destroyDrawingCache();
-            comBitmap.setWillNotCacheDrawing(willNotCache);
-            comBitmap.setDrawingCacheBackgroundColor(color);
-        }
-        mImageThumb.setImageBitmap(bitmap);
-        return bitmap;
-    }
+//    //将加载的ma头像转换为bitmap
+//    public Bitmap getViewBitmap(View comBitmap, int width, int height) {
+//        Bitmap bitmap = null;
+//        if (comBitmap != null) {
+//            comBitmap.clearFocus();
+//            comBitmap.setPressed(false);
+//
+//            boolean willNotCache = comBitmap.willNotCacheDrawing();
+//            comBitmap.setWillNotCacheDrawing(false);
+//
+//            // Reset the drawing cache background color to fully transparent
+//            // for the duration of this operation
+//            int color = comBitmap.getDrawingCacheBackgroundColor();
+//            comBitmap.setDrawingCacheBackgroundColor(0);
+//            float alpha = comBitmap.getAlpha();
+//            comBitmap.setAlpha(1.0f);
+//
+//            if (color != 0) {
+//                comBitmap.destroyDrawingCache();
+//            }
+//
+//            int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+//            int heightSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+//            comBitmap.measure(widthSpec, heightSpec);
+//            comBitmap.layout(0, 0, width, height);
+//
+//            comBitmap.buildDrawingCache();
+//            Bitmap cacheBitmap = comBitmap.getDrawingCache();
+//            if (cacheBitmap == null) {
+//                Log.e("view.ProcessImageToBlur", "failed getViewBitmap(" + comBitmap + ")",
+//                        new RuntimeException());
+//                return null;
+//            }
+//            bitmap = Bitmap.createBitmap(cacheBitmap);
+//            // Restore the view
+//            comBitmap.setAlpha(alpha);
+//            comBitmap.destroyDrawingCache();
+//            comBitmap.setWillNotCacheDrawing(willNotCache);
+//            comBitmap.setDrawingCacheBackgroundColor(color);
+//        }
+//        return bitmap;
+//    }
 
 
     //计算地图可见范围内，当前定位点和可见范围内任一点的最远距离
@@ -566,19 +582,29 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     public void showRepairStore(ArrayList<Map<String, String>> repairList, boolean isZoomToSpan) {
 
 //        ArrayList<PoiItem> poiItemList = new ArrayList<PoiItem>();
-        for (int i = 0; i < repairList.size(); i++) {
-            Map<String, String> itemMap = repairList.get(i);
-            double lat = Double.parseDouble(itemMap.get("lat"));
-            double lng = Double.parseDouble(itemMap.get("lng"));
-            LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
-            PoiItem poiItem = new PoiItem(itemMap.get("id"), latLonPoint, itemMap.get("name"), itemMap.get("address"));
-            poiItem.setTel(itemMap.get("phone"));
-            //
-            ArrayList<Photo> photos = new ArrayList<Photo>();
-            Photo photo = new Photo();
-            photo.setUrl(itemMap.get("thumb"));
-            photos.add(photo);
-            poiItem.setPhotos(photos);
+        int size = repairList.size();
+        for (int i = 0; i < size + 1; i++) {
+
+
+            PoiItem poiItem = null;
+
+            if (i == size) {   //添加自己的位置坐标
+                LatLonPoint latLonPoint = new LatLonPoint(mCurrLat, mCurrLng);
+                poiItem = new PoiItem("#", latLonPoint, "我的位置", null);
+            } else {
+                Map<String, String> itemMap = repairList.get(i);
+                double lat = Double.parseDouble(itemMap.get("lat"));
+                double lng = Double.parseDouble(itemMap.get("lng"));
+                LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
+                poiItem = new PoiItem(itemMap.get("id"), latLonPoint, itemMap.get("name"), itemMap.get("address"));
+                poiItem.setTel(itemMap.get("phone"));
+                //
+                ArrayList<Photo> photos = new ArrayList<Photo>();
+                Photo photo = new Photo();
+                photo.setUrl(itemMap.get("thumb"));
+                photos.add(photo);
+                poiItem.setPhotos(photos);
+            }
             //
             poiItems.add(poiItem);
         }
@@ -600,15 +626,10 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
             poiOverlay.zoomToSpan();
         }
 
+//
+//        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+//                getResources(), R.mipmap.pic_location_arrow_icon))).position(new LatLng(mCurrLng, mCurrLng)).title("我的位置"));
 
-        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-                getResources(), R.mipmap.pic_location_arrow_icon))).position(new LatLng(mCurrLng, mCurrLng)).title("我的位置"));
-
-
-//        new MarkerOptions().position(new LatLng(mPois.get(index).getLatLonPoint()
-//                .getLatitude(), mPois.get(index).getLatLonPoint().getLongitude()))
-//                .title(getTitle(index)).snippet(getSnippet(index))
-//                .icon(getBitmapDescriptor(index, storeName));
 
     }
 
