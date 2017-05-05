@@ -38,7 +38,7 @@ public class TabViewWebActivity extends BaseActivity {
     private String[] mVPTitles;
     private ArrayList<View> mViewList = new ArrayList<>();
     //
-    private int currentPosition;  //当前打开的哪个pager
+    private int currentPosition = 0;  //当前打开的哪个pager
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,9 @@ public class TabViewWebActivity extends BaseActivity {
         setContentView(R.layout.activity_tabview_web);
         mTitle = getIntent().getStringExtra("title");
         String position = getIntent().getStringExtra("default");
-        currentPosition = Integer.parseInt(position);
+        if (!TextUtils.isEmpty(position)) {
+            currentPosition = Integer.parseInt(position);
+        }
         mListData = (ArrayList<HashMap<String, String>>) getIntent().getSerializableExtra("data");
         mTopbarRightData = (ArrayList<HashMap<String, String>>) getIntent().getSerializableExtra("rightBtnList");
         if (mListData != null && mListData.size() > 0) {

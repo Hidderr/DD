@@ -131,7 +131,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_read_menu_4:  //油品区
-                intentToWeb(Global.H5Map.get("youka"));
+                intentToWeb(Global.H5Map.get("youpinqu"));
 
                 break;
 
