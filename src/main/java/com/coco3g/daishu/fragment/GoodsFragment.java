@@ -48,7 +48,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mReadView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods, null);
-        lpLinear = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Global.screenWidth * 3 / 2 + Global.dipTopx(getActivity(), 20));
+        lpLinear = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lpLinear.topMargin = Global.dipTopx(getActivity(), 10);
         init();
         mSuperRefreshLayout.setRefreshingLoad();
