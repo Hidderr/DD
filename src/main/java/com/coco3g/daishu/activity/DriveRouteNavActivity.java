@@ -129,7 +129,7 @@ public class DriveRouteNavActivity extends Activity implements AMapNaviViewListe
 
     @Override
     public void onCalculateRouteSuccess() {
-        mAMapNavi.startNavi(NaviType.EMULATOR);
+        mAMapNavi.startNavi(NaviType.GPS);
     }
 
 

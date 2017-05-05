@@ -141,6 +141,7 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
                 intent.putExtra("endlat", mEndPoint.getLatitude());
                 intent.putExtra("endlng", mEndPoint.getLongitude());
                 startActivity(intent);
+                finish();
             }
         });
 
