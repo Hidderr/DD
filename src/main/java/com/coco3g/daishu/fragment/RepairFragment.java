@@ -130,6 +130,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_repair_menu_2:  //车辆维修
                 intent = new Intent(getActivity(), RepairWebsiteActivity.class);
+                intent.putExtra("typeid","2");  //门店类型：1=洗车店，2=维修点，3=附近门店
                 startActivity(intent);
 
                 break;

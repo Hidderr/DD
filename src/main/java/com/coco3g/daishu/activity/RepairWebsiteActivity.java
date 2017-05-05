@@ -12,17 +12,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.Photo;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
@@ -56,6 +56,9 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     //
     private String keyWord = "汽车修理店";
     private MyProgressDialog myProgressDialog = null;
+    private float mBaseDistance = 10000;  //距离定位点最小的半径
+    //
+    private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店
 
     //
 
@@ -76,6 +79,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_website);
         myProgressDialog = MyProgressDialog.show(this, "定位中...", false, true);
+        typeid = getIntent().getStringExtra("typeid");
 
         init(savedInstanceState);
 
@@ -113,19 +117,30 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
 //                doSearchQuery();   //高德地图搜索附近的汽车修理店信息
                 myProgressDialog.cancel();
 
-
-                //添加自己定义的名字
-                aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-                        getResources(), R.mipmap.pic_location_arrow_icon)))
-                        .position(new LatLng(mCurrLng, mCurrLng)));
-
-
                 if (mCurrLat != 0 && mCurrLng != 0) {
-                    getRepairStoreList();  //接口获取信息
+                    getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
                 }
 
             }
         });
+        //
+        //监听地图的移动
+        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+//                ClusterOverlay.currentMarker.hideInfoWindow();
+            }
+
+            @Override
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                float currDistance = getLargeDistance();
+                if (currDistance > mBaseDistance) {   //距离默认是10000米，最大不能超过
+                    mBaseDistance = currDistance;
+                    getRepairStoreList(null, false);
+                }
+            }
+        });
+
         //
         mImageRoute.setOnClickListener(this);
 
@@ -491,13 +506,39 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     }
 
 
+    //计算地图可见范围内，当前定位点和可见范围内任一点的最远距离
+    public float getLargeDistance() {
+        //位置改变以后的地图西南角的经纬度
+        LatLngBounds visibleBounds = aMap.getProjection().getVisibleRegion().latLngBounds;
+        //西南角经纬度
+        double southwest_lat = visibleBounds.southwest.latitude;
+        double southwest_lng = visibleBounds.southwest.longitude;
+        LatLng southwest_latLng = new LatLng(southwest_lat, southwest_lng);
+        //东北角经纬度
+        double northeast_lat = visibleBounds.northeast.latitude;
+        double northeast_lng = visibleBounds.northeast.longitude;
+        LatLng northeast_latLng = new LatLng(northeast_lat, northeast_lng);
+
+        //自己定位位置的经纬度
+        LatLng currLatLng = new LatLng(mCurrLat, mCurrLng);
+        float southwest_distance = AMapUtils.calculateLineDistance(southwest_latLng, currLatLng);
+        float northeast_distance = AMapUtils.calculateLineDistance(northeast_latLng, currLatLng);
+        //
+        float distance = southwest_distance > northeast_distance ? southwest_distance : northeast_distance;
+        Log.e("地图视野距离：", distance + "$$$$");
+        return distance;
+    }
+
+
     //获取附近的汽车修理店的信息
-    public void getRepairStoreList() {
+    public void getRepairStoreList(String loadMsg, final boolean isZoomToSpan) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("lat", mCurrLatLonPoint.getLatitude() + "");    //1:首页轮播图， 2:商品汇， 3:维修救援，
-        params.put("lng", mCurrLatLonPoint.getLongitude() + "");    //1:首页轮播图， 2:商品汇， 3:维修救援，
-        params.put("distance", "10000");    //1:首页轮播图， 2:商品汇， 3:维修救援，
-        new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_STORE, params, getResources().getString(R.string.loading), new IBaseDataListener() {
+        params.put("lat", mCurrLatLonPoint.getLatitude() + "");
+        params.put("lng", mCurrLatLonPoint.getLongitude() + "");
+        params.put("distance", mBaseDistance + "");
+        params.put("typeid", typeid);        //门店类型：1=洗车店，2=维修点，3=附近门店
+
+        new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_STORE, params, loadMsg, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
 
@@ -505,8 +546,8 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
                 if (repairList == null || repairList.size() <= 0) {
                     return;
                 }
-
-                showRepairStore(repairList);
+                Log.e("门店数量", repairList.size() + "");
+                showRepairStore(repairList, isZoomToSpan);
 
             }
 
@@ -522,7 +563,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     }
 
 
-    public void showRepairStore(ArrayList<Map<String, String>> repairList) {
+    public void showRepairStore(ArrayList<Map<String, String>> repairList, boolean isZoomToSpan) {
 
 //        ArrayList<PoiItem> poiItemList = new ArrayList<PoiItem>();
         for (int i = 0; i < repairList.size(); i++) {
@@ -555,12 +596,19 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         aMap.clear();
         poiOverlay = new MyPoiOverlay(aMap, poiItems);
         poiOverlay.addToMap();
-        poiOverlay.zoomToSpan();
+        if (isZoomToSpan) {
+            poiOverlay.zoomToSpan();
+        }
 
 
-//        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-//                getResources(), R.mipmap.pic_location_arrow_icon)))
-//                .position(new LatLng(mCurrLng, mCurrLng)));
+        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
+                getResources(), R.mipmap.pic_location_arrow_icon))).position(new LatLng(mCurrLng, mCurrLng)).title("我的位置"));
+
+
+//        new MarkerOptions().position(new LatLng(mPois.get(index).getLatLonPoint()
+//                .getLatitude(), mPois.get(index).getLatLonPoint().getLongitude()))
+//                .title(getTitle(index)).snippet(getSnippet(index))
+//                .icon(getBitmapDescriptor(index, storeName));
 
     }
 

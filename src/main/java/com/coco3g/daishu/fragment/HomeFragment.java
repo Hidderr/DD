@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.RepairWebsiteActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.adapter.HomeAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
@@ -144,12 +145,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_3:  //洗车
-//                intentToWeb(Global.H5Map.get("mycar"));
+                intent = new Intent(mContext, RepairWebsiteActivity.class);
+                intent.putExtra("typeid", "1");   //门店类型：1=洗车店，2=维修点，3=附近门店
+                startActivity(intent);
 
                 break;
 
             case R.id.view_home_menu_4:  //附近门店
-//                intentToWeb(Global.H5Map.get("mycar"));
+                intent = new Intent(mContext, RepairWebsiteActivity.class);
+                intent.putExtra("typeid", "3");    //门店类型：1=洗车店，2=维修点，3=附近门店
+                startActivity(intent);
 
                 break;
 
