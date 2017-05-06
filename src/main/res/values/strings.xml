@@ -52,7 +52,7 @@
     <string name="input_confirm_password">请输入确认密码</string>
     <string name="password_no_same">密码不一致</string>
     <string name="register_xiyi_1">注册即表示同意</string>
-    <string name="register_xiyi_2">《家和文化用户使用协议》</string>
+    <string name="register_xiyi_2">《袋鼠大师用户使用协议》</string>
 
     <!--forgetPasswordActivity-->
     <string name="forget_password">忘记密码?</string>

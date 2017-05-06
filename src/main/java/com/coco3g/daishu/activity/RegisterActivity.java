@@ -123,7 +123,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
             case R.id.tv_register_xieyi_2:  //注册协议
                 intent = new Intent(this, WebActivity.class);
-                intent.putExtra("url", DataUrl.REGISTER);
+                intent.putExtra("url", DataUrl.REGISTER_XIEYI);
                 startActivity(intent);
 
                 break;
