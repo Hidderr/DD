@@ -447,6 +447,7 @@ public class Global {
      */
     public static void serializeData(Context context, Object hm, String dir) {
         String path = context.getFilesDir().getPath() + File.separator + dir;
+        Log.e("序列化目录_存储", path);
         File f = new File(path);
         try {
             if (!f.exists()) {
@@ -490,6 +491,7 @@ public class Global {
      */
     public static Object readSerializeData(Context context, String dir) {
         String path = context.getFilesDir().getPath() + File.separator + dir;
+        Log.e("序列化目录_读取", path);
         Object o = new Object();
         File f = new File(path);
         if (f.exists()) {
@@ -586,7 +588,7 @@ public class Global {
      */
     public static void saveLoginInfo(Context context, String phone, String username, String userid, String password, String avatar, String dir) {
         HashMap<String, String> loginmap = new HashMap<String, String>();
-        loginmap.put("phone", phone);    //目前电话号码有个问题啊，不知是存在哪里，username,nickname还是phone
+        loginmap.put("phone", phone);
         loginmap.put("password", password);
         loginmap.put("avatar", avatar);
         loginmap.put("name", username);
@@ -965,7 +967,6 @@ public class Global {
         }
         context.startActivity(intent);
     }
-
 
 
     //将view转换为bitmap

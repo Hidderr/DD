@@ -202,8 +202,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     return;
                 } else {
                     Global.USERINFOMAP = (Map<String, String>) data.response;
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
                     //
                 }
                 setMyInfo();

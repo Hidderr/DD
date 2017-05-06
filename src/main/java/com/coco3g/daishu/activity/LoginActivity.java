@@ -93,7 +93,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         final HashMap<String, String> loginMap = Global.readLoginInfo(LoginActivity.this, Global.LOGIN_INFO_LAST);
         if (loginMap != null) {
             mEditPhone.setText(loginMap.get("phone"));
-//            mEditPassWord.setText("123456");
         }
     }
 
@@ -157,8 +156,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, String>) data.response;
                     Global.savePassWord(LoginActivity.this, mLoginPassWord);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
                     //
                     if (Global.MAINACTIVITY_CONTEXT != null) {
                         ((Activity) Global.MAINACTIVITY_CONTEXT).finish();

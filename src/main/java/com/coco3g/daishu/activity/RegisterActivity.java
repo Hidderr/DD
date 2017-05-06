@@ -166,8 +166,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(BaseDataBean data) {
                 Global.USERINFOMAP = (Map<String, String>) data.response;
-                Global.saveLoginInfo(RegisterActivity.this, mPhone, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), mPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                Global.saveLoginInfo(RegisterActivity.this, mPhone, Global.USERINFOMAP.get("realname"), Global.USERINFOMAP.get("id"), mPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                Global.saveLoginInfo(RegisterActivity.this, mPhone, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), mPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
+                Global.saveLoginInfo(RegisterActivity.this, mPhone, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), mPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
                 //
                 if (Global.MAINACTIVITY_CONTEXT != null) {
                     ((Activity) Global.MAINACTIVITY_CONTEXT).finish();

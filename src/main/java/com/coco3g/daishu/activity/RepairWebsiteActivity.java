@@ -478,49 +478,6 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
 
     }
 
-//    //将加载的ma头像转换为bitmap
-//    public Bitmap getViewBitmap(View comBitmap, int width, int height) {
-//        Bitmap bitmap = null;
-//        if (comBitmap != null) {
-//            comBitmap.clearFocus();
-//            comBitmap.setPressed(false);
-//
-//            boolean willNotCache = comBitmap.willNotCacheDrawing();
-//            comBitmap.setWillNotCacheDrawing(false);
-//
-//            // Reset the drawing cache background color to fully transparent
-//            // for the duration of this operation
-//            int color = comBitmap.getDrawingCacheBackgroundColor();
-//            comBitmap.setDrawingCacheBackgroundColor(0);
-//            float alpha = comBitmap.getAlpha();
-//            comBitmap.setAlpha(1.0f);
-//
-//            if (color != 0) {
-//                comBitmap.destroyDrawingCache();
-//            }
-//
-//            int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-//            int heightSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
-//            comBitmap.measure(widthSpec, heightSpec);
-//            comBitmap.layout(0, 0, width, height);
-//
-//            comBitmap.buildDrawingCache();
-//            Bitmap cacheBitmap = comBitmap.getDrawingCache();
-//            if (cacheBitmap == null) {
-//                Log.e("view.ProcessImageToBlur", "failed getViewBitmap(" + comBitmap + ")",
-//                        new RuntimeException());
-//                return null;
-//            }
-//            bitmap = Bitmap.createBitmap(cacheBitmap);
-//            // Restore the view
-//            comBitmap.setAlpha(alpha);
-//            comBitmap.destroyDrawingCache();
-//            comBitmap.setWillNotCacheDrawing(willNotCache);
-//            comBitmap.setDrawingCacheBackgroundColor(color);
-//        }
-//        return bitmap;
-//    }
-
 
     //计算地图可见范围内，当前定位点和可见范围内任一点的最远距离
     public float getLargeDistance() {
@@ -579,6 +536,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     }
 
 
+    //将获取的店铺在地图上显示出来
     public void showRepairStore(ArrayList<Map<String, String>> repairList, boolean isZoomToSpan) {
 
 //        ArrayList<PoiItem> poiItemList = new ArrayList<PoiItem>();
