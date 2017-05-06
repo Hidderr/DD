@@ -98,7 +98,6 @@
                 android:drawableLeft="@mipmap/pic_login_paw_icon"
                 android:drawablePadding="10dp"
                 android:hint="@string/phone_verification"
-                android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingBottom="20dp"
                 android:paddingLeft="25dp"
