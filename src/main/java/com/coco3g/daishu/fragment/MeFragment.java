@@ -1,20 +1,15 @@
 package com.coco3g.daishu.fragment;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,12 +37,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     ImageView mImageSetting, mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
     TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember,
-            mTxtName, mTxtVipID;
+            mTxtName, mTxtVipID, mTxtLogout;
     //
     Drawable drawableRight, drawableDown;
     boolean isNurseExpands = false;
 
     private RelativeLayout.LayoutParams avatar_lp;
+
+    //
+    OnLogoutListener onLogoutListener;
 
 
     @Override
@@ -60,13 +58,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         drawableDown = getResources().getDrawable(R.mipmap.pic_arrow_grey_down);
         drawableDown.setBounds(0, 0, drawableDown.getMinimumWidth(), drawableDown.getMinimumHeight());
         return mMeView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getUserInfo();
     }
 
     private void initView() {
@@ -86,6 +77,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtUpdateMember = (TextView) mMeView.findViewById(R.id.tv_me_update_member);
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtVipID = (TextView) mMeView.findViewById(R.id.tv_me_top_id);
+        mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
         avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -100,6 +92,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtUpdateMember.setOnClickListener(this);
         mImageSetting.setOnClickListener(this);
         mImageQRCode.setOnClickListener(this);
+        mTxtLogout.setOnClickListener(this);
     }
 
     @Override
@@ -152,6 +145,29 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 myQRcodeDialog();
 
                 break;
+            case R.id.tv_me_frag_logout:  //退出登录
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                builder.setMessage("退出账号将删除历史数据，下次登录可以继续使用本账号");
+                builder.setTitle("提示");
+                builder.setPositiveButton("退出", new android.app.AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        Global.logout(getActivity());
+                        OnLogout();
+                    }
+
+                });
+                builder.setNegativeButton(getString(R.string.cancel), new android.app.AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+                builder.create().show();
+
+                break;
 
         }
     }
@@ -175,6 +191,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Global.USERINFOMAP != null) {
+            getUserInfo();
+        }
+    }
+
+
     //我的专属二维码
     public void myQRcodeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -193,6 +218,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     //登录
     public void getUserInfo() {
+
         HashMap<String, String> params = new HashMap<>();
 //        params.put("id", Global.USERINFOMAP.get("id"));
         new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_USERINFO, params, null, new IBaseDataListener() {
@@ -202,8 +228,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     return;
                 } else {
                     Global.USERINFOMAP = (Map<String, String>) data.response;
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("password"), Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("password"), Global.LOGIN_INFO);
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("password"), Global.LOGIN_INFO_LAST);
                     //
                 }
                 setMyInfo();
@@ -242,6 +268,22 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //            mSettingItemList.get(0).setEFen(Global.USERINFOMAP.get("ecoin"));
         }
 
+    }
+
+
+    public interface OnLogoutListener {
+        void logout();
+    }
+
+    public void setOnLogoutListener(OnLogoutListener onLogoutListener) {
+        this.onLogoutListener = onLogoutListener;
+    }
+
+    public void OnLogout() {
+        if (onLogoutListener != null) {
+            onLogoutListener.logout();
+            Global.USERINFOMAP = null;
+        }
     }
 
 

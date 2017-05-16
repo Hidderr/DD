@@ -39,7 +39,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private static FragmentManager mFragManager = null;
     //
     private HomeFragment mHomeFrag;
-    private GoodsFragment mReadFrag;
+    private GoodsFragment mGoodsFrag;
     private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
@@ -177,11 +177,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setMsgVisible();
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
-                if (mReadFrag == null) {
-                    mReadFrag = new GoodsFragment();
-                    transaction.add(R.id.frame_main_content, mReadFrag);
+                if (mGoodsFrag == null) {
+                    mGoodsFrag = new GoodsFragment();
+                    transaction.add(R.id.frame_main_content, mGoodsFrag);
                 } else {
-                    transaction.show(mReadFrag);
+                    transaction.show(mGoodsFrag);
                 }
                 break;
             case 2: // 收益
@@ -223,6 +223,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();
                     transaction.add(R.id.frame_main_content, mMeFrag);
+                    mMeFrag.setOnLogoutListener(new MeFragment.OnLogoutListener() {
+                        @Override
+                        public void logout() {
+                            setTabSelection(0);
+                        }
+                    });
                 } else {
                     transaction.show(mMeFrag);
                 }
@@ -246,8 +252,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if (mHomeFrag != null) {
             transaction.hide(mHomeFrag);
         }
-        if (mReadFrag != null) {
-            transaction.hide(mReadFrag);
+        if (mGoodsFrag != null) {
+            transaction.hide(mGoodsFrag);
+        }
+        if (mIncomeFrag != null) {
+            transaction.hide(mIncomeFrag);
         }
         if (mRepairFrag != null) {
             transaction.hide(mRepairFrag);
@@ -354,7 +363,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             BaseActivity.CONTEXTLIST.clear();
             BaseActivity.CONTEXTLIST = null;
             Global.deleteSerializeData(this, Global.APP_CACHE); //清除token
-            Global.deleteSerializeData(this, Global.LOGIN_PASSWORD); //清除密码
             //
         } catch (Exception e) {
             e.printStackTrace();

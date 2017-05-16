@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 public class LoginActivity extends Activity implements View.OnClickListener {
     private ImageView mImageDel;
     private EditText mEditPhone, mEditPassWord;
@@ -38,7 +37,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Global.getScreenWH(this);
+//        Global.getScreenWH(this);
 
         initView();
 
@@ -156,8 +155,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, String>) data.response;
                     Global.savePassWord(LoginActivity.this, mLoginPassWord);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), mLoginPassWord, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), mLoginPassWord, Global.LOGIN_INFO);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), mLoginPassWord, Global.LOGIN_INFO_LAST);
                     //
                     if (Global.MAINACTIVITY_CONTEXT != null) {
                         ((Activity) Global.MAINACTIVITY_CONTEXT).finish();

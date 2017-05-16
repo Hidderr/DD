@@ -3,11 +3,14 @@ package com.coco3g.daishu.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +37,7 @@ import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.coco3g.daishu.view.ChoosePopupwindow;
 import com.coco3g.daishu.view.MyLocationMarkerView;
 import com.coco3g.daishu.view.MyMapView;
 import com.coco3g.daishu.view.MyMarkerView;
@@ -74,6 +78,11 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     private PoiSearch poiSearch;
     private MyPoiOverlay poiOverlay;// poi图层
     private ArrayList<PoiItem> poiItems = new ArrayList<>();// poi数据
+    private TextView rightView;
+
+    //
+    private ArrayList<Map<String, String>> typeList = new ArrayList<>();
+    private int currChooseIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +98,20 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     private void init(Bundle savedInstanceState) {
         mTopbar = (TopBarView) findViewById(R.id.topbar_repair_website);
         mTopbar.setTitle("网点维修");
+        rightView = new TextView(this);
+        rightView.setText("维修等级");
+        rightView.setTextSize(14);
+        rightView.setTextColor(ContextCompat.getColor(this, R.color.text_color_2));
+        Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down_icon);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        rightView.setCompoundDrawables(null, null, drawable, null);
+        mTopbar.setRightView(rightView);
+        mTopbar.setOnClickRightListener(new TopBarView.OnClickRightView() {
+            @Override
+            public void onClickTopbarView() {
+                showPopupWidnow();
+            }
+        });
         //
         mTxtName = (TextView) findViewById(R.id.tv_repair_website_store_name);
         mTxtAddress = (TextView) findViewById(R.id.tv_repair_website_store_address);
@@ -144,6 +167,19 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
 
         //
         mImageRoute.setOnClickListener(this);
+        //
+        Map<String, String> map = new HashMap<>();
+        map.put("title", "全部");
+        typeList.add(map);
+        Map<String, String> map1 = new HashMap<>();
+        map1.put("title", "Ⅰ类维修");
+        typeList.add(map1);
+        Map<String, String> map2 = new HashMap<>();
+        map2.put("title", "Ⅱ类维修");
+        typeList.add(map2);
+        Map<String, String> map3 = new HashMap<>();
+        map3.put("title", "Ⅲ类维修");
+        typeList.add(map3);
 
 
     }
@@ -172,9 +208,27 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
                 startActivity(intent);
 
                 break;
-
-
         }
+
+    }
+
+    public void showPopupWidnow() {
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4, 0, typeList, currChooseIndex);
+        popupwindow.showAsDropDown(rightView, 0, 20);
+        popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
+            @Override
+            public void textSelected(int position) {
+                currChooseIndex = position;
+
+            }
+        });
+        popupwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+            }
+        });
+
 
     }
 

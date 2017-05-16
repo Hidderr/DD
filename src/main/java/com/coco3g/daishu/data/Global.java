@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.BaseActivity;
+import com.coco3g.daishu.activity.LoginActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -586,13 +587,11 @@ public class Global {
      * @param username
      * @param password
      */
-    public static void saveLoginInfo(Context context, String phone, String username, String userid, String password, String avatar, String dir) {
+    public static void saveLoginInfo(Context context, String phone, String username, String password, String dir) {
         HashMap<String, String> loginmap = new HashMap<String, String>();
         loginmap.put("phone", phone);
         loginmap.put("password", password);
-        loginmap.put("avatar", avatar);
         loginmap.put("name", username);
-        loginmap.put("id", userid);
         serializeData(context, loginmap, dir);
     }
 
@@ -1049,11 +1048,11 @@ public class Global {
         Global.deleteSerializeData(mContext, Global.RONGTOKEN_INFO);  //删除融云的token
 //        new RongUtils(mContext).disConnect();
         //
-//        Intent intent = new Intent(mContext, LoginActivity.class);
-//        mContext.startActivity(intent);
         // 除cookie
         Global.clearCookie(mContext);
-        ((Activity) mContext).finish();
+//        ((Activity) mContext).finish();
+        Intent intent = new Intent(mContext, LoginActivity.class);
+        mContext.startActivity(intent);
     }
 
 

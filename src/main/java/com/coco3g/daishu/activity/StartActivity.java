@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.webkit.CookieSyncManager;
 
 import com.coco3g.daishu.R;
@@ -36,6 +37,7 @@ import cn.jpush.android.api.JPushInterface;
 public class StartActivity extends BaseActivity {
     public String SHARE_APP_TAG = "first";
     boolean isFirst = false;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class StartActivity extends BaseActivity {
         //
         CookieSyncManager.createInstance(this);
         Global.LOGIN_INFO_MAP = Global.readLoginInfo(this, Global.LOGIN_INFO);
+        password = Global.readPassWord(StartActivity.this);
         //
         init();
     }
@@ -114,8 +117,8 @@ public class StartActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
-            if (Global.LOGIN_INFO_MAP != null) {
-                login(Global.LOGIN_INFO_MAP.get("phone"), Global.LOGIN_INFO_MAP.get("password"));
+            if (Global.LOGIN_INFO_MAP != null && !TextUtils.isEmpty(password)) {
+                login(Global.LOGIN_INFO_MAP.get("phone"), password);
             } else {
 
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
@@ -151,8 +154,8 @@ public class StartActivity extends BaseActivity {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, String>) data.response;
                     Global.savePassWord(StartActivity.this, password);
-                    Global.saveLoginInfo(StartActivity.this, password, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), password, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(StartActivity.this, password, Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("id"), password, Global.USERINFOMAP.get("avatar"), Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO);
+                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO_LAST);
                     Intent intent = new Intent(StartActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {

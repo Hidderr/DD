@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/relative_income_item_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@+id/image_income_item_thumb">
+
+        <RelativeLayout
+            android:id="@+id/relative_income_item_detail_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_income_item_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/tv_income_item_money"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="昵称"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_income_item_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_income_item_nickname"
+                android:layout_alignParentRight="true"
+                android:text="会员推荐奖励：112元"
+                android:textColor="@color/text_color_2"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relative_income_item_detail_1"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/tv_income_item_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/tv_income_item_time"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="130****9393"
+                android:textColor="@color/text_color_2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_income_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="2017.03.20"
+                android:textColor="@color/text_color_2"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/image_income_item_thumb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/checkbox_checked" />
+
+
+    <ImageView
+        android:id="@+id/image_income_item_bottom_line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/relative_income_item_detail"
+        android:background="@color/text_color_9" />
+
+    <ImageView
+        android:id="@+id/image_income_item_bottom_line2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/relative_income_item_detail"
+        android:background="@color/text_color_9"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>
