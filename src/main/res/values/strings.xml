@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">袋鼠大师</string>
+    <string name="app_name">袋鼠好车</string>
 
 
     <!--自定义-->
@@ -89,6 +89,7 @@
     <string name="confirm_del_friend">您确定要删除</string>
 
     <!--meFrag-->
+    <string name="personal_center">个人中心</string>
     <string name="me">我</string>
     <string name="my_e_fen">我的e分</string>
     <string name="order_manager">订单管理</string>

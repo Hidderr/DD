@@ -155,7 +155,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_right);
         switch (index) {
             case 0: // 首页
-                mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_home));
                 mTopbar.showHomeTopbar();
@@ -173,7 +172,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 1: // 商品汇
-                mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
@@ -188,7 +186,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 if (!checkoutIfLogin()) {
                     return;
                 }
-                mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
@@ -203,7 +200,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 if (!checkoutIfLogin()) {
                     return;
                 }
-                mTopbar.setVisibility(View.VISIBLE);
                 mTopbar.setMsgVisible();
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
@@ -219,7 +215,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 if (!checkoutIfLogin()) {
                     return;
                 }
-                mTopbar.setVisibility(View.GONE);
+                mTopbar.setMsgVisible();
+                mTopbar.showNomalTopbar();
+                mTopbar.setTitle(getResources().getString(R.string.personal_center));
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();
                     transaction.add(R.id.frame_main_content, mMeFrag);

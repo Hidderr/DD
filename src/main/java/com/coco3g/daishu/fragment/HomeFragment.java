@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ImageView mImageMiddleBanner;
     HomeAdapter mAdapter;
     //
-    int[] mNavIconResID = new int[]{R.mipmap.pic_menu_mime_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
+    int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
             R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
     String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "附近门店", "我要买车", "车载用品", "打折油卡", "机动车险"};
 
@@ -140,20 +140,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_2:  //维护养修
-                onRepairClick();
+                intent = new Intent(mContext, RepairWebsiteActivity.class);
+                intent.putExtra("typeid", "4");   //门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+                intent.putExtra("title", "维修养护");
+                startActivity(intent);
 
                 break;
 
             case R.id.view_home_menu_3:  //洗车
                 intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "1");   //门店类型：1=洗车店，2=维修点，3=附近门店
+                intent.putExtra("typeid", "1");   //门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+                intent.putExtra("title", "洗车");
                 startActivity(intent);
 
                 break;
 
             case R.id.view_home_menu_4:  //附近门店
                 intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "3");    //门店类型：1=洗车店，2=维修点，3=附近门店
+                intent.putExtra("typeid", "3");    //门店类型：1=洗车店，2=维修点，3=附近门店  4=维修养护
+                intent.putExtra("title", "附近门店");
                 startActivity(intent);
 
                 break;

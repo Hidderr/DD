@@ -67,7 +67,7 @@ public class TypevauleGotoDictionary {
     private MyProgressDialog myProgressDialog;
     //
 //    SharePopupWindow mSharePopupWindow;
-    Coco3gBroadcastUtils mWXShareSuccessBroadcast;  //微信分享成功监听
+   public Coco3gBroadcastUtils mWXShareSuccessBroadcast;  //微信分享成功监听
     OnWebConfigurationListener onWebConfigurationListener;  //配置是否下拉刷新和topbar右上角是否有视图
     //
     WebView mWebview;

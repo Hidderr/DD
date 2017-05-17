@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/image_my_marker_location"
-            android:background="@mipmap/pic_marker_bg_1_icon"
+            android:background="@mipmap/pic_marker_red_bg_1_icon"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:lines="1"

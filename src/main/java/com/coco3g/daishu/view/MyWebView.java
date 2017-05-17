@@ -54,6 +54,7 @@ public class MyWebView extends RelativeLayout {
     //
     Coco3gBroadcastUtils mCurrBoardCast;
     ConfigTopBarMenu configtopbarmenu;
+    public TypevauleGotoDictionary typevauleGotoDictionary;
 
     public MyWebView(Context context) {
         super(context);
@@ -174,7 +175,7 @@ public class MyWebView extends RelativeLayout {
                     return true;
                 }
                 if (!TextUtils.isEmpty(url) && url.startsWith("http://coco3g-app")) {
-                    TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(mContext);
+                    typevauleGotoDictionary = new TypevauleGotoDictionary(mContext);
                     typevauleGotoDictionary.setWebview(webView);
                     typevauleGotoDictionary.setRootView(mRelativeRoot);
                     typevauleGotoDictionary.gotoViewChoose(url);

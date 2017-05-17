@@ -54,6 +54,7 @@ public class WebActivity extends BaseActivity {
     private ImageSelectUtils mImageSelectUtils;
     //
     Coco3gBroadcastUtils mCurrBoardCast;
+    private TypevauleGotoDictionary typevauleGotoDictionary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class WebActivity extends BaseActivity {
             //判断是否是viewpager形式的h5
             if (url.startsWith("http://coco3g-app/")) {
 
-                TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(WebActivity.this);
+                typevauleGotoDictionary = new TypevauleGotoDictionary(WebActivity.this);
                 typevauleGotoDictionary.setWebview(mWebView.getCurrentWebview());
                 typevauleGotoDictionary.setMyWebview(mWebView);
                 typevauleGotoDictionary.setOnWebConfigurationListener(new TypevauleGotoDictionary.OnWebConfigurationListener() {
@@ -527,5 +528,11 @@ public class WebActivity extends BaseActivity {
         super.onDestroy();
 //        mCurrBoardCast.unregisterBroadcast();
         mWebView.unRegisterBroadcast();
+        if (typevauleGotoDictionary != null && typevauleGotoDictionary.mWXShareSuccessBroadcast != null) {
+            typevauleGotoDictionary.mWXShareSuccessBroadcast.unregisterBroadcast();
+        }
+        if (mWebView.typevauleGotoDictionary != null && mWebView.typevauleGotoDictionary.mWXShareSuccessBroadcast != null) {
+            mWebView.typevauleGotoDictionary.mWXShareSuccessBroadcast.unregisterBroadcast();
+        }
     }
 }

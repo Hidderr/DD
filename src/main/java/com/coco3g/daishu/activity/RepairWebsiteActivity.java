@@ -63,7 +63,8 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     private MyProgressDialog myProgressDialog = null;
     private float mBaseDistance = 10000;  //距离定位点最小的半径
     //
-    private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店
+    private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+    private String title = "";
 
     //
 
@@ -90,6 +91,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         setContentView(R.layout.activity_repair_website);
         myProgressDialog = MyProgressDialog.show(this, "定位中...", false, true);
         typeid = getIntent().getStringExtra("typeid");
+        title = getIntent().getStringExtra("title");
 
         init(savedInstanceState);
 
@@ -97,21 +99,24 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
 
     private void init(Bundle savedInstanceState) {
         mTopbar = (TopBarView) findViewById(R.id.topbar_repair_website);
-        mTopbar.setTitle("网点维修");
+        mTopbar.setTitle(title);
         rightView = new TextView(this);
         rightView.setText("维修等级");
         rightView.setTextSize(14);
-        rightView.setTextColor(ContextCompat.getColor(this, R.color.text_color_2));
+        rightView.setPadding(0, 0, Global.dipTopx(this, 5f), 0);
+        rightView.setTextColor(ContextCompat.getColor(this, R.color.text_color_1));
         Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down_icon);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         rightView.setCompoundDrawables(null, null, drawable, null);
-        mTopbar.setRightView(rightView);
         mTopbar.setOnClickRightListener(new TopBarView.OnClickRightView() {
             @Override
             public void onClickTopbarView() {
                 showPopupWidnow();
             }
         });
+        if (typeid.equals("4")) {
+            mTopbar.setRightView(rightView);
+        }
         //
         mTxtName = (TextView) findViewById(R.id.tv_repair_website_store_name);
         mTxtAddress = (TextView) findViewById(R.id.tv_repair_website_store_address);
@@ -213,7 +218,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     }
 
     public void showPopupWidnow() {
-        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4, 0, typeList, currChooseIndex);
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 40, 0, typeList, currChooseIndex);
         popupwindow.showAsDropDown(rightView, 0, 20);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override

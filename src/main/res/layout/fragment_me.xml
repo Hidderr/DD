@@ -148,6 +148,21 @@
             android:textColor="@color/text_color_1" />
 
         <TextView
+            android:id="@+id/tv_me_shopping_youhui_quan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:drawableLeft="@mipmap/pic_youhui_quan_icon"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/pic_arrow_grey_right"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:text="优惠券"
+            android:textSize="15sp"
+            android:textColor="@color/text_color_1" />
+
+        <TextView
             android:id="@+id/tv_me_shopping_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,6 +170,8 @@
             android:background="@color/white"
             android:drawableLeft="@mipmap/pic_shopping_account"
             android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             android:drawableRight="@mipmap/pic_arrow_grey_right"
             android:padding="10dp"
             android:text="购物账单"
@@ -166,6 +183,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@color/white"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             android:drawableLeft="@mipmap/pic_account_balance"
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/pic_arrow_grey_right"
@@ -178,6 +197,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             android:background="@color/white"
             android:drawableLeft="@mipmap/pic_compact"
             android:drawablePadding="10dp"
@@ -194,6 +215,8 @@
             android:background="@color/white"
             android:drawableLeft="@mipmap/pic_member_recommend"
             android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             android:drawableRight="@mipmap/pic_arrow_grey_right"
             android:padding="10dp"
             android:text="会员推荐"
@@ -209,6 +232,8 @@
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/pic_arrow_grey_right"
             android:padding="10dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             android:text="升级会员"
             android:textColor="@color/text_color_1" />
 
