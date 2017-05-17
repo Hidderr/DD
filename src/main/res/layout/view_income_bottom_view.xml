@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_me_frag_line"
+            android:layout_width="6dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_me_mime_car_nurse"
+            android:layout_alignTop="@+id/tv_me_mime_car_nurse"
+            android:layout_marginLeft="15dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_me_mime_car_nurse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/image_me_frag_line"
+            android:drawableRight="@mipmap/pic_arrow_grey_right"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:text="我的爱车车保姆"
+            android:textColor="@color/text_color_1"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_color_8" />
+
+    <TextView
+        android:id="@+id/tv_income_bottom_title_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/income_title_1"
+        android:textColor="@color/text_color_1"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_income_bottom_content_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/income_content_1"
+        android:textColor="@color/text_color_2"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_income_bottom_title_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/income_title_2"
+        android:textColor="@color/text_color_1"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_income_bottom_content_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/income_content_2"
+        android:textColor="@color/text_color_2"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_income_bottom_title_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/income_title_3"
+        android:textColor="@color/text_color_1"
+        android:textSize="14sp" />
+
+
+</LinearLayout>

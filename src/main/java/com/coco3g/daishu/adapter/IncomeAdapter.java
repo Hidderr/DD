@@ -1,6 +1,7 @@
 package com.coco3g.daishu.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class IncomeAdapter extends BaseAdapter {
         if (view == null) {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(mContext).inflate(R.layout.a_income_item, null);
-            viewHolder.mImageThumb = (ImageView) view.findViewById(R.id.image_home_item_thumb);
+            viewHolder.mImageThumb = (ImageView) view.findViewById(R.id.image_income_item_thumb);
 //            viewHolder.mImageThumb.setLayoutParams(lp);
 //            viewHolder.mImageThumb.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             viewHolder.mTxtName = (TextView) view.findViewById(R.id.tv_income_item_nickname);
@@ -69,6 +70,13 @@ public class IncomeAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+
+        if (position == 0) {
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_1_icon);
+        } else {
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_2_icon);
+        }
+
 
         if (position == 2) {
             viewHolder.mImageBottomLine1.setVisibility(View.GONE);

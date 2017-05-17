@@ -116,5 +116,13 @@
     <!--汽车商城-->
     <string name="car_shop">汽车商城</string>
 
+    <!--收益-->
+    <string name="income_title_1">1、A注册成为袋鼠会员，若推荐B注册成为袋鼠会员，有如下两种：</string>
+    <string name="income_content_1">B注册为铜袋鼠，A得奖励金额98*30=29；\nB注册为银袋鼠，A得奖励金额578*30=173；</string>
+
+    <string name="income_title_2">2、B注册成为袋鼠会员后，若推荐C注册成为袋鼠会员，有如下两种：</string>
+    <string name="income_content_2">C注册为铜袋鼠，B得奖励金额98*30=29；\n \t\t\t\t\t\t\t\t\t\t\t\t\t\t  A得奖励金额98*10=10；\nC注册为银袋鼠，B得奖励金额578*30=173；\n \t\t\t\t\t\t\t\t\t\t\t\t\t\t   A得奖励金额578*10=58；</string>
+
+    <string name="income_title_3">\t\t推荐会员只设两级奖励，且金袋鼠为购买新车参加购车优惠而成的，任意会员均推荐均不享受奖励制度。\n \t\t金袋鼠会员也可参加推荐有奖活动，推荐其他会员并获得所得奖励.\n  注：推荐有奖活动最终解释权归胜拓汽车有限责任公司所有。</string>
 
 </resources>

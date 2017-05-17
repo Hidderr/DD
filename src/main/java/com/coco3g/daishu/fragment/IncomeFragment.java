@@ -23,6 +23,7 @@ public class IncomeFragment extends Fragment {
     private Context mContext;
     private ListView mListView;
     private IncomeAdapter mAdapter;
+    private View mBottomView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +37,9 @@ public class IncomeFragment extends Fragment {
         mListView = (ListView) mIncomeView.findViewById(listview_income_frag);
         mAdapter = new IncomeAdapter(mContext);
         mListView.setAdapter(mAdapter);
+        //
+        mBottomView = LayoutInflater.from(mContext).inflate(R.layout.view_income_bottom_view, null);
+        mListView.addFooterView(mBottomView);
 
 
     }

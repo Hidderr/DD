@@ -47,32 +47,17 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/relative_topbar_right_main_view"
+
+        <ImageView
+            android:id="@+id/image_topbar_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/relative_topbar_right"
-            android:visibility="gone">
+            android:background="@mipmap/pic_me_setting_icon"
+            android:visibility="gone"/>
 
-            <ImageView
-                android:id="@+id/image_topbar_main_home_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="visible" />
-
-            <!--消息通知的红点-->
-            <ImageView
-                android:id="@+id/image_topbar_system_msg_remind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/image_topbar_main_home_msg"
-                android:layout_alignTop="@+id/image_topbar_main_home_msg"
-                android:background="@drawable/shape_oveal_txt_red_bg"
-                android:visibility="gone" />
-
-        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -80,9 +65,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:visibility="gone"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_topbar_location"

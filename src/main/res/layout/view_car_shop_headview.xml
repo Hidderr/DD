@@ -29,59 +29,46 @@
         android:layout_marginTop="1dp"
         android:background="@color/white"
         android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
         android:weightSum="1">
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_car_shop_recommend_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="0.25"
             android:background="@color/white"
             android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="奥迪"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+            android:src="@mipmap/pic_aodi_icon" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_car_shop_recommend_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="@color/white"
             android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="大众"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+            android:src="@mipmap/pic_dazhong_icon" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_car_shop_recommend_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="@color/white"
             android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="奔驰"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+            android:src="@mipmap/pic_benchi_icon" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_car_shop_recommend_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="@color/white"
             android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="宝马"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+            android:src="@mipmap/pic_baoma_icon" />
     </LinearLayout>
 
     <TextView

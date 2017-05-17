@@ -34,10 +34,10 @@ import java.util.Map;
 
 public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
-    ImageView mImageSetting, mImageAvatar, mImageQRCode, mImageRightArrow;
+    ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
     TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember,
-            mTxtName, mTxtVipID, mTxtLogout;
+            mTxtName, mTxtMemberID, mTxtLogout, mTxtMemberType, mTxtYouHuiQuan;
     //
     Drawable drawableRight, drawableDown;
     boolean isNurseExpands = false;
@@ -61,7 +61,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        mImageSetting = (ImageView) mMeView.findViewById(R.id.image_me_top_setting);
         mImageAvatar = (ImageView) mMeView.findViewById(R.id.image_me_top_avatar);
         mImageQRCode = (ImageView) mMeView.findViewById(R.id.image_me_top_qr);
         mImageRightArrow = (ImageView) mMeView.findViewById(R.id.image_me_top_arrow);
@@ -76,8 +75,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtMemberRecommend = (TextView) mMeView.findViewById(R.id.tv_me_member_recommend);
         mTxtUpdateMember = (TextView) mMeView.findViewById(R.id.tv_me_update_member);
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
-        mTxtVipID = (TextView) mMeView.findViewById(R.id.tv_me_top_id);
+        mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
         mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
+        mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
+        mTxtYouHuiQuan = (TextView) mMeView.findViewById(R.id.tv_me_shopping_youhui_quan);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
         avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -90,9 +91,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtCompact.setOnClickListener(this);
         mTxtMemberRecommend.setOnClickListener(this);
         mTxtUpdateMember.setOnClickListener(this);
-        mImageSetting.setOnClickListener(this);
         mImageQRCode.setOnClickListener(this);
         mTxtLogout.setOnClickListener(this);
+        mTxtYouHuiQuan.setOnClickListener(this);
     }
 
     @Override
@@ -113,8 +114,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
-            case R.id.image_me_top_setting:  //个人账户
-                intentToWeb(Global.H5Map.get("myinfo"));
+            case R.id.tv_me_shopping_youhui_quan:  //优惠券
+//                intentToWeb(Global.H5Map.get("goodsorder"));
 
                 break;
             case R.id.tv_me_shopping_account:  //购物账单
@@ -254,7 +255,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar"), mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
             //名字
             mTxtName.setText(Global.USERINFOMAP.get("nickname"));
-            mTxtVipID.setText("会员ID号：" + Global.USERINFOMAP.get("vipno"));
+            mTxtMemberID.setText("会员ID号：" + Global.USERINFOMAP.get("vipno"));
 //            //会员专属二维码
 //            String vip = Global.USERINFOMAP.get("groupid");
 //            if (!TextUtils.isEmpty(vip) && vip.equals("1")) {

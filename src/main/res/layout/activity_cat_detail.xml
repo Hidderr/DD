@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.coco3g.daishu.activity.CarDetailActivity">
+
+    <com.coco3g.daishu.view.TopBarView
+        android:id="@+id/topbar_car_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.coco3g.daishu.view.TopBarView>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout_car_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topbar_car_detail"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/text_color_yellow_1"
+        app:tabIndicatorHeight="1dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/text_color_yellow_1"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="@color/text_color_1">
+
+    </android.support.design.widget.TabLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_car_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tablayout_car_detail"
+        android:paddingTop="5dp" />
+
+
+</RelativeLayout>

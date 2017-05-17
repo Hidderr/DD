@@ -8,11 +8,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.adapter.CarDetailTypeAdapter;
 import com.coco3g.daishu.adapter.CarShopAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.Constants;
@@ -38,8 +40,9 @@ public class CarShopActivity extends BaseActivity implements View.OnClickListene
     private DrawerLayout mDrawerLayout;
 
 
-    private TextView mTxtRecomd1, mTxtRecomd2, mTxtRecomd3, mTxtRecomd4, mTxtHot1, mTxtHot2, mTxtHot3, mTxtHot4;
+    private TextView mTxtHot1, mTxtHot2, mTxtHot3, mTxtHot4;
     private BannerView mBannerView;
+    private ImageView mImageRecomd1, mImageRecomd2, mImageRecomd3, mImageRecomd4;
 
     private DrawerLayout.LayoutParams listView_lp;
 
@@ -72,19 +75,19 @@ public class CarShopActivity extends BaseActivity implements View.OnClickListene
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_car_shop_headview, null);
         mBannerView = (BannerView) mHeadView.findViewById(R.id.banner_car_shop);
         mBannerView.setScreenRatio(2);
-        mTxtRecomd1 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_recommend_1);
-        mTxtRecomd2 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_recommend_2);
-        mTxtRecomd3 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_recommend_3);
-        mTxtRecomd4 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_recommend_4);
+        mImageRecomd1 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_1);
+        mImageRecomd2 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_2);
+        mImageRecomd3 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_3);
+        mImageRecomd4 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_4);
         mTxtHot1 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_1);
         mTxtHot2 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_2);
         mTxtHot3 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_3);
         mTxtHot4 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_4);
         //
-        mTxtRecomd1.setOnClickListener(this);
-        mTxtRecomd2.setOnClickListener(this);
-        mTxtRecomd3.setOnClickListener(this);
-        mTxtRecomd4.setOnClickListener(this);
+        mImageRecomd1.setOnClickListener(this);
+        mImageRecomd2.setOnClickListener(this);
+        mImageRecomd3.setOnClickListener(this);
+        mImageRecomd4.setOnClickListener(this);
         mTxtHot1.setOnClickListener(this);
         mTxtHot2.setOnClickListener(this);
         mTxtHot3.setOnClickListener(this);
@@ -128,6 +131,14 @@ public class CarShopActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onDrawerStateChanged(int newState) {
+            }
+        });
+        //
+        mListViewRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CarShopActivity.this, CarDetailTypeActivity.class);
+                startActivity(intent);
             }
         });
 

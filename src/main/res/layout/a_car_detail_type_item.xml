@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/relative_car_detail_type_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_car_detail_type_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 TFSI S line 运动版 S tronic"
+            android:textColor="@color/text_color_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_car_detail_type_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_car_detail_type_title"
+            android:layout_marginTop="5dp"
+            android:text="豪华自动空调"
+            android:textColor="@color/text_color_1"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@+id/relative_car_detail_type_content"
+        android:src="@mipmap/pic_arrow_grey_right" />
+
+</RelativeLayout>

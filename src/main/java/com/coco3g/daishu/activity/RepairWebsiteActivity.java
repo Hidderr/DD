@@ -108,15 +108,15 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down_icon);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         rightView.setCompoundDrawables(null, null, drawable, null);
+        if (typeid.equals("4")) {
+            mTopbar.setRightView(rightView);
+        }
         mTopbar.setOnClickRightListener(new TopBarView.OnClickRightView() {
             @Override
             public void onClickTopbarView() {
                 showPopupWidnow();
             }
         });
-        if (typeid.equals("4")) {
-            mTopbar.setRightView(rightView);
-        }
         //
         mTxtName = (TextView) findViewById(R.id.tv_repair_website_store_name);
         mTxtAddress = (TextView) findViewById(R.id.tv_repair_website_store_address);
@@ -218,7 +218,7 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     }
 
     public void showPopupWidnow() {
-        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 40, 0, typeList, currChooseIndex);
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 50, 0, typeList, currChooseIndex);
         popupwindow.showAsDropDown(rightView, 0, 20);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override

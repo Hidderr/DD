@@ -8,7 +8,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.View;
 import android.webkit.CookieSyncManager;
+import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.bean.BaseDataBean;
@@ -25,8 +27,11 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.File;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -34,15 +39,20 @@ import cn.jpush.android.api.JPushInterface;
  * Created by jason on 2017/4/26.
  */
 
-public class StartActivity extends BaseActivity {
+public class StartActivity extends BaseActivity implements View.OnClickListener {
     public String SHARE_APP_TAG = "first";
     boolean isFirst = false;
     private String password;
+    private TextView mTxtComeIn;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        mTxtComeIn = (TextView) findViewById(R.id.tv_start_come_in);
+        mTxtComeIn.setOnClickListener(this);
+        //
         if (!isTaskRoot()) {
             Intent mainIntent = getIntent();
             String action = mainIntent.getAction();
@@ -75,40 +85,49 @@ public class StartActivity extends BaseActivity {
     }
 
     private void init() {
-        new Thread() {
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                // TODO Auto-generated method stub
+//                super.run();
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(StartActivity.this);
+        config.threadPriority(Thread.NORM_PRIORITY - 2);
+        config.denyCacheImageMultipleSizesInMemory();
+        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.memoryCacheSize(2 * 1024 * 1024);
+        config.diskCacheSize(50 * 1024 * 1024);
+        config.memoryCache(new WeakMemoryCache());
+        config.imageDownloader(new BaseImageDownloader(StartActivity.this, 5 * 1000, 10 * 1000));
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.writeDebugLogs();
+        config.threadPoolSize(3);
+        ImageLoader.getInstance().init(config.build());
+        // 获取极光推送的ID
+        Constants.JPUSH_REGISTERID = JPushInterface.getRegistrationID(StartActivity.this);
+        // 获取当前应用版本号
+        Global.SDK_VERSION = Global.getAndroidSDKVersion();
+        // 获取屏幕尺寸
+        Global.getScreenWH(StartActivity.this);
+//        try {
+//            sleep(1500);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                super.run();
-                ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(StartActivity.this);
-                config.threadPriority(Thread.NORM_PRIORITY - 2);
-                config.denyCacheImageMultipleSizesInMemory();
-                config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-                config.memoryCacheSize(2 * 1024 * 1024);
-                config.diskCacheSize(50 * 1024 * 1024);
-                config.memoryCache(new WeakMemoryCache());
-                config.imageDownloader(new BaseImageDownloader(StartActivity.this, 5 * 1000, 10 * 1000));
-                config.tasksProcessingOrder(QueueProcessingType.LIFO);
-                config.writeDebugLogs();
-                config.threadPoolSize(3);
-                ImageLoader.getInstance().init(config.build());
-                // 获取极光推送的ID
-                Constants.JPUSH_REGISTERID = JPushInterface.getRegistrationID(StartActivity.this);
-                // 获取当前应用版本号
-                Global.SDK_VERSION = Global.getAndroidSDKVersion();
-                // 获取屏幕尺寸
-                Global.getScreenWH(StartActivity.this);
-                try {
-                    sleep(1500);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                timer.cancel();
                 Message mess = new Message();
                 mHandler.sendMessage(mess);
             }
+        }, 2000, 2000);
 
-        }.start();
+
+//            }
+//        }.start();
 
     }
 
@@ -187,5 +206,20 @@ public class StartActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         JPushInterface.onPause(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_start_come_in:  //进入袋鼠好车
+                timer.cancel();
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
+                break;
+        }
+
+
     }
 }

@@ -35,8 +35,8 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     boolean mOverrideClick = false;
 
     //r
-    RelativeLayout mRelativeMainRightView, mRelativeNormal, mRelativeHome;
-    ImageView mImageMsg, mImageMsgRemind;
+    RelativeLayout mRelativeNormal, mRelativeHome;
+    ImageView mImageSetting;
 
     //首页里
     TextView mTxtLocation;
@@ -55,19 +55,17 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         LayoutInflater lay = LayoutInflater.from(mContext);
         mView = lay.inflate(R.layout.view_topbar, this);
         mImageLeft = (ImageView) mView.findViewById(R.id.image_topbar_left);
-        mImageMsg = (ImageView) mView.findViewById(R.id.image_topbar_main_home_msg);
-        mImageMsgRemind = (ImageView) mView.findViewById(R.id.image_topbar_system_msg_remind);
         mRelativeLeft = (RelativeLayout) mView.findViewById(R.id.relative_topbar_left);
         mRelativeRight = (RelativeLayout) mView.findViewById(R.id.relative_topbar_right);
-        mRelativeMainRightView = (RelativeLayout) mView.findViewById(R.id.relative_topbar_right_main_view);
         mRelativeNormal = (RelativeLayout) mView.findViewById(R.id.relative_topbar_nomal);
         mRelativeHome = (RelativeLayout) mView.findViewById(R.id.relative_main_topbar);
         mTxtTitle = (TextView) mView.findViewById(R.id.tv_topbar_title);
         mTxtLocation = (TextView) mView.findViewById(R.id.tv_topbar_location);
         mEditSearch = (EditText) mView.findViewById(R.id.edit_topbar_search);
+        mImageSetting = (ImageView) mView.findViewById(R.id.image_topbar_setting);
         mRelativeLeft.setOnClickListener(this);
         mRelativeRight.setOnClickListener(this);
-        mImageMsg.setOnClickListener(this);
+        mImageSetting.setOnClickListener(this);
         //
         mEditSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -125,19 +123,6 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mRelativeRight.setVisibility(View.INVISIBLE);
     }
 
-    //设置系统消息图标可见
-    public void setMsgVisible() {
-        mRelativeMainRightView.setVisibility(VISIBLE);
-        mImageMsg.setVisibility(VISIBLE);
-    }
-
-    //设置消息提醒
-    public void setMsgRemindVisible() {
-        mRelativeMainRightView.setVisibility(VISIBLE);
-        mImageMsg.setVisibility(VISIBLE);
-        mImageMsgRemind.setVisibility(VISIBLE);
-    }
-
 
     //显示主页面的
     public void showHomeTopbar() {
@@ -157,6 +142,15 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     }
 
 
+    public void setSettingVisible(boolean visible) {
+        if (visible) {
+            mImageSetting.setVisibility(VISIBLE);
+        } else {
+            mImageSetting.setVisibility(GONE);
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -171,10 +165,8 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
             case R.id.relative_topbar_right:
                 onClickRightView();
                 break;
-            case R.id.image_topbar_main_home_msg:
-//                new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.START_LOCATION, null);
-//                Intent intent = new Intent(mContext, CaptureActivity.class);
-//                ((Activity) mContext).startActivityForResult(intent, Constants.RESULT_SCAN);
+            case R.id.image_topbar_setting:  //个人设置
+
                 break;
         }
     }

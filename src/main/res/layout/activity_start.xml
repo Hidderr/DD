@@ -2,14 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@mipmap/pic_start_bg">
 
     <TextView
+        android:id="@+id/tv_start_come_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:text="@string/app_name"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/shape_txt_grey_color"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:text="进入袋鼠好车"
         android:textColor="@color/white"
         android:textSize="22sp" />
 
