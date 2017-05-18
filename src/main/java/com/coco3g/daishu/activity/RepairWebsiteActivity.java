@@ -1,8 +1,6 @@
 package com.coco3g.daishu.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -16,20 +14,18 @@ import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.Photo;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.amap.MyPoiOverlay;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.bean.RepairStoreBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -38,7 +34,6 @@ import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.ChoosePopupwindow;
-import com.coco3g.daishu.view.MyLocationMarkerView;
 import com.coco3g.daishu.view.MyMapView;
 import com.coco3g.daishu.view.MyMarkerView;
 import com.coco3g.daishu.view.MyProgressDialog;
@@ -47,49 +42,31 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarkerClickListener, View.OnClickListener {
+public class RepairWebsiteActivity extends BaseActivity implements View.OnClickListener {
     private MyMapView myMapView;
     private TopBarView mTopbar;
     private RelativeLayout mRelativeStore;
     private RelativeLayout.LayoutParams store_lp, thumb_lp;
-    private AMap aMap;
     private TextView mTxtName, mTxtAddress, mTxtPhone;
     private ImageView mImageThumb, mImageRoute;
-    //
-    private String keyWord = "汽车修理店";
-    private MyProgressDialog myProgressDialog = null;
-    private float mBaseDistance = 10000;  //距离定位点最小的半径
     //
     private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
     private String title = "";
 
-    //
-
-    private PoiResult poiResult; // poi返回的结果
-    private int currentPage = 0;// 当前页面，从0开始计数
-    private PoiSearch.Query query;// Poi查询条件类
-    private LatLonPoint mCurrLatLonPoint = null;
-    private double mCurrLat = 0, mCurrLng = 0;
-    private Marker locationMarker; // 选择的点
-    private Marker detailMarker;
-    private Marker mlastMarker;
-    private PoiSearch poiSearch;
-    private MyPoiOverlay poiOverlay;// poi图层
-    private ArrayList<PoiItem> poiItems = new ArrayList<>();// poi数据
     private TextView rightView;
 
-    //
-    private ArrayList<Map<String, String>> typeList = new ArrayList<>();
+    private ArrayList<Map<String, String>> grageList;  //维修等级
     private int currChooseIndex = 0;
+
+    private Marker detailMarker;
+    private LatLonPoint mCurrLatLonPoint = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_website);
-        myProgressDialog = MyProgressDialog.show(this, "定位中...", false, true);
         typeid = getIntent().getStringExtra("typeid");
         title = getIntent().getStringExtra("title");
 
@@ -108,13 +85,17 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down_icon);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         rightView.setCompoundDrawables(null, null, drawable, null);
-        if (typeid.equals("4")) {
+        if (typeid.equals("2")) {
             mTopbar.setRightView(rightView);
         }
         mTopbar.setOnClickRightListener(new TopBarView.OnClickRightView() {
             @Override
             public void onClickTopbarView() {
-                showPopupWidnow();
+                if (grageList == null || grageList.size() <= 0) {
+                    getRepairGradeList();
+                } else {
+                    showPopupWidnow();
+                }
             }
         });
         //
@@ -124,9 +105,9 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         mImageThumb = (ImageView) findViewById(R.id.image_repair_website_store_thumb);
         mImageRoute = (ImageView) findViewById(R.id.image_repair_website_store_route);
         myMapView = (MyMapView) findViewById(R.id.map_repair_website);
+        myMapView.setTypeid(typeid);
         myMapView.init(savedInstanceState, true);
-        aMap = myMapView.aMap;
-        aMap.setOnMarkerClickListener(this);
+        //
         mRelativeStore = (RelativeLayout) findViewById(R.id.relative_repair_website_repair_store);
         store_lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / 5);
         store_lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -141,51 +122,24 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
             @Override
             public void locationSuccessed(LatLng latLng) {
                 mCurrLatLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
-                mCurrLat = latLng.latitude;
-                mCurrLng = latLng.longitude;
-//                doSearchQuery();   //高德地图搜索附近的汽车修理店信息
-                myProgressDialog.cancel();
-
-                if (mCurrLat != 0 && mCurrLng != 0) {
-                    getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
-                }
-
             }
         });
-        //
-        //监听地图的移动
-        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+        myMapView.setOnShowStoreListener(new MyMapView.OnShowStoreListener() {
             @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-//                ClusterOverlay.currentMarker.hideInfoWindow();
-            }
-
-            @Override
-            public void onCameraChangeFinish(CameraPosition cameraPosition) {
-                float currDistance = getLargeDistance();
-                if (currDistance > mBaseDistance) {   //距离默认是10000米，最大不能超过
-                    mBaseDistance = currDistance;
-                    getRepairStoreList(null, false);
+            public void showStore(boolean visible, PoiItem mCurrentPoi, Marker detailMarker1) {
+                if (visible) {
+                    mRelativeStore.setVisibility(View.VISIBLE);
+                    if (mCurrentPoi != null) {
+                        detailMarker = detailMarker1;
+                        setRepairStoreInfo(mCurrentPoi);
+                    }
+                } else {
+                    mRelativeStore.setVisibility(View.GONE);
                 }
             }
         });
-
         //
         mImageRoute.setOnClickListener(this);
-        //
-        Map<String, String> map = new HashMap<>();
-        map.put("title", "全部");
-        typeList.add(map);
-        Map<String, String> map1 = new HashMap<>();
-        map1.put("title", "Ⅰ类维修");
-        typeList.add(map1);
-        Map<String, String> map2 = new HashMap<>();
-        map2.put("title", "Ⅱ类维修");
-        typeList.add(map2);
-        Map<String, String> map3 = new HashMap<>();
-        map3.put("title", "Ⅲ类维修");
-        typeList.add(map3);
-
 
     }
 
@@ -211,14 +165,13 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
                 intent.putExtra("startlat", mCurrLatLonPoint.getLatitude());
                 intent.putExtra("startlng", mCurrLatLonPoint.getLongitude());
                 startActivity(intent);
-
                 break;
         }
 
     }
 
     public void showPopupWidnow() {
-        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 50, 0, typeList, currChooseIndex);
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 50, 0, grageList, currChooseIndex);
         popupwindow.showAsDropDown(rightView, 0, 20);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override
@@ -234,139 +187,8 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
             }
         });
 
-
     }
 
-
-//    /**
-//     * 开始进行poi搜索
-//     */
-//    /**
-//     * 开始进行poi搜索
-//     */
-//    protected void doSearchQuery() {
-//        currentPage = 0;
-//        query = new PoiSearch.Query(keyWord, "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
-//        query.setPageSize(20);// 设置每页最多返回多少条poiitem
-//        query.setPageNum(currentPage);// 设置查第一页
-//
-//        if (mCurrLatLonPoint != null) {
-//            poiSearch = new PoiSearch(this, query);
-//            poiSearch.setOnPoiSearchListener(this);
-//            poiSearch.setBound(new PoiSearch.SearchBound(mCurrLatLonPoint, 5000, true));//
-//            // 设置搜索区域为以lp点为圆心，其周围5000米范围
-//            poiSearch.searchPOIAsyn();// 异步搜索
-//        }
-//    }
-//
-//
-//    @Override
-//    public void onPoiSearched(PoiResult result, int rcode) {
-//        if (rcode == AMapException.CODE_AMAP_SUCCESS) {
-//            if (result != null && result.getQuery() != null) {// 搜索poi的结果
-//                if (result.getQuery().equals(query)) {// 是否是同一条
-//                    poiResult = result;
-//                    poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
-//                    List<SuggestionCity> suggestionCities = poiResult
-//                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
-//                    if (poiItems != null && poiItems.size() > 0) {
-//                        //清除POI信息显示
-//                        whetherToShowDetailInfo(false);
-//                        //并还原点击marker样式
-//                        if (mlastMarker != null) {
-//                            resetlastmarker();
-//                        }
-//                        //清理之前搜索结果的marker
-//                        if (poiOverlay != null) {
-//                            poiOverlay.removeFromMap();
-//                        }
-//                        aMap.clear();
-//                        poiOverlay = new MyPoiOverlay(aMap, poiItems);
-//                        poiOverlay.addToMap();
-//                        poiOverlay.zoomToSpan();
-//
-//                        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-//                                getResources(), R.mipmap.pic_location_arrow_icon)))
-//                                .position(new LatLng(mCurrLatLonPoint.getLatitude(), mCurrLatLonPoint.getLongitude())));
-//
-//
-//                    } else if (suggestionCities != null
-//                            && suggestionCities.size() > 0) {
-//                    } else {
-//                        Global.showToast(getResources().getString(R.string.no_result), this);
-//                    }
-//                }
-//            } else {
-//                Global.showToast(getResources().getString(R.string.no_result), this);
-//            }
-//        } else {
-//            Global.showToast(rcode + "", this);
-//        }
-//    }
-//
-//    @Override
-//    public void onPoiItemSearched(com.amap.api.services.core.PoiItem poiItem, int i) {
-//
-//    }
-
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if (marker.getObject() != null) {
-
-            PoiItem mCurrentPoi = (PoiItem) marker.getObject();
-            if (mCurrentPoi.getPoiId().equals("#")) {  //代表我的位置
-                marker.showInfoWindow();
-                whetherToShowDetailInfo(false);
-                return true;
-            }
-
-            whetherToShowDetailInfo(true);
-            try {
-
-                if (mlastMarker == null) {
-                    mlastMarker = marker;
-                } else {
-                    // 将之前被点击的marker置为原来的状态
-                    resetlastmarker();
-                    mlastMarker = marker;
-                }
-                detailMarker = marker;
-                detailMarker.showInfoWindow();
-
-                setRepairStoreInfo(mCurrentPoi);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        } else {
-            whetherToShowDetailInfo(false);
-            resetlastmarker();
-        }
-
-
-        return true;
-    }
-
-    private void whetherToShowDetailInfo(boolean isToShow) {
-        if (isToShow) {
-            mRelativeStore.setVisibility(View.VISIBLE);
-
-        } else {
-            mRelativeStore.setVisibility(View.GONE);
-
-        }
-    }
-
-    // 将之前被点击的marker置为原来的状态
-    private void resetlastmarker() {
-        int index = poiOverlay.getPoiIndex(mlastMarker);
-
-        MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
-        markerView.setInfo(mlastMarker.getTitle());
-        mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
-        mlastMarker = null;
-
-    }
 
     //设置修理店信息
     private void setRepairStoreInfo(final PoiItem mCurrentPoi) {
@@ -382,10 +204,32 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
     }
 
 
+    //获取维修等级列表
+    public void getRepairGradeList() {
+        HashMap<String, String> params = new HashMap<>();
+        new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                grageList = (ArrayList<Map<String, String>>) data.response;
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         myMapView.onResume();
+        if (grageList == null) {
+            getRepairGradeList();
+        }
     }
 
     @Override
@@ -405,250 +249,5 @@ public class RepairWebsiteActivity extends BaseActivity implements AMap.OnMarker
         super.onDestroy();
         myMapView.onDestroy();
     }
-
-
-    /**
-     * 自定义PoiOverlay
-     */
-
-    private class MyPoiOverlay {
-        private AMap mamap;
-        private List<com.amap.api.services.core.PoiItem> mPois;
-        private ArrayList<Marker> mPoiMarks = new ArrayList<Marker>();
-
-        public MyPoiOverlay(AMap amap, List<com.amap.api.services.core.PoiItem> pois) {
-            mamap = amap;
-            mPois = pois;
-        }
-
-        /**
-         * 添加Marker到地图中。
-         *
-         * @since V2.1.0
-         */
-        public void addToMap() {
-            for (int i = 0; i < mPois.size(); i++) {
-
-                com.amap.api.services.core.PoiItem item = mPois.get(i);
-                Marker marker = mamap.addMarker(getMarkerOptions(i, item.getTitle(), item.getPoiId()));
-                marker.setObject(item);
-                mPoiMarks.add(marker);
-            }
-        }
-
-        /**
-         * 去掉PoiOverlay上所有的Marker。
-         *
-         * @since V2.1.0
-         */
-        public void removeFromMap() {
-            for (Marker mark : mPoiMarks) {
-                mark.remove();
-            }
-        }
-
-        /**
-         * 移动镜头到当前的视角。
-         *
-         * @since V2.1.0
-         */
-        public void zoomToSpan() {
-            if (mPois != null && mPois.size() > 0) {
-                if (mamap == null)
-                    return;
-                LatLngBounds bounds = getLatLngBounds();
-                mamap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-            }
-        }
-
-        private LatLngBounds getLatLngBounds() {
-            LatLngBounds.Builder b = LatLngBounds.builder();
-            for (int i = 0; i < mPois.size(); i++) {
-                b.include(new LatLng(mPois.get(i).getLatLonPoint().getLatitude(),
-                        mPois.get(i).getLatLonPoint().getLongitude()));
-            }
-            return b.build();
-        }
-
-        //添加一个marker信息（到地图上）
-        private MarkerOptions getMarkerOptions(int index, String storeName, String markerId) {
-            return new MarkerOptions().position(new LatLng(mPois.get(index).getLatLonPoint()
-                    .getLatitude(), mPois.get(index).getLatLonPoint().getLongitude()))
-                    .title(getTitle(index)).snippet(getSnippet(index))
-                    .icon(getBitmapDescriptor(index, storeName, markerId));
-        }
-
-        protected String getTitle(int index) {
-            return mPois.get(index).getTitle();
-        }
-
-        protected String getSnippet(int index) {
-            return mPois.get(index).getSnippet();
-        }
-
-        /**
-         * 从marker中得到poi在list的位置。
-         *
-         * @param marker 一个标记的对象。
-         * @return 返回该marker对应的poi在list的位置。
-         * @since V2.1.0
-         */
-        public int getPoiIndex(Marker marker) {
-            for (int i = 0; i < mPoiMarks.size(); i++) {
-                if (mPoiMarks.get(i).equals(marker)) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        /**
-         * 返回第index的poi的信息。
-         *
-         * @param index 第几个poi。
-         * @return poi的信息。poi对象详见搜索服务模块的基础核心包（com.amap.api.services.core）中的类 <strong><a href="../../../../../../Search/com/amap/api/services/core/PoiItem.html" title="com.amap.api.services.core中的类">PoiItem</a></strong>。
-         * @since V2.1.0
-         */
-        public com.amap.api.services.core.PoiItem getPoiItem(int index) {
-            if (index < 0 || index >= mPois.size()) {
-                return null;
-            }
-            return mPois.get(index);
-        }
-
-
-        //添加marker到地图上时候的bitmap
-        protected BitmapDescriptor getBitmapDescriptor(int arg0, String storeName, String markerId) {
-            View view = null;
-            if (markerId.equals("#")) {
-                MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(RepairWebsiteActivity.this);
-                view = myLocationMarkerView;
-
-            } else {
-                MyMarkerView markerView = new MyMarkerView(RepairWebsiteActivity.this);
-                markerView.setInfo(storeName);
-                view = markerView;
-            }
-
-            BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(view,
-                    Global.screenWidth / 5, Global.screenWidth / 6));
-            return icon;
-        }
-
-    }
-
-
-    //计算地图可见范围内，当前定位点和可见范围内任一点的最远距离
-    public float getLargeDistance() {
-        //位置改变以后的地图西南角的经纬度
-        LatLngBounds visibleBounds = aMap.getProjection().getVisibleRegion().latLngBounds;
-        //西南角经纬度
-        double southwest_lat = visibleBounds.southwest.latitude;
-        double southwest_lng = visibleBounds.southwest.longitude;
-        LatLng southwest_latLng = new LatLng(southwest_lat, southwest_lng);
-        //东北角经纬度
-        double northeast_lat = visibleBounds.northeast.latitude;
-        double northeast_lng = visibleBounds.northeast.longitude;
-        LatLng northeast_latLng = new LatLng(northeast_lat, northeast_lng);
-
-        //自己定位位置的经纬度
-        LatLng currLatLng = new LatLng(mCurrLat, mCurrLng);
-        float southwest_distance = AMapUtils.calculateLineDistance(southwest_latLng, currLatLng);
-        float northeast_distance = AMapUtils.calculateLineDistance(northeast_latLng, currLatLng);
-        //
-        float distance = southwest_distance > northeast_distance ? southwest_distance : northeast_distance;
-        Log.e("地图视野距离：", distance + "$$$$");
-        return distance;
-    }
-
-
-    //获取附近的汽车修理店的信息
-    public void getRepairStoreList(String loadMsg, final boolean isZoomToSpan) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("lat", mCurrLatLonPoint.getLatitude() + "");
-        params.put("lng", mCurrLatLonPoint.getLongitude() + "");
-        params.put("distance", mBaseDistance + "");
-        params.put("typeid", typeid);        //门店类型：1=洗车店，2=维修点，3=附近门店
-
-        new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_STORE, params, loadMsg, new IBaseDataListener() {
-            @Override
-            public void onSuccess(BaseDataBean data) {
-
-                ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
-                if (repairList == null || repairList.size() <= 0) {
-                    return;
-                }
-                Log.e("门店数量", repairList.size() + "");
-                showRepairStore(repairList, isZoomToSpan);
-
-            }
-
-            @Override
-            public void onFailure(BaseDataBean data) {
-                Global.showToast(data.msg, RepairWebsiteActivity.this);
-            }
-
-            @Override
-            public void onError() {
-            }
-        });
-    }
-
-
-    //将获取的店铺在地图上显示出来
-    public void showRepairStore(ArrayList<Map<String, String>> repairList, boolean isZoomToSpan) {
-
-//        ArrayList<PoiItem> poiItemList = new ArrayList<PoiItem>();
-        int size = repairList.size();
-        for (int i = 0; i < size + 1; i++) {
-
-
-            PoiItem poiItem = null;
-
-            if (i == size) {   //添加自己的位置坐标
-                LatLonPoint latLonPoint = new LatLonPoint(mCurrLat, mCurrLng);
-                poiItem = new PoiItem("#", latLonPoint, "我的位置", null);
-            } else {
-                Map<String, String> itemMap = repairList.get(i);
-                double lat = Double.parseDouble(itemMap.get("lat"));
-                double lng = Double.parseDouble(itemMap.get("lng"));
-                LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
-                poiItem = new PoiItem(itemMap.get("id"), latLonPoint, itemMap.get("name"), itemMap.get("address"));
-                poiItem.setTel(itemMap.get("phone"));
-                //
-                ArrayList<Photo> photos = new ArrayList<Photo>();
-                Photo photo = new Photo();
-                photo.setUrl(itemMap.get("thumb"));
-                photos.add(photo);
-                poiItem.setPhotos(photos);
-            }
-            //
-            poiItems.add(poiItem);
-        }
-
-        //清除POI信息显示
-        whetherToShowDetailInfo(false);
-        //并还原点击marker样式
-        if (mlastMarker != null) {
-            resetlastmarker();
-        }
-        //清理之前搜索结果的marker
-        if (poiOverlay != null) {
-            poiOverlay.removeFromMap();
-        }
-        aMap.clear();
-        poiOverlay = new MyPoiOverlay(aMap, poiItems);
-        poiOverlay.addToMap();
-        if (isZoomToSpan) {
-            poiOverlay.zoomToSpan();
-        }
-
-//
-//        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(
-//                getResources(), R.mipmap.pic_location_arrow_icon))).position(new LatLng(mCurrLng, mCurrLng)).title("我的位置"));
-
-
-    }
-
 
 }

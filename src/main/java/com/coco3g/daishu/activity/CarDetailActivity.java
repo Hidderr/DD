@@ -23,34 +23,63 @@ public class CarDetailActivity extends BaseActivity {
     private ArrayList<View> mViewList = new ArrayList<>();
 
     String[] mViewPagerTitles = new String[]{"最新报价", "商家地图", "参数详情"};
+    private NewestOfferView newestOfferView;    //最新报价
+    private BusinessMapView businessMapView;    //商家地图
+    private CanShuDetailView canShuDetailView;  //参数详情
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cat_detail);
-        initView();
+        initView(savedInstanceState);
     }
 
-    private void initView() {
+    private void initView(Bundle savedInstanceState) {
         mTopbar = (TopBarView) findViewById(R.id.topbar_car_detail);
         mTopbar.setTitle("奥迪A1详情");
         //
         mTabLayout = (TabLayout) findViewById(R.id.tablayout_car_detail);
         mViewPager = (ViewPager) findViewById(R.id.viewpager_car_detail);
         //
-        NewestOfferView newestOfferView = new NewestOfferView(this);
-        BusinessMapView businessMapView = new BusinessMapView(this);
-        CanShuDetailView canShuDetailView = new CanShuDetailView(this);
+        newestOfferView = new NewestOfferView(this);
+        businessMapView = new BusinessMapView(this, savedInstanceState);
+        canShuDetailView = new CanShuDetailView(this);
 
         mViewList.add(newestOfferView);
         mViewList.add(businessMapView);
         mViewList.add(canShuDetailView);
         //
         mAdapter = new ViewPagerAdapter(mViewList, mViewPagerTitles);
+        mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
 
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        businessMapView.myMapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        businessMapView.myMapView.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        businessMapView.myMapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        businessMapView.myMapView.onDestroy();
     }
 }

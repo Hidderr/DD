@@ -96,7 +96,7 @@ public class CarDetailTypeActivity extends BaseActivity {
     //获取banner图片
     public void getBanner() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("type", "1");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        params.put("type", "2");
         new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
@@ -126,7 +126,7 @@ public class CarDetailTypeActivity extends BaseActivity {
     //获取跑马灯
     private void getBroadCastData() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("type", "5");    //1:首页轮播图， 2:商品汇， 3:维修救援， 4:汽车商城， 5:首页广播， 6:商城头条， 7:维修通告，
+        params.put("type", "11");
         new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

@@ -45,6 +45,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
     private String password;
     private TextView mTxtComeIn;
     private Timer timer;
+    //
+    boolean isClickComeIn;  //点击了"键入袋鼠好车"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +158,20 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         }
     };
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_start_come_in:  //进入袋鼠好车
+                isClickComeIn = true;
+                timer.cancel();
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+    }
+
     /**
      * 登录
      *
@@ -178,8 +194,11 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
                     Intent intent = new Intent(StartActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                    startActivity(intent);
+
+                    if (!isClickComeIn) {
+                        Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 finish();
             }
@@ -208,18 +227,5 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         JPushInterface.onPause(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_start_come_in:  //进入袋鼠好车
-                timer.cancel();
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
 
-                break;
-        }
-
-
-    }
 }

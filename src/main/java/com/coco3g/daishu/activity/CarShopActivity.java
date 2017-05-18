@@ -202,7 +202,7 @@ public class CarShopActivity extends BaseActivity implements View.OnClickListene
     //获取banner图片
     public void getBanner() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("type", "4");    //1:首页轮播图， 2:商品汇， 3:维修救援，
+        params.put("type", "4");
         new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

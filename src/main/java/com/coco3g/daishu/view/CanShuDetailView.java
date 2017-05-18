@@ -37,7 +37,7 @@ public class CanShuDetailView extends RelativeLayout {
 
 
     private void initView() {
-        mView = LayoutInflater.from(mContext).inflate(R.layout.view_canshu_detail, null);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.view_canshu_detail, this);
 
 
     }

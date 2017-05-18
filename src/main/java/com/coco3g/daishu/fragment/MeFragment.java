@@ -115,7 +115,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.tv_me_shopping_youhui_quan:  //优惠券
-//                intentToWeb(Global.H5Map.get("goodsorder"));
+                intentToWeb(Global.H5Map.get("youhuiquan"));
 
                 break;
             case R.id.tv_me_shopping_account:  //购物账单
@@ -256,6 +256,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             //名字
             mTxtName.setText(Global.USERINFOMAP.get("nickname"));
             mTxtMemberID.setText("会员ID号：" + Global.USERINFOMAP.get("vipno"));
+            //会员类型
+            mTxtMemberType.setText(Global.USERINFOMAP.get("vip_level"));
 //            //会员专属二维码
 //            String vip = Global.USERINFOMAP.get("groupid");
 //            if (!TextUtils.isEmpty(vip) && vip.equals("1")) {

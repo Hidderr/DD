@@ -57,9 +57,9 @@ public class DataUrl {
     * */
     public static final String GET_H5 = BASE_URL + "index/h5url";
     /*
-     * 获取添加的搜索到的联系人列表
+     * 维修等级列表
      * */
-    public static final String GET_SEARCH_CONTACT_LIST = BASE_URL + "member/search";
+    public static final String GET_REPAIR_GRAGE_LIST = BASE_URL + "memberrepair/server_list";
     /*
      * 获取通讯录好友列表
      * */
@@ -100,47 +100,6 @@ public class DataUrl {
      * 新版本检测
      **/
     public static final String GET_NEW_VERSION = BASE_URL + "index/version";
-
-
-    //
-
-
-    //油品区
-    public static final String YOU_PIN_QU = "http://daishu.test.coco3g.com/html/youpinqu.html";
-
-    //维修救援-服务确认：
-    public static final String FU_WU_QUE_REN = "http://daishu.test.coco3g.com/htmls/service_confirm.html";
-
-    //维修救援-我的账单：
-    public static final String MY_ZHANG_DAN = "http://daishu.test.coco3g.com/html/wodezhangdan.html";
-
-    //维修救援-历史记录：
-    public static final String LISHI_JI_LU = "http://daishu.test.coco3g.com/html/history.html";
-
-
-    //我的-个人设置：
-    public static final String GE_REN_SETTING = "http://daishu.test.coco3g.com/html/myinfo.html";
-
-    //我的-购物账单：
-    public static final String GOU_WU_ZHANG_DAN = "http://daishu.test.coco3g.com/html/gouwuzhangdan.html";
-
-    //我的-账户余额：
-    public static final String ZHANG_HU_YU_E = "http://daishu.test.coco3g.com/html/yue.html";
-
-    //我的-合同摘要：
-    public static final String HE_TONG_ZHAI_YAO = "http://daishu.test.coco3g.com/html/hetong.html";
-
-    //我的-会员推荐：
-    public static final String HUI_YUAN_TUI_JIAN = "http://daishu.test.coco3g.com/html/tuijian.html";
-
-    //我的-升级会员：
-    public static final String SHENG_JI_HUI_YUAN = "http://daishu.test.coco3g.com/html/shengji.html";
-
-    //首页-机动车险：
-    public static final String JI_DONG_CHE_XIAN = "http://daishu.test.coco3g.com/htmls/index.html";
-
-    //商品汇-汽车保险：
-    public static final String QI_CHE_BAO_XIAN = "http://daishu.test.coco3g.com/htmls/index.html";
 
 
 }

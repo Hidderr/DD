@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_home_menu_2:  //维护养修
                 intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "4");   //门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+                intent.putExtra("typeid", "2");   //门店类型：1=洗车店，2=维修点，3=附近门店
                 intent.putExtra("title", "维修养护");
                 startActivity(intent);
 
