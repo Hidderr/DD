@@ -61,9 +61,9 @@ public class DataUrl {
      * */
     public static final String GET_REPAIR_GRAGE_LIST = BASE_URL + "memberrepair/server_list";
     /*
-     * 获取通讯录好友列表
+     * 收益列表
      * */
-    public static final String GET_CONTACTS_LIST = BASE_URL + "member_fans/index";
+    public static final String GET_INCOME_LIST = BASE_URL + "index/earn";
     /*
      * 添加联系人
      * */

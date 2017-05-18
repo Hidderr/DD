@@ -7,10 +7,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.UiSettings;
@@ -44,6 +46,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     private Context mContext;
     private View mView;
     public TextureMapView mMapView;
+    private ImageView mImageStartLocation;
     public AMap aMap;
     private UiSettings mUiSettings;
     private MyProgressDialog myProgressDialog;
@@ -59,6 +62,9 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     private MyPoiOverlay poiOverlay;// poi图层
     private ArrayList<PoiItem> poiItems = new ArrayList<>();// poi数据
     private float mBaseDistance = 10000;  //距离定位点最小的半径
+
+    //
+    boolean showDialog;
 
     //
     private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
@@ -87,6 +93,15 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     private void initView() {
         mView = LayoutInflater.from(mContext).inflate(R.layout.view_mymap, this);
         mMapView = (TextureMapView) mView.findViewById(R.id.txtture_mapview);
+        mImageStartLocation = (ImageView) mView.findViewById(R.id.image_mymap_start_location);
+        //
+        mImageStartLocation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBaseDistance = 10000;
+                startLocation();
+            }
+        });
     }
 
     public void setTypeid(String typeid) {
@@ -94,7 +109,8 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     }
 
     //初始化地图的配置
-    public void init(Bundle savedInstanceState, boolean startLocation) {
+    public void init(Bundle savedInstanceState, boolean startLocation, boolean showDialog) {
+        this.showDialog = showDialog;
         mMapView.onCreate(savedInstanceState);// 此方法必须重写
 
         if (aMap == null) {
@@ -105,6 +121,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
         mUiSettings.setZoomControlsEnabled(false);  //缩放按钮设置不可见
         mUiSettings.setTiltGesturesEnabled(false);  //设置不可倾斜
         mUiSettings.setRotateGesturesEnabled(false);  //设置不可旋转
+        mUiSettings.setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_RIGHT); //设置高德Logo在右下角
         aMap.setOnMarkerClickListener(this);
 //        aMap.animateCamera(CameraUpdateFactory.zoomTo(18f));  //缩放级别
 
@@ -143,7 +160,9 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
 
 
         if (startLocation) {
-            myProgressDialog = MyProgressDialog.show(mContext, "定位中...", false, true);
+            if (showDialog) {
+                myProgressDialog = MyProgressDialog.show(mContext, "定位中...", false, true);
+            }
             startLocation();
         }
     }
@@ -156,7 +175,9 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
         new LocationUtil(mContext).initLocationAndStart(true, 1000, false, null).setAMapLocationChanged(new LocationUtil.AMapLocationChanged() {
             @Override
             public void aMapLocation(AMapLocation aMapLocation) {
-                myProgressDialog.dismiss();
+                if (myProgressDialog != null) {
+                    myProgressDialog.dismiss();
+                }
                 //
                 String city = aMapLocation.getCity();
                 mCurrLat = aMapLocation.getLatitude();
@@ -167,7 +188,11 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                 locationSuccessed(new LatLng(mCurrLat, mCurrLng));
 
                 if (mCurrLat != 0 && mCurrLng != 0) {
-                    getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
+                    if (showDialog) {
+                        getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
+                    } else {
+                        getRepairStoreList(null, true);  //接口获取信息
+                    }
                 }
 
 

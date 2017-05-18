@@ -26,6 +26,7 @@ import com.coco3g.daishu.view.MyWebView;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.lqr.imagepicker.ImagePicker;
+import com.lqr.imagepicker.view.CropImageView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -67,7 +68,7 @@ public class TypevauleGotoDictionary {
     private MyProgressDialog myProgressDialog;
     //
 //    SharePopupWindow mSharePopupWindow;
-   public Coco3gBroadcastUtils mWXShareSuccessBroadcast;  //微信分享成功监听
+    public Coco3gBroadcastUtils mWXShareSuccessBroadcast;  //微信分享成功监听
     OnWebConfigurationListener onWebConfigurationListener;  //配置是否下拉刷新和topbar右上角是否有视图
     //
     WebView mWebview;
@@ -301,7 +302,7 @@ public class TypevauleGotoDictionary {
     public void openGallery() {
         int cropWidth = Global.dipTopx(mContext, 150f);
         ImagePicker.getInstance().destory();
-        ImagePicker.getInstance().setSelectLimit(4)
+        ImagePicker.getInstance()
                 .setOutPutX(cropWidth)
                 .setOutPutY(cropWidth)
                 .setFocusWidth(cropWidth)
@@ -309,6 +310,7 @@ public class TypevauleGotoDictionary {
                 .setShowCamera(true)
                 .setMultiMode(false)
                 .setCrop(true)
+                .setStyle(CropImageView.Style.CIRCLE)
                 .start((Activity) mContext);
     }
 

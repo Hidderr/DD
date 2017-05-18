@@ -36,8 +36,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
     ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
+    RelativeLayout mRelativeInfo;
     TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember,
-            mTxtName, mTxtMemberID, mTxtLogout, mTxtMemberType, mTxtYouHuiQuan;
+            mTxtName, mTxtMemberID, mTxtMemberType, mTxtYouHuiQuan;
     //
     Drawable drawableRight, drawableDown;
     boolean isNurseExpands = false;
@@ -64,6 +65,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mImageAvatar = (ImageView) mMeView.findViewById(R.id.image_me_top_avatar);
         mImageQRCode = (ImageView) mMeView.findViewById(R.id.image_me_top_qr);
         mImageRightArrow = (ImageView) mMeView.findViewById(R.id.image_me_top_arrow);
+        mRelativeInfo = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_my_info);
         //
         mHorizontalScroll = (HorizontalScrollView) mMeView.findViewById(R.id.horizontal_scroll_me_car_binding);
         //
@@ -76,7 +78,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtUpdateMember = (TextView) mMeView.findViewById(R.id.tv_me_update_member);
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
-        mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
+//        mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
         mTxtYouHuiQuan = (TextView) mMeView.findViewById(R.id.tv_me_shopping_youhui_quan);
         //
@@ -92,8 +94,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtMemberRecommend.setOnClickListener(this);
         mTxtUpdateMember.setOnClickListener(this);
         mImageQRCode.setOnClickListener(this);
-        mTxtLogout.setOnClickListener(this);
+//        mTxtLogout.setOnClickListener(this);
         mTxtYouHuiQuan.setOnClickListener(this);
+        mRelativeInfo.setOnClickListener(this);
     }
 
     @Override
@@ -114,6 +117,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
+            case R.id.relative_me_frag_my_info:  //个人信息
+                intentToWeb(Global.H5Map.get("myinfo"));
+
+                break;
             case R.id.tv_me_shopping_youhui_quan:  //优惠券
                 intentToWeb(Global.H5Map.get("youhuiquan"));
 
@@ -146,46 +153,43 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 myQRcodeDialog();
 
                 break;
-            case R.id.tv_me_frag_logout:  //退出登录
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                builder.setMessage("退出账号将删除历史数据，下次登录可以继续使用本账号");
-                builder.setTitle("提示");
-                builder.setPositiveButton("退出", new android.app.AlertDialog.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                        Global.logout(getActivity());
-                        OnLogout();
-                    }
-
-                });
-                builder.setNegativeButton(getString(R.string.cancel), new android.app.AlertDialog.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
-                builder.create().show();
-
-                break;
+//            case R.id.tv_me_frag_logout:  //退出登录
+//                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+//                builder.setMessage("退出账号将删除历史数据，下次登录可以继续使用本账号");
+//                builder.setTitle("提示");
+//                builder.setPositiveButton("退出", new android.app.AlertDialog.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // TODO Auto-generated method stub
+//                        Global.logout(getActivity());
+//                        OnLogout();
+//                    }
+//
+//                });
+//                builder.setNegativeButton(getString(R.string.cancel), new android.app.AlertDialog.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // TODO Auto-generated method stub
+//
+//                    }
+//                });
+//                builder.create().show();
+//
+//                break;
 
         }
     }
 
 
     public void intentToWeb(String url) {
-
         if (url.equals("#")) {
             return;
         }
-
         if (url.startsWith("http://coco3g-app/open_tabview")) {
             TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(getActivity());
             typevauleGotoDictionary.gotoViewChoose(url);
             return;
         }
-
         Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", url);
         startActivity(intent);
@@ -217,7 +221,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    //登录
+    //获取个人信息
     public void getUserInfo() {
 
         HashMap<String, String> params = new HashMap<>();

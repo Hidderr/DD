@@ -35,9 +35,28 @@ public class IncomeAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void addList(ArrayList<Map<String, String>> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        if (mList != null || mList.size() > 0) {
+            mList.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public ArrayList<Map<String, String>> getList() {
+        return mList;
+    }
+
     @Override
     public int getCount() {
-        return 3;
+        if (mList == null) {
+            return 0;
+        }
+        return mList.size();
     }
 
     @Override
@@ -77,11 +96,19 @@ public class IncomeAdapter extends BaseAdapter {
             viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_2_icon);
         }
 
+        Map<String, String> incomeMap = mList.get(position);
 
-        if (position == 2) {
-            viewHolder.mImageBottomLine1.setVisibility(View.GONE);
-            viewHolder.mImageBottomLine2.setVisibility(View.VISIBLE);
-        }
+        //
+        viewHolder.mTxtName.setText(incomeMap.get("nickname"));
+        viewHolder.mTxtPhone.setText(incomeMap.get("phone"));
+        viewHolder.mTxtMoney.setText("会员推荐奖励：" + incomeMap.get("price"));
+        viewHolder.mTxtTime.setText(incomeMap.get("addtime"));
+
+
+//        if (position == mList.size() - 1) {
+//            viewHolder.mImageBottomLine1.setVisibility(View.GONE);
+//            viewHolder.mImageBottomLine2.setVisibility(View.VISIBLE);
+//        }
 
 
         return view;

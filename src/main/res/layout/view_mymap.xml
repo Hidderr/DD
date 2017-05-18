@@ -10,5 +10,15 @@
 
     </com.amap.api.maps.TextureMapView>
 
+    <ImageView
+        android:id="@+id/image_mymap_start_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:padding="5dp"
+        android:src="@mipmap/pic_start_location_icon" />
+
 
 </RelativeLayout>

@@ -49,7 +49,7 @@ public class CarDetailTypeActivity extends BaseActivity {
         mTopbar.setTitle("奥迪A1详情");
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_car_detail_type_head, null);
         mBanner = (BannerView) mHeadView.findViewById(R.id.banner_car_detail_type);
-        mBanner.setScreenRatio(3);
+        mBanner.setScreenRatio(2);
         marqueeView = (MarqueeView) mHeadView.findViewById(R.id.tv_car_detail_type_boardcast);
         mListView = (ListView) findViewById(R.id.listview_car_detail_type);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_car_detail_type);
@@ -126,7 +126,7 @@ public class CarDetailTypeActivity extends BaseActivity {
     //获取跑马灯
     private void getBroadCastData() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("type", "11");
+        params.put("type", "7");
         new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

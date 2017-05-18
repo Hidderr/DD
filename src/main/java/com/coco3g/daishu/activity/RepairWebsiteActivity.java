@@ -106,7 +106,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         mImageRoute = (ImageView) findViewById(R.id.image_repair_website_store_route);
         myMapView = (MyMapView) findViewById(R.id.map_repair_website);
         myMapView.setTypeid(typeid);
-        myMapView.init(savedInstanceState, true);
+        myMapView.init(savedInstanceState, true,true);
         //
         mRelativeStore = (RelativeLayout) findViewById(R.id.relative_repair_website_repair_store);
         store_lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / 5);
@@ -207,7 +207,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     //获取维修等级列表
     public void getRepairGradeList() {
         HashMap<String, String> params = new HashMap<>();
-        new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
+        new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_GRAGE_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
                 grageList = (ArrayList<Map<String, String>>) data.response;

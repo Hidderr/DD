@@ -4,14 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <ListView
-        android:id="@+id/listview_income_frag"
+    <com.coco3g.daishu.view.SuperRefreshLayout
+        android:id="@+id/sr_income_frag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/listview_income_frag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
+        </ListView>
+
+    </com.coco3g.daishu.view.SuperRefreshLayout>
 
 </LinearLayout>

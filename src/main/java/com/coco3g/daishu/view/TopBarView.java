@@ -17,7 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.autonavi.ae.search.log.GLog;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.data.TypevauleGotoDictionary;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -166,7 +170,13 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
                 onClickRightView();
                 break;
             case R.id.image_topbar_setting:  //个人设置
-
+                String settingUrl = Global.H5Map.get("setting");
+                if (settingUrl.equals("#")) {
+                    return;
+                }
+                Intent intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra("url", settingUrl);
+                mContext.startActivity(intent);
                 break;
         }
     }

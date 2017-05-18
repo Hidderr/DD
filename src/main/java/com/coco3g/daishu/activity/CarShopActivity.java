@@ -1,12 +1,17 @@
 package com.coco3g.daishu.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +31,7 @@ import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.coco3g.daishu.view.TopBarView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -137,10 +143,15 @@ public class CarShopActivity extends BaseActivity implements View.OnClickListene
         mListViewRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                closeDrawerLayout();
                 Intent intent = new Intent(CarShopActivity.this, CarDetailTypeActivity.class);
                 startActivity(intent);
             }
         });
+        //设置侧滑的宽度
+        ViewGroup.LayoutParams para = mListViewRight.getLayoutParams();//获取drawerlayout的布局
+        para.width = Global.screenWidth * 5 / 9;//修改宽度
+        mListViewRight.setLayoutParams(para); //设置修改后的布局。
 
 
     }

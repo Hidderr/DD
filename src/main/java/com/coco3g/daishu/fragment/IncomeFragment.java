@@ -10,7 +10,17 @@ import android.widget.ListView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.IncomeAdapter;
+import com.coco3g.daishu.bean.BaseDataBean;
+import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.view.SuperRefreshLayout;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.coco3g.daishu.R.id.listview_income_frag;
 
@@ -24,6 +34,7 @@ public class IncomeFragment extends Fragment {
     private ListView mListView;
     private IncomeAdapter mAdapter;
     private View mBottomView;
+    private SuperRefreshLayout mSuperRefresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,12 +46,27 @@ public class IncomeFragment extends Fragment {
 
     private void intview() {
         mListView = (ListView) mIncomeView.findViewById(listview_income_frag);
+        mSuperRefresh = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag);
         mAdapter = new IncomeAdapter(mContext);
         mListView.setAdapter(mAdapter);
         //
-        mBottomView = LayoutInflater.from(mContext).inflate(R.layout.view_income_bottom_view, null);
-        mListView.addFooterView(mBottomView);
+//        mBottomView = LayoutInflater.from(mContext).inflate(R.layout.view_income_bottom_view, null);
+//        mListView.addFooterView(mBottomView);
+        //
+        mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
+            @Override
+            public void onRefreshing() {
+                mAdapter.clearList();
+                getIncomeList();
+            }
 
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
+        //
+        mSuperRefresh.setRefreshingLoad();
 
     }
 
@@ -54,7 +80,34 @@ public class IncomeFragment extends Fragment {
         } else {
 
         }
+    }
 
+
+    //收益列表
+    public void getIncomeList() {
+
+        HashMap<String, String> params = new HashMap<>();
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_INCOME_LIST, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> incomeList = (ArrayList<Map<String, String>>) data.response;
+                mAdapter.setList(incomeList);
+                //
+                mSuperRefresh.onLoadComplete();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+//                Global.showToast(data.msg, mContext);
+                mSuperRefresh.onLoadComplete();
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefresh.onLoadComplete();
+
+            }
+        });
     }
 
 }
