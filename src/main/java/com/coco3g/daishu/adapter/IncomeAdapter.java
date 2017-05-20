@@ -1,7 +1,6 @@
 package com.coco3g.daishu.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,9 +90,9 @@ public class IncomeAdapter extends BaseAdapter {
         }
 
         if (position == 0) {
-            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_1_icon);
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_red_icon);
         } else {
-            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_2_icon);
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_grey_icon);
         }
 
         Map<String, String> incomeMap = mList.get(position);
@@ -103,12 +102,15 @@ public class IncomeAdapter extends BaseAdapter {
         viewHolder.mTxtPhone.setText(incomeMap.get("phone"));
         viewHolder.mTxtMoney.setText("会员推荐奖励：" + incomeMap.get("price"));
         viewHolder.mTxtTime.setText(incomeMap.get("addtime"));
-
-
-//        if (position == mList.size() - 1) {
-//            viewHolder.mImageBottomLine1.setVisibility(View.GONE);
-//            viewHolder.mImageBottomLine2.setVisibility(View.VISIBLE);
-//        }
+        //
+        String vipId = incomeMap.get("item_id");
+        if (vipId.equals("1")) {  //铜
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_red_icon);
+        } else if (vipId.equals("2")) {   //银
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_grey_icon);
+        } else {   //金
+            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_yellow_icon);
+        }
 
 
         return view;

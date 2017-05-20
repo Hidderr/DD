@@ -193,7 +193,7 @@ public class TypevauleGotoDictionary {
                     Global.deleteSerializeData(mContext, Global.APP_CACHE);
                     Global.deleteSerializeData(mContext, Global.LOGIN_PASSWORD);  //删除登录密码
                     Global.deleteSerializeData(mContext, Global.LOGIN_INFO);  //删除个人信息
-                    Global.deleteSerializeData(mContext, Global.RONGTOKEN_INFO);  //删除融云的token
+//                    Global.deleteSerializeData(mContext, Global.RONGTOKEN_INFO);  //删除融云的token
                     //
                     Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);

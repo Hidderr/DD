@@ -31,6 +31,7 @@ import com.coco3g.daishu.utils.LocationUtil;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.HomeMenuImageView;
+import com.coco3g.daishu.view.LoginRegisterView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.sunfusheng.marqueeview.MarqueeView;
 
@@ -52,15 +53,14 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
             R.mipmap.pic_history_record};
     String[] mTitles = new String[]{"救援电话", "车辆维修", "服务确认", "我的账单", "历史记录"};
     //
-//    private String mCurrLat = "", mCurrLng = "";
 
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
+    private LoginRegisterView loginRegisterView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRepairView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_repair, null);
         init();
-        mSuperRefreshLayout.setRefreshingLoad();
         return mRepairView;
     }
 
@@ -70,6 +70,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         mLinearRoot = (LinearLayout) mRepairView.findViewById(R.id.linear_repair_root);
         mLinearRoot.setVisibility(View.GONE);
         mLinearMenu = (LinearLayout) mRepairView.findViewById(R.id.linear_repair_menu);
+        loginRegisterView = (LoginRegisterView) mRepairView.findViewById(R.id.login_repair_frag);
         mTxtRepairBoradcast = (MarqueeView) mRepairView.findViewById(R.id.tv_repair_boardcast);
         mRepairMenu1 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_1);
         mRepairMenu2 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_2);
@@ -156,9 +157,28 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
 
                 break;
+
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Global.USERINFOMAP == null) {
+            mSuperRefreshLayout.setVisibility(View.GONE);
+            loginRegisterView.setVisibility(View.VISIBLE);
+            mSuperRefreshLayout.setEnabled(false);
+        } else {
+            mSuperRefreshLayout.setEnabled(true);
+            mSuperRefreshLayout.setVisibility(View.VISIBLE);
+            loginRegisterView.setVisibility(View.GONE);
+            //
+            if (mBanner.getData() == null || mBanner.getData().size() <= 0) {
+                mSuperRefreshLayout.setRefreshingLoad();
+            }
+        }
+    }
 
     //定位
     public void startLocation(final boolean takePhone) {

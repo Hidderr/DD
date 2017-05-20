@@ -43,7 +43,7 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     ImageView mImageSetting;
 
     //首页里
-    TextView mTxtLocation;
+    TextView mTxtLocation, mTxtIncomeZhiDu;
     EditText mEditSearch;
     OnHomeSearchListener onHomeSearchListener;
 
@@ -65,11 +65,13 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mRelativeHome = (RelativeLayout) mView.findViewById(R.id.relative_main_topbar);
         mTxtTitle = (TextView) mView.findViewById(R.id.tv_topbar_title);
         mTxtLocation = (TextView) mView.findViewById(R.id.tv_topbar_location);
+        mTxtIncomeZhiDu = (TextView) mView.findViewById(R.id.tv_main_income_zhidu);
         mEditSearch = (EditText) mView.findViewById(R.id.edit_topbar_search);
         mImageSetting = (ImageView) mView.findViewById(R.id.image_topbar_setting);
         mRelativeLeft.setOnClickListener(this);
         mRelativeRight.setOnClickListener(this);
         mImageSetting.setOnClickListener(this);
+        mTxtIncomeZhiDu.setOnClickListener(this);
         //
         mEditSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -146,6 +148,15 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     }
 
 
+    public void showJiangLi(boolean show) {
+        if (show) {
+            mTxtIncomeZhiDu.setVisibility(VISIBLE);
+        } else {
+            mTxtIncomeZhiDu.setVisibility(GONE);
+        }
+    }
+
+
     public void setSettingVisible(boolean visible) {
         if (visible) {
             mImageSetting.setVisibility(VISIBLE);
@@ -169,7 +180,19 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
             case R.id.relative_topbar_right:
                 onClickRightView();
                 break;
+
+            case R.id.tv_main_income_zhidu:  //奖励制度
+                Intent intent1 = new Intent(mContext, WebActivity.class);
+                if (!TextUtils.isEmpty(Global.H5Map.get("jiangli"))) {
+                    intent1.putExtra("url", Global.H5Map.get("jiangli"));
+                    mContext.startActivity(intent1);
+                }
+                break;
+
             case R.id.image_topbar_setting:  //个人设置
+                if (!Global.checkoutLogin(mContext)) {
+                    return;
+                }
                 String settingUrl = Global.H5Map.get("setting");
                 if (settingUrl.equals("#")) {
                     return;

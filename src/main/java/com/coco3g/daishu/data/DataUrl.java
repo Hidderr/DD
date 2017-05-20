@@ -10,6 +10,8 @@ public class DataUrl {
 
     public static final String BASE_XIEYI_URL = "http://daishu.test.coco3g.com/"; // 协议(注册)
 
+    public static final String BASE_REPAIR_URL = "http://daishu.test.coco3g.com/index/index/weixiudian/id/"; // 维修点详情拼接url
+
 
     /**
      * 登录

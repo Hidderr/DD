@@ -2,6 +2,7 @@ package com.coco3g.daishu.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -50,6 +51,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mEditPassWord = (EditText) findViewById(R.id.edit_login_password);
         mTxtLogin = (TextView) findViewById(R.id.tv_login_start);
         mTxtRegister = (TextView) findViewById(R.id.tv_login_fast_register);
+        mTxtRegister.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mTxtForgetPassWord = (TextView) findViewById(R.id.tv_login_forgetpwd);
         //输入用户名字的监听(控制删除按钮的显示与否)
         mEditPhone.addTextChangedListener(new TextWatcher() {

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.coco3g.daishu.view.LoginRegisterView;
 import com.coco3g.daishu.view.MyQRcodeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -44,9 +46,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     boolean isNurseExpands = false;
 
     private RelativeLayout.LayoutParams avatar_lp;
+    private LinearLayout mLinearRoot;
+
+    private LoginRegisterView loginRegisterView;
 
     //
-    OnLogoutListener onLogoutListener;
+//    OnLogoutListener onLogoutListener;
 
 
     @Override
@@ -64,7 +69,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private void initView() {
         mImageAvatar = (ImageView) mMeView.findViewById(R.id.image_me_top_avatar);
         mImageQRCode = (ImageView) mMeView.findViewById(R.id.image_me_top_qr);
+        loginRegisterView = (LoginRegisterView) mMeView.findViewById(R.id.login_me_frag);
         mImageRightArrow = (ImageView) mMeView.findViewById(R.id.image_me_top_arrow);
+        mLinearRoot = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_root);
         mRelativeInfo = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_my_info);
         //
         mHorizontalScroll = (HorizontalScrollView) mMeView.findViewById(R.id.horizontal_scroll_me_car_binding);
@@ -199,7 +206,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (Global.USERINFOMAP != null) {
+        if (Global.USERINFOMAP == null) {
+            mLinearRoot.setVisibility(View.GONE);
+            loginRegisterView.setVisibility(View.VISIBLE);
+        } else {
+            loginRegisterView.setVisibility(View.GONE);
+            mLinearRoot.setVisibility(View.VISIBLE);
             getUserInfo();
         }
     }
@@ -278,20 +290,20 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public interface OnLogoutListener {
-        void logout();
-    }
-
-    public void setOnLogoutListener(OnLogoutListener onLogoutListener) {
-        this.onLogoutListener = onLogoutListener;
-    }
-
-    public void OnLogout() {
-        if (onLogoutListener != null) {
-            onLogoutListener.logout();
-            Global.USERINFOMAP = null;
-        }
-    }
+//    public interface OnLogoutListener {
+//        void logout();
+//    }
+//
+//    public void setOnLogoutListener(OnLogoutListener onLogoutListener) {
+//        this.onLogoutListener = onLogoutListener;
+//    }
+//
+//    public void OnLogout() {
+//        if (onLogoutListener != null) {
+//            onLogoutListener.logout();
+//            Global.USERINFOMAP = null;
+//        }
+//    }
 
 
 }

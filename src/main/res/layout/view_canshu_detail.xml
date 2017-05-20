@@ -4,9 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="djlkjfadjflk" />
+
+    <com.coco3g.daishu.view.MyWebView
+        android:id="@+id/webview_canshu_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.coco3g.daishu.view.MyWebView>
 
 </LinearLayout>

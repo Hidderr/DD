@@ -15,6 +15,7 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.view.LoginRegisterView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class IncomeFragment extends Fragment {
     private IncomeAdapter mAdapter;
     private View mBottomView;
     private SuperRefreshLayout mSuperRefresh;
+    //
+    private LoginRegisterView loginRegisterView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class IncomeFragment extends Fragment {
     private void intview() {
         mListView = (ListView) mIncomeView.findViewById(listview_income_frag);
         mSuperRefresh = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag);
+        loginRegisterView = (LoginRegisterView) mIncomeView.findViewById(R.id.login_income_frag);
         mAdapter = new IncomeAdapter(mContext);
         mListView.setAdapter(mAdapter);
         //
@@ -66,7 +70,6 @@ public class IncomeFragment extends Fragment {
             }
         });
         //
-        mSuperRefresh.setRefreshingLoad();
 
     }
 
@@ -74,11 +77,17 @@ public class IncomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         if (Global.USERINFOMAP == null) {
-
+            mSuperRefresh.setVisibility(View.GONE);
+            loginRegisterView.setVisibility(View.VISIBLE);
+            mSuperRefresh.setEnabled(false);
         } else {
-
+            mSuperRefresh.setEnabled(true);
+            if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
+                mSuperRefresh.setRefreshingLoad();
+            }
+            mSuperRefresh.setVisibility(View.VISIBLE);
+            loginRegisterView.setVisibility(View.GONE);
         }
     }
 

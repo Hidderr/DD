@@ -62,6 +62,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
 
     private Marker detailMarker;
     private LatLonPoint mCurrLatLonPoint = null;
+    private PoiItem currentPoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down_icon);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         rightView.setCompoundDrawables(null, null, drawable, null);
-        if (typeid.equals("2")) {
+        if (!TextUtils.isEmpty(typeid) && typeid.equals("2")) {
             mTopbar.setRightView(rightView);
         }
         mTopbar.setOnClickRightListener(new TopBarView.OnClickRightView() {
@@ -106,7 +107,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         mImageRoute = (ImageView) findViewById(R.id.image_repair_website_store_route);
         myMapView = (MyMapView) findViewById(R.id.map_repair_website);
         myMapView.setTypeid(typeid);
-        myMapView.init(savedInstanceState, true,true);
+        myMapView.init(savedInstanceState, true, true);
         //
         mRelativeStore = (RelativeLayout) findViewById(R.id.relative_repair_website_repair_store);
         store_lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / 5);
@@ -131,6 +132,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
                     mRelativeStore.setVisibility(View.VISIBLE);
                     if (mCurrentPoi != null) {
                         detailMarker = detailMarker1;
+                        currentPoi = mCurrentPoi;
                         setRepairStoreInfo(mCurrentPoi);
                     }
                 } else {
@@ -140,6 +142,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         });
         //
         mImageRoute.setOnClickListener(this);
+        mRelativeStore.setOnClickListener(this);
 
     }
 
@@ -165,6 +168,13 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
                 intent.putExtra("startlat", mCurrLatLonPoint.getLatitude());
                 intent.putExtra("startlng", mCurrLatLonPoint.getLongitude());
                 startActivity(intent);
+                break;
+
+            case R.id.relative_repair_website_repair_store:  //维修点详情
+                Intent intent1 = new Intent(this, WebActivity.class);
+                String url = DataUrl.BASE_REPAIR_URL + currentPoi.getPoiId();
+                intent1.putExtra("url", url);
+                startActivity(intent1);
                 break;
         }
 

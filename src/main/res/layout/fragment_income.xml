@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.coco3g.daishu.view.SuperRefreshLayout
         android:id="@+id/sr_income_frag"
@@ -19,4 +18,14 @@
 
     </com.coco3g.daishu.view.SuperRefreshLayout>
 
-</LinearLayout>
+
+    <com.coco3g.daishu.view.LoginRegisterView
+        android:id="@+id/login_income_frag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+    </com.coco3g.daishu.view.LoginRegisterView>
+
+</RelativeLayout>

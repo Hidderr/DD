@@ -15,6 +15,9 @@ import com.coco3g.daishu.R;
 public class CanShuDetailView extends RelativeLayout {
     private Context mContext;
     private View mView;
+    private MyWebView myWebView;
+    //
+    public String url = "";
 
 
     public CanShuDetailView(Context context) {
@@ -35,11 +38,14 @@ public class CanShuDetailView extends RelativeLayout {
         initView();
     }
 
-
     private void initView() {
         mView = LayoutInflater.from(mContext).inflate(R.layout.view_canshu_detail, this);
+        myWebView = (MyWebView) mView.findViewById(R.id.webview_canshu_detail);
+    }
 
-
+    public void loadUrl(String url) {
+        this.url = url;
+        myWebView.loadUrl(url);
     }
 
 

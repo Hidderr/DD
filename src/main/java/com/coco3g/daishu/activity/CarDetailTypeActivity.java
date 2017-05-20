@@ -88,6 +88,19 @@ public class CarDetailTypeActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        //跑马灯
+        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+                String url = mBroadCastList.get(position).get("linkurl");
+                if (!TextUtils.isEmpty(url)) {
+                    Intent intent = new Intent(CarDetailTypeActivity.this, WebActivity.class);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                }
+            }
+        });
+        //
         //
         mSuperRefresh.setRefreshingLoad();
     }
@@ -96,7 +109,7 @@ public class CarDetailTypeActivity extends BaseActivity {
     //获取banner图片
     public void getBanner() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("type", "2");
+        params.put("type", "10");
         new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
@@ -126,7 +139,7 @@ public class CarDetailTypeActivity extends BaseActivity {
     //获取跑马灯
     private void getBroadCastData() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("type", "7");
+        params.put("type", "11");
         new BaseDataPresenter(this).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

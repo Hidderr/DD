@@ -184,6 +184,12 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         fillData();
     }
 
+    public ArrayList<Map<String, String>> getData() {
+        // TODO Auto-generated method stub
+        return mCurrBannerList;
+    }
+
+
     public void setList(final String videoimg, final String videourl, final String fullvideourl, final List<String> list) {
         //
         if (mIsVideo && !TextUtils.isEmpty(videoimg) && !TextUtils.isEmpty(videourl)) {
@@ -405,7 +411,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_PAGER_SCROLL_CONTROLL:
-                    if (!mIsVideo && mSurfaceHolder != null && !mSurfaceHolder.isPlaying()) {
+                    if (!mIsVideo) {
                         mCurrPagerItemPosition++;
                         mCurrPagerItemPosition = mCurrPagerItemPosition % mPagerAdapter.getCount();
                         mViewpagerBanner.setCurrentItem(mCurrPagerItemPosition++);
@@ -416,6 +422,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         }
 
     };
+
 
     /**
      * 暂停banner滚动

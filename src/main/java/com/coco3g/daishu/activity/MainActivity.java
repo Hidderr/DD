@@ -157,6 +157,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_home));
                 mTopbar.showHomeTopbar();
                 mTopbar.setSettingVisible(false);
+                mTopbar.showJiangLi(false);
                 if (mHomeFrag == null) {
                     mHomeFrag = (HomeFragment) new HomeFragment();
                     transaction.add(R.id.frame_main_content, mHomeFrag);
@@ -174,6 +175,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
                 mTopbar.setSettingVisible(false);
+                mTopbar.showJiangLi(false);
                 if (mGoodsFrag == null) {
                     mGoodsFrag = new GoodsFragment();
                     transaction.add(R.id.frame_main_content, mGoodsFrag);
@@ -182,12 +184,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 2: // 收益
-                if (!checkoutIfLogin()) {
-                    return;
-                }
+//                if (!checkoutIfLogin()) {
+//                    return;
+//                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
                 mTopbar.setSettingVisible(false);
+                mTopbar.showJiangLi(true);
                 if (mIncomeFrag == null) {
                     mIncomeFrag = new IncomeFragment();
                     transaction.add(R.id.frame_main_content, mIncomeFrag);
@@ -196,12 +199,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 3: // 维修救援
-                if (!checkoutIfLogin()) {
-                    return;
-                }
+//                if (!checkoutIfLogin()) {
+//                    return;
+//                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
                 mTopbar.setSettingVisible(false);
+                mTopbar.showJiangLi(false);
                 if (mRepairFrag == null) {
                     mRepairFrag = new RepairFragment();
                     transaction.add(R.id.frame_main_content, mRepairFrag);
@@ -211,21 +215,16 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 4: // 我的
-                if (!checkoutIfLogin()) {
-                    return;
-                }
+//                if (!checkoutIfLogin()) {
+//                    return;
+//                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.personal_center));
                 mTopbar.setSettingVisible(true);
+                mTopbar.showJiangLi(false);
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();
                     transaction.add(R.id.frame_main_content, mMeFrag);
-                    mMeFrag.setOnLogoutListener(new MeFragment.OnLogoutListener() {
-                        @Override
-                        public void logout() {
-                            setTabSelection(0);
-                        }
-                    });
                 } else {
                     transaction.show(mMeFrag);
                 }

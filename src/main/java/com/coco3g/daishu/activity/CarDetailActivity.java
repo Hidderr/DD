@@ -4,10 +4,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.ViewPagerAdapter;
+import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.view.BusinessMapView;
 import com.coco3g.daishu.view.CanShuDetailView;
 import com.coco3g.daishu.view.NewestOfferView;
@@ -68,9 +70,13 @@ public class CarDetailActivity extends BaseActivity {
                 } else if (position == 1) {  //商家地图
 
                 } else if (position == 2) {  //参数详情
-
+                    if (TextUtils.isEmpty(canShuDetailView.url)) {
+                        String url = Global.H5Map.get("cardetail");
+                        if (!TextUtils.isEmpty(url)) {
+                            canShuDetailView.loadUrl(url);
+                        }
+                    }
                 }
-
             }
 
             @Override

@@ -56,6 +56,19 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:background="@mipmap/pic_me_setting_icon"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tv_main_income_zhidu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="奖励制度"
+            android:textColor="@color/text_color_1"
+            android:textSize="14sp"
             android:visibility="gone"/>
 
     </RelativeLayout>

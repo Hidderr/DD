@@ -448,7 +448,6 @@ public class Global {
      */
     public static void serializeData(Context context, Object hm, String dir) {
         String path = context.getFilesDir().getPath() + File.separator + dir;
-        Log.e("序列化目录_存储", path);
         File f = new File(path);
         try {
             if (!f.exists()) {
@@ -492,7 +491,6 @@ public class Global {
      */
     public static Object readSerializeData(Context context, String dir) {
         String path = context.getFilesDir().getPath() + File.separator + dir;
-        Log.e("序列化目录_读取", path);
         Object o = new Object();
         File f = new File(path);
         if (f.exists()) {
@@ -1037,6 +1035,15 @@ public class Global {
         header.put("token", (String) (Global.readSerializeData(context, Global.APP_CACHE)));
         header.put("timestamp", System.currentTimeMillis() / 1000 + "");
         return header;
+    }
+
+    public static boolean checkoutLogin(Context context) {
+        if (Global.USERINFOMAP == null) {
+            Intent intent = new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
+            return false;
+        }
+        return true;
     }
 
 

@@ -2,6 +2,7 @@ package com.coco3g.daishu.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -47,6 +48,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mEditPassWord = (EditText) findViewById(R.id.edit_register_password);
         mEditVeriCode = (EditText) findViewById(R.id.edit_register_verification);
         mTxtLogin = (TextView) findViewById(R.id.tv_register_go_login);
+        mTxtLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mTxtRegister = (TextView) findViewById(R.id.tv_register_start);
         mTimingView = (TimingView) findViewById(R.id.timing_register_get_certificate_code);
         mTxtXieYi = (TextView) findViewById(R.id.tv_register_xieyi_2);
