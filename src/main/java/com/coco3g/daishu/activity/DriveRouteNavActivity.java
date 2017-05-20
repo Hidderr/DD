@@ -1,16 +1,7 @@
 package com.coco3g.daishu.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
@@ -32,18 +23,10 @@ import com.amap.api.navi.model.NaviLatLng;
 import com.autonavi.tbt.TrafficFacilityInfo;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.amap.TTSController;
-import com.coco3g.daishu.bean.BaseDataBean;
-import com.coco3g.daishu.data.Constants;
-import com.coco3g.daishu.data.DataUrl;
-import com.coco3g.daishu.data.Global;
-import com.coco3g.daishu.listener.IBaseDataListener;
-import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.TopBarView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class DriveRouteNavActivity extends Activity implements AMapNaviViewListener, AMapNaviListener {

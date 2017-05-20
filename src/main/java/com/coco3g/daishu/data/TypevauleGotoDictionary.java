@@ -310,8 +310,8 @@ public class TypevauleGotoDictionary {
                 .setShowCamera(true)
                 .setMultiMode(false)
                 .setCrop(true)
-                .setStyle(CropImageView.Style.CIRCLE)
-                .start((Activity) mContext);
+                .setStyle(CropImageView.Style.CIRCLE);
+        ImagePicker.getInstance().start((Activity) mContext);
     }
 
     //提示对话框
