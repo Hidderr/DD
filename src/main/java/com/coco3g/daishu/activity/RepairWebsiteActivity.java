@@ -58,7 +58,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     private TextView rightView;
 
     private ArrayList<Map<String, String>> grageList;  //维修等级
-    private int currChooseIndex = 0;
+    private int currChooseIndex = -1;
 
     private Marker detailMarker;
     private LatLonPoint mCurrLatLonPoint = null;

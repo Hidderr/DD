@@ -88,9 +88,9 @@
             android:layout_height="wrap_content"
             android:drawablePadding="1dp"
             android:drawableRight="@mipmap/pic_arrow_down_icon"
-            android:gravity="center"
-            android:padding="10dp"
+            android:gravity="center_vertical"
             android:text="定位中"
+            android:padding="10dp"
             android:textColor="@color/text_color_1"
             android:textSize="14sp" />
 

@@ -89,12 +89,6 @@ public class IncomeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (position == 0) {
-            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_red_icon);
-        } else {
-            viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_grey_icon);
-        }
-
         Map<String, String> incomeMap = mList.get(position);
 
         //
@@ -103,12 +97,12 @@ public class IncomeAdapter extends BaseAdapter {
         viewHolder.mTxtMoney.setText("会员推荐奖励：" + incomeMap.get("price"));
         viewHolder.mTxtTime.setText(incomeMap.get("addtime"));
         //
-        String vipId = incomeMap.get("item_id");
+        String vipId = incomeMap.get("groupid");
         if (vipId.equals("1")) {  //铜
             viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_red_icon);
         } else if (vipId.equals("2")) {   //银
             viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_grey_icon);
-        } else {   //金
+        } else if (vipId.equals("3")) {   //金
             viewHolder.mImageThumb.setImageResource(R.mipmap.pic_income_yellow_icon);
         }
 
