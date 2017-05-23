@@ -51,7 +51,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     HomeMenuImageView mRepairMenu1, mRepairMenu2, mRepairMenu3, mRepairMenu4, mRepairMenu5;
     int[] mNavIconResID = new int[]{R.mipmap.pic_help_phone, R.mipmap.pic_car_repair, R.mipmap.pic_server_confirm, R.mipmap.pic_car_account,
             R.mipmap.pic_history_record};
-    String[] mTitles = new String[]{"救援电话", "车辆维修", "服务确认", "我的账单", "历史记录"};
+    String[] mTitles = new String[]{"救援电话", "袋鼠好车维修点", "服务确认", "我的账单", "历史记录"};
     //
 
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
@@ -131,8 +131,8 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_repair_menu_2:  //车辆维修
                 intent = new Intent(getActivity(), RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "2");  //门店类型：1=洗车店，2=维修点，3=附近门店
-                intent.putExtra("title", "维修网点");
+                intent.putExtra("typeid", "1");  //门店类型：-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("title", "袋鼠好车维修点");
                 startActivity(intent);
 
                 break;

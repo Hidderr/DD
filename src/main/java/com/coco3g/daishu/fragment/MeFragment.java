@@ -40,7 +40,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     HorizontalScrollView mHorizontalScroll;
     RelativeLayout mRelativeInfo;
     TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember,
-            mTxtName, mTxtMemberID, mTxtMemberType, mTxtYouHuiQuan;
+            mTxtName, mTxtMemberID, mTxtMemberType, mTxtYouHuiQuan, mTxtAddress;
     //
     Drawable drawableRight, drawableDown;
     boolean isNurseExpands = false;
@@ -88,6 +88,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //        mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
         mTxtYouHuiQuan = (TextView) mMeView.findViewById(R.id.tv_me_shopping_youhui_quan);
+        mTxtAddress = (TextView) mMeView.findViewById(R.id.tv_me_update_address);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
         avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -104,6 +105,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //        mTxtLogout.setOnClickListener(this);
         mTxtYouHuiQuan.setOnClickListener(this);
         mRelativeInfo.setOnClickListener(this);
+        mTxtAddress.setOnClickListener(this);
     }
 
     @Override
@@ -150,6 +152,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tv_me_update_member:  //升级会员
                 intentToWeb(Global.H5Map.get("vip"));
+
+                break;
+            case R.id.tv_me_update_address:  //收货地址管理
+                intentToWeb(Global.H5Map.get("address"));
 
                 break;
             case R.id.image_me_top_qr:  //二维码

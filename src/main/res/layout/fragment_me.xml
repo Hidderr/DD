@@ -297,6 +297,25 @@
                 android:textColor="@color/text_color_1"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/tv_me_update_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/pic_address_manager_icon"
+                android:drawablePadding="13dp"
+                android:drawableRight="@mipmap/pic_arrow_grey_right"
+                android:gravity="center_vertical"
+                android:paddingBottom="14dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="14dp"
+                android:text="收货地址管理"
+                android:textColor="@color/text_color_1"
+                android:textSize="15sp" />
+
 
             <!--<TextView-->
             <!--android:id="@+id/tv_me_frag_logout"-->

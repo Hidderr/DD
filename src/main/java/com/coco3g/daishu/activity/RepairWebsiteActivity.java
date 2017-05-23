@@ -5,27 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.AMapUtils;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.poisearch.Photo;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch;
 import com.coco3g.daishu.R;
-import com.coco3g.daishu.amap.MyPoiOverlay;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.bean.RepairStoreBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -35,8 +25,6 @@ import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.ChoosePopupwindow;
 import com.coco3g.daishu.view.MyMapView;
-import com.coco3g.daishu.view.MyMarkerView;
-import com.coco3g.daishu.view.MyProgressDialog;
 import com.coco3g.daishu.view.TopBarView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -52,12 +40,12 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     private TextView mTxtName, mTxtAddress, mTxtPhone;
     private ImageView mImageThumb, mImageRoute;
     //
-    private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+    private String typeid = "";  //获取的地点类型  -1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
     private String title = "";
 
     private TextView rightView;
 
-    private ArrayList<Map<String, String>> grageList;  //维修等级
+    private ArrayList<Map<String, String>> gradeList;  //维修等级
     private int currChooseIndex = -1;
 
     private Marker detailMarker;
@@ -86,13 +74,13 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down_icon);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         rightView.setCompoundDrawables(null, null, drawable, null);
-        if (!TextUtils.isEmpty(typeid) && typeid.equals("2")) {
+        if (!TextUtils.isEmpty(typeid) && typeid.equals("1")) {  // -1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
             mTopbar.setRightView(rightView);
         }
         mTopbar.setOnClickRightListener(new TopBarView.OnClickRightView() {
             @Override
             public void onClickTopbarView() {
-                if (grageList == null || grageList.size() <= 0) {
+                if (gradeList == null || gradeList.size() <= 0) {
                     getRepairGradeList();
                 } else {
                     showPopupWidnow();
@@ -106,7 +94,9 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         mImageThumb = (ImageView) findViewById(R.id.image_repair_website_store_thumb);
         mImageRoute = (ImageView) findViewById(R.id.image_repair_website_store_route);
         myMapView = (MyMapView) findViewById(R.id.map_repair_website);
-        myMapView.setTypeid(typeid);
+        if (!TextUtils.isEmpty(typeid)) {
+            myMapView.setTypeid(typeid);
+        }
         myMapView.init(savedInstanceState, true, true);
         //
         mRelativeStore = (RelativeLayout) findViewById(R.id.relative_repair_website_repair_store);
@@ -181,12 +171,18 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     }
 
     public void showPopupWidnow() {
-        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 50, 0, grageList, currChooseIndex);
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 50, 0, gradeList, currChooseIndex);
         popupwindow.showAsDropDown(rightView, 0, 20);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override
             public void textSelected(int position) {
                 currChooseIndex = position;
+                if (gradeList != null) {
+                    String typeid = gradeList.get(position).get("id");
+                    myMapView.refreshData(typeid);
+                }
+
+//                myMapView.clearMarker();
 
             }
         });
@@ -220,7 +216,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_GRAGE_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                grageList = (ArrayList<Map<String, String>>) data.response;
+                gradeList = (ArrayList<Map<String, String>>) data.response;
             }
 
             @Override
@@ -237,7 +233,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
         myMapView.onResume();
-        if (grageList == null) {
+        if (gradeList == null) {
             getRepairGradeList();
         }
     }

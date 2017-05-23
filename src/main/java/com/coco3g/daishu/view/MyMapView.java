@@ -3,6 +3,7 @@ package com.coco3g.daishu.view;
 import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     boolean showDialog;
 
     //
-    private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+    private String typeid = "";  //获取的地点类型  	-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
 
 
     public MyMapView(Context context) {
@@ -284,14 +285,24 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     }
 
 
+    //筛选的时候
+    public void refreshData(String typeid) {
+        poiItems.clear();
+        this.typeid = typeid;
+        getRepairStoreList(mContext.getResources().getString(R.string.loading), true);
+    }
+
+
     //获取附近的汽车修理店的信息
     public void getRepairStoreList(String loadMsg, final boolean isZoomToSpan) {
         HashMap<String, String> params = new HashMap<>();
         params.put("lat", mCurrLatLonPoint.getLatitude() + "");
         params.put("lng", mCurrLatLonPoint.getLongitude() + "");
         params.put("distance", mBaseDistance + "");
-        params.put("typeid", typeid);        //门店类型：1=洗车店，2=维修点，3=附近门店
-
+        if (!TextUtils.isEmpty(typeid)) {
+            params.put("joinid", typeid);  //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+        }
+        Log.e("地图传参", "distance " + mBaseDistance + "   joinid " + typeid);
         new BaseDataPresenter(mContext).loadData(DataUrl.GET_REPAIR_STORE, params, loadMsg, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
@@ -314,6 +325,15 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
             public void onError() {
             }
         });
+    }
+
+
+    public void clearMarker() {
+        //清理之前搜索结果的marker
+        if (poiOverlay != null) {
+            poiOverlay.removeFromMap();
+        }
+        aMap.clear();
     }
 
 
@@ -357,6 +377,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
         //清理之前搜索结果的marker
         if (poiOverlay != null) {
             poiOverlay.removeFromMap();
+            poiOverlay = null;
         }
         aMap.clear();
         poiOverlay = new MyPoiOverlay(mContext, aMap, poiItems);

@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_home_menu_2:  //维护养修
                 intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "2");   //门店类型：1=洗车店，2=维修点，3=附近门店
+                intent.putExtra("typeid", "1");   //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "维修养护");
                 startActivity(intent);
 
@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_home_menu_3:  //洗车
                 intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "1");   //门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+                intent.putExtra("typeid", "-1");   //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "洗车");
                 startActivity(intent);
 
@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_home_menu_4:  //附近门店
                 intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "3");    //门店类型：1=洗车店，2=维修点，3=附近门店  4=维修养护
+//                intent.putExtra("typeid", "");    //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "附近门店");
                 startActivity(intent);
 
