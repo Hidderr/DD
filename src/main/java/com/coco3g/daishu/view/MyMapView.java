@@ -210,10 +210,12 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
         double southwest_lat = visibleBounds.southwest.latitude;
         double southwest_lng = visibleBounds.southwest.longitude;
         LatLng southwest_latLng = new LatLng(southwest_lat, southwest_lng);
+//        Log.e("经纬度，西南", visibleBounds.southwest.longitude + "," + visibleBounds.southwest.latitude);
         //东北角经纬度
         double northeast_lat = visibleBounds.northeast.latitude;
         double northeast_lng = visibleBounds.northeast.longitude;
         LatLng northeast_latLng = new LatLng(northeast_lat, northeast_lng);
+//        Log.e("经纬度，东北", visibleBounds.northeast.longitude + "," + visibleBounds.northeast.latitude);
 
         //自己定位位置的经纬度
         LatLng currLatLng = new LatLng(mCurrLat, mCurrLng);

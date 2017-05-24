@@ -25,11 +25,11 @@ import java.util.Map;
 
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
-    private EditText mEditPhone, mEditPassWord, mEditVeriCode;
+    private EditText mEditPhone, mEditPassWord, mEditVeriCode, mEditRocomdCode;
     private TextView mTxtLogin, mTxtRegister, mTxtXieYi;
     private TimingView mTimingView;
     //
-    private String mPhone = "", mPassWord = "", mVeriCode = "";
+    private String mPhone = "", mPassWord = "", mVeriCode = "", mRecomdCode = "";
 
 
     @Override
@@ -47,6 +47,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mEditPhone = (EditText) findViewById(R.id.edit_register_phone);
         mEditPassWord = (EditText) findViewById(R.id.edit_register_password);
         mEditVeriCode = (EditText) findViewById(R.id.edit_register_verification);
+        mEditRocomdCode = (EditText) findViewById(R.id.edit_register_recomd_code);
         mTxtLogin = (TextView) findViewById(R.id.tv_register_go_login);
         mTxtLogin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mTxtRegister = (TextView) findViewById(R.id.tv_register_start);
@@ -56,21 +57,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mTimingView.setTimeInterval(1000);
         mTimingView.setMaxSecond(60);
         mTimingView.setOnClickListener(this);
-        //输入用户名字的监听(控制删除按钮的显示与否)
-        mEditPhone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String mPhone = mEditPhone.getText().toString().trim();
-            }
-        });
         //
         mTxtLogin.setOnClickListener(this);
         mTxtRegister.setOnClickListener(this);
@@ -103,6 +89,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                     Global.showToast("密码长度不能小于6个字符", this);
                     return;
                 }
+
+                mRecomdCode = mEditRocomdCode.getText().toString().trim();
 
                 register();
 
@@ -164,6 +152,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         params.put("phone", mPhone);
         params.put("password", mPassWord);
         params.put("code", mVeriCode);
+        if (!TextUtils.isEmpty(mRecomdCode)) {
+            params.put("recom", mRecomdCode);
+        }
         new BaseDataPresenter(this).loadData(DataUrl.REGISTER, params, getResources().getString(R.string.registering), new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

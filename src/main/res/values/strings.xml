@@ -9,6 +9,7 @@
     <string name="loading">加载中...</string>
     <string name="fast_register">快速注册</string>
     <string name="password">密码</string>
+    <string name="recomd_code">推荐码</string>
     <string name="phone_verification">手机验证码</string>
     <string name="exit_app_tip">双击退出应用</string>
     <string name="third_party_login">第三方账号快速登录</string>

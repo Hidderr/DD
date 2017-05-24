@@ -171,8 +171,8 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     }
 
     public void showPopupWidnow() {
-        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 50, 0, gradeList, currChooseIndex);
-        popupwindow.showAsDropDown(rightView, 0, 20);
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 70, 0, gradeList, currChooseIndex);
+        popupwindow.showAsDropDown(rightView, -5, 35);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override
             public void textSelected(int position) {

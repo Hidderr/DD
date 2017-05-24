@@ -9,10 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 
+import com.andview.refreshview.callback.IFooterCallBack;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
@@ -23,6 +25,7 @@ import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.EditTextItemView;
 import com.coco3g.daishu.view.MyProgressDialog;
 import com.coco3g.daishu.view.MyWebView;
+import com.coco3g.daishu.view.SharePopupWindow;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.lqr.imagepicker.ImagePicker;
@@ -67,7 +70,7 @@ public class TypevauleGotoDictionary {
     public static HashMap<String, String> CALLBACKTAG = new HashMap<>();
     private MyProgressDialog myProgressDialog;
     //
-//    SharePopupWindow mSharePopupWindow;
+    SharePopupWindow mSharePopupWindow;
     public Coco3gBroadcastUtils mWXShareSuccessBroadcast;  //微信分享成功监听
     OnWebConfigurationListener onWebConfigurationListener;  //配置是否下拉刷新和topbar右上角是否有视图
     //
@@ -83,12 +86,14 @@ public class TypevauleGotoDictionary {
         mWXShareSuccessBroadcast.receiveBroadcast(Coco3gBroadcastUtils.SHARE_SUCCESS).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
             @Override
             public void receiveReturn(Intent intent) {     //typeid  1：qq   2:微信    3：朋友圈  4：微博
-//                if (mSharePopupWindow != null) {
-//                    mSharePopupWindow.dismiss();
-//                    String shareType = mSharePopupWindow.getmShareType() + "";
-//                    String js = "javascript:c3_navtive_user.callback('" + TypevauleGotoDictionary.CALLBACKTAG.get("callbackTag") + "','" + shareType + "');";
-//                    mWebview.loadUrl(js);
-//                }
+                if (mSharePopupWindow != null) {
+                    String shareType = mSharePopupWindow.getmShareType() + "";
+                    String js = "javascript:c3_navtive_user.callback('" + TypevauleGotoDictionary.CALLBACKTAG.get("callbackTag") + "','" + shareType + "');";
+                    mWebview.loadUrl(js);
+                    //
+                    mSharePopupWindow.dismiss();
+                    mSharePopupWindow = null;
+                }
             }
         });
     }
@@ -155,9 +160,10 @@ public class TypevauleGotoDictionary {
 
 
         } else if (value.startsWith(SHARE)) {  /***分享***/
-
-//            mSharePopupWindow = new SharePopupWindow(mContext, hashMap);
-//            mSharePopupWindow.showAtLocation(mRelativeRoot, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            if (mSharePopupWindow == null) {
+                mSharePopupWindow = new SharePopupWindow(mContext, hashMap);
+            }
+            mSharePopupWindow.showAtLocation(mRelativeRoot, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         } else if (value.startsWith(CLOSE_WINDOW)) {  /***关闭当前页面***/
             ((Activity) mContext).finish();
 
