@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
             R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
-    String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "附近门店", "我要买车", "车载用品", "打折油卡", "机动车险"};
+    String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "快修门店", "我要买车", "车载用品", "打折油卡", "机动车险"};
 
     //
     OnRepairClickListener onRepairClickListener = null;

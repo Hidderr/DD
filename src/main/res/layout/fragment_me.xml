@@ -268,21 +268,6 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/tv_me_member_recommend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"
-                android:drawableLeft="@mipmap/pic_member_recommend"
-                android:drawablePadding="10dp"
-                android:drawableRight="@mipmap/pic_arrow_grey_right"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="会员推荐"
-                android:textColor="@color/text_color_1"
-                android:textSize="15sp" />
-
-            <TextView
                 android:id="@+id/tv_me_update_member"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -315,23 +300,6 @@
                 android:text="收货地址管理"
                 android:textColor="@color/text_color_1"
                 android:textSize="15sp" />
-
-
-            <!--<TextView-->
-            <!--android:id="@+id/tv_me_frag_logout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:background="@drawable/shape_txt_red_color"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="10dp"-->
-            <!--android:text="退出登录"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="16sp" />-->
-
 
         </LinearLayout>
     </ScrollView>

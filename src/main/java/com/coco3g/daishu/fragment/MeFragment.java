@@ -39,7 +39,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
     RelativeLayout mRelativeInfo;
-    TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtMemberRecommend, mTxtUpdateMember,
+    TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtUpdateMember,
             mTxtName, mTxtMemberID, mTxtMemberType, mTxtYouHuiQuan, mTxtAddress;
     //
     Drawable drawableRight, drawableDown;
@@ -81,7 +81,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtShoppingAccount = (TextView) mMeView.findViewById(R.id.tv_me_shopping_account);
         mTxtBalance = (TextView) mMeView.findViewById(R.id.tv_me_account_balance);
         mTxtCompact = (TextView) mMeView.findViewById(R.id.tv_me_compact);
-        mTxtMemberRecommend = (TextView) mMeView.findViewById(R.id.tv_me_member_recommend);
         mTxtUpdateMember = (TextView) mMeView.findViewById(R.id.tv_me_update_member);
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
@@ -99,7 +98,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtShoppingAccount.setOnClickListener(this);
         mTxtBalance.setOnClickListener(this);
         mTxtCompact.setOnClickListener(this);
-        mTxtMemberRecommend.setOnClickListener(this);
         mTxtUpdateMember.setOnClickListener(this);
         mImageQRCode.setOnClickListener(this);
 //        mTxtLogout.setOnClickListener(this);
@@ -146,10 +144,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intentToWeb(Global.H5Map.get("hetong"));
 
                 break;
-            case R.id.tv_me_member_recommend:  //会员推荐
-                intentToWeb(Global.H5Map.get("tuijian"));
-
-                break;
             case R.id.tv_me_update_member:  //升级会员
                 intentToWeb(Global.H5Map.get("vip"));
 
@@ -166,29 +160,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 myQRcodeDialog();
 
                 break;
-//            case R.id.tv_me_frag_logout:  //退出登录
-//                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-//                builder.setMessage("退出账号将删除历史数据，下次登录可以继续使用本账号");
-//                builder.setTitle("提示");
-//                builder.setPositiveButton("退出", new android.app.AlertDialog.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // TODO Auto-generated method stub
-//                        Global.logout(getActivity());
-//                        OnLogout();
-//                    }
-//
-//                });
-//                builder.setNegativeButton(getString(R.string.cancel), new android.app.AlertDialog.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // TODO Auto-generated method stub
-//
-//                    }
-//                });
-//                builder.create().show();
-//
-//                break;
 
         }
     }

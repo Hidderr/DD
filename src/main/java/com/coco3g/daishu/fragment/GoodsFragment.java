@@ -39,8 +39,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
     LinearLayout.LayoutParams lpLinear;
     HomeMenuImageView[] mMenuRes;
     HomeMenuImageView mReadMenu1, mReadMenu2, mReadMenu3, mReadMenu4, mReadMenu5;
-    int[] mNavIconResID = new int[]{R.mipmap.pic_car_shop, R.mipmap.pic_car_insurance, R.mipmap.pic_car_tyre, R.mipmap.pic_car_gasoline,
-            R.mipmap.pic_car_other};
+    int[] mNavIconResID = new int[]{R.mipmap.pic_car_shop, R.mipmap.pic_car_insurance, R.mipmap.pic_car_tyre, R.mipmap.pic_car_gasoline, R.mipmap.pic_car_other};
     String[] mNavTitles = new String[]{"汽车商城", "汽车保险", "车载用品", "油品区", "其他产品"};
 
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯

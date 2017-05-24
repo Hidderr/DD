@@ -29,7 +29,7 @@
             android:layout_below="@+id/image_home_menu_item_icon"
             android:layout_centerHorizontal="true"
             android:text="我的汽车"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/text_color_4"
             android:textSize="13sp" />
     </RelativeLayout>
