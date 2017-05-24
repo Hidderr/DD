@@ -91,10 +91,13 @@ public class IncomeAdapter extends BaseAdapter {
 
         Map<String, String> incomeMap = mList.get(position);
 
-        //
+        //昵称
         viewHolder.mTxtName.setText(incomeMap.get("nickname"));
+        //手机号码
         viewHolder.mTxtPhone.setText(incomeMap.get("phone"));
-        viewHolder.mTxtMoney.setText("会员推荐奖励：" + incomeMap.get("price"));
+        //会员推荐奖励
+        viewHolder.mTxtMoney.setText("会员推荐奖励：" + incomeMap.get("price") + "元");
+        //时间
         viewHolder.mTxtTime.setText(incomeMap.get("addtime"));
         //
         String vipId = incomeMap.get("groupid");
