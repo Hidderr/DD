@@ -121,35 +121,27 @@ public class TypevauleGotoDictionary {
         CALLBACKTAG = hashMap;
         if (value.startsWith(indexNativeKey_gotopage)) {   /***h5页面跳转***/
             Map<String, String> urlDecodeMap = Global.parseCustomUrl(value);
-            Log.e("打开当前页面", urlDecodeMap.get("target"));
+            Log.e("是否在当前页面打开", urlDecodeMap.get("target") + " 到底那一页");
             if (urlDecodeMap.get("target").equals("self")) {  //当前webview加载url,不重新跳转到新的页面
-//                mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
-                myWebView.loadUrl(urlDecodeMap.get("url"));
-                Log.e("打开当前页面", urlDecodeMap.get("url"));
-//                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
-//                    myWebView.loadUrl(urlDecodeMap.get("url"));
-//                    Log.e("gotopager加载的网址", "MyWebview" + urlDecodeMap.get("url"));
-//                } else {
-//                    mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
-//                    Log.e("gotopager加载的网址", "mWebview" + urlDecodeMap.get("url"));
-//                }
-//                //webactivity的配置信息
-//                String pullrefresh = hashMap.get("pullrefresh");
-//                String rightBtn = hashMap.get("rightBtn");
-//                if (!TextUtils.isEmpty(rightBtn)) {
-//                    Gson gson = new Gson();
-//                    ArrayList<Map<String, String>> listdata = gson.fromJson(rightBtn, ArrayList.class);
-//                    configurationData(pullrefresh, listdata);
-//                } else {
-//                    configurationData(pullrefresh, null);
-//                }
+                //myWebview是从WebActivity传递过来的，mWebView是从MyWebview传递过来的
+                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                    myWebView.loadUrl(urlDecodeMap.get("url"));
+                    Log.e("gotopager加载的网址", "MyWebview" + urlDecodeMap.get("url"));
+                } else {
+                    mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
+                    Log.e("gotopager加载的网址", "mWebview" + urlDecodeMap.get("url"));
+                }
+
             } else if (urlDecodeMap.get("target").equals("blank")) {   //跳转到新的页面
                 intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("url", urlDecodeMap.get("url"));
                 ((Activity) mContext).startActivityForResult(intent, Global.REFRESH_DATA);
-            } else {  //如果用没有target时候，默认当前页打开
-                myWebView.loadUrl(urlDecodeMap.get("url"));
-                Log.e("打开当前页面", urlDecodeMap.get("url"));
+            } else {  //当没有传递"self"时候，默认当前页面打开
+                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                    myWebView.loadUrl(urlDecodeMap.get("url"));
+                } else {
+                    mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
+                }
             }
 
 
