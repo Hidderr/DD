@@ -1,13 +1,17 @@
 package com.coco3g.daishu.view;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by lisen on 2016/9/27.
@@ -20,25 +24,30 @@ public class MySurfaceHolder implements SurfaceHolder.Callback {
     //
     ShowButtonListener showbuttonlistener;
     PauseListener pauselistener;
-    //    Timer mTimer;
-//    TimerTask mTask;
+    OnComeInListener showComeInListener;
+    Timer mTimer;
+    TimerTask mTask;
     private int position = 0;
-    String mUrl = "";
 
-    public MySurfaceHolder(final Context mContext, SurfaceView surfaceview, String url) {
+    public MySurfaceHolder(final Context mContext, SurfaceView surfaceview) {
         this.mContext = mContext;
         mSurfaceVideo = surfaceview;
-        mUrl = url;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-//        playVideo();
+        Log.e("创建surface", "创建surface");
+        playVideo();
 //        timerControl(false);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+//        try {
+//            mMediaPlayer.seekTo(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -58,12 +67,17 @@ public class MySurfaceHolder implements SurfaceHolder.Callback {
 //            public void run() {
 //                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
 //                    int currSec = mMediaPlayer.getCurrentPosition() / 1000;
-////                    if (currSec == 20 && !isreplay) {
-////                        Message mess = new Message();
-////                        mess.what = 0;
-////                        mHandler.sendMessage(mess);
-////                    }
-//                    if (currSec == 6) {
+//                    if (currSec == 1 && !isreplay) {   //显示"直接登录"
+//                        Message mess = new Message();
+//                        mess.what = 3;
+//                        mHandler.sendMessage(mess);
+//                    }
+//                    if (currSec == 20 && !isreplay) {   //显示"从新播放"
+//                        Message mess = new Message();
+//                        mess.what = 0;
+//                        mHandler.sendMessage(mess);
+//                    }
+//                    if (currSec == 26) {      //停止界面
 //                        mMediaPlayer.pause();
 //                        Message mess = new Message();
 //                        mess.what = 1;
@@ -76,49 +90,42 @@ public class MySurfaceHolder implements SurfaceHolder.Callback {
 //        };
 //        mTimer.schedule(mTask, 0, 500);
 //    }
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    showButton();
-                    break;
-                case 1:
-//                    videoPause();
-                    replayVideo();
-                    break;
-            }
-        }
-    };
+//
+//    Handler mHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what) {
+//                case 0:
+//                    showJumpInto();
+//                    break;
+//            }
+//        }
+//    };
 
     /**
      * 播放视频
      */
-    public void playVideo() {
+    private void playVideo() {
         try {
             mMediaPlayer = new MediaPlayer();
-//            AssetFileDescriptor fileDescriptor = mContext.getAssets().openFd("start_video.mp4");
+            AssetFileDescriptor fileDescriptor = mContext.getAssets().openFd("start.mp4");
             mMediaPlayer.reset();
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//            mMediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
-            mMediaPlayer.setDataSource(mContext, Uri.parse(mUrl));
+            mMediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
             // 把视频输出到SurfaceView上
             mMediaPlayer.setDisplay(mSurfaceVideo.getHolder());
-            mMediaPlayer.setVolume(0, 0);
             mMediaPlayer.prepare();
-//            mMediaPlayer.start();
+            mMediaPlayer.start();
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-//                    mMediaPlayer.seekTo(position);
-                    mMediaPlayer.start();
+                    mMediaPlayer.seekTo(position);
                 }
             });
             mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
+                public void onCompletion(MediaPlayer mp) {
                     replayVideo();
                 }
             });
@@ -128,49 +135,26 @@ public class MySurfaceHolder implements SurfaceHolder.Callback {
     }
 
     public void replayVideo() {
-//        mMediaPlayer.stop();
-//        mMediaPlayer.release();
-//        mMediaPlayer = null;
-        position = 0;
-//        playVideo();
-        mMediaPlayer.seekTo(position);
-        mMediaPlayer.start();
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.seekTo(0);
+        } else {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+            position = 0;
+            playVideo();
+//            timerControl(true);
+        }
     }
 
     /**
      * 停止播放
      */
-    public void stop() {
+    private void stop() {
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
-        }
-    }
-
-    public boolean isPlaying() {
-        if (mMediaPlayer != null) {
-            return mMediaPlayer.isPlaying();
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 暂停后继续播放
-     */
-    public void pauseAndStart() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer.start();
-        }
-    }
-
-    /**
-     * 暂停播放
-     */
-    public void pause() {
-        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
         }
     }
 
@@ -203,4 +187,18 @@ public class MySurfaceHolder implements SurfaceHolder.Callback {
             pauselistener.videoPause();
         }
     }
+
+    public interface OnComeInListener {
+        void comeIn();
+    }
+
+    public void setOnComeInListener(OnComeInListener showComeInListener) {
+        this.showComeInListener = showComeInListener;
+    }
+
+    public void showJumpInto() {
+        showComeInListener.comeIn();
+    }
+
+
 }

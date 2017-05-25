@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.coco3g.daishu.activity.MainActivity;
-import com.coco3g.daishu.activity.StartActivity;
+import com.coco3g.daishu.activity.StartActivity2;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.JPushData;
 import com.coco3g.daishu.data.Constants;
@@ -133,7 +133,7 @@ public class MyReceiver extends BroadcastReceiver {
                     context.startActivity(intent);
                 }
             } else { // 应用外
-                Intent intent = new Intent(context, StartActivity.class);
+                Intent intent = new Intent(context, StartActivity2.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("msgtype", msgtype);
                 if ("2".equals(msgtype)) {
@@ -145,7 +145,7 @@ public class MyReceiver extends BroadcastReceiver {
                 context.startActivity(intent);
             }
         } catch (Exception e) {
-            Intent intent = new Intent(context, StartActivity.class);
+            Intent intent = new Intent(context, StartActivity2.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

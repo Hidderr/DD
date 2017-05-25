@@ -190,36 +190,36 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
     }
 
 
-    public void setList(final String videoimg, final String videourl, final String fullvideourl, final List<String> list) {
-        //
-        if (mIsVideo && !TextUtils.isEmpty(videoimg) && !TextUtils.isEmpty(videourl)) {
-            mPoints.setPointNum(list.size() + 1);
-            //
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / mScreenRatio);
-            mSurfaceVideo = new SurfaceView(mContext, null);
-            mSurfaceVideo.setTag(fullvideourl);
-            mSurfaceVideo.setLayoutParams(lp);
-            mSurfaceHolder = new MySurfaceHolder(mContext, mSurfaceVideo, videourl);
-            mSurfaceVideo.getHolder().setKeepScreenOn(true);
-            mSurfaceVideo.getHolder().addCallback(mSurfaceHolder);
-        } else {
-            mPoints.setPointNum(list.size());
-        }
-        mPoints.setSelectIndex(mCurrPagerItemPosition);
-        mIsBannerScroll = true;
-
-        initTimer();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-//                    if (jcVideoView != null) {
-//                        jcVideoView.startPlayLogic();
-//                    }
-                mPagerAdapter = new MyViewPagerAdapter(videoimg, videourl, list);
-                mViewpagerBanner.setAdapter(mPagerAdapter);
-            }
-        }, 200);
-    }
+//    public void setList(final String videoimg, final String videourl, final String fullvideourl, final List<String> list) {
+//        //
+//        if (mIsVideo && !TextUtils.isEmpty(videoimg) && !TextUtils.isEmpty(videourl)) {
+//            mPoints.setPointNum(list.size() + 1);
+//            //
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / mScreenRatio);
+//            mSurfaceVideo = new SurfaceView(mContext, null);
+//            mSurfaceVideo.setTag(fullvideourl);
+//            mSurfaceVideo.setLayoutParams(lp);
+//            mSurfaceHolder = new MySurfaceHolder(mContext, mSurfaceVideo, videourl);
+//            mSurfaceVideo.getHolder().setKeepScreenOn(true);
+//            mSurfaceVideo.getHolder().addCallback(mSurfaceHolder);
+//        } else {
+//            mPoints.setPointNum(list.size());
+//        }
+//        mPoints.setSelectIndex(mCurrPagerItemPosition);
+//        mIsBannerScroll = true;
+//
+//        initTimer();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                    if (jcVideoView != null) {
+////                        jcVideoView.startPlayLogic();
+////                    }
+//                mPagerAdapter = new MyViewPagerAdapter(videoimg, videourl, list);
+//                mViewpagerBanner.setAdapter(mPagerAdapter);
+//            }
+//        }, 200);
+//    }
 
 //    public int getListSize() {
 //        return mPageViewList.size();
@@ -465,16 +465,16 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         initTimer();
     }
 
-    public void pausePlayVideo() {
-//        jcVideoView = null;
-        if (mSurfaceHolder != null) {
-            mSurfaceHolder.stop();
-        }
-    }
+//    public void pausePlayVideo() {
+////        jcVideoView = null;
+//        if (mSurfaceHolder != null) {
+//            mSurfaceHolder.stop();
+//        }
+//    }
 
     public void startVideo() {
         if (mSurfaceHolder != null) {
-            mSurfaceHolder.pauseAndStart();
+//            mSurfaceHolder.pauseAndStart();
         }
     }
 
