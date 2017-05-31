@@ -86,7 +86,9 @@
         <activity
             android:name=".activity.CarDetailActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.ShaiXuanListActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- 高德地图 -->

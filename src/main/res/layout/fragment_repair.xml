@@ -79,85 +79,142 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="2">
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:weightSum="12">
+
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:orientation="vertical">
 
-                        <com.coco3g.daishu.view.HomeMenuImageView
-                            android:id="@+id/view_repair_menu_1"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:gravity="center" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <com.coco3g.daishu.view.HomeMenuImageView
+                                android:id="@+id/view_repair_menu_1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingBottom="8dp"
+                                android:paddingTop="5dp" />
+
+                            <ImageView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/text_color_10" />
+
+                            <com.coco3g.daishu.view.HomeMenuImageView
+                                android:id="@+id/view_repair_menu_2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingBottom="8dp"
+                                android:paddingTop="5dp" />
+                        </LinearLayout>
 
                         <ImageView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
                             android:background="@color/text_color_10" />
 
-                        <com.coco3g.daishu.view.HomeMenuImageView
-                            android:id="@+id/view_repair_menu_2"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:gravity="center" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <com.coco3g.daishu.view.HomeMenuImageView
+                                android:id="@+id/view_repair_menu_3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingBottom="8dp"
+                                android:paddingTop="5dp" />
+
+                            <ImageView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/text_color_10" />
+
+                            <com.coco3g.daishu.view.HomeMenuImageView
+                                android:id="@+id/view_repair_menu_4"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingBottom="8dp"
+                                android:paddingTop="5dp" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:weightSum="3">
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginTop="1dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:weightSum="3">-->
 
-                        <com.coco3g.daishu.view.HomeMenuImageView
-                            android:id="@+id/view_repair_menu_3"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center" />
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/text_color_10" />
 
-                        <ImageView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/text_color_10" />
+                    <!--<com.coco3g.daishu.view.HomeMenuImageView-->
+                    <!--android:id="@+id/view_repair_menu_3"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center" />-->
 
-                        <com.coco3g.daishu.view.HomeMenuImageView
-                            android:id="@+id/view_repair_menu_4"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center" />
 
-                        <ImageView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/text_color_10" />
+                    <com.coco3g.daishu.view.HomeMenuImageView
+                        android:id="@+id/view_repair_menu_5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="5"
+                        android:gravity="center"
+                        android:padding="12dp" />
 
-                        <com.coco3g.daishu.view.HomeMenuImageView
-                            android:id="@+id/view_repair_menu_5"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center" />
-                    </LinearLayout>
 
+                    <!--<com.coco3g.daishu.view.HomeMenuImageView-->
+                    <!--android:id="@+id/view_repair_menu_4"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center" />-->
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="1dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@color/text_color_10" />-->
+
+                    <!--<com.coco3g.daishu.view.HomeMenuImageView-->
+                    <!--android:id="@+id/view_repair_menu_5"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center" />-->
+                    <!--</LinearLayout>-->
                 </LinearLayout>
-
             </LinearLayout>
-
         </ScrollView>
     </com.coco3g.daishu.view.SuperRefreshLayout>
-
 
 
     <com.coco3g.daishu.view.LoginRegisterView
@@ -168,9 +225,6 @@
         android:visibility="gone">
 
     </com.coco3g.daishu.view.LoginRegisterView>
-
-
-
 
 
 </RelativeLayout>

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.CarShopActivity;
 import com.coco3g.daishu.activity.RepairWebsiteActivity;
+import com.coco3g.daishu.activity.ShaiXuanListActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.adapter.HomeAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
@@ -149,15 +150,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_3:  //洗车
-                intent = new Intent(mContext, RepairWebsiteActivity.class);
+                intent = new Intent(mContext, ShaiXuanListActivity.class);
                 intent.putExtra("typeid", "-1");   //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "洗车");
                 startActivity(intent);
 
                 break;
 
-            case R.id.view_home_menu_4:  //附近门店
-                intent = new Intent(mContext, RepairWebsiteActivity.class);
+            case R.id.view_home_menu_4:  //快修门店
+                intent = new Intent(mContext, ShaiXuanListActivity.class);
 //                intent.putExtra("typeid", "");    //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "附近门店");
                 startActivity(intent);

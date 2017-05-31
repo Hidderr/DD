@@ -49,9 +49,9 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     //
     HomeMenuImageView[] mMenuRes;
     HomeMenuImageView mRepairMenu1, mRepairMenu2, mRepairMenu3, mRepairMenu4, mRepairMenu5;
-    int[] mNavIconResID = new int[]{R.mipmap.pic_help_phone, R.mipmap.pic_car_repair, R.mipmap.pic_server_confirm, R.mipmap.pic_car_account,
-            R.mipmap.pic_history_record};
-    String[] mTitles = new String[]{"救援电话", "袋鼠好车维修点", "服务确认", "我的账单", "历史记录"};
+    int[] mNavIconResID = new int[]{R.mipmap.pic_help_phone, R.mipmap.pic_car_account, R.mipmap.pic_server_confirm, R.mipmap.pic_history_record,
+            R.mipmap.pic_car_repair};
+    String[] mTitles = new String[]{"救援电话", "我的账单", "服务确认", "历史记录", "袋鼠好车维修点"};
     //
 
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
@@ -129,10 +129,9 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.view_repair_menu_2:  //车辆维修
-                intent = new Intent(getActivity(), RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "1");  //门店类型：-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "袋鼠好车维修点");
+            case R.id.view_repair_menu_2:  //我的账单
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", Global.H5Map.get("mybill"));
                 startActivity(intent);
 
                 break;
@@ -144,16 +143,17 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.view_repair_menu_4:  //我的账单
+            case R.id.view_repair_menu_4:  //历史记录
                 intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", Global.H5Map.get("mybill"));
+                intent.putExtra("url", Global.H5Map.get("history"));
                 startActivity(intent);
 
                 break;
 
-            case R.id.view_repair_menu_5:  //历史记录
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", Global.H5Map.get("history"));
+            case R.id.view_repair_menu_5:  //袋鼠大师维修点
+                intent = new Intent(getActivity(), RepairWebsiteActivity.class);
+                intent.putExtra("typeid", "1");  //门店类型：-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("title", "袋鼠好车维修点");
                 startActivity(intent);
 
                 break;

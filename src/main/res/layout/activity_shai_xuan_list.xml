@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_8"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.coco3g.daishu.view.TopBarView
+        android:id="@+id/tobbar_shai_xuan_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.coco3g.daishu.view.TopBarView>
+
+    <LinearLayout
+        android:id="@+id/linear_shai_xuan_list_tiaojian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tobbar_shai_xuan_list"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:weightSum="4">
+
+        <RelativeLayout
+            android:id="@+id/relative_shai_xuan_list_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_shai_xuan_list_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:maxLength="4"
+                android:text="高新区"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_shai_xuan_list_address"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_shai_xuan_list_address"
+                android:background="@color/text_color_8" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_shai_xuan_list_store_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_shai_xuan_list_store_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:text="门店种类"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_shai_xuan_list_store_type"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_shai_xuan_list_store_type"
+                android:background="@color/text_color_8" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_shai_xuan_list_moren_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_shai_xuan_list_moren_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:text="默认排序"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_shai_xuan_list_moren_order"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_shai_xuan_list_moren_order"
+                android:background="@color/text_color_8" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_shai_xuan_list_shaixuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_shai_xuan_list_shaixuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:text="筛选"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.coco3g.daishu.view.SuperRefreshLayout
+        android:id="@+id/sr_shai_xuan_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relative_shai_xuan_list_curr_address"
+        android:layout_below="@+id/linear_shai_xuan_list_tiaojian"
+        android:layout_marginTop="1dp">
+
+        <ListView
+            android:id="@+id/listview_shai_xuan_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        </ListView>
+    </com.coco3g.daishu.view.SuperRefreshLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relative_shai_xuan_list_curr_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_color_2" />
+
+        <TextView
+            android:id="@+id/tv_shai_xuan_list_curr_address_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:maxLines="2"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="当前地址："
+            android:textColor="@color/text_color_1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_shai_xuan_list_curr_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/image_shai_xuan_list_curr_location"
+            android:layout_toRightOf="@+id/tv_shai_xuan_list_curr_address_txt"
+            android:maxLines="2"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="四川省成都市高新区33号"
+            android:textColor="@color/text_color_1"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/image_shai_xuan_list_curr_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
+            android:src="@mipmap/pic_start_location_icon" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
