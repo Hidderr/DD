@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.view_home_menu_4:  //快修门店
                 intent = new Intent(mContext, ShaiXuanListActivity.class);
 //                intent.putExtra("typeid", "");    //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "附近门店");
+                intent.putExtra("title", "快修门店");
                 startActivity(intent);
 
                 break;
