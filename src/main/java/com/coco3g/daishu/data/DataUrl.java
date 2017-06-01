@@ -61,7 +61,7 @@ public class DataUrl {
     /*
      * 维修等级列表
      * */
-    public static final String GET_REPAIR_GRAGE_LIST = BASE_URL + "memberrepair/server_list";
+    public static final String GET_REPAIR_GRAGE_LIST = BASE_URL + "store/get_type";
     /*
      * 收益列表
      * */

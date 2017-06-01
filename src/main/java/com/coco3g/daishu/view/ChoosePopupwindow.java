@@ -39,7 +39,7 @@ public class ChoosePopupwindow extends PopupWindow {
         for (int i = 0; i < size; i++) {
             final TextView textView = new TextView(mContext);
             if (selectedIndex == i) {
-                textView.setTextColor(mContext.getResources().getColor(R.color.text_color_1));
+                textView.setTextColor(mContext.getResources().getColor(R.color.text_color_red_2));
             } else {
                 textView.setTextColor(mContext.getResources().getColor(R.color.text_color_2));
             }

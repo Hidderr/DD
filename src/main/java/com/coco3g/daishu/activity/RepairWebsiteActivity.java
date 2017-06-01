@@ -213,10 +213,12 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     //获取维修等级列表
     public void getRepairGradeList() {
         HashMap<String, String> params = new HashMap<>();
+        params.put("pid", "1");
         new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_GRAGE_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                gradeList = (ArrayList<Map<String, String>>) data.response;
+                Map<String,Object> map = (Map<String, Object>) data.response;
+                gradeList = (ArrayList<Map<String, String>>) map.get("joinlist");
             }
 
             @Override

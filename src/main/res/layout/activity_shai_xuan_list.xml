@@ -39,7 +39,7 @@
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/pic_arrow_down_icon"
                 android:maxLength="4"
-                android:text="高新区"
+                android:text="定位中"
                 android:textColor="@color/text_color_1"
                 android:textSize="16sp" />
 

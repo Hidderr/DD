@@ -2,6 +2,7 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +107,18 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
         viewHolder.mTxtAddress.setText(storeMap.get("address"));
         //
         viewHolder.mTxtDistance.setText(storeMap.get("juli") + "Km");
+        //汽车店的类别
+        String typename = storeMap.get("quaname");
+        if (!TextUtils.isEmpty(typename)) {
+            viewHolder.mTxtType.setVisibility(View.VISIBLE);
+            viewHolder.mTxtType.setText(typename);
+        } else {
+            viewHolder.mTxtType.setVisibility(View.GONE);
+        }
+        //完成单数
+        viewHolder.mTxtOrders.setText(storeMap.get("ordnums") + "单");
+        //评分
+        viewHolder.mTxtPingFen.setText(storeMap.get("evaluate"));
         //
         viewHolder.mRelativeRoot.setOnClickListener(new View.OnClickListener() {
             @Override

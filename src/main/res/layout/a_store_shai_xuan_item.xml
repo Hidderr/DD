@@ -37,8 +37,10 @@
 
                 <TextView
                     android:id="@+id/tv_store_shai_xuan_item_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_store_shai_xuan_item_type"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="小拇指汽车维修店"
@@ -52,7 +54,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/shape_txt_sx_red_bg"
-                    android:padding="2dp"
+                    android:paddingBottom="1dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="1dp"
                     android:text="标准洗车"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
@@ -110,8 +115,10 @@
 
                 <TextView
                     android:id="@+id/tv_store_shai_xuan_item_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_store_shai_xuan_item_distance"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="成都市高新区福成大道某欧路"

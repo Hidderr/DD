@@ -152,7 +152,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_repair_menu_5:  //袋鼠大师维修点
                 intent = new Intent(getActivity(), RepairWebsiteActivity.class);
-                intent.putExtra("typeid", "1");  //门店类型：-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("typeid", "1");  //门店类型：2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "袋鼠好车维修点");
                 startActivity(intent);
 

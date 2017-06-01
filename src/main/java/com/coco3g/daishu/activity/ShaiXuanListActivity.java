@@ -55,6 +55,19 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
 
     private double currLat, currLng;
 
+    private ArrayList<Map<String, String>> addressList = new ArrayList<>();
+    private ArrayList<Map<String, String>> storeTypeList = new ArrayList<>();
+    private ArrayList<Map<String, String>> orderList = new ArrayList<>();
+    private ArrayList<Map<String, String>> shaiXuanList = new ArrayList<>();
+    //
+    private ArrayList<Map<String, String>>[] types;
+    private int currSelected[] = new int[]{-1, -1, -1, -1};
+
+    private int currPosition;
+    private ChoosePopupwindow popupwindow;
+
+    private int currPage = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +123,7 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
         mAdapter = new StoreShaiXuanAdapter(ShaiXuanListActivity.this);
         mListView.setAdapter(mAdapter);
         //
+        mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
@@ -117,13 +131,16 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                     startLocation(true);
                 } else {
                     mAdapter.clearList();
+                    currPage = 1;
                     getStoreList();
                 }
             }
 
             @Override
             public void onLoadMore() {
-
+                currPage++;
+                Log.e("当前页面", currPage + "&&&");
+                getStoreList();
             }
         });
 
@@ -137,18 +154,26 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.relative_shai_xuan_list_address:  //地址
+                currPosition = 0;
+                showPopupWidnow(mRelativeAddress, currPosition);
 
                 break;
 
             case R.id.relative_shai_xuan_list_store_type:   //门店种类
+                currPosition = 1;
+                showPopupWidnow(mRelativeStoreType, currPosition);
 
                 break;
 
             case R.id.relative_shai_xuan_list_moren_order:  //默认排序
+                currPosition = 2;
+                showPopupWidnow(mRelativeMoRenOrder, currPosition);
 
                 break;
 
             case R.id.relative_shai_xuan_list_shaixuan:   //筛选
+                currPosition = 3;
+                showPopupWidnow(mRelativeShaiXuan, currPosition);
 
                 break;
 
@@ -183,48 +208,68 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 //
                 mRelativeCurrLocation.setVisibility(View.VISIBLE);
                 mTxtCurrLocation.setText(aMapLocation.getCity() + aMapLocation.getAoiName() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
-
+                mTxtAddress.setText(aMapLocation.getDistrict());
                 //
-                getStoreList();
-
+                getShaiXuanList(aMapLocation.getCity());
             }
         });
     }
 
 
-    public void showPopupWidnow(View view) {
-//        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 70, 0, gradeList, currChooseIndex);
-//        popupwindow.showAsDropDown(view, -5, 35);
-//        popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
-//            @Override
-//            public void textSelected(int position) {
-//                currChooseIndex = position;
-//                if (gradeList != null) {
-//                    String typeid = gradeList.get(position).get("id");
-//                    myMapView.refreshData(typeid);
-//                }
-//
-////                myMapView.clearMarker();
-//
-//            }
-//        });
-//        popupwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//
-//            }
-//        });
+    private void showPopupWidnow(View view, final int typePosition) {
+        if (popupwindow != null) {
+            popupwindow.dismiss();
+        }
+        ArrayList<Map<String, String>> typeList = new ArrayList<>();
+        typeList = types[typePosition];
+        popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4, 0, typeList, currSelected[typePosition]);
+        popupwindow.showAsDropDown(view, -5, 0);
+        popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
+            @Override
+            public void textSelected(int position) {
+                if (typePosition == 0) {
+                    currSelected[2] = -1;
+                } else if (typePosition == 2) {
+                    currSelected[0] = -1;
+                }
+                currSelected[typePosition] = position;
 
+
+                Log.e("当前选中的id", types[typePosition].get(position).get("id"));
+
+                if (typePosition == 0) {
+                    mTxtAddress.setText(addressList.get(position).get("title"));
+                }
+
+                mSuperRefresh.setRefreshingLoad();
+            }
+        });
+        popupwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                popupwindow = null;
+            }
+        });
     }
 
 
-    //获取维修等级列表
-    public void getSto() {
+    //获取筛选的条件
+    public void getShaiXuanList(String cityName) {
         HashMap<String, String> params = new HashMap<>();
+        params.put("city", cityName);
+        params.put("pid", typeid);
         new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_GRAGE_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-//                gradeList = (ArrayList<Map<String, String>>) data.response;
+                Map<String, Object> map = (Map<String, Object>) data.response;
+                addressList = (ArrayList<Map<String, String>>) map.get("citylist");
+                storeTypeList = (ArrayList<Map<String, String>>) map.get("qualist");
+                orderList = (ArrayList<Map<String, String>>) map.get("ordlist");
+                shaiXuanList = (ArrayList<Map<String, String>>) map.get("joinlist");
+                //
+                types = new ArrayList[]{addressList, storeTypeList, orderList, shaiXuanList};
+                //
+                getStoreList();
             }
 
             @Override
@@ -243,10 +288,31 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
         params.put("lat", Global.mCurrLat + "");
         params.put("lng", Global.mCurrLng + "");
         params.put("distance", mBaseDistance + "");
-        if (!TextUtils.isEmpty(typeid)) {
-            params.put("joinid", typeid);  //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+        params.put("page", currPage + "");
+        params.put("joinid", typeid);  //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+
+        //地区选择
+        if (currSelected[0] != -1) {
+            params.put("area", addressList.get(currSelected[0]).get("id"));
         }
-        Log.e("地图传参", "distance " + mBaseDistance + "   joinid " + typeid);
+
+        //门店种类
+        if (currSelected[1] != -1) {
+            params.put("qualific", storeTypeList.get(currSelected[1]).get("id"));
+        }
+
+        //默认排序
+        if (currSelected[2] != -1) {
+            params.put("order", orderList.get(currSelected[2]).get("id"));
+        }
+
+        //筛选
+        if (currSelected[3] != -1) {
+            params.put("joinid", shaiXuanList.get(currSelected[3]).get("id"));
+        }
+
+
+        Log.e("地图传参", "area " + params.get("area") + "   qualific " + params.get("qualific") + "   order" + params.get("order") + "    joinid" + params.get("joinid"));
         new BaseDataPresenter(ShaiXuanListActivity.this).loadData(DataUrl.GET_REPAIR_STORE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
@@ -254,10 +320,15 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
                 if (repairList == null || repairList.size() <= 0) {
                     mSuperRefresh.onLoadComplete();
+                    currPage--;
                     return;
                 }
                 Log.e("门店数量", repairList.size() + "");
-                mAdapter.setList(repairList);
+                if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
+                    mAdapter.setList(repairList);
+                } else {
+                    mAdapter.addList(repairList);
+                }
                 //
                 mSuperRefresh.onLoadComplete();
             }
@@ -266,11 +337,13 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
             public void onFailure(BaseDataBean data) {
                 Global.showToast(data.msg, ShaiXuanListActivity.this);
                 mSuperRefresh.onLoadComplete();
+                currPage--;
             }
 
             @Override
             public void onError() {
                 mSuperRefresh.onLoadComplete();
+                currPage--;
             }
         });
     }
