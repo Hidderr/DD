@@ -5,10 +5,9 @@ android {
         dashudashi {
             keyAlias 'DaiShuDaShi'
             keyPassword 'daishudashi.com'
-            storeFile file('/Users/coco3g/Documents/project/MyApplication1/DaiShuDaShi/daishudashi.jks')
+            storeFile file('/Users/lisen/Documents/AS-workspace/DaiShu/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
-
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.1"

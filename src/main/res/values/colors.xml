@@ -45,6 +45,7 @@
     <color name="transparent2">#88000000</color>
     <color name="transparent3">#b0000000</color>
     <color name="transparent4">#00ffffff</color>
+    <color name="transparent5">#888b8786</color>
 
 
     <!-- 下拉刷新时，颜色值 -->
