@@ -47,7 +47,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private RelativeLayout.LayoutParams avatar_lp;
     //
-    boolean meFragIsVisible = false; //meFragment在MainActivity中是否可见
+    boolean meFragIsVisible = true; //meFragment在MainActivity中是否可见
 
 
     //
