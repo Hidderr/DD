@@ -190,7 +190,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         meFragIsVisible = !hidden;
-        if (meFragIsVisible) {
+        if (Global.USERINFOMAP != null && meFragIsVisible) {
             getUserInfo();
         }
     }

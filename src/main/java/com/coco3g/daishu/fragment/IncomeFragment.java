@@ -15,13 +15,11 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
-import com.coco3g.daishu.view.LoginRegisterView;
 import com.coco3g.daishu.view.MyWebView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
