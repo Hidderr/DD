@@ -21,6 +21,7 @@ public class Coco3gBroadcastUtils {
     public static final String RONG_UNREAD_MSG_SYSTEM = "rong_unread_msg_system"; //设置融云未读的系统消息
     public static final String PERSONAL_RONG_UNREAD_MSG = "personal_rong_unread_msg"; //刷新与某人的融云未读消息
     public static final String RONG_CONNECT_STATE_FLAG = "rong_connect_state_flag"; //融云网络状态监听
+    public static final String LOG_OUT = "log_out"; //退出登录
     //
     private ReceiveBroadCast receiveBroadCast; // 广播实例
     OnReceiveBroadcastListener onreceivebroadcastlistener = null;

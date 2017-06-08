@@ -46,9 +46,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     boolean isNurseExpands = false;
 
     private RelativeLayout.LayoutParams avatar_lp;
-    private LinearLayout mLinearRoot;
+    //
+    boolean meFragIsVisible = false; //meFragment在MainActivity中是否可见
 
-    private LoginRegisterView loginRegisterView;
 
     //
 //    OnLogoutListener onLogoutListener;
@@ -69,9 +69,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private void initView() {
         mImageAvatar = (ImageView) mMeView.findViewById(R.id.image_me_top_avatar);
         mImageQRCode = (ImageView) mMeView.findViewById(R.id.image_me_top_qr);
-        loginRegisterView = (LoginRegisterView) mMeView.findViewById(R.id.login_me_frag);
         mImageRightArrow = (ImageView) mMeView.findViewById(R.id.image_me_top_arrow);
-        mLinearRoot = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_root);
         mRelativeInfo = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_my_info);
         //
         mHorizontalScroll = (HorizontalScrollView) mMeView.findViewById(R.id.horizontal_scroll_me_car_binding);
@@ -183,16 +181,19 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (Global.USERINFOMAP == null) {
-            mLinearRoot.setVisibility(View.GONE);
-            loginRegisterView.setVisibility(View.VISIBLE);
-        } else {
-            loginRegisterView.setVisibility(View.GONE);
-            mLinearRoot.setVisibility(View.VISIBLE);
+        if (meFragIsVisible) {
             getUserInfo();
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        meFragIsVisible = !hidden;
+        if (meFragIsVisible) {
+            getUserInfo();
+        }
+    }
 
     //我的专属二维码
     public void myQRcodeDialog() {

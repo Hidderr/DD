@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
             R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
-    String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "快修门店", "我要买车", "车载用品", "打折油卡", "机动车险"};
+    String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "违章查询", "我要买车", "车载用品", "打折油卡", "机动车险"};
 
     //
     OnRepairClickListener onRepairClickListener = null;
@@ -157,12 +157,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.view_home_menu_4:  //快修门店
-                intent = new Intent(mContext, ShaiXuanListActivity.class);
-//                intent.putExtra("typeid", "");    //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "快修门店");
-                intent.putExtra("typeid", "1");
-                startActivity(intent);
+            case R.id.view_home_menu_4:  //违章查询
+//                intent = new Intent(mContext, ShaiXuanListActivity.class);
+//                intent.putExtra("title", "快修门店");
+//                intent.putExtra("typeid", "1");
+//                startActivity(intent);
 
                 break;
 

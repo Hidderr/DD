@@ -1,230 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.coco3g.daishu.view.SuperRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/superrefresh_repair"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <com.coco3g.daishu.view.SuperRefreshLayout
-        android:id="@+id/superrefresh_repair"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/text_color_10">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/linear_repair_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/text_color_10">
+            android:orientation="vertical">
+
+            <com.coco3g.daishu.view.BannerView
+                android:id="@+id/banner_repair_frag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:id="@+id/linear_repair_root"
+                android:id="@+id/linear_repair_boardcast_bar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-                <com.coco3g.daishu.view.BannerView
-                    android:id="@+id/banner_repair_frag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="通告"
+                    android:textColor="@color/text_color_red_3"
+                    android:textStyle="italic" />
 
-                <LinearLayout
-                    android:id="@+id/linear_repair_boardcast_bar"
+                <ImageView
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/text_color_8" />
+
+                <com.sunfusheng.marqueeview.MarqueeView
+                    android:id="@+id/tv_repair_boardcast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp">
+                    app:mvAnimDuration="1000"
+                    app:mvInterval="3000"
+                    app:mvSingleLine="true"
+                    app:mvTextColor="@color/text_color_red_2"
+                    app:mvTextSize="14sp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="通告"
-                        android:textColor="@color/text_color_red_3"
-                        android:textStyle="italic" />
+                </com.sunfusheng.marqueeview.MarqueeView>
 
-                    <ImageView
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/text_color_8" />
+            </LinearLayout>
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/tv_repair_boardcast"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="广播滚动"-->
-                    <!--android:textColor="@color/text_color_6"-->
-                    <!--android:textSize="14sp" />-->
+            <LinearLayout
+                android:id="@+id/linear_repair_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="12">
 
-                    <com.sunfusheng.marqueeview.MarqueeView
-                        android:id="@+id/tv_repair_boardcast"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:mvAnimDuration="1000"
-                        app:mvInterval="3000"
-                        app:mvSingleLine="true"
-                        app:mvTextColor="@color/text_color_red_2"
-                        app:mvTextSize="14sp">
-
-                    </com.sunfusheng.marqueeview.MarqueeView>
-
-                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_repair_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:weightSum="12">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:orientation="vertical">
 
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:orientation="vertical">
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-
-                            <com.coco3g.daishu.view.HomeMenuImageView
-                                android:id="@+id/view_repair_menu_1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:paddingBottom="8dp"
-                                android:paddingTop="5dp" />
-
-                            <ImageView
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/text_color_10" />
-
-                            <com.coco3g.daishu.view.HomeMenuImageView
-                                android:id="@+id/view_repair_menu_2"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:paddingBottom="8dp"
-                                android:paddingTop="5dp" />
-                        </LinearLayout>
+                        <com.coco3g.daishu.view.HomeMenuImageView
+                            android:id="@+id/view_repair_menu_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="5dp" />
 
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
                             android:background="@color/text_color_10" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-
-                            <com.coco3g.daishu.view.HomeMenuImageView
-                                android:id="@+id/view_repair_menu_3"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:paddingBottom="8dp"
-                                android:paddingTop="5dp" />
-
-                            <ImageView
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/text_color_10" />
-
-                            <com.coco3g.daishu.view.HomeMenuImageView
-                                android:id="@+id/view_repair_menu_4"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:paddingBottom="8dp"
-                                android:paddingTop="5dp" />
-                        </LinearLayout>
-
+                        <com.coco3g.daishu.view.HomeMenuImageView
+                            android:id="@+id/view_repair_menu_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="5dp" />
                     </LinearLayout>
 
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginTop="1dp"-->
-                    <!--android:layout_weight="5"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:weightSum="3">-->
-
                     <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:background="@color/text_color_10" />
 
-                    <!--<com.coco3g.daishu.view.HomeMenuImageView-->
-                    <!--android:id="@+id/view_repair_menu_3"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
+                        <com.coco3g.daishu.view.HomeMenuImageView
+                            android:id="@+id/view_repair_menu_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="5dp" />
 
-                    <com.coco3g.daishu.view.HomeMenuImageView
-                        android:id="@+id/view_repair_menu_5"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="5"
-                        android:gravity="center"
-                        android:padding="12dp" />
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/text_color_10" />
 
+                        <com.coco3g.daishu.view.HomeMenuImageView
+                            android:id="@+id/view_repair_menu_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="5dp" />
+                    </LinearLayout>
 
-                    <!--<com.coco3g.daishu.view.HomeMenuImageView-->
-                    <!--android:id="@+id/view_repair_menu_4"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center" />-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@color/text_color_10" />-->
-
-                    <!--<com.coco3g.daishu.view.HomeMenuImageView-->
-                    <!--android:id="@+id/view_repair_menu_5"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center" />-->
-                    <!--</LinearLayout>-->
                 </LinearLayout>
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_color_10" />
+
+                <com.coco3g.daishu.view.HomeMenuImageView
+                    android:id="@+id/view_repair_menu_5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:padding="12dp" />
             </LinearLayout>
-        </ScrollView>
-    </com.coco3g.daishu.view.SuperRefreshLayout>
-
-
-    <com.coco3g.daishu.view.LoginRegisterView
-        android:id="@+id/login_repair_frag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone">
-
-    </com.coco3g.daishu.view.LoginRegisterView>
-
-
-</RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</com.coco3g.daishu.view.SuperRefreshLayout>

@@ -48,7 +48,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     int mCurrNavIndex = -1;  //目前选中的地步导航的哪一个
     //点击返回键退出app
     private static Boolean isExit = false;
-    Coco3gBroadcastUtils CurrUnreadBroadcast, systemBroadcast;
+    Coco3gBroadcastUtils mLogoutBroadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,26 +91,14 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //
         mFragManager = getSupportFragmentManager();
         setTabSelection(0);
-//        // 接收融云未读消息（私聊）的广播
-//        CurrUnreadBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
-//        CurrUnreadBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
-//            @Override
-//            public void receiveReturn(Intent intent) {
-//                Bundle bundle = intent.getBundleExtra("data");
-//                int count = bundle.getInt("unreadcount");
-//
-//                Log.e("未读消息", count + "***");
-//                mImageRead.setUnReadCount(count);
-//            }
-//        });
-//        //接收融云未读消息（系统消息）的广播
-//        systemBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
-//        systemBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG_SYSTEM).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
-//            @Override
-//            public void receiveReturn(Intent intent) {
-////                mImageMe.setSystemRemind(true);
-//            }
-//        });
+        // 接收融云未读消息（私聊）的广播
+        mLogoutBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
+        mLogoutBroadcast.receiveBroadcast(Coco3gBroadcastUtils.LOG_OUT).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+            @Override
+            public void receiveReturn(Intent intent) {
+                setTabSelection(0);
+            }
+        });
 
     }
 
@@ -184,9 +172,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 2: // 收益
-//                if (!checkoutIfLogin()) {
-//                    return;
-//                }
+                if (!checkoutIfLogin()) {
+                    return;
+                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
                 mTopbar.setSettingVisible(false);
@@ -199,9 +187,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 3: // 维修救援
-//                if (!checkoutIfLogin()) {
-//                    return;
-//                }
+                if (!checkoutIfLogin()) {
+                    return;
+                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
                 mTopbar.setSettingVisible(false);
@@ -215,9 +203,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 4: // 我的
-//                if (!checkoutIfLogin()) {
-//                    return;
-//                }
+                if (!checkoutIfLogin()) {
+                    return;
+                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.personal_center));
                 mTopbar.setSettingVisible(true);
@@ -369,7 +357,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         isForeground = false;
-//        CurrUnreadBroadcast.unregisterBroadcast();
+        mLogoutBroadcast.unregisterBroadcast();
+//        mLogoutBroadcast.unregisterBroadcast();
 //        systemBroadcast.unregisterBroadcast();
     }
 }

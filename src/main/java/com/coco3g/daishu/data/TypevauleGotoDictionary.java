@@ -186,6 +186,7 @@ public class TypevauleGotoDictionary {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // TODO Auto-generated method stub
+                    new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.LOG_OUT, null);
                     Global.USERINFOMAP = null;
 //                    Global.RONG_TOKEN = null;
                     Global.deleteSerializeData(mContext, Global.APP_CACHE);

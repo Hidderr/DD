@@ -168,7 +168,7 @@ public class MyWebView extends RelativeLayout {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub
                 Log.e("coco3g协议", url);
-                if (url.startsWith("tel:")){
+                if (url.startsWith("tel:")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             Uri.parse(url));
                     mContext.startActivity(intent);
@@ -263,6 +263,16 @@ public class MyWebView extends RelativeLayout {
     public String getCurrentUrl() {
         return mUrl;
     }
+
+    public void setRefreshEnable(boolean canRefresh) {
+        if (canRefresh) {
+            mXRefreshView.setEnabled(true);
+        } else {
+            mXRefreshView.setEnabled(false);
+        }
+
+    }
+
 
     public class getHtmlObject {
         @JavascriptInterface

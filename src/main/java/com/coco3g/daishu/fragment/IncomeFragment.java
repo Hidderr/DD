@@ -16,6 +16,7 @@ import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.LoginRegisterView;
+import com.coco3g.daishu.view.MyWebView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.coco3g.daishu.R.id.listview_income_frag;
 
 /**
  * Created by jason on 2017/4/26.
@@ -34,10 +34,8 @@ public class IncomeFragment extends Fragment {
     private Context mContext;
     private ListView mListView;
     private IncomeAdapter mAdapter;
-    private View mBottomView;
-    private SuperRefreshLayout mSuperRefresh;
-    //
-    private LoginRegisterView loginRegisterView;
+    private MyWebView myWebView;
+    private SuperRefreshLayout mSuperRefresh, mSuperRefreshWebview;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,14 +46,13 @@ public class IncomeFragment extends Fragment {
     }
 
     private void intview() {
-        mListView = (ListView) mIncomeView.findViewById(listview_income_frag);
+        mListView = (ListView) mIncomeView.findViewById(R.id.listview_income_frag);
         mSuperRefresh = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag);
-        loginRegisterView = (LoginRegisterView) mIncomeView.findViewById(R.id.login_income_frag);
+        mSuperRefreshWebview = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag_webview);
+        myWebView = (MyWebView) mIncomeView.findViewById(R.id.webview_income_fragment);
         mAdapter = new IncomeAdapter(mContext);
         mListView.setAdapter(mAdapter);
-        //
-//        mBottomView = LayoutInflater.from(mContext).inflate(R.layout.view_income_bottom_view, null);
-//        mListView.addFooterView(mBottomView);
+        myWebView.setRefreshEnable(false);
         //
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
@@ -70,6 +67,20 @@ public class IncomeFragment extends Fragment {
             }
         });
         //
+        mSuperRefreshWebview.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
+            @Override
+            public void onRefreshing() {
+                mAdapter.clearList();
+                getIncomeList();
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
+        //
+        mSuperRefresh.setRefreshingLoad();
 
     }
 
@@ -77,18 +88,7 @@ public class IncomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (Global.USERINFOMAP == null) {
-            mSuperRefresh.setVisibility(View.GONE);
-            loginRegisterView.setVisibility(View.VISIBLE);
-            mSuperRefresh.setEnabled(false);
-        } else {
-            mSuperRefresh.setEnabled(true);
-            if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
-                mSuperRefresh.setRefreshingLoad();
-            }
-            mSuperRefresh.setVisibility(View.VISIBLE);
-            loginRegisterView.setVisibility(View.GONE);
-        }
+
     }
 
 
@@ -102,18 +102,30 @@ public class IncomeFragment extends Fragment {
                 ArrayList<Map<String, String>> incomeList = (ArrayList<Map<String, String>>) data.response;
                 mAdapter.setList(incomeList);
                 //
+                if (incomeList == null || incomeList.size() <= 0) {
+                    mSuperRefresh.setVisibility(View.GONE);
+                    mSuperRefreshWebview.setVisibility(View.VISIBLE);
+                    myWebView.loadUrl(Global.H5Map.get("jiangli"));
+                } else {
+                    mSuperRefresh.setVisibility(View.VISIBLE);
+                    mSuperRefreshWebview.setVisibility(View.GONE);
+                }
+                //
                 mSuperRefresh.onLoadComplete();
+                mSuperRefreshWebview.onLoadComplete();
             }
 
             @Override
             public void onFailure(BaseDataBean data) {
 //                Global.showToast(data.msg, mContext);
                 mSuperRefresh.onLoadComplete();
+                mSuperRefreshWebview.onLoadComplete();
             }
 
             @Override
             public void onError() {
                 mSuperRefresh.onLoadComplete();
+                mSuperRefreshWebview.onLoadComplete();
 
             }
         });
