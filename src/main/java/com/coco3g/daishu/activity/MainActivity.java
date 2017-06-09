@@ -187,9 +187,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 3: // 维修救援
-                if (!checkoutIfLogin()) {
-                    return;
-                }
+//                if (!checkoutIfLogin()) {
+//                    return;
+//                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
                 mTopbar.setSettingVisible(false);
@@ -203,9 +203,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
                 break;
             case 4: // 我的
-                if (!checkoutIfLogin()) {
-                    return;
-                }
+//                if (!checkoutIfLogin()) {
+//                    return;
+//                }
                 mTopbar.showNomalTopbar();
                 mTopbar.setTitle(getResources().getString(R.string.personal_center));
                 mTopbar.setSettingVisible(true);

@@ -1,6 +1,5 @@
 package com.coco3g.daishu.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,7 +23,6 @@ import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
-import com.coco3g.daishu.view.LoginRegisterView;
 import com.coco3g.daishu.view.MyQRcodeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -151,10 +148,16 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.image_me_top_qr:  //二维码
+                if (!Global.checkoutLogin(getActivity())) {
+                    return;
+                }
                 myQRcodeDialog();
 
                 break;
             case R.id.image_me_top_arrow:  //二维码箭头
+                if (!Global.checkoutLogin(getActivity())) {
+                    return;
+                }
                 myQRcodeDialog();
 
                 break;
@@ -164,6 +167,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
 
     public void intentToWeb(String url) {
+        if (!Global.checkoutLogin(getActivity())) {
+            return;
+        }
         if (url.equals("#")) {
             return;
         }
@@ -181,8 +187,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (meFragIsVisible) {
+        if (Global.USERINFOMAP != null && meFragIsVisible) {
             getUserInfo();
+        } else {
+            setMyInfo();
         }
     }
 
@@ -263,6 +271,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //            }
             //
 //            mSettingItemList.get(0).setEFen(Global.USERINFOMAP.get("ecoin"));
+        } else {
+            ImageLoader.getInstance().displayImage("drawable://" + R.mipmap.pic_default_avatar_icon, mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
+            //名字
+            mTxtName.setText("登录/注册");
+            mTxtMemberID.setText("");
+            //会员类型
+            mTxtMemberType.setText("");
         }
 
     }

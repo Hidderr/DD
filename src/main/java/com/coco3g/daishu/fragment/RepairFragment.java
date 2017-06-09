@@ -25,6 +25,7 @@ import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.LocationUtil;
@@ -125,32 +126,32 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.view_repair_menu_1:  //救援电话
+                if (!Global.checkoutLogin(getActivity())) {
+                    return;
+                }
                 takePhoneUploadLatLng();
 
                 break;
 
             case R.id.view_repair_menu_2:  //我的账单
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", Global.H5Map.get("mybill"));
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("mybill"));
 
                 break;
 
             case R.id.view_repair_menu_3:  //服务确认
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", Global.H5Map.get("serice_confirm"));
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("serice_confirm"));
 
                 break;
 
             case R.id.view_repair_menu_4:  //历史记录
-                intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", Global.H5Map.get("history"));
-                startActivity(intent);
+                intentToWeb(Global.H5Map.get("history"));
 
                 break;
 
             case R.id.view_repair_menu_5:  //袋鼠大师维修点
+                if (!Global.checkoutLogin(getActivity())) {
+                    return;
+                }
                 intent = new Intent(getActivity(), RepairWebsiteActivity.class);
                 intent.putExtra("typeid", "1");  //门店类型：2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "袋鼠好车维修点");
@@ -159,6 +160,23 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
                 break;
 
         }
+    }
+
+    public void intentToWeb(String url) {
+        if (!Global.checkoutLogin(getActivity())) {
+            return;
+        }
+        if (url.equals("#")) {
+            return;
+        }
+        if (url.startsWith("http://coco3g-app/open_tabview")) {
+            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(getActivity());
+            typevauleGotoDictionary.gotoViewChoose(url);
+            return;
+        }
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 
 

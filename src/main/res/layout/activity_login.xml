@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@mipmap/pic_login_bg"
-                android:clipToPadding="true"
-                android:fitsSystemWindows="true">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/pic_login_bg"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/linear_login_userinfo"
@@ -15,7 +15,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="vertical"
-        android:paddingTop="100dp">
+        android:paddingTop="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     android:paddingTop="10dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white_1"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/image_login_username_del"
@@ -64,7 +64,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="15dp"
                     android:padding="5dp"
-                    android:src="@mipmap/pic_del_icon"/>
+                    android:src="@mipmap/pic_del_icon" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -85,7 +85,7 @@
             android:paddingTop="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white_1"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <RelativeLayout
             android:id="@+id/relative_login_bottom"
@@ -103,7 +103,7 @@
                 android:padding="5dp"
                 android:text="@string/forget_password"
                 android:textColor="@color/text_color_6"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tv_login_start"
@@ -120,60 +120,124 @@
                 android:text="@string/login"
                 android:textColor="@color/white_2"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
-    </LinearLayout>
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp">
-
-        <TextView
-            android:id="@+id/tv_login_no_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="right"
-            android:text="@string/no_account"
-            android:textColor="@color/text_color_6"
-            android:textSize="13sp"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_login_no_account"
-            android:paddingBottom="5dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
 
             <TextView
-                android:id="@+id/tv_login_fast_register"
+                android:id="@+id/tv_login_no_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoLink="web"
+                android:layout_centerVertical="true"
                 android:gravity="right"
+                android:text="@string/no_account"
+                android:textColor="@color/text_color_6"
+                android:textSize="13sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_login_no_account"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:text="@string/go_register"
-                android:textColor="@color/white_2"
-                android:textSize="13sp"/>
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_login_fast_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:gravity="right"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/go_register"
+                    android:textColor="@color/white_2"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/tv_login_fast_register"
+                    android:layout_alignRight="@+id/tv_login_fast_register"
+                    android:layout_below="@+id/tv_login_fast_register"
+                    android:background="@color/white"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/linear_login_bottom_other_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="1">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/tv_login_fast_register"
-                android:layout_alignRight="@+id/tv_login_fast_register"
-                android:layout_below="@+id/tv_login_fast_register"
-                android:background="@color/white"
-                android:visibility="gone"/>
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_weight="0.5"
+                android:background="@color/text_color_yellow_1" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="其他登录方式"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_weight="0.5"
+                android:background="@color/text_color_yellow_1" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_login_bottom_other_login"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/image_login_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/pic_weixin_icon" />
+
+            <ImageView
+                android:id="@+id/image_login_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_toRightOf="@+id/image_login_weixin"
+                android:src="@mipmap/pic_qq_icon" />
         </RelativeLayout>
+
     </RelativeLayout>
 
 

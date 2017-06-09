@@ -30,6 +30,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private TimingView mTimingView;
     //
     private String mPhone = "", mPassWord = "", mVeriCode = "", mRecomdCode = "";
+    //第三方注册
+    private String logintype = "", nickname = "", avatar = "", qqkey = "";
 
 
     @Override
@@ -37,6 +39,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Global.getScreenWH(this);
+        logintype = getIntent().getStringExtra("logintype");
+        nickname = getIntent().getStringExtra("nickname");
+        avatar = getIntent().getStringExtra("avatar");
+        qqkey = getIntent().getStringExtra("qqkey");
 
         initView();
 
@@ -154,6 +160,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         params.put("code", mVeriCode);
         if (!TextUtils.isEmpty(mRecomdCode)) {
             params.put("recom", mRecomdCode);
+        }
+
+        //第三方信息
+        if (!TextUtils.isEmpty(logintype)) {
+            params.put("logintype", logintype);
+            params.put("nickname", nickname);
+            params.put("avatar", avatar);
+            params.put("qqkey", qqkey);
         }
         new BaseDataPresenter(this).loadData(DataUrl.REGISTER, params, getResources().getString(R.string.registering), new IBaseDataListener() {
             @Override

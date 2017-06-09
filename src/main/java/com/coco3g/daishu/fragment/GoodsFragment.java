@@ -121,7 +121,6 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
             case R.id.view_read_menu_2:  //汽车保险
                 intentToWeb(Global.H5Map.get("baoxian"));
 
-
                 break;
 
             case R.id.view_read_menu_3:  //车载用品
@@ -143,6 +142,9 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
 
 
     public void intentToWeb(String url) {
+        if (!Global.checkoutLogin(getActivity())) {
+            return;
+        }
 
         if (url.equals("#")) {
             return;
