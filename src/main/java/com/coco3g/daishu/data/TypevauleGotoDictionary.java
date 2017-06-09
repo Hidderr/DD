@@ -19,6 +19,9 @@ import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.bean.BaseDataBean;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.DateTime;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
@@ -66,6 +69,7 @@ public class TypevauleGotoDictionary {
     private final String CALL_PAY = indexNativeKey + "payonline?";
     private final String CALL_EDIT_DIALOG = indexNativeKey + "prompt?";
     private final String OPEN_TAB_VIEW = indexNativeKey + "open_tabview?";
+    private final String GET_URL = indexNativeKey + "call_interface?";  //调用接口获取url
     //
     public static HashMap<String, String> CALLBACKTAG = new HashMap<>();
     private MyProgressDialog myProgressDialog;
@@ -126,10 +130,10 @@ public class TypevauleGotoDictionary {
                 //myWebview是从WebActivity传递过来的，mWebView是从MyWebview传递过来的
                 if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
                     myWebView.loadUrl(urlDecodeMap.get("url"));
-                    Log.e("gotopager加载的网址", "MyWebview" + urlDecodeMap.get("url"));
+                    Log.e("gotopager加载的网址111", "MyWebview" + urlDecodeMap.get("url"));
                 } else {
                     mWebview.loadUrl(urlDecodeMap.get("url"), Global.getTokenTimeStampHeader(mContext));
-                    Log.e("gotopager加载的网址", "mWebview" + urlDecodeMap.get("url"));
+                    Log.e("gotopager加载的网址222", "mWebview" + urlDecodeMap.get("url"));
                 }
 
             } else if (urlDecodeMap.get("target").equals("blank")) {   //跳转到新的页面
@@ -274,6 +278,8 @@ public class TypevauleGotoDictionary {
                 intent.putExtra("data", listdata);
                 mContext.startActivity(intent);
             }
+        } else if (value.startsWith(GET_URL)) {
+            getUrl(hashMap.get("url"), hashMap.get("target"));
         }
 
     }
@@ -452,6 +458,53 @@ public class TypevauleGotoDictionary {
                 mWebview.loadUrl(js);
             }
         }, year, month - 1, day).show();
+    }
+
+
+    /**
+     * 获取url并打开
+     */
+    public void getUrl(String url, final String target) {
+        HashMap<String, String> params = new HashMap<>();
+        new BaseDataPresenter(mContext).loadData(url, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                Map<String, String> map = (Map<String, String>) data.response;
+                Intent intent = null;
+                if (target.equals("self")) {  //当前webview加载url,不重新跳转到新的页面
+                    //myWebview是从WebActivity传递过来的，mWebView是从MyWebview传递过来的
+                    if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                        myWebView.loadUrl(map.get("url"));
+                        Log.e("gotopager加载的网址111", "MyWebview" + map.get("url"));
+                    } else {
+                        mWebview.loadUrl(map.get("url"), Global.getTokenTimeStampHeader(mContext));
+                        Log.e("gotopager加载的网址222", "mWebview" + map.get("url"));
+                    }
+
+                } else if (target.equals("blank")) {   //跳转到新的页面
+                    intent = new Intent(mContext, WebActivity.class);
+                    intent.putExtra("url", map.get("url"));
+                    ((Activity) mContext).startActivityForResult(intent, Global.REFRESH_DATA);
+                } else {  //当没有传递"self"时候，默认当前页面打开
+                    if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                        myWebView.loadUrl(map.get("url"));
+                    } else {
+                        mWebview.loadUrl(map.get("url"), Global.getTokenTimeStampHeader(mContext));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
 
