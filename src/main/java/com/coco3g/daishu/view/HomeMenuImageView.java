@@ -46,6 +46,10 @@ public class HomeMenuImageView extends LinearLayout {
         mTxtTitle.setText(title);
     }
 
+    public void setTextSize(float size) {
+        mTxtTitle.setTextSize(size);
+    }
+
     public void setSelected(int index, boolean selected) {
         super.setSelected(selected);
         mTxtTitle.setSelected(selected);

@@ -35,10 +35,10 @@ public class MeMenuImageView extends LinearLayout {
     private void initView() {
         LayoutInflater lay = LayoutInflater.from(mContext);
         view = lay.inflate(R.layout.a_me_menu_image, this);
-        mImageIcon = (ImageView) view.findViewById(R.id.image_home_menu_item_icon);
-        mTxtTitle = (TextView) view.findViewById(R.id.tv_home_menu_item_title);
-        mTxtUnreadCount = (TextView) view.findViewById(R.id.tv_unread_count);
-        mRelativeUnRead = (RelativeLayout) view.findViewById(R.id.relative_home_menu_unread);
+        mImageIcon = (ImageView) view.findViewById(R.id.image_me_menu_item_icon);
+        mTxtTitle = (TextView) view.findViewById(R.id.tv_me_menu_item_title);
+        mTxtUnreadCount = (TextView) view.findViewById(R.id.tv_me_unread_count);
+        mRelativeUnRead = (RelativeLayout) view.findViewById(R.id.relative_me_menu_unread);
     }
 
     public void setIcon(int resID, String title) {

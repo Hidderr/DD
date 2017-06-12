@@ -40,8 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
                     android:layout_toLeftOf="@+id/image_me_top_qr"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
@@ -113,7 +113,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:drawableLeft="@mipmap/pic_shopping_account"
+                android:drawableLeft="@mipmap/pic_my_car_icon"
+                android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/pic_arrow_grey_right"
                 android:gravity="center_vertical"
                 android:paddingBottom="2dp"
@@ -178,6 +179,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@color/white"
                 android:drawableLeft="@mipmap/pic_shopping_account"
+                android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"

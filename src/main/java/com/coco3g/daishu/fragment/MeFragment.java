@@ -42,13 +42,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     //
     MeMenuImageView meMenu1, meMenu2, meMenu3, meMenu4;
     MeMenuImageView[] meMenus;
-    int[] mShoppingResID = new int[]{R.mipmap.pic_shopping_account, R.mipmap.pic_shopping_account, R.mipmap.pic_shopping_account, R.mipmap.pic_shopping_account};
+    int[] mShoppingResID = new int[]{R.mipmap.pic_dai_pay_icon, R.mipmap.pic_dai_shou_huo_icon, R.mipmap.pic_dai_comment_icon, R.mipmap.pic_after_sale_icon};
     String[] mShoppingTitles = new String[]{"代付款", "待收货", "待评价", "售后"};
     //
     HomeMenuImageView mHomeMenu1, mHomeMenu2, mHomeMenu3, mHomeMenu4, mHomeMenu5, mHomeMenu6, mHomeMenu7, mHomeMenu8;
     HomeMenuImageView[] mHomeMenus;
-    int[] mMeInfoResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
-            R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
+    int[] mMeInfoResID = new int[]{R.mipmap.pic_shopping_car_icon, R.mipmap.pic_collection_icon, R.mipmap.pic_you_hui_quan_icon, R.mipmap.pic_address_manager_icon,
+            R.mipmap.pic_yu_e_icon, R.mipmap.pic_zhang_dan_icon, R.mipmap.pic_he_tong_icon, R.mipmap.pic_update_vip_icon};
     String[] mMeInfoTitles = new String[]{"购物车", "收藏", "优惠券", "地址管理", "账户余额", "服务账单", "合同摘要", "会员升级"};
     //
     Drawable drawableRight, drawableDown;
@@ -110,12 +110,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mHomeMenu8 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_12);
         mHomeMenus = new HomeMenuImageView[]{mHomeMenu1, mHomeMenu2, mHomeMenu3, mHomeMenu4, mHomeMenu5, mHomeMenu6, mHomeMenu7, mHomeMenu8};
         //
-
         for (int i = 0; i < mShoppingResID.length; i++) {
             meMenus[i].setIcon(mShoppingResID[i], mShoppingTitles[i]);
+            meMenus[i].setUnReadCount(2);
         }
         for (int i = 0; i < mMeInfoResID.length; i++) {
             mHomeMenus[i].setIcon(mMeInfoResID[i], mMeInfoTitles[i]);
+            mHomeMenus[i].setTextSize(14f);
         }
         //
         mImageRightArrow.setOnClickListener(this);
@@ -161,20 +162,53 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
+            case R.id.relative_me_frag_shopping_zhangdan:  //购物账单
+                intentToWeb(Global.H5Map.get("shoporder"));
+
+                break;
+
             case R.id.relative_me_frag_my_info:  //个人信息
                 intentToWeb(Global.H5Map.get("myinfo"));
+
+                break;
+            case R.id.view_me_menu_1:  //代付款
+                intentToWeb(Global.H5Map.get("notpayment"));
+
+                break;
+            case R.id.view_me_menu_2:  //待收货
+                intentToWeb(Global.H5Map.get("notreciev"));
+
+                break;
+            case R.id.view_me_menu_3:  //待评价
+                intentToWeb(Global.H5Map.get("notevas"));
+
+                break;
+            case R.id.view_me_menu_4:  //售后
+                intentToWeb(Global.H5Map.get("saleafter"));
+
+                break;
+            case R.id.view_me_menu_5:  //购物车
+                intentToWeb(Global.H5Map.get("shopcar"));
+
+                break;
+            case R.id.view_me_menu_6:  //收藏
+                intentToWeb(Global.H5Map.get("favorites"));
 
                 break;
             case R.id.view_me_menu_7:  //优惠券
                 intentToWeb(Global.H5Map.get("youhuiquan"));
 
                 break;
-            case R.id.relative_me_frag_shopping_zhangdan:  //购物账单
-                intentToWeb(Global.H5Map.get("goodsorder"));
+            case R.id.view_me_menu_8:  //收货地址管理
+                intentToWeb(Global.H5Map.get("address"));
 
                 break;
             case R.id.view_me_menu_9:  //账户余额
                 intentToWeb(Global.H5Map.get("amount"));
+
+                break;
+            case R.id.view_me_menu_10:  //服务账单
+                intentToWeb(Global.H5Map.get("mybill"));
 
                 break;
             case R.id.view_me_menu_11:  //合同摘要
@@ -185,10 +219,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intentToWeb(Global.H5Map.get("vip"));
 
                 break;
-            case R.id.view_me_menu_8:  //收货地址管理
-                intentToWeb(Global.H5Map.get("address"));
 
-                break;
             case R.id.image_me_top_qr:  //二维码
                 if (!Global.checkoutLogin(getActivity())) {
                     return;

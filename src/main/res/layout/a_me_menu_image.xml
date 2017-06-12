@@ -6,13 +6,14 @@
     android:padding="3dp">
 
     <RelativeLayout
-        android:id="@+id/linear_home_menu_icon"
+        android:id="@+id/linear_me_menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/image_home_menu_item_icon"
+            android:id="@+id/image_me_menu_item_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -20,36 +21,36 @@
             android:src="@mipmap/pic_menu_my_car" />
 
         <TextView
-            android:id="@+id/tv_home_menu_item_title"
+            android:id="@+id/tv_me_menu_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_home_menu_item_icon"
+            android:layout_below="@+id/image_me_menu_item_icon"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:text="我的汽车"
-            android:textColor="@color/text_color_4"
+            android:textColor="@color/text_color_6"
             android:textSize="13sp" />
     </RelativeLayout>
 
 
     <RelativeLayout
-        android:id="@+id/relative_home_menu_unread"
+        android:id="@+id/relative_me_menu_unread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/linear_home_menu_icon"
-        android:background="@drawable/unread_bg"
+        android:layout_alignRight="@+id/linear_me_menu_icon"
+        android:background="@drawable/unread_black_bg"
         android:visibility="gone">
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/tv_unread_count"
+        android:id="@+id/tv_me_unread_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/relative_home_menu_unread"
-        android:layout_alignLeft="@+id/relative_home_menu_unread"
-        android:layout_alignRight="@+id/relative_home_menu_unread"
-        android:layout_alignTop="@+id/relative_home_menu_unread"
+        android:layout_alignBottom="@+id/relative_me_menu_unread"
+        android:layout_alignLeft="@+id/relative_me_menu_unread"
+        android:layout_alignRight="@+id/relative_me_menu_unread"
+        android:layout_alignTop="@+id/relative_me_menu_unread"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:singleLine="true"

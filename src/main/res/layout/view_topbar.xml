@@ -71,7 +71,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/image_topbar_setting"
-                android:background="@mipmap/pic_me_setting_icon" />
+                android:background="@mipmap/pic_msg_icon" />
 
         </RelativeLayout>
 

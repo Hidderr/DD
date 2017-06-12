@@ -173,10 +173,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (!Global.checkoutLogin(getActivity())) {
                     return;
                 }
-//                intent = new Intent(mContext, ShaiXuanListActivity.class);
-//                intent.putExtra("title", "快修门店");
-//                intent.putExtra("typeid", "1");
-//                startActivity(intent);
+                 intentToWeb(Global.H5Map.get("weizhang"));
 
                 break;
 
