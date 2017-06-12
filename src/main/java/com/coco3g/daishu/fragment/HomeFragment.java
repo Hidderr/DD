@@ -306,7 +306,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    //获取所有的H5
+    //获取广告列表
     public void getGuangGaoList() {
         HashMap<String, String> params = new HashMap<>();
         params.put("page", currPage + "");

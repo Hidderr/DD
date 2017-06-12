@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.coco3g.daishu.view.MeMenuImageView;
 import com.coco3g.daishu.view.MyQRcodeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
     ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
+    LinearLayout mLinearGuangGao;
     RelativeLayout mRelativeInfo, mRelativeShopping;
     TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType;
     //
@@ -88,8 +91,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtAccount = (TextView) mMeView.findViewById(R.id.tv_me_mime_account);
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
-//        mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
+        mLinearGuangGao = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_guang_gao_List);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
         avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -140,6 +143,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mHomeMenu7.setOnClickListener(this);
         mHomeMenu8.setOnClickListener(this);
         mRelativeShopping.setOnClickListener(this);
+
+        //
+        getGuangGaoList();
 
 
     }
@@ -359,20 +365,52 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-//    public interface OnLogoutListener {
-//        void logout();
-//    }
-//
-//    public void setOnLogoutListener(OnLogoutListener onLogoutListener) {
-//        this.onLogoutListener = onLogoutListener;
-//    }
-//
-//    public void OnLogout() {
-//        if (onLogoutListener != null) {
-//            onLogoutListener.logout();
-//            Global.USERINFOMAP = null;
-//        }
-//    }
+    //获取广告列表
+    public void getGuangGaoList() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", "1");
+        params.put("catid", "2");
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> guangGaoList = (ArrayList<Map<String, String>>) data.response;
+                addGuangGaoImage(guangGaoList);
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+    }
+
+
+    public void addGuangGaoImage(final ArrayList<Map<String, String>> guangGaoList) {
+        LinearLayout.LayoutParams image_lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Global.screenWidth / 2);
+        image_lp.setMargins(0, Global.dipTopx(getActivity(), 5f), 0, 0);
+        for (int i = 0; i < guangGaoList.size(); i++) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setLayoutParams(image_lp);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ImageLoader.getInstance().displayImage(guangGaoList.get(i).get("image"), imageView, new DisplayImageOptionsUtils().init());
+            //
+            mLinearGuangGao.addView(imageView);
+            //
+            final int finalI = i;
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), WebActivity.class);
+                    intent.putExtra("url", guangGaoList.get(finalI).get("url"));
+                    getActivity().startActivity(intent);
+                }
+            });
+        }
+
+    }
 
 
 }

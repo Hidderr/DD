@@ -346,100 +346,14 @@
                 android:gravity="center" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linear_me_frag_guang_gao_List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <!--<TextView-->
-        <!--android:id="@+id/tv_me_shopping_youhui_quan"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawableLeft="@mipmap/pic_youhui_quan_icon"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:drawableRight="@mipmap/pic_arrow_grey_right"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="优惠券"-->
-        <!--android:textColor="@color/text_color_1"-->
-        <!--android:textSize="15sp" />-->
+        </LinearLayout>
 
-        <!--<TextView-->
-        <!--android:id="@+id/tv_me_shopping_account"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawableLeft="@mipmap/pic_shopping_account"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:drawableRight="@mipmap/pic_arrow_grey_right"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="购物账单"-->
-        <!--android:textColor="@color/text_color_1"-->
-        <!--android:textSize="15sp" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_me_account_balance"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawableLeft="@mipmap/pic_account_balance"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:drawableRight="@mipmap/pic_arrow_grey_right"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="账户余额"-->
-        <!--android:textColor="@color/text_color_1"-->
-        <!--android:textSize="15sp" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_me_compact"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawableLeft="@mipmap/pic_compact"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:drawableRight="@mipmap/pic_arrow_grey_right"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="合同摘要"-->
-        <!--android:textColor="@color/text_color_1"-->
-        <!--android:textSize="15sp" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_me_update_member"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawableLeft="@mipmap/pic_update_member"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:drawableRight="@mipmap/pic_arrow_grey_right"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="升级会员"-->
-        <!--android:textColor="@color/text_color_1"-->
-        <!--android:textSize="15sp" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_me_update_address"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="3dp"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawableLeft="@mipmap/pic_address_manager_icon"-->
-        <!--android:drawablePadding="13dp"-->
-        <!--android:drawableRight="@mipmap/pic_arrow_grey_right"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:paddingBottom="14dp"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:paddingRight="10dp"-->
-        <!--android:paddingTop="14dp"-->
-        <!--android:text="收货地址管理"-->
-        <!--android:textColor="@color/text_color_1"-->
-        <!--android:textSize="15sp" />-->
 
     </LinearLayout>
 

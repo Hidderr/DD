@@ -15,6 +15,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private String[] tabTitles;
 
     public ViewPagerAdapter() {
+
     }
 
     public ViewPagerAdapter(ArrayList<View> mList, String[] mTabTitle) {
