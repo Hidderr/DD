@@ -67,17 +67,19 @@ public class DataUrl {
      * */
     public static final String GET_INCOME_LIST = BASE_URL + "index/earn";
     /*
-     * 添加联系人
+     * 获取车载用品一级分类
      * */
-    public static final String ADD_FRIEND = BASE_URL + "member_fans/add";
+//    public static final String GET_CAR_ONE_CATEGORY = BASE_URL + "";
+    public static final String GET_CAR_ONE_CATEGORY = "https://app.ef-tribe.com/api/mantun/get_goods_cate";
     /*
-     * 获取任务书
+     * 获取车载用品二级分类
      * */
-    public static final String GET_MISSION_BOOK = BASE_URL + "game_member/get_game_task";
+//    public static final String GET_CAR_TWO_CATEGORY = BASE_URL + "";
+    public static final String GET_CAR_TWO_CATEGORY = "https://app.ef-tribe.com/api/mantun/get_goods_cate";
     /*
-     * 获取排名
+     * 获取首页广告列表
      * */
-    public static final String GET_RANK = BASE_URL + "game_member/rank_list";
+    public static final String GET_HOME_GUANG_GAO_LIST = BASE_URL + "index/get_adverts";
     /*
      * 获取融云token
      * */

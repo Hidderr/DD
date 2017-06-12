@@ -37,7 +37,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
     ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
-    RelativeLayout mRelativeInfo,mRelativeShopping;
+    RelativeLayout mRelativeInfo, mRelativeShopping;
     TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType;
     //
     MeMenuImageView meMenu1, meMenu2, meMenu3, meMenu4;
@@ -299,8 +299,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar"), mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
             //名字
             mTxtName.setText(Global.USERINFOMAP.get("nickname"));
+            //
+            mTxtMemberID.setVisibility(View.VISIBLE);
             mTxtMemberID.setText("会员ID号：" + Global.USERINFOMAP.get("vipno"));
             //会员类型
+            mTxtMemberType.setVisibility(View.VISIBLE);
             mTxtMemberType.setText(Global.USERINFOMAP.get("vip_level"));
 //            //会员专属二维码
 //            String vip = Global.USERINFOMAP.get("groupid");
@@ -317,9 +320,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             ImageLoader.getInstance().displayImage("drawable://" + R.mipmap.pic_default_avatar_icon, mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
             //名字
             mTxtName.setText("登录/注册");
-            mTxtMemberID.setText("");
+            mTxtMemberID.setVisibility(View.GONE);
             //会员类型
-            mTxtMemberType.setText("");
+            mTxtMemberType.setVisibility(View.GONE);
         }
 
     }

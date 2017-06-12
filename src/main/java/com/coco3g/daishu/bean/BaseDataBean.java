@@ -14,6 +14,8 @@ public class BaseDataBean implements Serializable {
 
     public Object response;
 
+    public Object data;
+
     public HashMap<Object, Object> request;
 
     public ArrayList<String> other;

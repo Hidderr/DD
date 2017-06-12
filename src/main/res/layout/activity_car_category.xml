@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_2"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/relative_cartegory_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/image_car_category_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/pic_back_icon"
+            android:text="定位中" />
+
+        <EditText
+            android:id="@+id/edit_car_category_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/image_car_category_msg"
+            android:layout_toRightOf="@+id/image_car_category_back"
+            android:background="@drawable/shape_edit_white_bg"
+            android:drawableRight="@mipmap/pic_home_search_icon"
+            android:hint="请输入想要的商品"
+            android:imeOptions="actionSearch"
+            android:paddingBottom="7dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="7dp"
+            android:singleLine="true"
+            android:textColor="@color/text_color_1"
+            android:textColorHint="@color/text_color_2"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/image_car_category_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/pic_home_frag_logo_icon" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relative_cartegory_topbar"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/list_category_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@color/text_color_8"
+            android:choiceMode="singleChoice"
+            android:divider="@color/text_color_3"
+            android:dividerHeight="0.5dp"
+            android:scrollbars="none" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp">
+
+                <ImageView
+                    android:id="@+id/image_car_category_thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/pic_temp_1" />
+
+                <TextView
+                    android:id="@+id/tv_car_category_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="热门分类"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="14sp" />
+
+
+                <com.coco3g.daishu.view.MyGridView
+                    android:id="@+id/grid_category_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:horizontalSpacing="10dp"
+                    android:listSelector="@drawable/list_item_bg"
+                    android:numColumns="3"
+                    android:paddingTop="5dp"
+                    android:verticalSpacing="5dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/progress"
+        android:indeterminateDuration="1000"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.CarShopActivity;
+import com.coco3g.daishu.activity.CategoryActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -124,7 +125,9 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_read_menu_3:  //车载用品
-                intentToWeb(Global.H5Map.get("goodslist"));
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                startActivity(intent);
+//                intentToWeb(Global.H5Map.get("goodslist"));
 
                 break;
 

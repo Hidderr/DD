@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.CarShopActivity;
+import com.coco3g.daishu.activity.CategoryActivity;
 import com.coco3g.daishu.activity.RepairWebsiteActivity;
 import com.coco3g.daishu.activity.ShaiXuanListActivity;
 import com.coco3g.daishu.activity.WebActivity;
@@ -49,11 +50,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
             R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
-    String[] mNavTitles = new String[]{"我的汽车", "维护养修", "洗车", "违章查询", "我要买车", "车载用品", "打折油卡", "机动车险"};
+    String[] mNavTitles = new String[]{"我的汽车", "维修养护", "洗车", "违章查询", "我要买车", "车载用品", "打折油卡", "机动车险"};
 
     //
     OnRepairClickListener onRepairClickListener = null;
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
+
+    //广告的页面
+    int currPage = 1;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,21 +93,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         mListView.addHeaderView(mHeadView);
         //
-//        mSuperRefreshLayout.setCanLoadMore();
+        mSuperRefreshLayout.setCanLoadMore();
         mSuperRefreshLayout.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
                 mBanner.clearList();
+                mAdapter.clearList();
+                currPage = 1;
                 getBanner();
             }
 
             @Override
             public void onLoadMore() {
-                mSuperRefreshLayout.onLoadComplete();
+                currPage++;
+                getGuangGaoList();
             }
         });
-
-
         //
         mMenu1.setOnClickListener(this);
         mMenu2.setOnClickListener(this);
@@ -181,7 +187,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_6:  //车载用品
-                intentToWeb(Global.H5Map.get("goodslist"));
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                startActivity(intent);
+//                intentToWeb(Global.H5Map.get("goodslist"));
 
                 break;
 
@@ -284,9 +292,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(BaseDataBean data) {
                 Global.H5Map = (Map<String, String>) data.response;
-
-
-                mSuperRefreshLayout.onLoadComplete();
+                //
+                getGuangGaoList();
             }
 
             @Override
@@ -298,6 +305,50 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onError() {
                 mSuperRefreshLayout.onLoadComplete();
+            }
+        });
+    }
+
+    //获取所有的H5
+    public void getGuangGaoList() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", currPage + "");
+        params.put("catid", "1");
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> homeList = (ArrayList<Map<String, String>>) data.response;
+                if (homeList == null || homeList.size() <= 0) {
+                    currPage--;
+                    mSuperRefreshLayout.onLoadComplete();
+                    return;
+                }
+
+                //添加我的爱车信息
+                if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
+                    Map<String, String> myCarMap = new HashMap<String, String>();
+                    myCarMap.put("type", "mycar");
+                    homeList.add(0, myCarMap);
+                    //
+                    mAdapter.setList(homeList);
+                } else {
+                    mAdapter.addList(homeList);
+                }
+                //
+                mSuperRefreshLayout.onLoadComplete();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+                mSuperRefreshLayout.onLoadComplete();
+                currPage--;
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefreshLayout.onLoadComplete();
+                currPage--;
             }
         });
     }

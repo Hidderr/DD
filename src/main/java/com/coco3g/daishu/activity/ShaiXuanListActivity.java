@@ -319,7 +319,7 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
 
                 ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
                 if (repairList == null || repairList.size() <= 0) {
-                    mSuperRefresh.onLoadComplete(true);
+                    mSuperRefresh.onLoadComplete();
                     currPage--;
                     return;
                 }

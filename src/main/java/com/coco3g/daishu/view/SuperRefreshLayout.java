@@ -10,17 +10,14 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+
 
 @SuppressWarnings("unused")
 public class SuperRefreshLayout extends SwipeRefreshLayout implements AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
     private Context mContext;
     private ListView mListView;
-    private ProgressBar mProgressBar;
-    private TextView mTxtNoMore;
 
     private int mTouchSlop;
 
@@ -88,11 +85,9 @@ public class SuperRefreshLayout extends SwipeRefreshLayout implements AbsListVie
                 }
                 // 只有在listview中Item总高度超出屏幕时，才会添加footerview控件
                 if (totalHeight > listviewHeight) {
-                    LayoutInflater lay = LayoutInflater.from(mContext);
-                    mFooterView = lay.inflate(R.layout.view_listview_footer, null);
-                    mProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_footer);
-                    mTxtNoMore = (TextView) mFooterView.findViewById(R.id.tv_footer);
-                    mListView.addFooterView(mFooterView);
+//                    LayoutInflater lay = LayoutInflater.from(mContext);
+//                    mFooterView = lay.inflate(R.layout.view_listview_footer, null);
+//                    mListView.addFooterView(mFooterView);
                 } else {
 //                    setNoMoreData();
                 }
@@ -214,34 +209,24 @@ public class SuperRefreshLayout extends SwipeRefreshLayout implements AbsListVie
      */
     private void hideFooterView() {
         if (mFooterView != null) {
-            mFooterView.setVisibility(View.GONE);
-            mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
-//            mListView.removeFooterView(mFooterView);
-//            mFooterView = null;
+//            mFooterView.setVisibility(View.GONE);
+//            mFooterView.setPadding(0, -mFooterView.getHeight(), 0, 0);
+            mListView.removeFooterView(mFooterView);
+            mFooterView = null;
         }
-    }
 
-    /**
-     * 隐藏footerview
-     */
-    private void hideFooterView(boolean isNoMore) {
-        if (mFooterView != null) {
-            if (isNoMore) {
-                mProgressBar.setVisibility(GONE);
-                mTxtNoMore.setText("暂无更多内容");
-            }
-        }
     }
 
     /**
      * 显示footerview
      */
     private void showFooterView() {
-        if (mFooterView != null) {
+        if (mFooterView == null) {
 //            mFooterView.setVisibility(View.VISIBLE);
 //            mFooterView.setPadding(0, 0, 0, 0);
-            mProgressBar.setVisibility(VISIBLE);
-            mTxtNoMore.setText("正在加载中...");
+            LayoutInflater lay = LayoutInflater.from(mContext);
+            mFooterView = lay.inflate(R.layout.view_listview_footer, null);
+            mListView.addFooterView(mFooterView);
         }
     }
 
@@ -277,16 +262,6 @@ public class SuperRefreshLayout extends SwipeRefreshLayout implements AbsListVie
         setRefreshing(false);
         //
         hideFooterView();
-    }
-
-    /**
-     * 加载结束记得调用
-     */
-    public void onLoadComplete(boolean isNoMore) {
-        setIsOnLoading(false);
-        setRefreshing(false);
-        //
-        hideFooterView(isNoMore);
     }
 
     /**

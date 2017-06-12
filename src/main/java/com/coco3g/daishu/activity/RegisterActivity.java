@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
     private EditText mEditPhone, mEditPassWord, mEditVeriCode, mEditRocomdCode;
-    private TextView mTxtLogin, mTxtRegister, mTxtXieYi;
+    private TextView mTxtLogin, mTxtRegister, mTxtXieYi, mTxtKanKan;
     private TimingView mTimingView;
     //
     private String mPhone = "", mPassWord = "", mVeriCode = "", mRecomdCode = "";
@@ -59,6 +59,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mTxtRegister = (TextView) findViewById(R.id.tv_register_start);
         mTimingView = (TimingView) findViewById(R.id.timing_register_get_certificate_code);
         mTxtXieYi = (TextView) findViewById(R.id.tv_register_xieyi_2);
+        mTxtKanKan = (TextView) findViewById(R.id.tv_register_kankan);
         //
         mTimingView.setTimeInterval(1000);
         mTimingView.setMaxSecond(60);
@@ -68,6 +69,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mTxtRegister.setOnClickListener(this);
         mTimingView.setOnClickListener(this);
         mTxtXieYi.setOnClickListener(this);
+        mTxtKanKan.setOnClickListener(this);
     }
 
     @Override
@@ -121,6 +123,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(this, WebActivity.class);
                 intent.putExtra("url", DataUrl.REGISTER_XIEYI);
                 startActivity(intent);
+
+                break;
+
+            case R.id.tv_register_kankan:   //看看
+                setResult(Constants.REGISTER_SUCCESS_RETURN_CODE);
+                finish();
 
                 break;
 

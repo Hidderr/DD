@@ -5,6 +5,14 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear_login_userinfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:src="@mipmap/pic_logo" />
+
     <LinearLayout
         android:id="@+id/linear_login_userinfo"
         android:layout_width="match_parent"
@@ -19,14 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:drawableLeft="@mipmap/pic_login_account_icon"
+            android:drawableLeft="@mipmap/pic_login_username_icon"
             android:drawablePadding="10dp"
             android:hint="@string/login_phone"
             android:inputType="number"
             android:maxLines="1"
             android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:textColor="@color/text_color_1"
             android:textColorHint="@color/text_color_2"
@@ -43,15 +49,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:drawableLeft="@mipmap/pic_login_paw_icon"
+            android:drawableLeft="@mipmap/pic_verification_icon"
             android:drawablePadding="10dp"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLines="1"
             android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:paddingTop="15dp"
+            android:paddingTop="5dp"
             android:textColor="@color/text_color_1"
             android:textColorHint="@color/text_color_2"
             android:textSize="14sp" />
@@ -165,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relative_register_other_login"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp">
@@ -177,9 +181,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:text="@string/sui_bian_kankan"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/sui_bian_kankan"
                 android:textColor="@color/text_color_1"
                 android:textSize="13sp" />
 
@@ -213,6 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:autoLink="web"
+                        android:drawableRight="@mipmap/pic_arrow_grey_right"
                         android:gravity="right"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"

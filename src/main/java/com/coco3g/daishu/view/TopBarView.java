@@ -30,7 +30,7 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     View mView = null;
     Context mContext = null;
     ImageView mImageLeft = null;
-    RelativeLayout mRelativeLeft, mRelativeRight = null;
+    RelativeLayout mRelativeLeft, mRelativeRight, mRelativeMeSetting;
     TextView mTxtTitle = null;
 
     //
@@ -40,7 +40,7 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
 
     //r
     RelativeLayout mRelativeNormal, mRelativeHome;
-    ImageView mImageSetting;
+    ImageView mImageSetting, mImageMsg;
 
     //首页里
     TextView mTxtLocation, mTxtIncomeZhiDu;
@@ -61,6 +61,7 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mImageLeft = (ImageView) mView.findViewById(R.id.image_topbar_left);
         mRelativeLeft = (RelativeLayout) mView.findViewById(R.id.relative_topbar_left);
         mRelativeRight = (RelativeLayout) mView.findViewById(R.id.relative_topbar_right);
+        mRelativeMeSetting = (RelativeLayout) mView.findViewById(R.id.relatvie_me_frag_setting);
         mRelativeNormal = (RelativeLayout) mView.findViewById(R.id.relative_topbar_nomal);
         mRelativeHome = (RelativeLayout) mView.findViewById(R.id.relative_main_topbar);
         mTxtTitle = (TextView) mView.findViewById(R.id.tv_topbar_title);
@@ -68,10 +69,12 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mTxtIncomeZhiDu = (TextView) mView.findViewById(R.id.tv_main_income_zhidu);
         mEditSearch = (EditText) mView.findViewById(R.id.edit_topbar_search);
         mImageSetting = (ImageView) mView.findViewById(R.id.image_topbar_setting);
+        mImageMsg = (ImageView) mView.findViewById(R.id.image_topbar_system_msg);
         mRelativeLeft.setOnClickListener(this);
         mRelativeRight.setOnClickListener(this);
         mImageSetting.setOnClickListener(this);
         mTxtIncomeZhiDu.setOnClickListener(this);
+        mImageMsg.setOnClickListener(this);
         //
         mEditSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -159,9 +162,9 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
 
     public void setSettingVisible(boolean visible) {
         if (visible) {
-            mImageSetting.setVisibility(VISIBLE);
+            mRelativeMeSetting.setVisibility(VISIBLE);
         } else {
-            mImageSetting.setVisibility(GONE);
+            mRelativeMeSetting.setVisibility(GONE);
         }
     }
 
@@ -200,6 +203,10 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
                 Intent intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("url", settingUrl);
                 mContext.startActivity(intent);
+                break;
+
+            case R.id.image_topbar_system_msg:  //消息提醒
+
                 break;
         }
     }

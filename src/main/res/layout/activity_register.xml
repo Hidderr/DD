@@ -5,13 +5,23 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:src="@mipmap/pic_logo"
+        android:layout_above="@+id/linear_register_content"
+        android:layout_centerHorizontal="true" />
+
     <LinearLayout
+        android:id="@+id/linear_register_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:orientation="vertical">
+        android:layout_marginRight="50dp"
+        android:orientation="vertical"
+        android:paddingTop="30dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,13 +35,11 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/timing_register_get_certificate_code"
                 android:background="@null"
-                android:drawableLeft="@mipmap/pic_login_account_icon"
+                android:drawableLeft="@mipmap/pic_phone_icon"
                 android:drawablePadding="10dp"
                 android:hint="@string/login_phone"
                 android:inputType="number"
                 android:maxLines="1"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:textColor="@color/text_color_1"
                 android:textColorHint="@color/text_color_2"
                 android:textSize="14sp" />
@@ -43,20 +51,22 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_txt_black_1_bg"
                 android:gravity="center"
-                android:paddingBottom="3dp"
+                android:paddingBottom="6dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp"
+                android:paddingTop="6dp"
                 android:text="@string/get_verification"
-                android:textColor="@color/text_color_2"
+                android:textColor="@color/white"
                 android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_below="@+id/timing_register_get_certificate_code"
-                android:background="@color/black" />
+                android:layout_marginTop="10dp"
+                android:background="@color/text_color_1" />
 
         </RelativeLayout>
 
@@ -65,52 +75,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:drawableBottom="@drawable/shape_edit_bottom_line"
-            android:drawableLeft="@mipmap/pic_login_paw_icon"
+            android:drawableLeft="@mipmap/pic_verification_icon"
             android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:hint="@string/phone_verification"
             android:maxLines="1"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:paddingTop="15dp"
             android:textColor="@color/text_color_1"
             android:textColorHint="@color/text_color_2"
             android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/text_color_1" />
 
         <EditText
             android:id="@+id/edit_register_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:drawableBottom="@drawable/shape_edit_bottom_line"
-            android:drawableLeft="@mipmap/pic_login_paw_icon"
+            android:drawableLeft="@mipmap/pic_verification_icon"
             android:drawablePadding="10dp"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
             android:textColor="@color/text_color_1"
             android:textColorHint="@color/text_color_2"
             android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/text_color_1" />
 
         <EditText
             android:id="@+id/edit_register_recomd_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:drawableBottom="@drawable/shape_edit_bottom_line"
-            android:drawableLeft="@mipmap/pic_login_paw_icon"
+            android:drawableLeft="@mipmap/pic_verification_icon"
             android:drawablePadding="10dp"
             android:hint="@string/recomd_code"
             android:maxLines="1"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
             android:textColor="@color/text_color_1"
             android:textColorHint="@color/text_color_2"
             android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/text_color_1" />
 
         <TextView
             android:id="@+id/tv_register_start"
@@ -129,58 +143,20 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/relative_register_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:weightSum="1">
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tv_register_no_account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:gravity="right"
-                    android:text="@string/have_account"
-                    android:textColor="@color/text_color_2"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_register_go_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/tv_register_no_account"
-                    android:gravity="right"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:text="@string/go_login"
-                    android:textColor="@color/text_color_1"
-                    android:textSize="13sp" />
-            </RelativeLayout>
-
-        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@+id/linear_register_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/tv_register_xieyi_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/register_xiyi_1"
             android:textColor="@color/text_color_2"
@@ -190,14 +166,79 @@
             android:id="@+id/tv_register_xieyi_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="3dp"
             android:layout_toRightOf="@+id/tv_register_xieyi_1"
             android:gravity="center"
             android:text="@string/register_xiyi_2"
             android:textColor="@color/text_color_1"
             android:textSize="12sp" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp">
+
+
+        <TextView
+            android:id="@+id/tv_register_kankan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/sui_bian_kankan"
+            android:textColor="@color/text_color_1"
+            android:textSize="13sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+
+            <TextView
+                android:id="@+id/tv_login_no_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="已有账号,"
+                android:textColor="@color/text_color_2"
+                android:textSize="13sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_login_no_account"
+                android:paddingBottom="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_register_go_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:drawableRight="@mipmap/pic_arrow_grey_right"
+                    android:gravity="right"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="去登录"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
 
