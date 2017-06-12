@@ -30,9 +30,9 @@ import java.util.Map;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener {
-    private ImageView mImageDel, mImageWXLogin, mImageQQLogin;
+    private ImageView mImageWXLogin, mImageQQLogin;
     private EditText mEditPhone, mEditPassWord;
-    private TextView mTxtLogin, mTxtRegister, mTxtForgetPassWord;
+    private TextView mTxtLogin, mTxtRegister, mTxtForgetPassWord, mTxtKanKan;
     //
     private RelativeLayout.LayoutParams avatar_lp;
     private String mPhone = "", mPassWord = "";
@@ -56,13 +56,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private void initView() {
         //
-        mImageDel = (ImageView) findViewById(R.id.image_login_username_del);
         mEditPhone = (EditText) findViewById(R.id.edit_login_phone);
         mEditPassWord = (EditText) findViewById(R.id.edit_login_password);
         mTxtLogin = (TextView) findViewById(R.id.tv_login_start);
         mTxtRegister = (TextView) findViewById(R.id.tv_login_fast_register);
         mTxtRegister.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mTxtForgetPassWord = (TextView) findViewById(R.id.tv_login_forgetpwd);
+        mTxtKanKan = (TextView) findViewById(R.id.tv_login_kankan);
         mImageWXLogin = (ImageView) findViewById(R.id.image_login_weixin);
         mImageQQLogin = (ImageView) findViewById(R.id.image_login_qq);
         //输入用户名字的监听(控制删除按钮的显示与否)
@@ -78,32 +78,27 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void afterTextChanged(Editable s) {
                 String mPhone = mEditPhone.getText().toString().trim();
-                if (TextUtils.isEmpty(mPhone)) {
-                    mImageDel.setVisibility(View.GONE);
-                } else {
-                    mImageDel.setVisibility(View.VISIBLE);
-                }
 //                setAvatar(mPhone);
             }
         });
-        mEditPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && !TextUtils.isEmpty(mEditPhone.getText().toString().trim())) {
-                    mImageDel.setVisibility(View.VISIBLE);
-                } else {
-                    mImageDel.setVisibility(View.GONE);
-                }
-
-            }
-        });
+//        mEditPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus && !TextUtils.isEmpty(mEditPhone.getText().toString().trim())) {
+//                    mImageDel.setVisibility(View.VISIBLE);
+//                } else {
+//                    mImageDel.setVisibility(View.GONE);
+//                }
+//
+//            }
+//        });
         //
-        mImageDel.setOnClickListener(this);
         mTxtLogin.setOnClickListener(this);
         mTxtForgetPassWord.setOnClickListener(this);
         mTxtRegister.setOnClickListener(this);
         mImageWXLogin.setOnClickListener(this);
         mImageQQLogin.setOnClickListener(this);
+        mTxtKanKan.setOnClickListener(this);
         //
         final HashMap<String, String> loginMap = Global.readLoginInfo(LoginActivity.this, Global.LOGIN_INFO_LAST);
         if (loginMap != null) {
@@ -115,9 +110,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.image_login_username_del:  //清除手机号/账号
-                mEditPhone.setText("");
-                break;
 
             case R.id.tv_login_start:  //登录
                 mPhone = mEditPhone.getText().toString().trim();
@@ -143,6 +135,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(this, RegisterActivity.class);
                 startActivityForResult(intent, Constants.REGISTER_REQUEST_CODE);
                 overridePendingTransition(R.anim.acivity_in, R.anim.acivity_out);
+                break;
+
+            case R.id.tv_login_kankan:  //随便看看
+                finish();
+
                 break;
 
             case R.id.tv_login_forgetpwd:   //忘记密码

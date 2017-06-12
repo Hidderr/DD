@@ -3,12 +3,12 @@
 
 
     <!--自定义-->
-    <string name="login_phone">用户名/手机号</string>
+    <string name="login_phone">请输入用户名</string>
     <string name="login">登   录</string>
     <string name="logining">登录中...</string>
     <string name="loading">加载中...</string>
     <string name="fast_register">快速注册</string>
-    <string name="password">密码</string>
+    <string name="password">请输入密码</string>
     <string name="recomd_code">推荐码</string>
     <string name="phone_verification">手机验证码</string>
     <string name="exit_app_tip">双击退出应用</string>
@@ -25,6 +25,7 @@
     <!--LoginActivity-->
     <string name="no_account">没有账号？</string>
     <string name="go_register">去注册</string>
+    <string name="sui_bian_kankan">随便看看</string>
 
     <!--RegisterActivity-->
     <string name="register">注   册</string>

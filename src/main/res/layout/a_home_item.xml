@@ -4,83 +4,99 @@
     android:layout_height="wrap_content"
     android:background="@color/transparent">
 
-    <ImageView
-        android:id="@+id/image_home_item_thumb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/relative_home_item_content"
-        android:layout_alignTop="@+id/relative_home_item_content"
-        android:layout_centerVertical="true"
-        android:background="@color/white"
-        android:scaleType="centerInside"
-        android:src="@mipmap/pic_item_test" />
-
     <RelativeLayout
-        android:id="@+id/relative_home_item_content"
+        android:id="@+id/relative_home_frag_mycar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="1dp"
-        android:layout_toRightOf="@+id/image_home_item_thumb"
-        android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tv_home_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="奥迪 A4L 川A 123456"
-            android:textColor="@color/text_color_4"
-            android:textSize="14sp" />
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/tv_home_item_splitline"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/tv_home_item_title"
-            android:background="@color/text_color_10" />
+            android:id="@+id/image_home_item_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/relative_home_item_content"
+            android:layout_alignTop="@+id/relative_home_item_content"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:scaleType="centerInside"
+            android:src="@mipmap/pic_item_test" />
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/relative_home_item_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_home_item_splitline"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/image_home_item_thumb"
+            android:background="@color/white">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_home_item_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_home_item_subtitle1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/pic_battery_icon"
-                    android:drawablePadding="5dp"
-                    android:padding="5dp"
-                    android:text="电量不足，请及时更换电池"
-                    android:textColor="@color/text_color_red_2" />
-
-                <TextView
-                    android:id="@+id/tv_home_item_subtitle2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/pic_gasoline_icon"
-                    android:drawablePadding="5dp"
-                    android:padding="5dp"
-                    android:text="油量充足，状态良好"
-                    android:textColor="@color/text_color_4" />
-            </LinearLayout>
+                android:padding="5dp"
+                android:text="奥迪 A4L 川A 123456"
+                android:textColor="@color/text_color_4"
+                android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_home_item_splitline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_home_item_title"
+                android:background="@color/text_color_10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@mipmap/pic_arrow_right" />
+                android:layout_below="@+id/tv_home_item_splitline"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/tv_home_item_subtitle1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/pic_battery_icon"
+                        android:drawablePadding="5dp"
+                        android:padding="5dp"
+                        android:text="电量不足，请及时更换电池"
+                        android:textColor="@color/text_color_red_2" />
+
+                    <TextView
+                        android:id="@+id/tv_home_item_subtitle2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/pic_gasoline_icon"
+                        android:drawablePadding="5dp"
+                        android:padding="5dp"
+                        android:text="油量充足，状态良好"
+                        android:textColor="@color/text_color_4" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@mipmap/pic_arrow_right" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/image_home_frag_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/pic_home_frag_imagesss"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

@@ -23,6 +23,8 @@ import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.coco3g.daishu.view.HomeMenuImageView;
+import com.coco3g.daishu.view.MeMenuImageView;
 import com.coco3g.daishu.view.MyQRcodeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -35,9 +37,19 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
     ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
-    RelativeLayout mRelativeInfo;
-    TextView mTxtCarNurse, mTxtAccount, mTxtShoppingAccount, mTxtBalance, mTxtCompact, mTxtUpdateMember,
-            mTxtName, mTxtMemberID, mTxtMemberType, mTxtYouHuiQuan, mTxtAddress;
+    RelativeLayout mRelativeInfo,mRelativeShopping;
+    TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType;
+    //
+    MeMenuImageView meMenu1, meMenu2, meMenu3, meMenu4;
+    MeMenuImageView[] meMenus;
+    int[] mShoppingResID = new int[]{R.mipmap.pic_shopping_account, R.mipmap.pic_shopping_account, R.mipmap.pic_shopping_account, R.mipmap.pic_shopping_account};
+    String[] mShoppingTitles = new String[]{"代付款", "待收货", "待评价", "售后"};
+    //
+    HomeMenuImageView mHomeMenu1, mHomeMenu2, mHomeMenu3, mHomeMenu4, mHomeMenu5, mHomeMenu6, mHomeMenu7, mHomeMenu8;
+    HomeMenuImageView[] mHomeMenus;
+    int[] mMeInfoResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
+            R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
+    String[] mMeInfoTitles = new String[]{"购物车", "收藏", "优惠券", "地址管理", "账户余额", "服务账单", "合同摘要", "会员升级"};
     //
     Drawable drawableRight, drawableDown;
     boolean isNurseExpands = false;
@@ -68,37 +80,67 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mImageQRCode = (ImageView) mMeView.findViewById(R.id.image_me_top_qr);
         mImageRightArrow = (ImageView) mMeView.findViewById(R.id.image_me_top_arrow);
         mRelativeInfo = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_my_info);
+        mRelativeShopping = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_shopping_zhangdan);
         //
         mHorizontalScroll = (HorizontalScrollView) mMeView.findViewById(R.id.horizontal_scroll_me_car_binding);
         //
         mTxtCarNurse = (TextView) mMeView.findViewById(R.id.tv_me_mime_car_nurse);
         mTxtAccount = (TextView) mMeView.findViewById(R.id.tv_me_mime_account);
-        mTxtShoppingAccount = (TextView) mMeView.findViewById(R.id.tv_me_shopping_account);
-        mTxtBalance = (TextView) mMeView.findViewById(R.id.tv_me_account_balance);
-        mTxtCompact = (TextView) mMeView.findViewById(R.id.tv_me_compact);
-        mTxtUpdateMember = (TextView) mMeView.findViewById(R.id.tv_me_update_member);
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
 //        mTxtLogout = (TextView) mMeView.findViewById(R.id.tv_me_frag_logout);
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
-        mTxtYouHuiQuan = (TextView) mMeView.findViewById(R.id.tv_me_shopping_youhui_quan);
-        mTxtAddress = (TextView) mMeView.findViewById(R.id.tv_me_update_address);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
         avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
         mImageAvatar.setLayoutParams(avatar_lp);
         //
+        meMenu1 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_1);
+        meMenu2 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_2);
+        meMenu3 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_3);
+        meMenu4 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_4);
+        meMenus = new MeMenuImageView[]{meMenu1, meMenu2, meMenu3, meMenu4};
+        mHomeMenu1 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_5);
+        mHomeMenu2 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_6);
+        mHomeMenu3 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_7);
+        mHomeMenu4 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_8);
+        mHomeMenu5 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_9);
+        mHomeMenu6 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_10);
+        mHomeMenu7 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_11);
+        mHomeMenu8 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_12);
+        mHomeMenus = new HomeMenuImageView[]{mHomeMenu1, mHomeMenu2, mHomeMenu3, mHomeMenu4, mHomeMenu5, mHomeMenu6, mHomeMenu7, mHomeMenu8};
+        //
+
+        for (int i = 0; i < mShoppingResID.length; i++) {
+            meMenus[i].setIcon(mShoppingResID[i], mShoppingTitles[i]);
+        }
+        for (int i = 0; i < mMeInfoResID.length; i++) {
+            mHomeMenus[i].setIcon(mMeInfoResID[i], mMeInfoTitles[i]);
+        }
+        //
         mImageRightArrow.setOnClickListener(this);
         mTxtCarNurse.setOnClickListener(this);
-        mTxtShoppingAccount.setOnClickListener(this);
-        mTxtBalance.setOnClickListener(this);
-        mTxtCompact.setOnClickListener(this);
-        mTxtUpdateMember.setOnClickListener(this);
         mImageQRCode.setOnClickListener(this);
 //        mTxtLogout.setOnClickListener(this);
-        mTxtYouHuiQuan.setOnClickListener(this);
         mRelativeInfo.setOnClickListener(this);
-        mTxtAddress.setOnClickListener(this);
+
+
+        //
+        meMenu1.setOnClickListener(this);
+        meMenu2.setOnClickListener(this);
+        meMenu3.setOnClickListener(this);
+        meMenu4.setOnClickListener(this);
+        mHomeMenu1.setOnClickListener(this);
+        mHomeMenu2.setOnClickListener(this);
+        mHomeMenu3.setOnClickListener(this);
+        mHomeMenu4.setOnClickListener(this);
+        mHomeMenu5.setOnClickListener(this);
+        mHomeMenu6.setOnClickListener(this);
+        mHomeMenu7.setOnClickListener(this);
+        mHomeMenu8.setOnClickListener(this);
+        mRelativeShopping.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -123,27 +165,27 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intentToWeb(Global.H5Map.get("myinfo"));
 
                 break;
-            case R.id.tv_me_shopping_youhui_quan:  //优惠券
+            case R.id.view_me_menu_7:  //优惠券
                 intentToWeb(Global.H5Map.get("youhuiquan"));
 
                 break;
-            case R.id.tv_me_shopping_account:  //购物账单
+            case R.id.relative_me_frag_shopping_zhangdan:  //购物账单
                 intentToWeb(Global.H5Map.get("goodsorder"));
 
                 break;
-            case R.id.tv_me_account_balance:  //账户余额
+            case R.id.view_me_menu_9:  //账户余额
                 intentToWeb(Global.H5Map.get("amount"));
 
                 break;
-            case R.id.tv_me_compact:  //合同摘要
+            case R.id.view_me_menu_11:  //合同摘要
                 intentToWeb(Global.H5Map.get("hetong"));
 
                 break;
-            case R.id.tv_me_update_member:  //升级会员
+            case R.id.view_me_menu_12:  //升级会员
                 intentToWeb(Global.H5Map.get("vip"));
 
                 break;
-            case R.id.tv_me_update_address:  //收货地址管理
+            case R.id.view_me_menu_8:  //收货地址管理
                 intentToWeb(Global.H5Map.get("address"));
 
                 break;
