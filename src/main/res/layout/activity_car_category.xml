@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_color_2"
+    android:background="@color/text_color_15"
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
@@ -68,9 +68,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
-            android:background="@color/text_color_8"
+            android:background="@color/text_color_14"
             android:choiceMode="singleChoice"
-            android:divider="@color/text_color_3"
+            android:divider="@color/text_color_15"
             android:dividerHeight="0.5dp"
             android:scrollbars="none" />
 
@@ -84,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:paddingTop="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="5dp">
 
@@ -91,8 +92,7 @@
                     android:id="@+id/image_car_category_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/pic_temp_1" />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/tv_car_category_name"

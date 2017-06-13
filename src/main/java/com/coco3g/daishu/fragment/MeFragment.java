@@ -45,12 +45,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     //
     MeMenuImageView meMenu1, meMenu2, meMenu3, meMenu4;
     MeMenuImageView[] meMenus;
-    int[] mShoppingResID = new int[]{R.mipmap.pic_dai_pay_icon, R.mipmap.pic_dai_shou_huo_icon, R.mipmap.pic_dai_comment_icon, R.mipmap.pic_after_sale_icon};
-    String[] mShoppingTitles = new String[]{"代付款", "待收货", "待评价", "售后"};
+    int[] mShoppingResID = new int[]{R.mipmap.pic_dai_pay_money_icon, R.mipmap.pic_dai_shou_huo_icon, R.mipmap.pic_dai_comment_icon, R.mipmap.pic_shou_hou_icon};
+    String[] mShoppingTitles = new String[]{"待付款", "待收货", "待评价", "售后"};
     //
     HomeMenuImageView mHomeMenu1, mHomeMenu2, mHomeMenu3, mHomeMenu4, mHomeMenu5, mHomeMenu6, mHomeMenu7, mHomeMenu8;
     HomeMenuImageView[] mHomeMenus;
-    int[] mMeInfoResID = new int[]{R.mipmap.pic_shopping_car_icon, R.mipmap.pic_collection_icon, R.mipmap.pic_you_hui_quan_icon, R.mipmap.pic_address_manager_icon,
+    int[] mMeInfoResID = new int[]{R.mipmap.pic_shopping_cart_icon, R.mipmap.pic_collection_icon, R.mipmap.pic_you_hui_quan_icon, R.mipmap.pic_address_manager_icon,
             R.mipmap.pic_yu_e_icon, R.mipmap.pic_zhang_dan_icon, R.mipmap.pic_he_tong_icon, R.mipmap.pic_update_vip_icon};
     String[] mMeInfoTitles = new String[]{"购物车", "收藏", "优惠券", "地址管理", "账户余额", "服务账单", "合同摘要", "会员升级"};
     //

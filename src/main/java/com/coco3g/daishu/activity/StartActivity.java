@@ -94,7 +94,7 @@ public class StartActivity extends Activity implements View.OnClickListener {
         mSurefaceHolder = new MySurfaceHolder(this, mSurfaceVideo);
         mSurfaceVideo.getHolder().setKeepScreenOn(true);
         mSurfaceVideo.getHolder().addCallback(mSurefaceHolder);
-        timerControl();
+//        timerControl();
         //
         mTxtComeIn.setOnClickListener(this);
         //

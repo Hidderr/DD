@@ -82,7 +82,7 @@ public class CategoryTwoAdapter extends BaseAdapter {
 
         Map<String, Object> map = mList.get(position);
         //
-        viewHodler.mTxtName.setText(map.get("name")+"");
+        viewHodler.mTxtName.setText(map.get("title")+"");
         viewHodler.mImageThumb.setLayoutParams(lp);
         ImageLoader.getInstance().displayImage(map.get("thumb")+"", viewHodler.mImageThumb, options);
         return view;

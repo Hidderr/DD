@@ -20,6 +20,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="12dp"
+            android:scaleType="centerInside"
             android:src="@mipmap/pic_menu_my_car" />
 
         <TextView
@@ -28,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/image_home_menu_item_icon"
             android:layout_centerHorizontal="true"
-            android:text="我的汽车"
             android:layout_marginBottom="5dp"
+            android:text="我的汽车"
             android:textColor="@color/text_color_4"
             android:textSize="13sp" />
     </RelativeLayout>

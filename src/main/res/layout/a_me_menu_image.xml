@@ -27,6 +27,7 @@
             android:layout_below="@+id/image_me_menu_item_icon"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="2dp"
             android:text="我的汽车"
             android:textColor="@color/text_color_6"
             android:textSize="13sp" />

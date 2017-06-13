@@ -67,23 +67,17 @@ public class DataUrl {
      * */
     public static final String GET_INCOME_LIST = BASE_URL + "index/earn";
     /*
-     * 获取车载用品一级分类
+     * 获取车载用品分类
      * */
-//    public static final String GET_CAR_ONE_CATEGORY = BASE_URL + "";
-    public static final String GET_CAR_ONE_CATEGORY = "https://app.ef-tribe.com/api/mantun/get_goods_cate";
-    /*
-     * 获取车载用品二级分类
-     * */
-//    public static final String GET_CAR_TWO_CATEGORY = BASE_URL + "";
-    public static final String GET_CAR_TWO_CATEGORY = "https://app.ef-tribe.com/api/mantun/get_goods_cate";
+    public static final String GET_CAR_CATEGORY_LIST = BASE_URL + "goods/get_goods_cates";
     /*
      * 获取首页广告列表
      * */
     public static final String GET_HOME_GUANG_GAO_LIST = BASE_URL + "index/get_adverts";
     /*
-     * 获取融云token
+     * 获取车载用品商品列表
      * */
-    public static final String GET_RONGCLOUD_TOKEN = BASE_URL + "member/get_token";
+    public static final String GET_CAR_GOODS_LIST = BASE_URL + "goods/index";
     /**
      * 同意添加好友
      **/

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -16,7 +17,9 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.MyGridView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
     int mCurrOneCategoryIndex = 0;
     String mCurrOneCategoryID = "0";
 
+    ImageView mImageThumb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,50 +53,63 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
         mListCategory = (ListView) findViewById(R.id.list_category_one);
         mGridCategory = (MyGridView) findViewById(R.id.grid_category_two);
         mProgress = (ProgressBar) findViewById(R.id.progress);
+        mImageThumb = (ImageView) findViewById(R.id.image_car_category_thumb);
         //
         mListCategory.setAdapter(mOneAdapter);
         mGridCategory.setAdapter(mTwoAdapter);
         // mGridCategory.setVerticalSpacing(40);
         // mGridCategory.setHorizontalSpacing(40);
         //
-        mListCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mOneAdapter.setOnItemSelectedListener(new CategoryOneAdapter.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
+            public void OnItemClick(int position, String id) {
                 if (mCurrOneCategoryIndex == position) {
                     return;
                 }
                 mCurrOneCategoryIndex = position;
                 mTwoAdapter.clearList();
+                //
                 mOneAdapter.setSelectItem(position);
                 mListCategory.setItemChecked(position, true);
                 //
-                mCurrOneCategoryID = mOneAdapter.getList().get(position).get("catid") + "";
+                mCurrOneCategoryID = mOneAdapter.getList().get(position).get("id") + "";
                 mProgress.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(mOneAdapter.getList().get(position).get("thumb") + "", mImageThumb, new DisplayImageOptionsUtils().init());
                 getTwoCategoryList(mCurrOneCategoryID);
-//                if (mCurrOneCategoryID == 1) {
-//                    getTwoCategoryList(1, mCurrOneCategoryID);
-//                } else {
-//                    getTwoCategoryList(0, mCurrOneCategoryID);
-//                }
-
             }
         });
+//        mListCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                // TODO Auto-generated method stub
+//                if (mCurrOneCategoryIndex == position) {
+//                    return;
+//                }
+//                mCurrOneCategoryIndex = position;
+//                mTwoAdapter.clearList();
+//                //
+//                mOneAdapter.setSelectItem(position);
+//                mListCategory.setItemChecked(position, true);
+//                //
+//                mCurrOneCategoryID = mOneAdapter.getList().get(position).get("id") + "";
+//                mProgress.setVisibility(View.VISIBLE);
+//                ImageLoader.getInstance().displayImage(mOneAdapter.getList().get(position).get("thumb") + "", mImageThumb, new DisplayImageOptionsUtils().init());
+//                getTwoCategoryList(mCurrOneCategoryID);
+//
+//            }
+//        });
         //
         mGridCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CategoryActivity.this, CarCategoryListActivity.class);
-                intent.putExtra("cateid", mTwoAdapter.getList().get(position).get("catid") + "");
-                intent.putExtra("title", mTwoAdapter.getList().get(position).get("name") + "");
+                intent.putExtra("typename", mOneAdapter.getList().get(mCurrOneCategoryIndex).get("title") + "");
                 startActivityForResult(intent, 1);
             }
         });
         //
         mProgress.setVisibility(View.VISIBLE);
         getOneCategoryList();
-        mOneAdapter.setSelectItem(0);
-        mListCategory.setItemChecked(0, true);
 
     }
 
@@ -111,15 +129,18 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
     //获取一级分类
     public void getOneCategoryList() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("all", "0");
-        params.put("catid", "0");
-        new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_ONE_CATEGORY, params, null, new IBaseDataListener() {
+        params.put("page", "1");
+        params.put("gcatid", "9");
+        new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_CATEGORY_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                ArrayList<Map<String, Object>> mList = (ArrayList<Map<String, Object>>) data.data;
+                ArrayList<Map<String, Object>> mList = (ArrayList<Map<String, Object>>) data.response;
                 mOneAdapter.setList(mList);
+                mOneAdapter.setSelectItem(0);
+                mListCategory.setItemChecked(0, true);
                 //
-                getTwoCategoryList(mList.get(0).get("catid") + "");
+                ImageLoader.getInstance().displayImage(mList.get(0).get("thumb") + "", mImageThumb, new DisplayImageOptionsUtils().init());
+                getTwoCategoryList(mList.get(0).get("id") + "");
 
             }
 
@@ -139,12 +160,12 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
     //获取一级分类
     public void getTwoCategoryList(String catid) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("all", "0");
-        params.put("catid", catid);
-        new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_TWO_CATEGORY, params, null, new IBaseDataListener() {
+        params.put("page", "1");
+        params.put("gcatid", catid);
+        new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_CATEGORY_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                ArrayList<Map<String, Object>> mList = (ArrayList<Map<String, Object>>) data.data;
+                ArrayList<Map<String, Object>> mList = (ArrayList<Map<String, Object>>) data.response;
                 mTwoAdapter.setList(mList);
                 //
                 mProgress.setVisibility(View.GONE);

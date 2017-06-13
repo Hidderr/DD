@@ -1,5 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:addStatesFromChildren="true"--><!--android:background="@color/text_color_10"--><!--android:clipToPadding="true"--><!--android:fitsSystemWindows="true"--><!--android:orientation="vertical"--><!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+<!--<android.support.design.widget.AppBarLayout--><!--android:id="@+id/appbar_car_category_list"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:clipChildren="false"--><!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
@@ -8,58 +13,108 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:visibility="visible">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/image_car_category_list_back"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/image_car_category_list_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@mipmap/pic_back_icon"
+                android:text="定位中" />
+
+            <EditText
+                android:id="@+id/edit_car_category_list_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="40dp"
+                android:layout_toRightOf="@+id/image_car_category_list_back"
+                android:background="@drawable/shape_edit_white_bg"
+                android:drawableRight="@mipmap/pic_home_search_icon"
+                android:hint="请输入想要的商品"
+                android:imeOptions="actionSearch"
+                android:paddingBottom="7dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="7dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_1"
+                android:textColorHint="@color/text_color_2"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout_car_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="@color/text_color_6">
+
+    </android.support.design.widget.TabLayout>
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.andview.refreshview.XRefreshView
+            android:id="@+id/xrefreshview_car_category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_car_category_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="4dp"
+                android:scrollbars="vertical" />
+
+
+        </com.andview.refreshview.XRefreshView>
+
+        <ProgressBar
+            android:id="@+id/progress_car_category_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:src="@mipmap/pic_back_icon"
-            android:text="定位中" />
-
-        <EditText
-            android:id="@+id/edit_car_category_list_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:layout_toRightOf="@+id/image_car_category_list_back"
-            android:background="@drawable/shape_edit_white_bg"
-            android:drawableRight="@mipmap/pic_home_search_icon"
-            android:hint="请输入想要的商品"
-            android:imeOptions="actionSearch"
-            android:paddingBottom="7dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="7dp"
-            android:singleLine="true"
-            android:textColor="@color/text_color_1"
-            android:textColorHint="@color/text_color_2"
-            android:textSize="14sp" />
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progress"
+            android:indeterminateDuration="1000"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_car_category_list_add_mycar_remind"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@color/white"
-        android:drawablePadding="5dp"
-        android:drawableRight="@mipmap/pic_arrow_right_grey"
-        android:paddingBottom="6dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="6dp"
-        android:text="填写爱车信息"
-        android:textColor="@color/text_color_2"
-        android:textSize="16sp" />
-
-
 </LinearLayout>
+
+    <!--<ProgressBar--><!--android:id="@+id/progress"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_centerInParent="true"--><!--android:indeterminateDrawable="@drawable/progress"--><!--android:indeterminateDuration="1000"--><!--android:visibility="gone" />-->
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <!--</LinearLayout>-->
