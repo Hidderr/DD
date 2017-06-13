@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -22,6 +23,7 @@ import com.amap.api.maps.model.LatLng;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.RepairWebsiteActivity;
 import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.adapter.RepairFragAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
@@ -43,6 +45,9 @@ import java.util.Map;
 
 public class RepairFragment extends Fragment implements View.OnClickListener {
     SuperRefreshLayout mSuperRefreshLayout;
+    ListView mListView;
+    RepairFragAdapter mAdapter;
+    View mHeadView;
     private View mRepairView;
     BannerView mBanner;
     LinearLayout mLinearMenu, mLinearRoot;
@@ -65,17 +70,20 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init() {
+        mListView = (ListView) mRepairView.findViewById(R.id.listview_repair_frag);
         mSuperRefreshLayout = (SuperRefreshLayout) mRepairView.findViewById(R.id.superrefresh_repair);
-        mBanner = (BannerView) mRepairView.findViewById(R.id.banner_repair_frag);
-        mLinearRoot = (LinearLayout) mRepairView.findViewById(R.id.linear_repair_root);
+        //
+        mHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.view_repair_frag_header, null);
+        mBanner = (BannerView) mHeadView.findViewById(R.id.banner_repair_frag);
+        mLinearRoot = (LinearLayout) mHeadView.findViewById(R.id.linear_repair_root);
         mLinearRoot.setVisibility(View.GONE);
-        mLinearMenu = (LinearLayout) mRepairView.findViewById(R.id.linear_repair_menu);
-        mTxtRepairBoradcast = (MarqueeView) mRepairView.findViewById(R.id.tv_repair_boardcast);
-        mRepairMenu1 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_1);
-        mRepairMenu2 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_2);
-        mRepairMenu3 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_3);
-        mRepairMenu4 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_4);
-        mRepairMenu5 = (HomeMenuImageView) mRepairView.findViewById(R.id.view_repair_menu_5);
+        mLinearMenu = (LinearLayout) mHeadView.findViewById(R.id.linear_repair_menu);
+        mTxtRepairBoradcast = (MarqueeView) mHeadView.findViewById(R.id.tv_repair_boardcast);
+        mRepairMenu1 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_1);
+        mRepairMenu2 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_2);
+        mRepairMenu3 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_3);
+        mRepairMenu4 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_4);
+        mRepairMenu5 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_5);
         //
         mBanner.setScreenRatio(2);
         mMenuRes = new HomeMenuImageView[]{mRepairMenu1, mRepairMenu2, mRepairMenu3, mRepairMenu4, mRepairMenu5};
@@ -115,6 +123,8 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         });
         //
         startLocation(false);
+        mAdapter = new RepairFragAdapter(getActivity());
+        mListView.addHeaderView(mHeadView);
         //
         mSuperRefreshLayout.setRefreshingLoad();
 
@@ -249,6 +259,7 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
                     mTxtRepairBoradcast.startWithList(list);
                 }
                 mLinearRoot.setVisibility(View.VISIBLE);
+                mListView.setAdapter(mAdapter);
                 mSuperRefreshLayout.onLoadComplete();
             }
 

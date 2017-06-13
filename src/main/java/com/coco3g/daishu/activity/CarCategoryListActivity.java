@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -50,19 +51,24 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
     View mHeadView;
     ProgressBar mProgressBar;
 
-
     HashMap<Integer, TextView> mTabLayoutItemMap = new HashMap<>();
     String[] mViewPagerTitles = new String[]{"综合", "销量", "价格", "筛选"};
     //
     int currTab = 0;
 
-    String typeName = "";
+    String typeName = "", catid = "";
+    String saleOrder = "market_dec";  //销量market_inc：销量（低到高），market_dec：销量（高到低）
+    String priceOrder = "price_inc";  //price_inc：价格（低到高），price_dec：价格（高到低）
+    //
+    private LinearLayout mLinearDrawerRight;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_category_list);
         typeName = getIntent().getStringExtra("typename");
+        catid = getIntent().getStringExtra("catid");
         initView();
     }
 
@@ -71,6 +77,8 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         mImageBack = (ImageView) findViewById(R.id.image_car_category_list_back);
         mTabLayout = (TabLayout) findViewById(R.id.tablayout_car_category_list);
         mEditSearch = (TextView) findViewById(R.id.edit_car_category_list_search);
+        mLinearDrawerRight = (LinearLayout) findViewById(R.id.linear_car_category_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout_car_category_list);
         mEditSearch.setHint(typeName);
         //
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
@@ -175,7 +183,6 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 break;
         }
 
-
         String tag = (String) v.getTag();
         if (TextUtils.isEmpty(tag)) {
             return;
@@ -232,19 +239,32 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 mTabLayoutItemMap.get(1).setSelected(true);
                 if (currTab == selectPosition) {
                     setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_asc, 0);
+                    if (saleOrder.equals("market_dec")) {
+                        saleOrder = "market_inc";
+                    } else {
+                        saleOrder = "market_dec";
+                    }
                 } else {
                     setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_dec, 0);
+                    saleOrder = "market_dec";
                 }
                 setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
                 setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_order_nomal, 1);
+
                 break;
 
             case 2:  //价格
                 mTabLayoutItemMap.get(2).setSelected(true);
                 if (currTab == selectPosition) {
                     setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_asc, 0);
+                    if (priceOrder.equals("market_dec")) {
+                        priceOrder = "price_inc";
+                    } else {
+                        priceOrder = "market_dec";
+                    }
                 } else {
                     setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_dec, 0);
+                    priceOrder = "price_inc";
                 }
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
                 setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_order_nomal, 1);
@@ -278,8 +298,26 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             mProgressBar.setVisibility(View.GONE);
         }
         HashMap<String, String> params = new HashMap<>();
-        params.put("catid", "27");
+        params.put("catid", catid);
         params.put("page", currPager + "");
+        //
+        if (currTab == 0) { //综合
+            params.put("order", "synth");
+
+        } else if (currTab == 1) {  //销量
+            params.put("order", saleOrder);
+
+        } else if (currTab == 2) {  //价格
+            params.put("order", priceOrder);
+
+        } else if (currTab == 3) {
+//            params.put("brand", currPager + "");
+//            params.put("minprice", currPager + "");
+//            params.put("maxprice", currPager + "");
+//            params.put("areaid", currPager + "");
+//            params.put("type", currPager + "");
+        }
+
         new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_GOODS_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

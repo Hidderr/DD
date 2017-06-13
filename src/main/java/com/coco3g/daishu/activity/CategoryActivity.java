@@ -104,6 +104,7 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CategoryActivity.this, CarCategoryListActivity.class);
                 intent.putExtra("typename", mOneAdapter.getList().get(mCurrOneCategoryIndex).get("title") + "");
+                intent.putExtra("catid", mOneAdapter.getList().get(mCurrOneCategoryIndex).get("id") + "");
                 startActivityForResult(intent, 1);
             }
         });

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_a_repair_frag_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/text_color_14"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_a_repair_frag_item_car_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/pic_arrow_right_grey"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="川A 123445"
+        android:textColor="@color/text_color_1"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_a_repair_frag_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingBottom="6dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="6dp"
+        android:text="会员通过APP享受维修养护服务时，需要提供会员登记的车辆车牌号码，以便与服务提供方确认服务内容与费用"
+        android:textColor="@color/text_color_2"
+        android:textSize="13sp" />
+
+</LinearLayout>
