@@ -50,6 +50,8 @@ public class WebActivity extends BaseActivity {
     String mTitle = "";
     String action = "", id = "", url = "";
     boolean showRightView = true;
+    boolean hideTopbar = false;
+    boolean forbidRefresh = false;
     //
     private ImageSelectUtils mImageSelectUtils;
     //
@@ -64,7 +66,12 @@ public class WebActivity extends BaseActivity {
         action = getIntent().getStringExtra("action");
         id = getIntent().getStringExtra("id");
         url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url");
         showRightView = getIntent().getBooleanExtra("showrightview", false);
+        hideTopbar = getIntent().getBooleanExtra("hidetopbar", false);
+        forbidRefresh = getIntent().getBooleanExtra("pulldown", false);
+//        Log.e("禁止")
+        //
         initView();
         if (!TextUtils.isEmpty(action)) {
             getUrl(action);
@@ -98,6 +105,9 @@ public class WebActivity extends BaseActivity {
         //
         mTopBar = (TopBarView) findViewById(R.id.topbar_my_webview);
         mTopBar.setTitle(mTitle);
+        if (hideTopbar) {
+            mTopBar.setVisibility(View.GONE);
+        }
         TextView tv = new TextView(WebActivity.this);
         tv.setGravity(Gravity.START | Gravity.CENTER);
         tv.setText(getString(R.string.save));
@@ -121,7 +131,9 @@ public class WebActivity extends BaseActivity {
         //
         relativeRoot = (RelativeLayout) findViewById(R.id.relative_webview_root);
         mWebView = (MyWebView) findViewById(R.id.view_my_webview);
+        mWebView.forbidRefresh(forbidRefresh);
         mWebView.setRootView(relativeRoot);
+        mWebView.setHideTopbar(hideTopbar);
         mWebView.setOnTitleListener(new MyWebView.SetTitleListener() {
             @Override
             public void setTitle(String title) {

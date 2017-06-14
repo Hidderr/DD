@@ -24,4 +24,11 @@
             android:layout_height="match_parent" />
 
     </com.andview.refreshview.XRefreshView>
+
+    <WebView
+        android:id="@+id/view_webview_forbid_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </RelativeLayout>

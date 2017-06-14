@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -38,6 +39,7 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
     String mCurrOneCategoryID = "0";
 
     ImageView mImageThumb;
+    LinearLayout.LayoutParams image_lp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,9 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
         mGridCategory = (MyGridView) findViewById(R.id.grid_category_two);
         mProgress = (ProgressBar) findViewById(R.id.progress);
         mImageThumb = (ImageView) findViewById(R.id.image_car_category_thumb);
+        int imageWidth = Global.screenWidth * 3 / 4 - 30;
+        image_lp = new LinearLayout.LayoutParams(imageWidth, imageWidth / 3);
+        mImageThumb.setLayoutParams(image_lp);
         //
         mListCategory.setAdapter(mOneAdapter);
         mGridCategory.setAdapter(mTwoAdapter);
@@ -78,26 +83,6 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
                 getTwoCategoryList(mCurrOneCategoryID);
             }
         });
-//        mListCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                // TODO Auto-generated method stub
-//                if (mCurrOneCategoryIndex == position) {
-//                    return;
-//                }
-//                mCurrOneCategoryIndex = position;
-//                mTwoAdapter.clearList();
-//                //
-//                mOneAdapter.setSelectItem(position);
-//                mListCategory.setItemChecked(position, true);
-//                //
-//                mCurrOneCategoryID = mOneAdapter.getList().get(position).get("id") + "";
-//                mProgress.setVisibility(View.VISIBLE);
-//                ImageLoader.getInstance().displayImage(mOneAdapter.getList().get(position).get("thumb") + "", mImageThumb, new DisplayImageOptionsUtils().init());
-//                getTwoCategoryList(mCurrOneCategoryID);
-//
-//            }
-//        });
         //
         mGridCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,6 +94,8 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
             }
         });
         //
+        mImageThumb.setOnClickListener(this);
+        //
         mProgress.setVisibility(View.VISIBLE);
         getOneCategoryList();
 
@@ -116,14 +103,17 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.time_forget_password_get_verification:  //获取验证码
-//
-//                break;
-//            case R.id.tv_forget_password_change_password:  //修改密码
-//
-//                break;
-//        }
+        switch (v.getId()) {
+            case R.id.image_car_category_thumb:  //图片
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("url", mOneAdapter.getList().get(mCurrOneCategoryIndex).get("url") + "");
+                startActivity(intent);
+
+                break;
+            case R.id.tv_forget_password_change_password:  //修改密码
+
+                break;
+        }
     }
 
 

@@ -131,7 +131,7 @@
                 android:background="@color/text_color_8"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/linear_me_car_binding"
@@ -140,6 +140,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_me_frag_add_my_car"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="5dp"
@@ -149,15 +150,6 @@
                         android:textColor="@color/text_color_1"
                         android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@mipmap/pic_me_car_add"
-                        android:padding="10dp"
-                        android:text="新增绑定"
-                        android:textColor="@color/text_color_1"
-                        android:textSize="12sp" />
                 </LinearLayout>
             </HorizontalScrollView>
         </RelativeLayout>

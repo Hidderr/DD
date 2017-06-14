@@ -70,6 +70,7 @@ public class TypevauleGotoDictionary {
     private final String CALL_EDIT_DIALOG = indexNativeKey + "prompt?";
     private final String OPEN_TAB_VIEW = indexNativeKey + "open_tabview?";
     private final String GET_URL = indexNativeKey + "call_interface?";  //调用接口获取url
+    private final String FORBID_REFRESH = indexNativeKey + "ban_refresh?";  //禁止刷新
     //
     public static HashMap<String, String> CALLBACKTAG = new HashMap<>();
     private MyProgressDialog myProgressDialog;
@@ -280,6 +281,27 @@ public class TypevauleGotoDictionary {
             }
         } else if (value.startsWith(GET_URL)) {
             getUrl(hashMap.get("url"), hashMap.get("target"));
+
+        } else if (value.startsWith(FORBID_REFRESH)) {  //禁止下拉刷新
+
+            if (hashMap.get("target").equals("self")) {  //当前webview加载url,不重新跳转到新的页面
+                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                    myWebView.loadUrl(hashMap.get("url"));
+                } else {
+                    mWebview.loadUrl(hashMap.get("url"), Global.getTokenTimeStampHeader(mContext));
+                }
+            } else if (hashMap.get("target").equals("blank")) {   //跳转到新的页面
+                intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra("url", hashMap.get("url"));
+                intent.putExtra("pulldown", true);
+                ((Activity) mContext).startActivityForResult(intent, Global.REFRESH_DATA);
+            } else {  //当没有传递"self"时候，默认当前页面打开
+                if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                    myWebView.loadUrl(hashMap.get("url"));
+                } else {
+                    mWebview.loadUrl(hashMap.get("url"), Global.getTokenTimeStampHeader(mContext));
+                }
+            }
         }
 
     }

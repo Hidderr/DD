@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.autonavi.ae.search.log.GLog;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.CarCategoryListAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
@@ -41,14 +43,14 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
     private TabLayout mTabLayout;
     private TextView mEditSearch;
     private ImageView mImageBack;
-    private TextView mTxtAddMyCar;
+    //    private TextView mTxtAddMyCar;
     //
     int currPager = 1;  //当前第几个页面
 
     RecyclerView recyclerView;
     CarCategoryListAdapter mAdapter;
     XRefreshView xRefreshView;
-    View mHeadView;
+    //    View mHeadView;
     ProgressBar mProgressBar;
 
     HashMap<Integer, TextView> mTabLayoutItemMap = new HashMap<>();
@@ -116,8 +118,8 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         recyclerView.setLayoutManager(gridLayoutManager);
         //
         mAdapter = new CarCategoryListAdapter(this);
-        mHeadView = mAdapter.setHeaderView(R.layout.view_category_list_header, recyclerView);
-        mTxtAddMyCar = (TextView) mHeadView.findViewById(R.id.tv_category_list_header);
+//        mHeadView = mAdapter.setHeaderView(R.layout.view_category_list_header, recyclerView);
+//        mTxtAddMyCar = (TextView) mHeadView.findViewById(R.id.tv_category_list_header);
         // 静默加载模式不能设置footerview
         recyclerView.setAdapter(mAdapter);
         //
@@ -136,16 +138,12 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             @Override
             public void onRefresh() {
                 super.onRefresh();
-
-                Log.e("刷新", "刷新");
                 xRefreshView.stopRefresh();
-
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
-                Log.e("刷新", "加载更多****");
                 currPager++;
                 getCarGoodsList(false);
 
@@ -156,6 +154,9 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         }
         for (int i = 0; i < mViewPagerTitles.length; i++) {
             mTabLayout.getTabAt(i).setCustomView(getTabView(i));
+            View tabView = (View) mTabLayout.getTabAt(i).getCustomView().getParent();
+            tabView.setTag(i + "");
+            tabView.setOnClickListener(this);
         }
         /*右侧滑*/
         mRelativeAddress = (RelativeLayout) findViewById(R.id.relative_category_list_address);
@@ -192,18 +193,21 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         //
         mEditSearch.setOnClickListener(this);
         mImageBack.setOnClickListener(this);
-        mTxtAddMyCar.setOnClickListener(this);
+//        mTxtAddMyCar.setOnClickListener(this);
         mRelativeAddress.setOnClickListener(this);
         mTxtReset.setOnClickListener(this);
         mTxtConfirm.setOnClickListener(this);
+        //
         getCarGoodsList(true);
     }
 
     private View getTabView(int position) {
         View view = LayoutInflater.from(this).inflate(R.layout.a_home_tablayout_item_icon, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_home_tablayout_item_icon);
+        LinearLayout linearRoot = (LinearLayout) view.findViewById(R.id.linear_a_home_tablayout_item_root);
         tv.setText(mViewPagerTitles[position]);
-        view.setTag(position + "");
+//        view.setTag(position + "");
+        linearRoot.setTag(position + "");
         //
         if (position == 0) {
             tv.setCompoundDrawables(null, null, null, null);
@@ -216,7 +220,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         if (mTabLayoutItemMap.get(position) == null) {
             mTabLayoutItemMap.put(position, tv);
         }
-        view.setOnClickListener(this);
+//        linearRoot.setOnClickListener(this);
         return view;
     }
 
@@ -237,10 +241,6 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
 
                 break;
 
-            case R.id.tv_category_list_header:  //添加爱车信息
-
-                break;
-
             case R.id.tv_category_list_reset:  //筛选重置
                 resetShaiXuan();
 
@@ -254,8 +254,14 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             case R.id.relative_category_list_address:  //展开地址
                 if (mLinearAddress.getVisibility() == View.VISIBLE) {
                     mLinearAddress.setVisibility(View.GONE);
+                    Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_down);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    mTxtAddress.setCompoundDrawables(null, null, drawable, null);
                 } else {
                     mLinearAddress.setVisibility(View.VISIBLE);
+                    Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.pic_arrow_up);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    mTxtAddress.setCompoundDrawables(null, null, drawable, null);
                 }
 
                 break;
@@ -266,6 +272,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             return;
         }
         int tag_int = Integer.parseInt(tag);
+//        Global.showToast(tag, this);
 
         switch (tag_int) {
             case 0:  //综合
@@ -291,8 +298,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
 
             case 3:  //筛选
                 setTabTitle(3);
-                mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_OPEN);
-                mDrawerLayout.openDrawer(mRelativeRightView);
+                openDrawerLayout(mRelativeRightView);
 
                 break;
         }
@@ -333,14 +339,14 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             case 2:  //价格
                 mTabLayoutItemMap.get(2).setSelected(true);
                 if (currTab == selectPosition) {
-                    setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_asc, 0);
-                    if (priceOrder.equals("market_dec")) {
+                    setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_dec, 0);
+                    if (priceOrder.equals("price_dec")) {
                         priceOrder = "price_inc";
                     } else {
-                        priceOrder = "market_dec";
+                        priceOrder = "price_dec";
                     }
                 } else {
-                    setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_dec, 0);
+                    setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_asc, 0);
                     priceOrder = "price_inc";
                 }
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
@@ -401,9 +407,9 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 @Override
                 public void textViewChoosed() {
                     setOnlyOneChoosed(textView, hashMap);
-                    if (type == 1) {
+                    if (type == 1) {  //城市
                         setOnlyOneChoosed(null, provinceMap);
-                    } else if (type == 2) {
+                    } else if (type == 2) {  //省
                         setOnlyOneChoosed(null, cityMap);
                     }
                 }
@@ -461,7 +467,6 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
     }
 
     public void getShaiXuanResult() {
-
         //
         minprice = mEditLowPrice.getText().toString().trim();
         maxprice = mEditHighPrice.getText().toString().trim();
@@ -473,13 +478,15 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 return;
             }
         }
-        getSelectedShaiXuanTypeId(pinPaiMap, brand, pinPaiList);
-        getSelectedShaiXuanTypeId(cityMap, areaid, cityList);
-        getSelectedShaiXuanTypeId(provinceMap, areaid, provinceList);
-        getSelectedShaiXuanTypeId(goodsTypeMap, type, goodsTypeList);
+        getSelectedShaiXuanTypeId(pinPaiMap, 0, pinPaiList);
+        getSelectedShaiXuanTypeId(cityMap, 1, cityList);
+        getSelectedShaiXuanTypeId(provinceMap, 2, provinceList);
+        getSelectedShaiXuanTypeId(goodsTypeMap, 3, goodsTypeList);
         //
-        mDrawerLayout.closeDrawer(mRelativeRightView);
-        mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        closeDrawerLayout(mRelativeRightView);
+        // 先隐藏键盘
+        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         //
         mAdapter.clearList();
         getCarGoodsList(true);
@@ -487,16 +494,36 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
     }
 
     //遍历Map,得到选中的id
-    private void getSelectedShaiXuanTypeId(HashMap map, String typeName, ArrayList<Map<String, String>> typeList) {
+    private void getSelectedShaiXuanTypeId(HashMap map, int selected_type, ArrayList<Map<String, String>> typeList) {
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
             if ((Boolean) entry.getValue()) {
                 ShaiXuanTextView textView = (ShaiXuanTextView) entry.getKey();
                 int position = (int) textView.getTag();
-                typeName = typeList.get(position).get("id");
+                if (selected_type == 0) {
+                    brand = typeList.get(position).get("id");
+                } else if (selected_type == 1) {
+                    areaid = typeList.get(position).get("id");
+                } else if (selected_type == 2) {
+                    areaid = typeList.get(position).get("id");
+                } else if (selected_type == 3) {
+                    type = typeList.get(position).get("id");
+                }
             }
         }
+    }
+
+    //开启侧滑
+    public void openDrawerLayout(RelativeLayout relativeDrawerLayout) {
+        mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_UNLOCKED);
+        mDrawerLayout.openDrawer(relativeDrawerLayout);
+    }
+
+    //关闭侧滑
+    public void closeDrawerLayout(RelativeLayout relativeDrawerLayout) {
+        mDrawerLayout.closeDrawer(relativeDrawerLayout);
+        mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
 
@@ -539,7 +566,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             mProgressBar.setVisibility(View.GONE);
         }
         HashMap<String, String> params = new HashMap<>();
-        params.put("catid", catid);
+        params.put("gcatid", catid);
         params.put("page", currPager + "");
         //
         if (currTab == 0) { //综合
@@ -599,12 +626,14 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
             public void onFailure(BaseDataBean data) {
                 Global.showToast(data.msg, CarCategoryListActivity.this);
                 currPager--;
+                mProgressBar.setVisibility(View.GONE);
                 onLoadComplete();
             }
 
             @Override
             public void onError() {
                 onLoadComplete();
+                mProgressBar.setVisibility(View.GONE);
                 currPager--;
             }
         });
@@ -621,8 +650,10 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mDrawerLayout.isDrawerOpen(mRelativeRightView)) {
                 mDrawerLayout.closeDrawer(mRelativeRightView);
-                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+//                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 return true;
+            } else {
+                finish();
             }
         }
         return false;

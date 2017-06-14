@@ -120,7 +120,7 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_read_menu_2:  //汽车保险
-                intentToWeb(Global.H5Map.get("baoxian"));
+                intentToWeb(Global.H5Map.get("baoxian"), true);
 
                 break;
 
@@ -132,19 +132,19 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_read_menu_4:  //油品区
-                intentToWeb(Global.H5Map.get("youpinqu"));
+                intentToWeb(Global.H5Map.get("youpinqu"), false);
 
                 break;
 
             case R.id.view_read_menu_5:  // 其他产品
-                intentToWeb(Global.H5Map.get("goodsother"));
+                intentToWeb(Global.H5Map.get("goodsother"), false);
 
                 break;
         }
     }
 
 
-    public void intentToWeb(String url) {
+    public void intentToWeb(String url, boolean hideTopbar) {
         if (!Global.checkoutLogin(getActivity())) {
             return;
         }
@@ -161,6 +161,9 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
 
         Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", url);
+        if (hideTopbar) {
+            intent.putExtra("hidetopbar", true);
+        }
         startActivity(intent);
     }
 

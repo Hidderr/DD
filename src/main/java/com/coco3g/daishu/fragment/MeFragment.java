@@ -41,7 +41,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     HorizontalScrollView mHorizontalScroll;
     LinearLayout mLinearGuangGao;
     RelativeLayout mRelativeInfo, mRelativeShopping;
-    TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType;
+    TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType, mTxtAddMyCar;
     //
     MeMenuImageView meMenu1, meMenu2, meMenu3, meMenu4;
     MeMenuImageView[] meMenus;
@@ -52,6 +52,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     HomeMenuImageView[] mHomeMenus;
     int[] mMeInfoResID = new int[]{R.mipmap.pic_shopping_cart_icon, R.mipmap.pic_collection_icon, R.mipmap.pic_you_hui_quan_icon, R.mipmap.pic_address_manager_icon,
             R.mipmap.pic_yu_e_icon, R.mipmap.pic_zhang_dan_icon, R.mipmap.pic_he_tong_icon, R.mipmap.pic_update_vip_icon};
+
     String[] mMeInfoTitles = new String[]{"购物车", "收藏", "优惠券", "地址管理", "账户余额", "服务账单", "合同摘要", "会员升级"};
     //
     Drawable drawableRight, drawableDown;
@@ -92,6 +93,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
+        mTxtAddMyCar = (TextView) mMeView.findViewById(R.id.tv_me_frag_add_my_car);
         mLinearGuangGao = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_guang_gao_List);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
@@ -119,7 +121,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }
         for (int i = 0; i < mMeInfoResID.length; i++) {
             mHomeMenus[i].setIcon(mMeInfoResID[i], mMeInfoTitles[i]);
-            mHomeMenus[i].setTextSize(14f);
+            mHomeMenus[i].setImagePadding();
+//            mHomeMenus[i].setTextSize(13f);
         }
         //
         mImageRightArrow.setOnClickListener(this);
@@ -127,6 +130,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mImageQRCode.setOnClickListener(this);
 //        mTxtLogout.setOnClickListener(this);
         mRelativeInfo.setOnClickListener(this);
+        mTxtAddMyCar.setOnClickListener(this);
 
 
         //
@@ -177,6 +181,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intentToWeb(Global.H5Map.get("myinfo"));
 
                 break;
+
+            case R.id.tv_me_frag_add_my_car:  //新增绑定
+
+                break;
+
             case R.id.view_me_menu_1:  //代付款
                 intentToWeb(Global.H5Map.get("notpayment"));
 

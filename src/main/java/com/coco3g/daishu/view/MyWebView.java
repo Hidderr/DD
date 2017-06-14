@@ -41,7 +41,7 @@ import java.lang.reflect.Method;
 public class MyWebView extends RelativeLayout {
     Context mContext;
     View mView;
-    WebView webView;
+    WebView webView, mForbidRefreshWebview;
     XRefreshView mXRefreshView;
     String mUrl = "";
     String mUserID = "";
@@ -50,6 +50,7 @@ public class MyWebView extends RelativeLayout {
     OnRefreshFinished onRefreshFinished;
     private ProgressBar mProgressBar;
     //
+    boolean hideTopbar = false;  //是否隐藏topbar
     RelativeLayout mRelativeRoot;
     //
     Coco3gBroadcastUtils mCurrBoardCast;
@@ -78,6 +79,7 @@ public class MyWebView extends RelativeLayout {
         LayoutInflater lay = LayoutInflater.from(mContext);
         mView = lay.inflate(R.layout.view_webview, this);
         webView = (WebView) mView.findViewById(R.id.view_webview);
+        mForbidRefreshWebview = (WebView) mView.findViewById(R.id.view_webview_forbid_refresh);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar_webview);
         mProgressBar.setMax(100);
         //
@@ -184,7 +186,12 @@ public class MyWebView extends RelativeLayout {
                     mUrl = url;
                     Intent intent = new Intent(mContext, WebActivity.class);
                     intent.putExtra("url", url);
+                    intent.putExtra("hidetopbar", hideTopbar);
                     mContext.startActivity(intent);
+
+                    if (url.contains("http://www.zhixunchelian.com/bxtx/index.do?")) {
+                        ((Activity) mContext).finish();
+                    }
                     return true;
                 }
 
@@ -264,6 +271,21 @@ public class MyWebView extends RelativeLayout {
         return mUrl;
     }
 
+    public void setHideTopbar(boolean hideTopbar) {
+        this.hideTopbar = hideTopbar;
+    }
+
+    //禁止下拉
+    public void forbidRefresh(boolean forbidRefresh) {
+        if (forbidRefresh) {
+            mXRefreshView.setVisibility(GONE);
+            mForbidRefreshWebview.setVisibility(VISIBLE);
+            webView = mForbidRefreshWebview;
+        } else {
+
+        }
+    }
+
     public void setRefreshEnable(boolean canRefresh) {
         if (canRefresh) {
             mXRefreshView.setEnabled(true);
@@ -309,9 +331,9 @@ public class MyWebView extends RelativeLayout {
     public void setPullLoadEnable(String pullrefresh) {
         if (!TextUtils.isEmpty(pullrefresh)) {
             if (pullrefresh.equals("1")) {
-                mXRefreshView.setPullLoadEnable(true);
+                mXRefreshView.setPullRefreshEnable(true);
             } else {
-                mXRefreshView.setPullLoadEnable(false);
+                mXRefreshView.setPullRefreshEnable(false);
             }
         }
     }

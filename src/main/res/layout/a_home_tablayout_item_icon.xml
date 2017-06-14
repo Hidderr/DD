@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:id="@+id/linear_a_home_tablayout_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_home_tablayout_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:drawablePadding="5dp"
         android:drawableRight="@mipmap/pic_menu_downdrag_unselect"
         android:gravity="center"
         android:text="价格"
         android:textColor="@drawable/selector_txt_yellow"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
 </LinearLayout>

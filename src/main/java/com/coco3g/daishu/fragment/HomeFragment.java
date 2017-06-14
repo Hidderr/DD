@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ImageView mImageMiddleBanner;
     HomeAdapter mAdapter;
     //
-    int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_menu_nearby_carshop,
+    int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_wei_zhang_icon,
             R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
     String[] mNavTitles = new String[]{"我的汽车", "维修养护", "洗车", "违章查询", "我要买车", "车载用品", "打折油卡", "机动车险"};
 
@@ -173,7 +173,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (!Global.checkoutLogin(getActivity())) {
                     return;
                 }
-                 intentToWeb(Global.H5Map.get("weizhang"));
+                intentToWeb(Global.H5Map.get("weizhang"));
 
                 break;
 

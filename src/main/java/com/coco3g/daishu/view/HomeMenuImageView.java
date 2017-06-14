@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.data.Global;
 
 
 public class HomeMenuImageView extends LinearLayout {
@@ -48,6 +49,12 @@ public class HomeMenuImageView extends LinearLayout {
 
     public void setTextSize(float size) {
         mTxtTitle.setTextSize(size);
+    }
+
+    public void setImagePadding() {
+        int padding_10 = Global.dipTopx(mContext, 10f);
+//        int padding_10 = Global.dipTopx(mContext,10f);
+        mImageIcon.setPadding(padding_10, padding_10, padding_10, padding_10);
     }
 
     public void setSelected(int index, boolean selected) {
