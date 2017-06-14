@@ -79,9 +79,9 @@ public class DataUrl {
      * */
     public static final String GET_CAR_GOODS_LIST = BASE_URL + "goods/index";
     /**
-     * 同意添加好友
+     * 获取商品筛选的类型
      **/
-    public static final String AGREE_ADD_FIREND = BASE_URL + "member_fans/applypass";
+    public static final String GET_SHAI_XUAN_TYPE = BASE_URL + "goods/get_screen";
     /**
      * 同意添加好友
      **/

@@ -70,7 +70,7 @@
                     android:layout_centerVertical="true"
                     android:padding="5dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/pic_me_car_add" />
+                    android:src="@mipmap/pic_shopping_cart_unselected" />
 
             </RelativeLayout>
 

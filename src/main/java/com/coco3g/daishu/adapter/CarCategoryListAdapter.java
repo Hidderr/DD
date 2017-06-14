@@ -51,6 +51,7 @@ public class CarCategoryListAdapter extends BaseRecyclerAdapter<CarCategoryListA
         if (mList != null && mList.size() > 0) {
             mList.clear();
         }
+        notifyDataSetChanged();
     }
 
 
@@ -82,27 +83,28 @@ public class CarCategoryListAdapter extends BaseRecyclerAdapter<CarCategoryListA
 
     @Override
     public void onBindViewHolder(SimpleAdapterViewHolder holder, int position, boolean isItem) {
+        if (holder instanceof SimpleAdapterViewHolder) {
 
-        final Map<String, String> map = mList.get(position);
+            final Map<String, String> map = mList.get(position);
 
-        //图片
-        ImageLoader.getInstance().displayImage(map.get("thumb"), holder.mImageThumb, new DisplayImageOptionsUtils().init());
-        //标题
-        holder.mTxtTitle.setText(map.get("title"));
-        //
-        holder.mTxtContent.setText(map.get("description"));
-        //价格
-        holder.mTxtPrice.setText("￥" + map.get("price"));
-        //
-        holder.mLinearRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, WebActivity.class);
-                intent.putExtra("url", map.get("linkurl"));
-                mContext.startActivity(intent);
-            }
-        });
-
+            //图片
+            ImageLoader.getInstance().displayImage(map.get("thumb"), holder.mImageThumb, new DisplayImageOptionsUtils().init());
+            //标题
+            holder.mTxtTitle.setText(map.get("title"));
+            //
+            holder.mTxtContent.setText(map.get("description"));
+            //价格
+            holder.mTxtPrice.setText("￥" + map.get("price"));
+            //
+            holder.mLinearRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, WebActivity.class);
+                    intent.putExtra("url", map.get("linkurl"));
+                    mContext.startActivity(intent);
+                }
+            });
+        }
 
     }
 

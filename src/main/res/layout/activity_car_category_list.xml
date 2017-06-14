@@ -119,21 +119,11 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linear_car_category_list"
+    <include
+        layout="@layout/view_car_category_list_drawerlayout_right"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="djflajdklfjalkdjlfj" />
-
-    </LinearLayout>
+        android:layout_gravity="end" />
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -2,17 +2,17 @@ package com.coco3g.daishu.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,17 +22,17 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.CarCategoryListAdapter;
-import com.coco3g.daishu.adapter.ViewPagerAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
-import com.coco3g.daishu.view.CategoryListView;
 import com.coco3g.daishu.view.CustomFooterView;
+import com.coco3g.daishu.view.ShaiXuanTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -59,9 +59,26 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
     String typeName = "", catid = "";
     String saleOrder = "market_dec";  //销量market_inc：销量（低到高），market_dec：销量（高到低）
     String priceOrder = "price_inc";  //price_inc：价格（低到高），price_dec：价格（高到低）
-    //
-    private LinearLayout mLinearDrawerRight;
+
+    ///*右侧滑页面*/
+    Map<String, Object> shaixuanMap = null;
     private DrawerLayout mDrawerLayout;
+    private RelativeLayout mRelativeAddress, mRelativeRightView;
+    private LinearLayout mLinearPinPai, mLinearAddress, mLinearCityList, mLinearProvinceList, mLinearGoodsType;
+    private EditText mEditLowPrice, mEditHighPrice;
+    private TextView mTxtAddress, mTxtReset, mTxtConfirm;
+    private ArrayList<Map<String, String>> pinPaiList = new ArrayList<>();
+    private ArrayList<Map<String, String>> cityList = new ArrayList<>();
+    private ArrayList<Map<String, String>> provinceList = new ArrayList<>();
+    private ArrayList<Map<String, String>> goodsTypeList = new ArrayList<>();
+    //
+    private HashMap<ShaiXuanTextView, Boolean> pinPaiMap = new HashMap<>();
+    private HashMap<ShaiXuanTextView, Boolean> cityMap = new HashMap<>();
+    private HashMap<ShaiXuanTextView, Boolean> provinceMap = new HashMap<>();
+    private HashMap<ShaiXuanTextView, Boolean> goodsTypeMap = new HashMap<>();
+    //筛选的条件
+    String brand = "", minprice = "", maxprice = "", areaid = "", type = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +94,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         mImageBack = (ImageView) findViewById(R.id.image_car_category_list_back);
         mTabLayout = (TabLayout) findViewById(R.id.tablayout_car_category_list);
         mEditSearch = (TextView) findViewById(R.id.edit_car_category_list_search);
-        mLinearDrawerRight = (LinearLayout) findViewById(R.id.linear_car_category_list);
+        mRelativeRightView = (RelativeLayout) findViewById(R.id.relative_category_list_rightview);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout_car_category_list);
         mEditSearch.setHint(typeName);
         //
@@ -140,12 +157,45 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         for (int i = 0; i < mViewPagerTitles.length; i++) {
             mTabLayout.getTabAt(i).setCustomView(getTabView(i));
         }
+        /*右侧滑*/
+        mRelativeAddress = (RelativeLayout) findViewById(R.id.relative_category_list_address);
+        mLinearPinPai = (LinearLayout) findViewById(R.id.linear_category_list_pin_pai);
+        mLinearAddress = (LinearLayout) findViewById(R.id.linear_category_list_address);
+        mLinearCityList = (LinearLayout) findViewById(R.id.linear_category_list_address_city);
+        mLinearProvinceList = (LinearLayout) findViewById(R.id.linear_category_list_address_province);
+        mLinearGoodsType = (LinearLayout) findViewById(R.id.linear_category_list_goods_type);
+        mEditLowPrice = (EditText) findViewById(R.id.edit_category_list_low);
+        mEditHighPrice = (EditText) findViewById(R.id.edit_category_list_high);
+        mTxtAddress = (TextView) findViewById(R.id.tv_category_list_address);
+        mTxtReset = (TextView) findViewById(R.id.tv_category_list_reset);
+        mTxtConfirm = (TextView) findViewById(R.id.tv_category_list_confirm);
+        //
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        });
         //
         mEditSearch.setOnClickListener(this);
         mImageBack.setOnClickListener(this);
         mTxtAddMyCar.setOnClickListener(this);
-
-        //
+        mRelativeAddress.setOnClickListener(this);
+        mTxtReset.setOnClickListener(this);
+        mTxtConfirm.setOnClickListener(this);
         getCarGoodsList(true);
     }
 
@@ -160,7 +210,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         } else if (position == 1 || position == 2) {
             setDrawable(tv, R.mipmap.pic_order_nomal, 0);
         } else if (position == 3) {
-            setDrawable(tv, R.mipmap.pic_order_nomal, 1);
+            setDrawable(tv, R.mipmap.pic_shai_xuan_unselected_icon, 1);
         }
         //
         if (mTabLayoutItemMap.get(position) == null) {
@@ -171,6 +221,14 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (shaixuanMap == null) {
+            getShaiXuanType();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -178,7 +236,27 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 finish();
 
                 break;
+
             case R.id.tv_category_list_header:  //添加爱车信息
+
+                break;
+
+            case R.id.tv_category_list_reset:  //筛选重置
+                resetShaiXuan();
+
+                break;
+
+            case R.id.tv_category_list_confirm:  //筛选确定
+                getShaiXuanResult();
+
+                break;
+
+            case R.id.relative_category_list_address:  //展开地址
+                if (mLinearAddress.getVisibility() == View.VISIBLE) {
+                    mLinearAddress.setVisibility(View.GONE);
+                } else {
+                    mLinearAddress.setVisibility(View.VISIBLE);
+                }
 
                 break;
         }
@@ -213,9 +291,8 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
 
             case 3:  //筛选
                 setTabTitle(3);
-                mAdapter.clearList();
-                getCarGoodsList(true);
-
+                mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_OPEN);
+                mDrawerLayout.openDrawer(mRelativeRightView);
 
                 break;
         }
@@ -233,7 +310,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 mTabLayoutItemMap.get(0).setSelected(true);
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
                 setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
-                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_order_nomal, 1);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_unselected_icon, 1);
                 break;
             case 1:  //销量
                 mTabLayoutItemMap.get(1).setSelected(true);
@@ -249,7 +326,7 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                     saleOrder = "market_dec";
                 }
                 setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
-                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_order_nomal, 1);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_unselected_icon, 1);
 
                 break;
 
@@ -267,13 +344,13 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                     priceOrder = "price_inc";
                 }
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
-                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_order_nomal, 1);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_unselected_icon, 1);
                 break;
             case 3:  //筛选
                 mTabLayoutItemMap.get(3).setSelected(true);
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
                 setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
-                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_order_nomal, 1);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_selected_icon, 1);
                 break;
         }
         currTab = selectPosition;
@@ -289,6 +366,170 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    /**************右边侧滑代码
+     * @param content
+     * @param hashMap
+     * @param addLinear
+     * @param type****************/   //筛选的类型
+
+    //添加textview
+    public void addTextView(final ArrayList<Map<String, String>> content, final HashMap<ShaiXuanTextView, Boolean> hashMap, LinearLayout addLinear, final int type) {
+        if (content == null || content.size() <= 0) {
+            addLinear.setVisibility(View.GONE);
+            return;
+        }
+        LinearLayout[] linears = new LinearLayout[(content.size() / 3) + 1];
+        for (int i = 0; i < linears.length; i++) {
+            LinearLayout linearLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams linearLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            linearLP.setMargins(0, Global.dipTopx(this, 5f), 0, 0);
+            linearLayout.setLayoutParams(linearLP);
+            linearLayout.setWeightSum(3);
+            linears[i] = linearLayout;
+        }
+        //textview的layoutparams
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < content.size(); i++) {
+            final ShaiXuanTextView textView = new ShaiXuanTextView(this);
+            lp.weight = 1;
+            textView.setLayoutParams(lp);
+            textView.setTag(i);
+            textView.setText(content.get(i).get("title"));
+//            content.get(i).put("selected", "0");
+            hashMap.put(textView, false);
+            textView.setOnClickTextViewListener(new ShaiXuanTextView.OnClickTextViewListener() {
+                @Override
+                public void textViewChoosed() {
+                    setOnlyOneChoosed(textView, hashMap);
+                    if (type == 1) {
+                        setOnlyOneChoosed(null, provinceMap);
+                    } else if (type == 2) {
+                        setOnlyOneChoosed(null, cityMap);
+                    }
+                }
+            });
+            linears[i / 4].addView(textView);
+        }
+        for (int j = 0; j < linears.length; j++) {
+            addLinear.addView(linears[j]);
+        }
+
+    }
+
+    //设置筛选的是时候,点击其中一个textview后,设置其他不选中
+    public void setOnlyOneChoosed(ShaiXuanTextView textView, HashMap<ShaiXuanTextView, Boolean> hashMap) {
+
+        if (hashMap == null || hashMap.size() == 0) {
+            return;
+        }
+        Iterator iterator = hashMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            hashMap.put(((ShaiXuanTextView) entry.getKey()), false);
+            ((ShaiXuanTextView) entry.getKey()).setSelected(false);
+        }
+        if (textView != null) {
+            hashMap.put(textView, true);
+            textView.setSelected(true);
+        }
+    }
+
+
+    //筛选重置
+    public void resetShaiXuan() {
+        minprice = maxprice = brand = areaid = type = "";
+        mEditLowPrice.setText("");
+        mEditHighPrice.setText("");
+        resetOneShaiXuan(pinPaiMap);
+        resetOneShaiXuan(cityMap);
+        resetOneShaiXuan(provinceMap);
+        resetOneShaiXuan(goodsTypeMap);
+
+    }
+
+    //筛选重置
+    public void resetOneShaiXuan(HashMap<ShaiXuanTextView, Boolean> hashMap) {
+        if (hashMap == null || hashMap.size() == 0) {
+            return;
+        }
+        Iterator iterator = hashMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            hashMap.put(((ShaiXuanTextView) entry.getKey()), false);
+            ((ShaiXuanTextView) entry.getKey()).setSelected(false);
+        }
+    }
+
+    public void getShaiXuanResult() {
+
+        //
+        minprice = mEditLowPrice.getText().toString().trim();
+        maxprice = mEditHighPrice.getText().toString().trim();
+        if (!TextUtils.isEmpty(minprice) && !TextUtils.isEmpty(maxprice)) {
+            int lowPrice = Integer.parseInt(minprice);
+            int highPrice = Integer.parseInt(maxprice);
+            if (lowPrice >= highPrice) {
+                Global.showToast("价格输入有误", this);
+                return;
+            }
+        }
+        getSelectedShaiXuanTypeId(pinPaiMap, brand, pinPaiList);
+        getSelectedShaiXuanTypeId(cityMap, areaid, cityList);
+        getSelectedShaiXuanTypeId(provinceMap, areaid, provinceList);
+        getSelectedShaiXuanTypeId(goodsTypeMap, type, goodsTypeList);
+        //
+        mDrawerLayout.closeDrawer(mRelativeRightView);
+        mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //
+        mAdapter.clearList();
+        getCarGoodsList(true);
+
+    }
+
+    //遍历Map,得到选中的id
+    private void getSelectedShaiXuanTypeId(HashMap map, String typeName, ArrayList<Map<String, String>> typeList) {
+        Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            if ((Boolean) entry.getValue()) {
+                ShaiXuanTextView textView = (ShaiXuanTextView) entry.getKey();
+                int position = (int) textView.getTag();
+                typeName = typeList.get(position).get("id");
+            }
+        }
+    }
+
+
+    //获取筛选的类型
+    public void getShaiXuanType() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("gcatid", catid);
+
+        new BaseDataPresenter(this).loadData(DataUrl.GET_SHAI_XUAN_TYPE, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                shaixuanMap = (Map<String, Object>) data.response;
+                pinPaiList = (ArrayList<Map<String, String>>) shaixuanMap.get("brand");
+                cityList = (ArrayList<Map<String, String>>) shaixuanMap.get("recom_city");
+                provinceList = (ArrayList<Map<String, String>>) shaixuanMap.get("province");
+                goodsTypeList = (ArrayList<Map<String, String>>) shaixuanMap.get("goodstype");
+                //
+                addTextView(pinPaiList, pinPaiMap, mLinearPinPai, 0);
+                addTextView(cityList, cityMap, mLinearCityList, 1);
+                addTextView(provinceList, provinceMap, mLinearProvinceList, 2);
+                addTextView(goodsTypeList, goodsTypeMap, mLinearGoodsType, 3);
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+    }
 
     //获取一级分类
     public void getCarGoodsList(boolean isRefresh) {
@@ -303,19 +544,33 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         //
         if (currTab == 0) { //综合
             params.put("order", "synth");
+            Log.e("参数：：：", " catid " + catid + " | order " + params.get("order"));
 
         } else if (currTab == 1) {  //销量
             params.put("order", saleOrder);
+            Log.e("参数：：：", " catid " + catid + " | order " + params.get("order"));
 
         } else if (currTab == 2) {  //价格
             params.put("order", priceOrder);
+            Log.e("参数：：：", " catid " + catid + " | order " + params.get("order"));
 
-        } else if (currTab == 3) {
-//            params.put("brand", currPager + "");
-//            params.put("minprice", currPager + "");
-//            params.put("maxprice", currPager + "");
-//            params.put("areaid", currPager + "");
-//            params.put("type", currPager + "");
+        } else if (currTab == 3) {  //筛选
+            if (!TextUtils.isEmpty(brand)) {
+                params.put("brand", brand);
+            }
+            if (!TextUtils.isEmpty(minprice)) {
+                params.put("minprice", minprice);
+            }
+            if (!TextUtils.isEmpty(maxprice)) {
+                params.put("maxprice", maxprice);
+            }
+            if (!TextUtils.isEmpty(areaid)) {
+                params.put("areaid", areaid);
+            }
+            if (!TextUtils.isEmpty(type)) {
+                params.put("type", type);
+            }
+            Log.e("参数：：：", " catid " + catid + " | brand " + brand + " | minprice " + minprice + " | maxprice " + maxprice + " | areaid " + areaid + " | type " + type);
         }
 
         new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_GOODS_LIST, params, null, new IBaseDataListener() {
@@ -325,11 +580,12 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 //
                 ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;
                 if (mList == null || mList.size() <= 0) {
-                    currPager--;
+                    if (currPager > 1) {
+                        currPager--;
+                    }
                     onLoadComplete();
                     return;
                 }
-
                 if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
                     mAdapter.setList(mList);
                 } else {
@@ -337,8 +593,6 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
                 }
 
                 onLoadComplete();
-
-
             }
 
             @Override
@@ -356,11 +610,21 @@ public class CarCategoryListActivity extends BaseActivity implements View.OnClic
         });
     }
 
-
     public void onLoadComplete() {
         xRefreshView.stopRefresh();
         xRefreshView.stopLoadMore();
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mDrawerLayout.isDrawerOpen(mRelativeRightView)) {
+                mDrawerLayout.closeDrawer(mRelativeRightView);
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                return true;
+            }
+        }
+        return false;
+    }
 }

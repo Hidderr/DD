@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_category_list_rightview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_14">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linear_category_list_bottom">
+
+        <LinearLayout
+            android:id="@+id/linear_car_category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:text="品牌"
+                android:textColor="@color/text_color_1"
+                android:textSize="14sp" />
+
+
+            <LinearLayout
+                android:id="@+id/linear_category_list_pin_pai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:text="价格区间(元)"
+                android:textColor="@color/text_color_1"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:weightSum="1">
+
+
+                <EditText
+                    android:id="@+id/edit_category_list_low"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:hint="最低价"
+                    android:inputType="number"
+                    android:maxLength="8"
+                    android:padding="6dp"
+                    android:textColor="@color/text_color_1"
+                    android:textColorHint="@color/text_color_2"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.1"
+                    android:background="@color/text_color_2" />
+
+                <EditText
+                    android:id="@+id/edit_category_list_high"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:hint="最高价"
+                    android:inputType="number"
+                    android:maxLength="8"
+                    android:padding="6dp"
+                    android:textColor="@color/text_color_1"
+                    android:textColorHint="@color/text_color_2"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relative_category_list_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:text="商品所在地"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_category_list_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/pic_arrow_down"
+                    android:padding="10dp"
+                    android:text="所有地区"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_category_list_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="城市"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/linear_category_list_address_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="省份"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/linear_category_list_address_province"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:text="商品类型"
+                android:textColor="@color/text_color_1"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/linear_category_list_goods_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linear_category_list_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tv_category_list_reset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="重置"
+            android:textColor="@color/text_color_1"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_category_list_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
