@@ -178,12 +178,7 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.image_shai_xuan_list_curr_location:   //当前位置定位
-                Intent intent = new Intent(ShaiXuanListActivity.this, RepairWebsiteActivity.class);
-                if (!TextUtils.isEmpty(typeid)) {
-                    intent.putExtra("typeid", typeid);
-                }
-                intent.putExtra("title", title);
-                startActivity(intent);
+                startLocation(true);
 
                 break;
         }

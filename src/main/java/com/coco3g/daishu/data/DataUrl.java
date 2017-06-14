@@ -83,15 +83,15 @@ public class DataUrl {
      **/
     public static final String GET_SHAI_XUAN_TYPE = BASE_URL + "goods/get_screen";
     /**
-     * 同意添加好友
+     * 添加购物车
      **/
-    public static final String DEL_CONTACT = BASE_URL + "member_fans/delfans";
+    public static final String ADD_SHOPPING_CART = BASE_URL + "shoppingCar/shoppingcar_add";
     /**
-     * 上传比赛站点的信息
+     *
      **/
     public static final String UPLOAD_EVENT_MISSION_INFO = BASE_URL + "task/synch_data";
     /**
-     * 查看是否有任务书
+     *
      **/
     public static final String CHECKOUT_IF_HAS_MISSION = BASE_URL + "game_member/check_game";
     /**

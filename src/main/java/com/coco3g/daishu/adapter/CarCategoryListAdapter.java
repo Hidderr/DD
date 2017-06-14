@@ -2,7 +2,9 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,18 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.CarShopActivity;
 import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.bean.BaseDataBean;
+import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CarCategoryListAdapter extends BaseRecyclerAdapter<CarCategoryListAdapter.SimpleAdapterViewHolder> {
@@ -104,6 +112,13 @@ public class CarCategoryListAdapter extends BaseRecyclerAdapter<CarCategoryListA
                     mContext.startActivity(intent);
                 }
             });
+            //加入购物车
+            holder.mImageShoppingCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addShoppingCart(map.get("id"));
+                }
+            });
         }
 
     }
@@ -131,6 +146,28 @@ public class CarCategoryListAdapter extends BaseRecyclerAdapter<CarCategoryListA
             }
 
         }
+    }
+
+    //添加购物车
+    public void addShoppingCart(String id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("contentid", id);
+        Log.e("购物车", id + "");
+        new BaseDataPresenter(mContext).loadData(DataUrl.ADD_SHOPPING_CART, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                Global.showToast("添加购物车成功", mContext);
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
     }
 
 
