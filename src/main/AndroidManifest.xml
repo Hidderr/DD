@@ -95,6 +95,9 @@
         <activity
             android:name=".activity.CarCategoryListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CarCategoryListActivity1"
+            android:screenOrientation="portrait" />
 
 
         <!-- 高德地图 -->

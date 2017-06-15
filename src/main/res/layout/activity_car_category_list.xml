@@ -64,6 +64,8 @@
             android:id="@+id/tablayout_car_category_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@color/white"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="0dp"
