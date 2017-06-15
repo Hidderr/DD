@@ -118,8 +118,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-
     </LinearLayout>
 
     <ProgressBar

@@ -87,13 +87,21 @@ public class DataUrl {
      **/
     public static final String ADD_SHOPPING_CART = BASE_URL + "shoppingCar/shoppingcar_add";
     /**
-     *
+     * 获取汽车品牌（汽车商城）
      **/
-    public static final String UPLOAD_EVENT_MISSION_INFO = BASE_URL + "task/synch_data";
+    public static final String GET_CAR_BRAND = BASE_URL + "cartype/get_brands";
     /**
-     *
+     * 获取某个汽车品牌的车型系列
      **/
-    public static final String CHECKOUT_IF_HAS_MISSION = BASE_URL + "game_member/check_game";
+    public static final String GET_ONE_BRAND_TYPE_LIST = BASE_URL + "cartype/get_cartype";
+    /**
+     * 获取某个汽车品牌的某个车型的中高低配置信息
+     **/
+    public static final String GET_CAR_TYPE = BASE_URL + "cartype/get_car";
+    /**
+     * 获取某个汽车品牌的某个车型的中高低配置信息
+     **/
+    public static final String GET_CAR_TYPE_DETIL = BASE_URL + "cartype/get_car_detail";
     /**
      * 新版本检测
      **/

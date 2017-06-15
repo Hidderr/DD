@@ -16,6 +16,13 @@ public class DisplayImageOptionsUtils {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(false).build();
     }
 
+    //正常图片
+    public DisplayImageOptions init(int resId) {
+        return new DisplayImageOptions.Builder().showImageOnLoading(resId).showImageForEmptyUri(resId)
+                .showImageOnFail(resId).cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(false).build();
+    }
+
     //圆形头像
     public DisplayImageOptions circleImageInit() {
         return new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.pic_default_avatar_icon).showImageForEmptyUri(R.mipmap.pic_default_avatar_icon)

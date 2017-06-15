@@ -44,10 +44,14 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
     private Marker detailMarker;
     private LatLonPoint mCurrLatLonPoint = null;
 
+    public boolean isMapInit = false;//地图是否初始化了
+    private Bundle savedInstanceState;
+
 
     public BusinessMapView(Context context, Bundle savedInstanceState) {
         super(context);
         mContext = context;
+        this.savedInstanceState = savedInstanceState;
         initView(savedInstanceState);
     }
 
@@ -82,8 +86,41 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
         thumb_lp.setMargins(margin_10, margin_10, Global.dipTopx(mContext, 5f), Global.dipTopx(mContext, 5f));
         mImageThumb.setLayoutParams(thumb_lp);
         //
+//        myMapView.setTypeid(typeid);
+//        myMapView.init(savedInstanceState, true, false);
+//        //
+//        mImageRoute.setOnClickListener(this);
+//        //
+//        myMapView.setOnLocationSuccessedListener(new MyMapView.OnLocationSuccessedListener() {
+//            @Override
+//            public void locationSuccessed(LatLng latLng) {
+//                mCurrLatLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+//            }
+//        });
+//        myMapView.setOnShowStoreListener(new MyMapView.OnShowStoreListener() {
+//            @Override
+//            public void showStore(boolean visible, PoiItem mCurrentPoi, Marker detailMarker1) {
+//                if (visible) {
+//                    mRelativeStore.setVisibility(View.VISIBLE);
+//                    if (mCurrentPoi != null) {
+//                        detailMarker = detailMarker1;
+//                        setCarStoreInfo(mCurrentPoi);
+//                    }
+//                } else {
+//                    mRelativeStore.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+
+
+    }
+
+    public void mapInit() {
+        isMapInit = true;
+        //
+
         myMapView.setTypeid(typeid);
-        myMapView.init(savedInstanceState, true,false);
+        myMapView.init(savedInstanceState, true, false);
         //
         mImageRoute.setOnClickListener(this);
         //

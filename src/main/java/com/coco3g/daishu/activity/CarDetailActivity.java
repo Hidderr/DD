@@ -2,20 +2,25 @@ package com.coco3g.daishu.activity;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.ViewPagerAdapter;
+import com.coco3g.daishu.bean.BaseDataBean;
+import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BusinessMapView;
 import com.coco3g.daishu.view.CanShuDetailView;
 import com.coco3g.daishu.view.NewestOfferView;
 import com.coco3g.daishu.view.TopBarView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CarDetailActivity extends BaseActivity {
     private TopBarView mTopbar;
@@ -29,11 +34,13 @@ public class CarDetailActivity extends BaseActivity {
     private BusinessMapView businessMapView;    //商家地图
     private CanShuDetailView canShuDetailView;  //参数详情
 
+    private String id = "";//某个车型的某个配置的型号的车id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cat_detail);
+        id = getIntent().getStringExtra("id");
         initView(savedInstanceState);
     }
 
@@ -68,6 +75,9 @@ public class CarDetailActivity extends BaseActivity {
                 if (position == 0) {  //最新报价
 
                 } else if (position == 1) {  //商家地图
+                    if (!businessMapView.isMapInit) {
+                        businessMapView.mapInit();
+                    }
 
                 } else if (position == 2) {  //参数详情
                     if (TextUtils.isEmpty(canShuDetailView.url)) {
@@ -85,9 +95,7 @@ public class CarDetailActivity extends BaseActivity {
             }
         });
 
-
     }
-
 
     @Override
     public void onResume() {

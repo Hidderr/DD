@@ -23,31 +23,53 @@
         android:background="@color/white">
 
 
-        <com.coco3g.daishu.view.SuperRefreshLayout
-            android:id="@+id/sr_car_shop"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+            <com.coco3g.daishu.view.SuperRefreshLayout
+                android:id="@+id/sr_car_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/listview_car_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:divider="@color/text_color_9"
+                    android:dividerHeight="1dp">
+
+                </ListView>
+
+            </com.coco3g.daishu.view.SuperRefreshLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_car_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/progress"
+                android:indeterminateDuration="1000"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <com.coco3g.daishu.view.SuperRefreshLayout
+            android:id="@+id/sr_car_shop_right_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/white">
+
             <ListView
-                android:id="@+id/listview_car_shop"
+                android:id="@+id/listview_car_shop_slide_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:divider="@color/text_color_9"
-                android:dividerHeight="1dp">
-
-            </ListView>
+                android:dividerHeight="1dp" />
 
         </com.coco3g.daishu.view.SuperRefreshLayout>
-
-
-        <ListView
-            android:id="@+id/listview_car_shop_slide_right"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:divider="@color/text_color_9"
-            android:dividerHeight="1dp" />
-
 
     </android.support.v4.widget.DrawerLayout>
 

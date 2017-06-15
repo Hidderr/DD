@@ -1,12 +1,10 @@
 package com.coco3g.daishu.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,16 +35,20 @@ public class CarDetailTypeActivity extends BaseActivity {
 
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
 
+    private String title = "", carTypeId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail_type);
+        title = getIntent().getStringExtra("title");
+        carTypeId = getIntent().getStringExtra("carTypeId");
         init();
     }
 
     private void init() {
         mTopbar = (TopBarView) findViewById(R.id.topbar_cat_detail_type);
-        mTopbar.setTitle("奥迪A1详情");
+        mTopbar.setTitle(title);
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_car_detail_type_head, null);
         mBanner = (BannerView) mHeadView.findViewById(R.id.banner_car_detail_type);
         mBanner.setScreenRatio(2);
@@ -81,13 +83,13 @@ public class CarDetailTypeActivity extends BaseActivity {
         //
         mAdapter = new CarDetailTypeAdapter(this);
         //
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CarDetailTypeActivity.this, CarDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(CarDetailTypeActivity.this, CarDetailActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         //跑马灯
         marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
             @Override
@@ -151,7 +153,39 @@ public class CarDetailTypeActivity extends BaseActivity {
                     }
                     marqueeView.startWithList(list);
                 }
+
+                getCarTypeDetail();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, CarDetailTypeActivity.this);
+                mSuperRefresh.onLoadComplete();
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefresh.onLoadComplete();
+            }
+        });
+    }
+
+    //获取跑马灯
+    private void getCarTypeDetail() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("pid", carTypeId);
+        params.put("page", "1");
+        new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_TYPE, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) data.response;
+                //
+                if (list == null || list.size() <= 0) {
+                    return;
+                }
+//
                 mListView.setAdapter(mAdapter);
+                mAdapter.setList(list);
                 mSuperRefresh.onLoadComplete();
             }
 

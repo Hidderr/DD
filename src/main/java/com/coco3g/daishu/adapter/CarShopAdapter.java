@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -54,7 +56,10 @@ public class CarShopAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        if (mList == null) {
+            return 0;
+        }
+        return mList.size();
     }
 
     @Override
@@ -82,6 +87,14 @@ public class CarShopAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+
+        Map<String, String> map = mList.get(position);
+
+        ImageLoader.getInstance().displayImage(map.get("thumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+        //
+        viewHolder.mTxtName.setText(map.get("title"));
+
+
         return view;
     }
 
