@@ -66,12 +66,16 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+
+        Map<String, String> map = new HashMap<>();
+        String userAgent = System.getProperty("http.agent");
+        map.put("user-agent", userAgent + ";Coco3gAppAndroid");
         if (!TextUtils.isEmpty(mToken)) {
-            Map<String, String> map = new HashMap<>();
             map.put("token", mToken);
             map.put("timestep", System.currentTimeMillis() + "");
             return map;
         }
+
         return super.getHeaders();
     }
 

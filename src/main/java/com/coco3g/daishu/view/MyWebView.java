@@ -151,6 +151,8 @@ public class MyWebView extends RelativeLayout {
 
         webView.addJavascriptInterface(new getHtmlObject(), "CocoObj");
         //
+        webView.getSettings().setUserAgentString(webView.getSettings().getUserAgentString() + ";Coco3gAppAndroid");
+        //
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // 设置缓存模式
         // 开启DOM storage API 功能
         webView.getSettings().setDomStorageEnabled(true);
