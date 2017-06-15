@@ -80,6 +80,12 @@ public class Global {
     public static double mCurrLng = 0; // 定位城市经度
     //
     public static Context MAINACTIVITY_CONTEXT = null;  //当前MainActivity的上下文
+
+    /**
+     * 融云token
+     **/
+    public static String RONG_TOKEN = "";
+
     //
     /**
      * height为高的一边，width为低的一边

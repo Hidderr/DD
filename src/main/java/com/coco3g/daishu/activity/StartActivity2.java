@@ -16,6 +16,7 @@ import com.coco3g.daishu.data.Constants;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -189,6 +190,7 @@ public class StartActivity2 extends BaseActivity implements View.OnClickListener
                     Global.saveLoginInfo(StartActivity2.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO_LAST);
                     Intent intent = new Intent(StartActivity2.this, MainActivity.class);
                     startActivity(intent);
+                    new RongUtils(StartActivity2.this).init();
                 } else {
 
                     if (!isClickComeIn) {

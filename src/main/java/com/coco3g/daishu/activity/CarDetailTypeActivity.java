@@ -170,7 +170,7 @@ public class CarDetailTypeActivity extends BaseActivity {
         });
     }
 
-    //获取跑马灯
+    //获取某个车型的不同的配置
     private void getCarTypeDetail() {
         HashMap<String, String> params = new HashMap<>();
         params.put("pid", carTypeId);

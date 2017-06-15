@@ -22,6 +22,7 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.net.utils.QQLoginUtils;
+import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.net.utils.WeiXinLoginUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 
@@ -188,6 +189,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     }
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    new RongUtils(LoginActivity.this).init();
                     finish();
                 } else {
                     Global.showToast(data.msg, LoginActivity.this);

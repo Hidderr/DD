@@ -21,6 +21,7 @@ import com.coco3g.daishu.data.Constants;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.MySurfaceHolder;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -231,6 +232,8 @@ public class StartActivity extends Activity implements View.OnClickListener {
                     Global.savePassWord(StartActivity.this, password);
                     Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO);
                     Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO_LAST);
+                    //
+                    new RongUtils(StartActivity.this).init();
 //                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
 //                    startActivity(intent);
                 } else {

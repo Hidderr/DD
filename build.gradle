@@ -14,9 +14,11 @@ android {
     defaultConfig {
         applicationId "com.coco3g.daishu"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 101
         versionName "1.0.1"
+
+        multiDexEnabled true
 
     }
     buildTypes {
@@ -68,4 +70,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     compile 'com.sunfusheng:marqueeview:1.2.0'
+    compile project(':IMKit')
+    compile 'com.android.support:multidex:1.0.1'
 }

@@ -35,7 +35,7 @@ public class Constants {
 
 
     //qq登录：App key
-    public static final String QQ_APP_ID = "1105964793";
+    public static final String QQ_APP_ID = "1106153655";
     // 微信登录
     public static final String WEIXIN_APP_ID = "wxc58ac6bc08956db4";
     public static final String WEIXIN_APP_SECRET = "a45b185493c064bd5c28b38abfde04ef";

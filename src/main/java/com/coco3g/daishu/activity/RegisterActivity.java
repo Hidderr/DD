@@ -17,6 +17,7 @@ import com.coco3g.daishu.data.Constants;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.TimingView;
 
@@ -191,6 +192,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
                 setResult(Constants.REGISTER_SUCCESS_RETURN_CODE);
+                new RongUtils(RegisterActivity.this).init();
                 finish();
             }
 
