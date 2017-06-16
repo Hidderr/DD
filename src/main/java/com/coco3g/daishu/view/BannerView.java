@@ -265,7 +265,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
 ////            Log.e("position", position + "--");
 //            try {
 //                container.removeView(mListViews.get(position));
@@ -324,6 +324,18 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
                     image.setImageResource(R.mipmap.pic_default_icon);
                     ImageLoader.getInstance().displayImage(mListDatas.get(position - 1), image, options);
                     container.addView(image, 0);
+                    //
+                    image.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String url = mCurrBannerList.get(position).get("linkurl");
+                            if (!TextUtils.isEmpty(url)) {
+                                Intent intent = new Intent(mContext, WebActivity.class);
+                                intent.putExtra("url", url);
+                                mContext.startActivity(intent);
+                            }
+                        }
+                    });
                     return image;
                 }
             } else {
@@ -334,6 +346,18 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
                 image.setImageResource(R.mipmap.pic_default_icon);
                 ImageLoader.getInstance().displayImage(mListDatas.get(position), image, options);
                 container.addView(image, 0);
+                //
+                image.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = mCurrBannerList.get(position).get("linkurl");
+                        if (!TextUtils.isEmpty(url)) {
+                            Intent intent = new Intent(mContext, WebActivity.class);
+                            intent.putExtra("url", url);
+                            mContext.startActivity(intent);
+                        }
+                    }
+                });
                 return image;
             }
 
