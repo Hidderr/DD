@@ -53,8 +53,8 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
     }
 
     public void init() {
-//        Global.RONG_TOKEN = (String) Global.readSerializeData(mContext, Global.RONGTOKEN_INFO);
-        Global.RONG_TOKEN = "PLNT/CzpxIbJa620PjxCcbcZzDCMcD72O/MkwBXRDiFsujHvO+4hRT9ECMhCwG3rxqPnbu3e42Spl03U1UgVIA==";
+        Global.RONG_TOKEN = (String) Global.readSerializeData(mContext, Global.RONGTOKEN_INFO);
+//        Global.RONG_TOKEN = "PLNT/CzpxIbJa620PjxCcbcZzDCMcD72O/MkwBXRDiFsujHvO+4hRT9ECMhCwG3rxqPnbu3e42Spl03U1UgVIA==";
         if (!TextUtils.isEmpty(Global.RONG_TOKEN)) {
             connect(Global.RONG_TOKEN);   // 连接融云
         } else {
@@ -118,13 +118,13 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
                             app.setmChatItemDataBean(itemdata);
                             new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.RECEVICE_RONG_MESSAGE_FLAG, null);
                             //
-//                            ((Activity) mContext).runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    // TODO Auto-generated method stub
-//                                    createChat(itemdata.userid, itemdata.lastcontent);
-//                                }
-//                            });
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // TODO Auto-generated method stub
+                                    createChat(itemdata.userid, itemdata.lastcontent);
+                                }
+                            });
                             //
 //                            showNotice(itemdata.lastcontent);
                             return false;
@@ -164,7 +164,7 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
                                         Bundle b = new Bundle();
                                         b.putSerializable("targetID", chatid);
                                         new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.SEND_RONG_MESSAGE_FLAG, b);
-//                                        createChat(chatid, itemdata.lastcontent);
+                                        createChat(chatid, itemdata.lastcontent);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -247,34 +247,34 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
         });
     }
 
-//    /**
-//     * 与某用户创建聊天会话
-//     *
-//     * @param uid
-//     */
-//    private void createChat(String uid, String content) {
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("chatid", uid);
-//        params.put("msg", content);
-//        new BaseDataPresenter(mContext).loadData(DataUrl.ADD_CHAT_ITEM, params, null, new IBaseDataListener() {
-//            @Override
-//            public void onSuccess(BaseDataBean data) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(BaseDataBean data) {
-//
-//            }
-//
-//            @Override
-//            public void onError() {
-//
-//            }
-//
-//
-//        });
-//    }
+    /**
+     * 与某用户创建聊天会话
+     *
+     * @param uid
+     */
+    private void createChat(String uid, String content) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("chatid", uid);
+        params.put("msg", content);
+        new BaseDataPresenter(mContext).loadData(DataUrl.ADD_CHAT_ITEM, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+
+        });
+    }
 
 
     //刷新用户信息

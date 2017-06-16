@@ -27,6 +27,8 @@ import com.coco3g.daishu.view.TopBarView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.rong.imlib.RongIMClient;
+
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private TopBarView mTopbar;
@@ -48,7 +50,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     int mCurrNavIndex = -1;  //目前选中的地步导航的哪一个
     //点击返回键退出app
     private static Boolean isExit = false;
-    Coco3gBroadcastUtils mLogoutBroadcast;
+    Coco3gBroadcastUtils mLogoutBroadcast, CurrBroadcast, CurrUnreadBroadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,44 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             @Override
             public void receiveReturn(Intent intent) {
                 setTabSelection(0);
+            }
+        });
+
+        // 接收融云未读消息（私聊）的广播
+        CurrUnreadBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
+        CurrUnreadBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONG_UNREAD_MSG).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+            @Override
+            public void receiveReturn(Intent intent) {
+                Bundle bundle = intent.getBundleExtra("data");
+                int count = bundle.getInt("unreadcount");
+                mTopbar.setUnReadCount(count);
+            }
+        });
+        //
+        CurrBroadcast = new Coco3gBroadcastUtils(this);
+        CurrBroadcast.receiveBroadcast(Coco3gBroadcastUtils.RONGIM_DISCONNECTION_FLAG).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+            @Override
+            public void receiveReturn(Intent intent) {
+                Bundle b = intent.getBundleExtra("data");
+                if (b == null) {
+                    return;
+                }
+                int connectionState = b.getInt("connection_state");
+                if (connectionState == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT.getValue()) { // 用户账户在其他设备登录，被踢掉线
+//                    showState(true, "用户账户在其他设备登录，点击重连");
+                    Global.showToast("用户账户在其他设备登录", MainActivity.this);
+                    Global.logout(MainActivity.this);
+                    mTopbar.setUnReadCount(0);
+                    setTabSelection(0);
+                } else if (connectionState == RongIMClient.ConnectionStatusListener.ConnectionStatus.NETWORK_UNAVAILABLE.getValue()) { // 网络不可用
+//                    if (mMessageFragment != null) {
+////                        mMessageFragment.updateChatList();
+//                    }
+                } else if (connectionState == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED.getValue()) { // 成功
+//                    if (mMessageFragment != null) {
+////                        mMessageFragment.updateChatList();
+//                    }
+                }
             }
         });
 

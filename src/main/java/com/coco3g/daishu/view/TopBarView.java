@@ -40,11 +40,11 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
     boolean mOverrideClick = false;
 
     //r
-    RelativeLayout mRelativeNormal, mRelativeHome;
+    RelativeLayout mRelativeNormal, mRelativeHome, mRelativeUnRead;
     ImageView mImageSetting, mImageMsg;
 
     //首页里
-    TextView mTxtLocation, mTxtIncomeZhiDu;
+    TextView mTxtLocation, mTxtIncomeZhiDu, mTxtUnreadCount;
     EditText mEditSearch;
     OnHomeSearchListener onHomeSearchListener;
 
@@ -71,6 +71,8 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         mEditSearch = (EditText) mView.findViewById(R.id.edit_topbar_search);
         mImageSetting = (ImageView) mView.findViewById(R.id.image_topbar_setting);
         mImageMsg = (ImageView) mView.findViewById(R.id.image_topbar_system_msg);
+        mRelativeUnRead = (RelativeLayout) mView.findViewById(R.id.relative_topbar_unread);
+        mTxtUnreadCount = (TextView) mView.findViewById(R.id.tv_topbar_unread_count);
         mRelativeLeft.setOnClickListener(this);
         mRelativeRight.setOnClickListener(this);
         mImageSetting.setOnClickListener(this);
@@ -169,6 +171,22 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
         }
     }
 
+    public void setUnReadCount(int count) {
+        if (count > 0 && count <= 99) {
+            mRelativeUnRead.setVisibility(View.VISIBLE);
+            mTxtUnreadCount.setVisibility(View.VISIBLE);
+            mTxtUnreadCount.setText(count + "");
+        } else if (count > 99) {
+            mRelativeUnRead.setVisibility(View.VISIBLE);
+            mTxtUnreadCount.setVisibility(View.VISIBLE);
+            mTxtUnreadCount.setText("99+");
+        } else {
+            mRelativeUnRead.setVisibility(View.GONE);
+            mTxtUnreadCount.setVisibility(View.GONE);
+            mTxtUnreadCount.setText("0");
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -208,6 +226,9 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
                 break;
 
             case R.id.image_topbar_system_msg:  //消息提醒
+                if (!Global.checkoutLogin(mContext)) {
+                    return;
+                }
                 intent = new Intent(mContext, MessageActivity.class);
                 mContext.startActivity(intent);
 

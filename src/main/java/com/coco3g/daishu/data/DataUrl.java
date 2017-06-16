@@ -102,6 +102,10 @@ public class DataUrl {
      * 获取融云token
      * */
     public static final String GET_RONGCLOUD_TOKEN = BASE_URL + "member/get_token";
+    /*
+     * 创建聊天对话
+     * */
+    public static final String ADD_CHAT_ITEM = BASE_URL + "member/add_chat_log";
     /**
      * 获取某个汽车品牌的某个车型的中高低配置信息
      **/

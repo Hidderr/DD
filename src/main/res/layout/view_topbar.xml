@@ -53,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
-            android:visibility="gone">
+            android:layout_marginRight="15dp"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/image_topbar_setting"
@@ -68,10 +68,35 @@
                 android:id="@+id/image_topbar_system_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/image_topbar_setting"
-                android:background="@mipmap/pic_msg_icon" />
+                android:paddingRight="5dp"
+                android:src="@mipmap/pic_msg_icon" />
+
+            <RelativeLayout
+                android:id="@+id/relative_topbar_unread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/image_topbar_system_msg"
+                android:background="@drawable/unread_black_bg"
+                android:visibility="gone">
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_topbar_unread_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/relative_topbar_unread"
+                android:layout_alignLeft="@+id/relative_topbar_unread"
+                android:layout_alignRight="@+id/relative_topbar_unread"
+                android:layout_alignTop="@+id/relative_topbar_unread"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
