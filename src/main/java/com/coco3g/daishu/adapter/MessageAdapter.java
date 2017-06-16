@@ -38,6 +38,7 @@ public class MessageAdapter extends BaseAdapter {
 
     public void setList(ArrayList<ChatItemDataBean> orderList) {
         this.messageList = orderList;
+        notifyDataSetChanged();
     }
 
     public void addList(ArrayList<ChatItemDataBean> orderList) {

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.MessageAdapter;
@@ -52,6 +53,19 @@ public class MessageActivity extends BaseFragmentActivity {
     private void initView() {
         mTopBar = (TopBarView) findViewById(R.id.topbar_activity_message);
         mTopBar.setTitle("消息");
+        TextView righView = new TextView(this);
+        righView.setText("忽略未读");
+        righView.setTextSize(12f);
+        righView.setPadding(0, 0, Global.dipTopx(this, 10f), 0);
+        righView.setTextColor(getResources().getColor(R.color.text_color_1));
+        mTopBar.setRightView(righView);
+        righView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ignoreAllUnread();
+            }
+        });
+        //
         mListView = (ListView) findViewById(R.id.listview_msg_frag);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_msg_frag);
         //
@@ -74,28 +88,29 @@ public class MessageActivity extends BaseFragmentActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                new RongUtils(MessageActivity.this).startConversation(mCurrChatList.get(position).get("username"), mCurrChatList.get(position - 1).get("userid"));
-                CURR_SELECT_USERID = mCurrChatList.get(position - 1).get("userid");
+                new RongUtils(MessageActivity.this).startConversation(mCurrChatList.get(position).get("username"), mCurrChatList.get(position).get("userid"));
+                CURR_SELECT_USERID = mCurrChatList.get(position).get("userid");
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                remindDailog(position);
+                remindDailog(position);
                 return true;
             }
         });
-        //
+        //收到消息的监听
         mReceviceBoardcast = new Coco3gBroadcastUtils(MessageActivity.this).receiveBroadcast(Coco3gBroadcastUtils.RECEVICE_RONG_MESSAGE_FLAG);
         mReceviceBoardcast.setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
             @Override
             public void receiveReturn(Intent intent) {
-//                App app = (App) getActivity().getApplication();
-//                ChatItemDataBean itemdata = app.getmChatItemDataBean();
-//                updateItem(itemdata);
-                mSuperRefresh.setRefreshingLoad();
+                App app = (App) getApplication();
+                ChatItemDataBean itemdata = app.getmChatItemDataBean();
+                updateItem(itemdata);
+//                mSuperRefresh.setRefreshingLoad();
             }
         });
+        //发送消息的监听
         mSendBoardcast = new Coco3gBroadcastUtils(MessageActivity.this).receiveBroadcast(Coco3gBroadcastUtils.SEND_RONG_MESSAGE_FLAG);
         mSendBoardcast.setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
             @Override
@@ -123,6 +138,7 @@ public class MessageActivity extends BaseFragmentActivity {
      */
     public void getChatList() {
         HashMap<String, String> params = new HashMap<>();
+        params.put("page", "1");
         new BaseDataPresenter(MessageActivity.this).loadData(DataUrl.GET_CONTACT_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
@@ -187,12 +203,14 @@ public class MessageActivity extends BaseFragmentActivity {
                 }
             }
             if (!tag) {
-                mAdapter.addItem(data);
+                mSuperRefresh.setRefreshingLoad();
+//                mAdapter.addItem(data);
             }
         } else {
-            list.add(data);
-            mAdapter.setList(list);
-            mListView.setAdapter(mAdapter);
+            mSuperRefresh.setRefreshingLoad();
+//            list.add(data);
+//            mAdapter.setList(list);
+//            mListView.setAdapter(mAdapter);
         }
     }
 
@@ -215,6 +233,7 @@ public class MessageActivity extends BaseFragmentActivity {
 
     //删除某个对话
     public void delConversation(final int position) {
+        new RongUtils(this).deleteChatByUserID(mAdapter.getList().get(position).userid);
         HashMap<String, String> params = new HashMap<>();
         params.put("id", mAdapter.getList().get(position).id);
         new BaseDataPresenter(MessageActivity.this).loadData(DataUrl.DEL_CONTACT_RECORD, params, null, new IBaseDataListener() {
@@ -233,6 +252,20 @@ public class MessageActivity extends BaseFragmentActivity {
             public void onError() {
             }
         });
+    }
+
+
+    /**
+     * 忽略所有未读消息
+     */
+    public void ignoreAllUnread() {
+        ArrayList<ChatItemDataBean> list = mAdapter.getList();
+        if (list != null && list.size() > 0) {
+            for (ChatItemDataBean data : list) {
+                new RongUtils(this).ignoreUnreadMessage(data.userid);
+            }
+        }
+        mSuperRefresh.setRefreshingLoad();
     }
 
 

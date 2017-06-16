@@ -285,6 +285,25 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
         }
     }
 
+
+    /**
+     * 清空与某人的聊天记录
+     *
+     * @param userid
+     */
+    public void deleteChatByUserID(String userid) {
+        RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.PRIVATE, userid);
+        ignoreUnreadMessage(userid);
+    }
+
+
+
+    public void ignoreUnreadMessage(String targetID) {
+        RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, targetID);
+    }
+
+
+
     /**
      * 封装消息实体
      */
