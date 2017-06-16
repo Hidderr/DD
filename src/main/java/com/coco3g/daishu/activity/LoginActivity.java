@@ -155,7 +155,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.image_login_qq:   //qq登录
-//                qqLogin();
+                qqLogin();
 
                 break;
         }

@@ -19,6 +19,7 @@ import android.widget.VideoView;
 
 import com.autonavi.ae.search.log.GLog;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.MessageActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.data.TypevauleGotoDictionary;
@@ -171,6 +172,7 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.relative_topbar_left:
@@ -185,10 +187,10 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
                 break;
 
             case R.id.tv_main_income_zhidu:  //奖励制度
-                Intent intent1 = new Intent(mContext, WebActivity.class);
+                intent = new Intent(mContext, WebActivity.class);
                 if (!TextUtils.isEmpty(Global.H5Map.get("jiangli"))) {
-                    intent1.putExtra("url", Global.H5Map.get("jiangli"));
-                    mContext.startActivity(intent1);
+                    intent.putExtra("url", Global.H5Map.get("jiangli"));
+                    mContext.startActivity(intent);
                 }
                 break;
 
@@ -200,12 +202,14 @@ public class TopBarView extends RelativeLayout implements OnClickListener {
                 if (settingUrl.equals("#")) {
                     return;
                 }
-                Intent intent = new Intent(mContext, WebActivity.class);
+                intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("url", settingUrl);
                 mContext.startActivity(intent);
                 break;
 
             case R.id.image_topbar_system_msg:  //消息提醒
+                intent = new Intent(mContext, MessageActivity.class);
+                mContext.startActivity(intent);
 
                 break;
         }

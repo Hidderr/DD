@@ -40,5 +40,10 @@ public class Constants {
     public static final String WEIXIN_APP_ID = "wxc58ac6bc08956db4";
     public static final String WEIXIN_APP_SECRET = "a45b185493c064bd5c28b38abfde04ef";
 
+    // 商户号
+    public static final String MCH_ID = "1480633502";
+    // API密钥，在商户平台设置
+    public static final String API_KEY = "5ACC061AC05C377A285E7BE27CC26871";
+
 
 }

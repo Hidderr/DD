@@ -56,6 +56,9 @@
     <string name="register_xiyi_1">手机注册袋鼠好车，代表您已同意</string>
     <string name="register_xiyi_2">《袋鼠好车用户协议》</string>
 
+    <string name="weixin_pay_state">支付结果：%1$s</string>
+
+
     <!--forgetPasswordActivity-->
     <string name="forget_password">忘记密码?</string>
     <string name="forget_password_1">忘记密码</string>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_contacts_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="@drawable/selector_txt_grey_bg"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/image_contacts_item_avater"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/pic_default_avatar_icon"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/relative_contact_item_right"
+        android:layout_toRightOf="@+id/image_contacts_item_avater">
+
+        <TextView
+            android:id="@+id/tv_contact_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_1"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_contact_item_last_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_contact_item_name"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/text_color_2"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_contact_item_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_contact_item_last_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_2"
+            android:textSize="14sp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_contact_item_unread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_contact_item_last_time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/unread_bg"
+            android:visibility="gone">
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_contact_item_unread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/relative_contact_item_unread"
+            android:layout_alignLeft="@+id/relative_contact_item_unread"
+            android:layout_alignRight="@+id/relative_contact_item_unread"
+            android:layout_alignTop="@+id/relative_contact_item_unread"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="12"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
