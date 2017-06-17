@@ -2,13 +2,17 @@ package com.coco3g.daishu.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.CategoryOneAdapter;
@@ -29,6 +33,8 @@ import java.util.Map;
 
 public class CategoryActivity extends BaseActivity implements View.OnClickListener {
 
+    ImageView mImageBack;
+    EditText mEditSearch;
     ListView mListCategory;
     MyGridView mGridCategory;
     ProgressBar mProgress;
@@ -41,6 +47,8 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
     ImageView mImageThumb;
     LinearLayout.LayoutParams image_lp;
 
+    String searchKey = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,8 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
         mOneAdapter = new CategoryOneAdapter(this);
         mTwoAdapter = new CategoryTwoAdapter(this);
         //
+        mImageBack = (ImageView) findViewById(R.id.image_car_category_back);
+        mEditSearch = (EditText) findViewById(R.id.edit_car_category_search);
         mListCategory = (ListView) findViewById(R.id.list_category_one);
         mGridCategory = (MyGridView) findViewById(R.id.grid_category_two);
         mProgress = (ProgressBar) findViewById(R.id.progress);
@@ -62,8 +72,6 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
         //
         mListCategory.setAdapter(mOneAdapter);
         mGridCategory.setAdapter(mTwoAdapter);
-        // mGridCategory.setVerticalSpacing(40);
-        // mGridCategory.setHorizontalSpacing(40);
         //
         mOneAdapter.setOnItemSelectedListener(new CategoryOneAdapter.OnItemSelectedListener() {
             @Override
@@ -87,15 +95,39 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
         mGridCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CategoryActivity.this, CarCategoryListActivity1.class);
+                Intent intent = new Intent(CategoryActivity.this, CarCategoryListActivity.class);
                 intent.putExtra("typename", mOneAdapter.getList().get(mCurrOneCategoryIndex).get("title") + "");
                 intent.putExtra("catid", mTwoAdapter.getList().get(position).get("id") + "");
                 startActivityForResult(intent, 1);
             }
         });
         //
-        mImageThumb.setOnClickListener(this);
+        mEditSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    // 先隐藏键盘
+                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    //进行搜索操作的方法，在该方法中可以加入mEditSearchUser的非空判断
+                    searchKey = mEditSearch.getText().toString().trim();
+                    if (TextUtils.isEmpty(searchKey)) {
+                        Global.showToast("搜索内容为空", CategoryActivity.this);
+                    } else {
+                        Intent intent = new Intent(CategoryActivity.this, CarCategoryListActivity.class);
+                        intent.putExtra("fromType", 1);
+                        intent.putExtra("searchKey", searchKey);
+                        startActivityForResult(intent, 1);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         //
+        mImageThumb.setOnClickListener(this);
+        mImageBack.setOnClickListener(this);
         mProgress.setVisibility(View.VISIBLE);
         getOneCategoryList();
 
@@ -103,15 +135,16 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.image_car_category_thumb:  //图片
-                Intent intent = new Intent(this, WebActivity.class);
+                intent = new Intent(this, WebActivity.class);
                 intent.putExtra("url", mOneAdapter.getList().get(mCurrOneCategoryIndex).get("url") + "");
                 startActivity(intent);
 
                 break;
-            case R.id.tv_forget_password_change_password:  //修改密码
-
+            case R.id.image_car_category_back:  //
+                finish();
                 break;
         }
     }

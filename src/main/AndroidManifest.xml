@@ -93,10 +93,10 @@
             android:name=".activity.CategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CarCategoryListActivity"
+            android:name=".activity.CarCategoryListActivity2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CarCategoryListActivity1"
+            android:name=".activity.CarCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MessageActivity"

@@ -42,7 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/tv_car_category_list_search"
                     android:layout_toRightOf="@+id/image_car_category_list_back"
                     android:background="@drawable/shape_edit_white_bg"
                     android:drawableRight="@mipmap/pic_home_search_icon"
@@ -55,6 +56,17 @@
                     android:singleLine="true"
                     android:textColor="@color/text_color_1"
                     android:textColorHint="@color/text_color_2"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_car_category_list_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:text="搜索"
+                    android:textColor="@color/text_color_1"
                     android:textSize="14sp" />
 
             </RelativeLayout>

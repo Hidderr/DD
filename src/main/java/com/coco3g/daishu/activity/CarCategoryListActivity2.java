@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class CarCategoryListActivity1 extends BaseActivity implements View.OnClickListener {
+public class CarCategoryListActivity2 extends BaseActivity implements View.OnClickListener {
 
     private TabLayout mTabLayout;
     private TextView mEditSearch;
@@ -53,7 +53,7 @@ public class CarCategoryListActivity1 extends BaseActivity implements View.OnCli
     ProgressBar mProgressBar;
 
     HashMap<Integer, TextView> mTabLayoutItemMap = new HashMap<>();
-    String[] mViewPagerTitles = new String[]{"综合", "销量", "价格"};
+    String[] mViewPagerTitles = new String[]{"综合", "销量", "价格", "筛选"};
     //
     int currTab = 0;
 
@@ -102,11 +102,12 @@ public class CarCategoryListActivity1 extends BaseActivity implements View.OnCli
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLayout.getLayoutParams();
         lp.height = Global.screenHeight / 18;
         mTabLayout.setLayoutParams(lp);
-//        // 添加tablayout的分割线
-//        LinearLayout linearLayout = (LinearLayout) mTabLayout.getChildAt(0);
-//        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-//        linearLayout.setDividerPadding(Global.dipTopx(this, 5));
-//        linearLayout.setDividerDrawable(ContextCompat.getDrawable(this, R.drawable.shape_tablayout_divider));
+        // 添加tablayout的分割线
+        LinearLayout linearLayout = (LinearLayout) mTabLayout.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        linearLayout.setDividerPadding(Global.dipTopx(this, 5));
+        linearLayout.setDividerDrawable(ContextCompat.getDrawable(this, R.drawable.shape_tablayout_divider));
+        //
 
         xRefreshView = (XRefreshView) findViewById(R.id.xrefreshview_car_category_list);
         xRefreshView.setPullLoadEnable(true);
@@ -129,7 +130,7 @@ public class CarCategoryListActivity1 extends BaseActivity implements View.OnCli
         xRefreshView.setPullRefreshEnable(false);
         //
         if (mAdapter.getCustomLoadMoreView() == null) {
-            mAdapter.setCustomLoadMoreView(new CustomFooterView(CarCategoryListActivity1.this));
+            mAdapter.setCustomLoadMoreView(new CustomFooterView(CarCategoryListActivity2.this));
         }
         //
         xRefreshView.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
@@ -314,40 +315,47 @@ public class CarCategoryListActivity1 extends BaseActivity implements View.OnCli
                 mTabLayoutItemMap.get(0).setSelected(true);
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
                 setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_unselected_icon, 1);
                 break;
             case 1:  //销量
                 mTabLayoutItemMap.get(1).setSelected(true);
                 if (currTab == selectPosition) {
+                    setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_asc, 0);
                     if (saleOrder.equals("market_dec")) {
                         saleOrder = "market_inc";
-                        setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_asc, 0);
                     } else {
                         saleOrder = "market_dec";
-                        setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_dec, 0);
                     }
                 } else {
                     setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_dec, 0);
                     saleOrder = "market_dec";
                 }
                 setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_unselected_icon, 1);
 
                 break;
 
             case 2:  //价格
                 mTabLayoutItemMap.get(2).setSelected(true);
                 if (currTab == selectPosition) {
+                    setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_dec, 0);
                     if (priceOrder.equals("price_dec")) {
                         priceOrder = "price_inc";
-                        setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_asc, 0);
                     } else {
                         priceOrder = "price_dec";
-                        setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_dec, 0);
                     }
                 } else {
                     setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_asc, 0);
                     priceOrder = "price_inc";
                 }
                 setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_unselected_icon, 1);
+                break;
+            case 3:  //筛选
+                mTabLayoutItemMap.get(3).setSelected(true);
+                setDrawable(mTabLayoutItemMap.get(1), R.mipmap.pic_order_nomal, 0);
+                setDrawable(mTabLayoutItemMap.get(2), R.mipmap.pic_order_nomal, 0);
+                setDrawable(mTabLayoutItemMap.get(3), R.mipmap.pic_shai_xuan_selected_icon, 1);
                 break;
         }
         currTab = selectPosition;
@@ -358,6 +366,8 @@ public class CarCategoryListActivity1 extends BaseActivity implements View.OnCli
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         if (driection == 0) {  //右
             textView.setCompoundDrawables(null, null, drawable, null);
+        } else if (driection == 1) {  //左
+            textView.setCompoundDrawables(drawable, null, null, null);
         }
     }
 
@@ -613,7 +623,7 @@ public class CarCategoryListActivity1 extends BaseActivity implements View.OnCli
 
             @Override
             public void onFailure(BaseDataBean data) {
-                Global.showToast(data.msg, CarCategoryListActivity1.this);
+                Global.showToast(data.msg, CarCategoryListActivity2.this);
                 currPager--;
                 mProgressBar.setVisibility(View.GONE);
                 onLoadComplete();

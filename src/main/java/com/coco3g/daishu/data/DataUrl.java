@@ -78,6 +78,10 @@ public class DataUrl {
      * 获取车载用品商品列表
      * */
     public static final String GET_CAR_GOODS_LIST = BASE_URL + "goods/index";
+    /*
+     * 获取车载用品搜索结果
+     * */
+    public static final String GET_CAR_GOODS_SEARCH_LIST = BASE_URL + "goods/goods_search";
     /**
      * 获取商品筛选的类型
      **/
@@ -116,7 +120,7 @@ public class DataUrl {
     public static final String GET_CONTACT_LIST = BASE_URL + "member/get_chat_list";
     /**
      * 删除与某人的对话
-     * **/
+     **/
     public static final String DEL_CONTACT_RECORD = BASE_URL + "member/chat_del";
     /**
      * 微信支付统一下单接口  http://xuanhong.test.coco3g.com/v1/pay/get_weixin_prepay_id
