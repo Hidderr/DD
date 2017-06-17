@@ -173,8 +173,7 @@ public class MyWebView extends RelativeLayout {
                 // TODO Auto-generated method stub
                 Log.e("coco3g协议", url);
                 if (url.startsWith("tel:")) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(url));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     mContext.startActivity(intent);
                     return true;
                 }
@@ -184,19 +183,20 @@ public class MyWebView extends RelativeLayout {
                     typevauleGotoDictionary.setRootView(mRelativeRoot);
                     typevauleGotoDictionary.gotoViewChoose(url);
                     return true;
+                } else if (url.contains("http://www.zhixunchelian.com/bxtx/index.do?")) {
+                    webView.loadUrl(url);
+
                 } else {
+
                     mUrl = url;
                     Intent intent = new Intent(mContext, WebActivity.class);
                     intent.putExtra("url", url);
                     intent.putExtra("hidetopbar", hideTopbar);
                     mContext.startActivity(intent);
-
-                    if (url.contains("http://www.zhixunchelian.com/bxtx/index.do?")) {
-                        ((Activity) mContext).finish();
-                    }
+                    ((Activity) mContext).finish();
                     return true;
                 }
-
+                return false;
             }
 
             @Override

@@ -21,6 +21,7 @@ import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.listener.IBaseDataListener;
+import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.DateTime;
@@ -71,6 +72,8 @@ public class TypevauleGotoDictionary {
     private final String OPEN_TAB_VIEW = indexNativeKey + "open_tabview?";
     private final String GET_URL = indexNativeKey + "call_interface?";  //调用接口获取url
     private final String FORBID_REFRESH = indexNativeKey + "ban_refresh?";  //禁止刷新
+    private final String START_CHAT = indexNativeKey + "start_chat?";   //打开聊天
+
     //
     public static HashMap<String, String> CALLBACKTAG = new HashMap<>();
     private MyProgressDialog myProgressDialog;
@@ -302,6 +305,8 @@ public class TypevauleGotoDictionary {
                     mWebview.loadUrl(hashMap.get("url"), Global.getTokenTimeStampHeader(mContext));
                 }
             }
+        } else if (value.startsWith(START_CHAT)) {
+            new RongUtils(mContext).startConversation(hashMap.get("nickname"), hashMap.get("touserid"));
         }
 
     }
