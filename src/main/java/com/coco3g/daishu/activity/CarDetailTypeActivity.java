@@ -36,6 +36,8 @@ public class CarDetailTypeActivity extends BaseActivity {
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
 
     private String title = "", carTypeId = "";
+    //
+    private int currPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class CarDetailTypeActivity extends BaseActivity {
         mListView = (ListView) findViewById(R.id.listview_car_detail_type);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_car_detail_type);
         //
+        mAdapter = new CarDetailTypeAdapter(CarDetailTypeActivity.this);
+        mListView.setAdapter(mAdapter);
         //跑马灯
         marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
             @Override
@@ -68,15 +72,19 @@ public class CarDetailTypeActivity extends BaseActivity {
                 }
             }
         });
+        mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
                 mBanner.clearList();
+                currPage = 1;
                 getBanner();
             }
 
             @Override
             public void onLoadMore() {
+                currPage++;
+                getCarTypeDetail();
 
             }
         });
@@ -174,18 +182,22 @@ public class CarDetailTypeActivity extends BaseActivity {
     private void getCarTypeDetail() {
         HashMap<String, String> params = new HashMap<>();
         params.put("pid", carTypeId);
-        params.put("page", "1");
+        params.put("page", currPage + "");
         new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_TYPE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
                 ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) data.response;
                 //
                 if (list == null || list.size() <= 0) {
+                    currPage--;
+                    mSuperRefresh.onLoadComplete();
                     return;
                 }
-//
-                mListView.setAdapter(mAdapter);
-                mAdapter.setList(list);
+                if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
+                    mAdapter.setList(list);
+                } else {
+                    mAdapter.addList(list);
+                }
                 mSuperRefresh.onLoadComplete();
             }
 
@@ -193,11 +205,13 @@ public class CarDetailTypeActivity extends BaseActivity {
             public void onFailure(BaseDataBean data) {
                 Global.showToast(data.msg, CarDetailTypeActivity.this);
                 mSuperRefresh.onLoadComplete();
+                currPage--;
             }
 
             @Override
             public void onError() {
                 mSuperRefresh.onLoadComplete();
+                currPage--;
             }
         });
     }

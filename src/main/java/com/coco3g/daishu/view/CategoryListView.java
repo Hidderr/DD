@@ -152,7 +152,7 @@ public class CategoryListView extends RelativeLayout {
     public void refreshData(String order, String price, String catid) {
         this.order = order;
 //        this.price = price;
-//        this.catid = catid;
+//        this.carid = carid;
         if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
             mSuperRefresh.setEnabled(true);
             mSuperRefresh.setRefreshingLoad();
@@ -201,9 +201,9 @@ public class CategoryListView extends RelativeLayout {
         }
 
         if (!TextUtils.isEmpty(catid)) {
-            params.put("catid", catid);
+            params.put("carid", catid);
         }
-        Log.e("刷新数据类型", " order " + order + "    price " + price + "     catid " + catid);
+        Log.e("刷新数据类型", " order " + order + "    price " + price + "     carid " + catid);
         new BaseDataPresenter(mContext).loadData(DataUrl.GET_BANNER_IMAGE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {

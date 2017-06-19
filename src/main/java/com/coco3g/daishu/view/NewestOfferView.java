@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.coco3g.daishu.R;
-import com.coco3g.daishu.activity.CarDetailTypeActivity;
 import com.coco3g.daishu.adapter.NewestOfferAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -31,11 +29,16 @@ public class NewestOfferView extends RelativeLayout {
     private ListView mListView;
     private SuperRefreshLayout mSuperRefresh;
     private NewestOfferAdapter mAdapter;
+    //
+    String carid = "";
+
+    int currPage = 1;
 
 
-    public NewestOfferView(Context context) {
+    public NewestOfferView(Context context, String carid) {
         super(context);
         mContext = context;
+        this.carid = carid;
         initView();
     }
 
@@ -59,50 +62,69 @@ public class NewestOfferView extends RelativeLayout {
         mAdapter = new NewestOfferAdapter(mContext);
         mListView.setAdapter(mAdapter);
         //
+        mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
+                mAdapter.clearList();
+                currPage = 1;
+                getNewestOffer();
 
             }
 
             @Override
             public void onLoadMore() {
+                currPage++;
+                getNewestOffer();
 
             }
         });
+        //
+        mSuperRefresh.setRefreshingLoad();
 
     }
 
-//    //获取跑马灯
-//    private void getCarTypeDetail(String id) {
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("id", id);
-//        new BaseDataPresenter(mContext).loadData(DataUrl.GET_CAR_TYPE_DETIL, params, null, new IBaseDataListener() {
-//            @Override
-//            public void onSuccess(BaseDataBean data) {
-//                ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) data.response;
-//                //
-//                if (list == null || list.size() <= 0) {
-//                    return;
-//                }
-////
-//                mListView.setAdapter(mAdapter);
-//                mAdapter.setList(list);
-//                mSuperRefresh.onLoadComplete();
-//            }
-//
-//            @Override
-//            public void onFailure(BaseDataBean data) {
-//                Global.showToast(data.msg, mContext);
-//                mSuperRefresh.onLoadComplete();
-//            }
-//
-//            @Override
-//            public void onError() {
-//                mSuperRefresh.onLoadComplete();
-//            }
-//        });
-//    }
+
+    //获取跑马灯
+    public void getNewestOffer() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("carid", carid);
+        params.put("page", currPage + "");
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_CAR_NEWEST_OFFER, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> list = (ArrayList<Map<String, String>>) data.response;
+                //
+                if (list == null || list.size() <= 0) {
+                    currPage--;
+                    mSuperRefresh.onLoadComplete();
+                    return;
+                }
+
+                if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
+                    mAdapter.setList(list);
+                } else {
+                    mAdapter.addList(list);
+                }
+
+
+                mSuperRefresh.onLoadComplete();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+                mSuperRefresh.onLoadComplete();
+                currPage--;
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefresh.onLoadComplete();
+                currPage--;
+            }
+        });
+    }
 
 
 }

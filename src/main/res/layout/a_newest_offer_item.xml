@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/linear_newest_offer_price"
             android:text="奥迪官方旗舰店"
             android:textColor="@color/text_color_1"
@@ -29,7 +29,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
@@ -40,7 +40,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="10.39万"
                 android:textColor="@color/text_color_yellow_2"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_newest_offer_item_high_price"
@@ -49,7 +49,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="19万"
                 android:textColor="@color/text_color_2"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -60,8 +60,8 @@
         android:layout_marginBottom="3dp"
         android:layout_marginTop="1dp"
         android:background="@color/white"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <ImageView
             android:id="@+id/image_newest_offer_item_thumb"
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/image_newest_offer_item_thumb"
             android:orientation="vertical">
 
@@ -83,24 +83,24 @@
                 android:id="@+id/tv_newest_offer_item_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="地址：四川省高新区天府大道"
-                android:lines="1"
                 android:ellipsize="end"
+                android:lines="1"
+                android:text="地址：四川省高新区天府大道"
                 android:textColor="@color/text_color_1"
                 android:textSize="14sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="6dp">
 
                 <TextView
                     android:id="@+id/tv_newest_offer_item_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:lines="1"
                     android:ellipsize="end"
+                    android:lines="1"
                     android:text="电话：13002894837"
                     android:textColor="@color/text_color_1"
                     android:textSize="14sp" />
@@ -114,7 +114,7 @@
                     android:padding="5dp"
                     android:text="立即联系"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
             </RelativeLayout>
         </LinearLayout>

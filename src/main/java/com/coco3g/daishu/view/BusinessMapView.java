@@ -120,7 +120,7 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
         //
 
         myMapView.setTypeid(typeid);
-        myMapView.init(savedInstanceState, true, false);
+        myMapView.init(savedInstanceState, true, true);
         //
         mImageRoute.setOnClickListener(this);
         //

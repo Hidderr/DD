@@ -37,6 +37,22 @@ public class CarDetailTypeAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void addList(ArrayList<Map<String, String>> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Map<String, String>> getList() {
+        return mList;
+    }
+
+    public void clearList() {
+        if (mList != null) {
+            mList.clear();
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         if (mList == null) {
@@ -70,7 +86,7 @@ public class CarDetailTypeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Map<String, String> map = mList.get(position);
+        final Map<String, String> map = mList.get(position);
 
         viewHolder.mTxtTitle.setText(map.get("title"));
         //
@@ -81,6 +97,7 @@ public class CarDetailTypeAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CarDetailActivity.class);
                 intent.putExtra("id", mList.get(position).get("id"));
+                intent.putExtra("title", map.get("title"));
                 mContext.startActivity(intent);
             }
         });

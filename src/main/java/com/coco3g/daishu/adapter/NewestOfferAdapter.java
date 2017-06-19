@@ -1,7 +1,9 @@
 package com.coco3g.daishu.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -36,9 +40,28 @@ public class NewestOfferAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void addList(ArrayList<Map<String, String>> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Map<String, String>> getList() {
+        return mList;
+    }
+
+    public void clearList() {
+        if (mList != null) {
+            mList.clear();
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return 5;
+        if (mList == null) {
+            return 0;
+        }
+        return mList.size();
     }
 
     @Override
@@ -72,7 +95,29 @@ public class NewestOfferAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+
+        final Map<String, String> map = mList.get(position);
+        //
+        viewHolder.mTxtStoreName.setText(map.get("title"));
+        //
+        ImageLoader.getInstance().displayImage(map.get("thumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+        //
+        viewHolder.mTxtHighPrice.setText(map.get("price"));
         viewHolder.mTxtHighPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
+        //
+        viewHolder.mTxtLowPrice.setText(map.get("shopprice"));
+        //
+        viewHolder.mTxtAddress.setText("地址：" + map.get("location"));
+        //
+        viewHolder.mTxtPhone.setText("电话：" + map.get("phone"));
+        //立即联系
+        viewHolder.mTxtContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + map.get("phone")));
+                mContext.startActivity(intent);
+            }
+        });
 
 
         return view;

@@ -18,6 +18,7 @@ import com.coco3g.daishu.view.CanShuDetailView;
 import com.coco3g.daishu.view.NewestOfferView;
 import com.coco3g.daishu.view.TopBarView;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,24 +35,25 @@ public class CarDetailActivity extends BaseActivity {
     private BusinessMapView businessMapView;    //商家地图
     private CanShuDetailView canShuDetailView;  //参数详情
 
-    private String id = "";//某个车型的某个配置的型号的车id
+    private String id = "", title = "";//某个车型的某个配置的型号的车id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cat_detail);
         id = getIntent().getStringExtra("id");
+        title = getIntent().getStringExtra("title");
         initView(savedInstanceState);
     }
 
     private void initView(Bundle savedInstanceState) {
         mTopbar = (TopBarView) findViewById(R.id.topbar_car_detail);
-        mTopbar.setTitle("奥迪A1详情");
+        mTopbar.setTitle(title);
         //
         mTabLayout = (TabLayout) findViewById(R.id.tablayout_car_detail);
         mViewPager = (ViewPager) findViewById(R.id.viewpager_car_detail);
         //
-        newestOfferView = new NewestOfferView(this);
+        newestOfferView = new NewestOfferView(this, id);
         businessMapView = new BusinessMapView(this, savedInstanceState);
         canShuDetailView = new CanShuDetailView(this);
 
@@ -81,10 +83,9 @@ public class CarDetailActivity extends BaseActivity {
 
                 } else if (position == 2) {  //参数详情
                     if (TextUtils.isEmpty(canShuDetailView.url)) {
-                        String url = Global.H5Map.get("cardetail");
-                        if (!TextUtils.isEmpty(url)) {
-                            canShuDetailView.loadUrl(url);
-                        }
+//                        String url = Global.H5Map.get("cardetail");
+                        String url = DataUrl.BASE_CAR_PARAMETER_DETAIL + id;
+                        canShuDetailView.loadUrl(url);
                     }
                 }
             }

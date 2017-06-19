@@ -12,6 +12,8 @@ public class DataUrl {
 
     public static final String BASE_REPAIR_URL = "http://daishu.test.coco3g.com/index/index/weixiudian/id/"; // 维修点详情拼接url
 
+    public static final String BASE_CAR_PARAMETER_DETAIL = "http://daishu.test.coco3g.com/index/goods/cardetail/id/"; // 汽车参数详情baseurl
+
 
     /**
      * 登录
@@ -110,6 +112,10 @@ public class DataUrl {
      * 创建聊天对话
      * */
     public static final String ADD_CHAT_ITEM = BASE_URL + "member/add_chat_log";
+    /**
+     * 获取某个汽车品牌的某个车型的最新报价
+     **/
+    public static final String GET_CAR_NEWEST_OFFER = BASE_URL + "cartype/get_carshop";
     /**
      * 获取某个汽车品牌的某个车型的中高低配置信息
      **/
