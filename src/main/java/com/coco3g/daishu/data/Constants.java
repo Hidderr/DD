@@ -8,7 +8,7 @@ public class Constants {
 
 
     // 讯飞语音AppID
-    public static final String XUN_FEI_APPID = "590b2eff";
+    public static final String XUN_FEI_APPID = "59479273";
 
 
     /* 支付宝相关 */
