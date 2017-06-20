@@ -85,7 +85,7 @@ public class NewestOfferView extends RelativeLayout {
     }
 
 
-    //获取跑马灯
+    //
     public void getNewestOffer() {
         HashMap<String, String> params = new HashMap<>();
         params.put("carid", carid);

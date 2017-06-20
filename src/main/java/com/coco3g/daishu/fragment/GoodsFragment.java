@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.CarShopActivity;
 import com.coco3g.daishu.activity.CategoryActivity;
+import com.coco3g.daishu.activity.DiscountOilActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -132,7 +133,9 @@ public class GoodsFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_read_menu_4:  //油品区
-                intentToWeb(Global.H5Map.get("youpinqu"), false);
+//                intentToWeb(Global.H5Map.get("youpinqu"), false);
+                intent = new Intent(getActivity(), DiscountOilActivity.class);
+                startActivity(intent);
 
                 break;
 

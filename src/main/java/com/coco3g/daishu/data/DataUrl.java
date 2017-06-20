@@ -104,6 +104,14 @@ public class DataUrl {
      * 获取某个汽车品牌的某个车型的中高低配置信息
      **/
     public static final String GET_CAR_TYPE = BASE_URL + "cartype/get_car";
+    /**
+     * 油品卡筛选分类
+     **/
+    public static final String GET_DISCOUNT_OIL_TYPE = BASE_URL + "goods/get_screen_youka";
+    /**
+     * 加油站列表
+     **/
+    public static final String GET_OIL_STORE_LIST = BASE_URL + "goods/get_gas_station";
     /*
      * 获取融云token
      * */

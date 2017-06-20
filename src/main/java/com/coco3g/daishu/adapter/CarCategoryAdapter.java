@@ -123,7 +123,7 @@ public class CarCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
 
 
-//            mImageAvatar = (ImageView) itemView.findViewById(R.id.image_home_item_avatar);
+//            mImageThumb = (ImageView) itemView.findViewById(R.id.image_home_item_avatar);
 
         }
     }

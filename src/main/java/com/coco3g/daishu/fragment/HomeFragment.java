@@ -16,10 +16,13 @@ import android.widget.TextView;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.CarShopActivity;
 import com.coco3g.daishu.activity.CategoryActivity;
+import com.coco3g.daishu.activity.DiscountOilActivity;
+import com.coco3g.daishu.activity.MemberServiceActivity;
 import com.coco3g.daishu.activity.RepairWebsiteActivity;
 import com.coco3g.daishu.activity.ShaiXuanListActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.adapter.HomeAdapter;
+import com.coco3g.daishu.adapter.OilStoreAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
@@ -48,10 +51,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ImageView mImageMiddleBanner;
     HomeAdapter mAdapter;
     //
-    int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_repair_car, R.mipmap.pic_menu_wash_car, R.mipmap.pic_wei_zhang_icon,
-            R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_car_insurance};
-    String[] mNavTitles = new String[]{"我的汽车", "维修养护", "洗车", "违章查询", "我要买车", "车载用品", "打折油卡", "机动车险"};
-
+    int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_vip_icon, R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_insurance,
+            R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_menu_borrow_money_service};
+    String[] mNavTitles = new String[]{"我的汽车", "会员服务", "我要买车", "低价车险", "车载用品", "折扣油站", "二手车", "借款服务"};
     //
     OnRepairClickListener onRepairClickListener = null;
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
@@ -147,57 +149,69 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.view_home_menu_2:  //维护养修
-                if (!Global.checkoutLogin(getActivity())) {
-                    return;
-                }
-//                intent = new Intent(mContext, RepairWebsiteActivity.class);
-                intent = new Intent(mContext, ShaiXuanListActivity.class);
-                intent.putExtra("typeid", "1");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "维修养护");
+            case R.id.view_home_menu_2:  //会员服务
+                intent = new Intent(getActivity(), MemberServiceActivity.class);
                 startActivity(intent);
 
-                break;
-
-            case R.id.view_home_menu_3:  //洗车
-                if (!Global.checkoutLogin(getActivity())) {
-                    return;
-                }
-                intent = new Intent(mContext, ShaiXuanListActivity.class);
-                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "洗车");
-                startActivity(intent);
-
-                break;
-
-            case R.id.view_home_menu_4:  //违章查询
-                if (!Global.checkoutLogin(getActivity())) {
-                    return;
-                }
-                intentToWeb(Global.H5Map.get("weizhang"));
+//                //维护养修
+//                if (!Global.checkoutLogin(getActivity())) {
+//                    return;
+//                }
+////                intent = new Intent(mContext, RepairWebsiteActivity.class);
+//                intent = new Intent(mContext, ShaiXuanListActivity.class);
+//                intent.putExtra("typeid", "1");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+//                intent.putExtra("title", "维修养护");
+//                startActivity(intent);
 
                 break;
 
-            case R.id.view_home_menu_5:  //我要买车
+            case R.id.view_home_menu_3:  //我要买车
                 intent = new Intent(getActivity(), CarShopActivity.class);
                 startActivity(intent);
 
+//                //洗车
+//                if (!Global.checkoutLogin(getActivity())) {
+//                    return;
+//                }
+//                intent = new Intent(mContext, ShaiXuanListActivity.class);
+//                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+//                intent.putExtra("title", "洗车");
+//                startActivity(intent);
+
                 break;
 
-            case R.id.view_home_menu_6:  //车载用品
+            case R.id.view_home_menu_4: //低价车险
+                intentToWeb(Global.H5Map.get("baoxian"));
+
+//                //违章查询
+//                if (!Global.checkoutLogin(getActivity())) {
+//                    return;
+//                }
+//                intentToWeb(Global.H5Map.get("weizhang"));
+
+                break;
+
+            case R.id.view_home_menu_5:  //车载用品
+
                 intent = new Intent(getActivity(), CategoryActivity.class);
                 startActivity(intent);
-//                intentToWeb(Global.H5Map.get("goodslist"));
 
                 break;
 
-            case R.id.view_home_menu_7:  //打折油卡
-                intentToWeb(Global.H5Map.get("youka"));
+            case R.id.view_home_menu_6:  //折扣油站
+//                intentToWeb(Global.H5Map.get("youka"));
+                intent = new Intent(getActivity(), DiscountOilActivity.class);
+                startActivity(intent);
 
                 break;
 
-            case R.id.view_home_menu_8:  //  机动车险
-                intentToWeb(Global.H5Map.get("baoxian"));
+            case R.id.view_home_menu_7:  //二手车
+
+
+                break;
+
+            case R.id.view_home_menu_8:  //  借款服务
+
 
                 break;
 

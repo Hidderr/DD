@@ -26,6 +26,7 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.Photo;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.CarDetailTypeActivity;
 import com.coco3g.daishu.amap.MyPoiOverlay;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
@@ -68,7 +69,8 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     boolean showDialog;
 
     //
-    private String typeid = "";  //获取的地点类型  	-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+    private String typeid = "";  //获取的地点类型  	-1=洗车店，1=维修养护和维修救援 ,-1 :某个汽车类型的某个配置的车型的最新报价
+    private String carid = "";  //汽车最新报价的id
 
 
     public MyMapView(Context context) {
@@ -107,6 +109,10 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
 
     public void setTypeid(String typeid) {
         this.typeid = typeid;
+    }
+
+    public void setCarNewsOfferId(String carid) {
+        this.carid = carid;
     }
 
     //初始化地图的配置
@@ -154,7 +160,11 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                 float currDistance = getLargeDistance();
                 if (currDistance > mBaseDistance) {   //距离默认是10000米，最大不能超过
                     mBaseDistance = currDistance;
-                    getRepairStoreList(null, false);
+                    if (typeid.equals("-1")) {
+                        getNewestOffer(false);
+                    } else {
+                        getRepairStoreList(null, false);
+                    }
                 }
             }
         });
@@ -190,9 +200,19 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
 
                 if (mCurrLat != 0 && mCurrLng != 0) {
                     if (showDialog) {
-                        getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
+
+                        if (typeid.equals("-1")) {
+                            getNewestOffer(true);
+                        } else {
+                            getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
+                        }
+
                     } else {
-                        getRepairStoreList(null, true);  //接口获取信息
+                        if (typeid.equals("-1")) {
+                            getNewestOffer(true);
+                        } else {
+                            getRepairStoreList(null, true);  //接口获取信息
+                        }
                     }
                 }
 
@@ -291,7 +311,11 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     public void refreshData(String typeid) {
         poiItems.clear();
         this.typeid = typeid;
-        getRepairStoreList(mContext.getResources().getString(R.string.loading), true);
+        if (typeid.equals("-1")) {
+            getNewestOffer(true);
+        } else {
+            getRepairStoreList(mContext.getResources().getString(R.string.loading), true);
+        }
     }
 
 
@@ -315,6 +339,38 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                 }
                 Log.e("门店数量", repairList.size() + "");
                 showRepairStore(repairList, isZoomToSpan);
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+    }
+
+
+    //
+    public void getNewestOffer(final boolean isZoomToSpan) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("carid", carid);
+        params.put("lat", mCurrLatLonPoint.getLatitude() + "");
+        params.put("lng", mCurrLatLonPoint.getLongitude() + "");
+        params.put("distance", mBaseDistance + "");
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_CAR_NEWEST_OFFER, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> newsOfferStoreList = (ArrayList<Map<String, String>>) data.response;
+                //
+                if (newsOfferStoreList == null || newsOfferStoreList.size() <= 0) {
+//                    Global.showToast(, mContext);
+                    return;
+                }
+                showRepairStore(newsOfferStoreList, isZoomToSpan);
 
             }
 
@@ -357,7 +413,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                 double lat = Double.parseDouble(itemMap.get("lat"));
                 double lng = Double.parseDouble(itemMap.get("lng"));
                 LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
-                poiItem = new PoiItem(itemMap.get("id"), latLonPoint, itemMap.get("name"), itemMap.get("address"));
+                poiItem = new PoiItem(itemMap.get("id"), latLonPoint, itemMap.get("title"), itemMap.get("address"));
                 poiItem.setTel(itemMap.get("phone"));
                 //
                 ArrayList<Photo> photos = new ArrayList<Photo>();

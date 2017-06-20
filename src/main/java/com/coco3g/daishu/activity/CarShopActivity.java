@@ -193,19 +193,6 @@ public class CarShopActivity extends BaseActivity  {
 
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        Intent intent = null;
-//        switch (v.getId()) {
-//
-//            case R.id.tv_car_shop_hotsale_4:  //
-//
-//                break;
-//
-//        }
-//    }
-
-
     //开启侧滑
     public void openDrawerLayout() {
         mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_UNLOCKED);

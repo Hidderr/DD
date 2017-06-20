@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_8"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.coco3g.daishu.view.TopBarView
+        android:id="@+id/tobbar_discount_oil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.coco3g.daishu.view.TopBarView>
+
+    <LinearLayout
+        android:id="@+id/linear_discount_oil_shai_xuan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tobbar_discount_oil"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:id="@+id/relative_discount_oil_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_discount_oil_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:maxLength="4"
+                android:text="定位中"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_discount_oil_address"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_discount_oil_address"
+                android:background="@color/text_color_8" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_discount_oil_moren_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_discount_oil_moren_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:text="默认排序"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_discount_oil_moren_order"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_discount_oil_moren_order"
+                android:background="@color/text_color_8" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_discount_oil_shaixuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_discount_oil_shaixuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/pic_arrow_down_icon"
+                android:text="筛选"
+                android:textColor="@color/text_color_1"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.coco3g.daishu.view.SuperRefreshLayout
+        android:id="@+id/sr_discount_oil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_discount_oil_shai_xuan"
+        android:layout_marginTop="1dp">
+
+        <ListView
+            android:id="@+id/listview_discount_oil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        </ListView>
+    </com.coco3g.daishu.view.SuperRefreshLayout>
+
+</RelativeLayout>

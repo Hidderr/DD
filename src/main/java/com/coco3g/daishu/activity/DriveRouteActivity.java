@@ -6,6 +6,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -60,8 +62,8 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
     private ProgressDialog progDialog = null;// 搜索时进度条
 
     private RepairStoreBean currStoreBean = new RepairStoreBean();
-    private double startLat, startLng;
-
+    private double startLat, startLng, mEndLat, mEndLng;
+    private String storeName;  //店铺名字
 
     //
     private TextView mTxtName, mTxtAddress, mTxtPhone;
@@ -79,16 +81,27 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
         mapView = (MapView) findViewById(R.id.map_dirve_route);
         mapView.onCreate(bundle);// 此方法必须重写
         //
-        init();
-        //
         Bundle bundle1 = getIntent().getExtras();
         currStoreBean = (RepairStoreBean) bundle1.getSerializable("data");
         startLat = getIntent().getDoubleExtra("startlat", 0);
         startLng = getIntent().getDoubleExtra("startlng", 0);
         mStartPoint = new LatLonPoint(startLat, startLng);
-        mEndPoint = new LatLonPoint(currStoreBean.lat, currStoreBean.lng);
+
+        //从油站来
+        mEndLat = getIntent().getDoubleExtra("endlat", 0);
+        mEndLng = getIntent().getDoubleExtra("endlng", 0);
+        storeName = getIntent().getStringExtra("storeName");
         //
-        setRepairStoreInfo();
+        init();
+        //
+        if (mEndLat == 0) {
+            mEndPoint = new LatLonPoint(currStoreBean.lat, currStoreBean.lng);
+            setRepairStoreInfo();
+        } else {
+            mEndPoint = new LatLonPoint(mEndLat, mEndLng);
+        }
+        Log.e("打印数据", "开始 " + startLat + " ** " + startLng + "  *  " + mEndLat + "  *  " + mEndLng);
+
 
         //开始规划路径
         searchRouteResult(ROUTE_TYPE_DRIVE, RouteSearch.DrivingDefault);
@@ -106,6 +119,30 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
         mRouteSearch.setRouteSearchListener(this);
         mTopbar = (TopBarView) findViewById(R.id.topbar_dirve_route);
         mTopbar.setTitle("导航中");
+
+        //来自油站
+        if (mEndLat != 0 && mEndLng != 0) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(R.mipmap.pic_location_arrow_icon);
+            int margin_5 = Global.dipTopx(this, 5f);
+            int margin_6 = Global.dipTopx(this, 6f);
+            int margin_12 = Global.dipTopx(this, 12f);
+            imageView.setPadding(margin_5, margin_6, margin_12, margin_5);
+            mTopbar.setRightView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DriveRouteNavActivity.class);
+                    intent.putExtra("startlat", startLat);
+                    intent.putExtra("startlng", startLng);
+                    intent.putExtra("endlat", mEndLat);
+                    intent.putExtra("endlng", mEndLng);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
+        //
         mTxtName = (TextView) findViewById(R.id.tv_drive_route_store_name);
         mTxtAddress = (TextView) findViewById(R.id.tv_repair_route_store_address);
         mTxtPhone = (TextView) findViewById(R.id.tv_drive_route_store_phone);
@@ -144,6 +181,12 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
                 finish();
             }
         });
+
+
+        //来自油站
+        if (mEndLat == 0 && mEndLng == 0) {
+            mRelativeStore.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -240,7 +283,17 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
                     drivingRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
                     drivingRouteOverlay.setIsColorfulline(true);//是否用颜色展示交通拥堵情况，默认true
                     drivingRouteOverlay.removeFromMap();
-                    drivingRouteOverlay.addToMap(currStoreBean.title);
+                    //
+//                    if (!TextUtils.isEmpty(currStoreBean.title)) {
+//                        drivingRouteOverlay.addToMap(currStoreBean.title);
+//                    } else {
+//                        drivingRouteOverlay.addToMap("起点");
+//                    }
+                    if (!TextUtils.isEmpty(storeName)) {
+                        drivingRouteOverlay.addToMap(storeName);
+                    } else {
+                        drivingRouteOverlay.addToMap(currStoreBean.title);
+                    }
                     drivingRouteOverlay.zoomToSpan();
 
                 } else if (result != null && result.getPaths() == null) {
@@ -251,7 +304,7 @@ public class DriveRouteActivity extends BaseActivity implements OnMapClickListen
                 Global.showToast(getResources().getString(R.string.no_result), mContext);
             }
         } else {
-//            Global.showToast(errorCode,mContext);
+            Global.showToast(errorCode + "", mContext);
         }
 
 

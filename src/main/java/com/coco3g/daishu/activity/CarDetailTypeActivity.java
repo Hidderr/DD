@@ -59,7 +59,7 @@ public class CarDetailTypeActivity extends BaseActivity {
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_car_detail_type);
         //
         mAdapter = new CarDetailTypeAdapter(CarDetailTypeActivity.this);
-        mListView.setAdapter(mAdapter);
+//        mListView.setAdapter(mAdapter);
         //跑马灯
         marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
             @Override
@@ -77,6 +77,7 @@ public class CarDetailTypeActivity extends BaseActivity {
             @Override
             public void onRefreshing() {
                 mBanner.clearList();
+                mAdapter.clearList();
                 currPage = 1;
                 getBanner();
             }
@@ -195,6 +196,7 @@ public class CarDetailTypeActivity extends BaseActivity {
                 }
                 if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
                     mAdapter.setList(list);
+                    mListView.setAdapter(mAdapter);
                 } else {
                     mAdapter.addList(list);
                 }

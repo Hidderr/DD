@@ -39,10 +39,11 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
     private ImageView mImageThumb, mImageRoute;
     //
 
-    private String typeid = "2";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护
+    private String typeid = "-1";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护 ,-1 = 汽车最新报价
 
     private Marker detailMarker;
     private LatLonPoint mCurrLatLonPoint = null;
+    private PoiItem mCurrentPoiItem;
 
     public boolean isMapInit = false;//地图是否初始化了
     private Bundle savedInstanceState;
@@ -115,11 +116,12 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
 
     }
 
-    public void mapInit() {
+    public void mapInit(String carid) {
         isMapInit = true;
         //
 
         myMapView.setTypeid(typeid);
+        myMapView.setCarNewsOfferId(carid);
         myMapView.init(savedInstanceState, true, true);
         //
         mImageRoute.setOnClickListener(this);
@@ -137,6 +139,7 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
                     mRelativeStore.setVisibility(View.VISIBLE);
                     if (mCurrentPoi != null) {
                         detailMarker = detailMarker1;
+                        mCurrentPoiItem = mCurrentPoi;
                         setCarStoreInfo(mCurrentPoi);
                     }
                 } else {
@@ -155,14 +158,14 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
         switch (v.getId()) {
             case R.id.image_business_map_store_route:
                 intent = new Intent(mContext, DriveRouteActivity.class);
-                PoiItem mCurrentPoi = (PoiItem) detailMarker.getObject();
+//                PoiItem mCurrentPoi = (PoiItem) detailMarker.getObject();
                 RepairStoreBean bean = new RepairStoreBean();
-                bean.lat = mCurrentPoi.getLatLonPoint().getLatitude();
-                bean.lng = mCurrentPoi.getLatLonPoint().getLongitude();
-                bean.photos = mCurrentPoi.getPhotos().get(0).getUrl();
-                bean.title = mCurrentPoi.getTitle();
-                bean.address = mCurrentPoi.getSnippet();
-                bean.phone = mCurrentPoi.getTel();
+                bean.lat = mCurrentPoiItem.getLatLonPoint().getLatitude();
+                bean.lng = mCurrentPoiItem.getLatLonPoint().getLongitude();
+                bean.photos = mCurrentPoiItem.getPhotos().get(0).getUrl();
+                bean.title = mCurrentPoiItem.getTitle();
+                bean.address = mCurrentPoiItem.getSnippet();
+                bean.phone = mCurrentPoiItem.getTel();
                 //
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("data", bean);

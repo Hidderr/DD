@@ -20,11 +20,13 @@ import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
+import com.coco3g.daishu.bean.LocationBean;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.DateTime;
+import com.coco3g.daishu.utils.LocationUtil;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.EditTextItemView;
 import com.coco3g.daishu.view.MyProgressDialog;
@@ -186,6 +188,15 @@ public class TypevauleGotoDictionary {
             Global.showToast("打开指定界面还未做好", mContext);
 
 
+
+
+
+
+
+
+
+
+
         } else if (value.startsWith(LOGOUT)) {  /***注销登录***/
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
             builder.setMessage("确认注销吗？");
@@ -220,17 +231,17 @@ public class TypevauleGotoDictionary {
             new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.RETURN_UPDATE_FLAG, null);
         } else if (value.startsWith(GET_LOCATION)) {  /***定位并获取经纬度***/
             Global.showToast("获取经纬度还未做好", mContext);
-//            new LocationUtil(mContext).initLocationAndStart(true, 10000, false, "0").setLocationComplete(new LocationUtil.LocationComplete() {
-//                @Override
-//                public void locationcomplete(String address, String mCurrLat, String mCurrLng) {
-//                    LocationBean locationBean = new LocationBean();
-//                    locationBean.mCurrLat = mCurrLat;
-//                    locationBean.mCurrLng = mCurrLng;
-//                    String json = new Gson().toJson(locationBean);
-//                    //Log.e("tag", "javascript:c3_navtive_user.callback('" + hm.get("callbackTag") + "','" + json + "');");
-//                    webview.loadUrl("javascript:c3_navtive_user.callback('" + hashMap.get("callbackTag") + "','" + json + "');");
-//                }
-//            });
+            new LocationUtil(mContext).initLocationAndStart(true, 10000, false, "0").setLocationComplete(new LocationUtil.LocationComplete() {
+                @Override
+                public void locationcomplete(String address, String mCurrLat, String mCurrLng) {
+                    LocationBean locationBean = new LocationBean();
+                    locationBean.mCurrLat = mCurrLat;
+                    locationBean.mCurrLng = mCurrLng;
+                    String json = new Gson().toJson(locationBean);
+                    //Log.e("tag", "javascript:c3_navtive_user.callback('" + hm.get("callbackTag") + "','" + json + "');");
+                    mWebview.loadUrl("javascript:c3_navtive_user.callback('" + hashMap.get("callbackTag") + "','" + json + "');");
+                }
+            });
 
 
         } else if (value.startsWith(LOAD_ALBUM)) {  /***浏览H5页面上的图片***/

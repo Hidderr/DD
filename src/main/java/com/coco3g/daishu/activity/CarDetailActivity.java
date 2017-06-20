@@ -78,7 +78,7 @@ public class CarDetailActivity extends BaseActivity {
 
                 } else if (position == 1) {  //商家地图
                     if (!businessMapView.isMapInit) {
-                        businessMapView.mapInit();
+                        businessMapView.mapInit(id);
                     }
 
                 } else if (position == 2) {  //参数详情

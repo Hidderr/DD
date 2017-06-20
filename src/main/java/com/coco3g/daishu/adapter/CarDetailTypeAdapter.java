@@ -2,6 +2,7 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 public class CarDetailTypeAdapter extends BaseAdapter {
     Context mContext;
-    ArrayList<Map<String, String>> mList = new ArrayList<>();
+    ArrayList<Map<String, String>> mList = null;
     RelativeLayout.LayoutParams lp = null;
 
     public CarDetailTypeAdapter(Context mContext) {
@@ -33,37 +34,34 @@ public class CarDetailTypeAdapter extends BaseAdapter {
     }
 
     public void setList(ArrayList<Map<String, String>> list) {
-        mList = list;
+        this.mList = list;
         notifyDataSetChanged();
     }
 
     public void addList(ArrayList<Map<String, String>> list) {
-        mList.addAll(list);
+        this.mList.addAll(list);
         notifyDataSetChanged();
     }
 
     public ArrayList<Map<String, String>> getList() {
-        return mList;
+        return this.mList;
     }
 
     public void clearList() {
-        if (mList != null) {
-            mList.clear();
+        if (this.mList != null) {
+            this.mList.clear();
         }
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        if (mList == null) {
-            return 0;
-        }
-        return mList.size();
+        return this.mList == null ? 0 : this.mList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        return this.mList.get(position);
     }
 
     @Override

@@ -101,6 +101,12 @@
         <activity
             android:name=".activity.MessageActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MemberServiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DiscountOilActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- 高德地图 -->
@@ -115,31 +121,31 @@
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1106153655"/>
+                <data android:scheme="tencent1106153655" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信登陆回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!--&lt;!&ndash; 微信支付回调 &ndash;&gt;-->
         <!--<activity-->
-            <!--android:name=".wxapi.WXPayEntryActivity"-->
-            <!--android:exported="true"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@android:style/Theme.Light.NoTitleBar"/>-->
+        <!--android:name=".wxapi.WXPayEntryActivity"-->
+        <!--android:exported="true"-->
+        <!--android:launchMode="singleTop"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@android:style/Theme.Light.NoTitleBar"/>-->
 
         <!-- 融云 -->
         <!-- 聊天界面 -->
