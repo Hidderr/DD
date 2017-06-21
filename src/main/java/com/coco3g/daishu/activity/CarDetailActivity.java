@@ -1,27 +1,20 @@
 package com.coco3g.daishu.activity;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.ViewPagerAdapter;
-import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
-import com.coco3g.daishu.data.Global;
-import com.coco3g.daishu.listener.IBaseDataListener;
-import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BusinessMapView;
 import com.coco3g.daishu.view.CanShuDetailView;
 import com.coco3g.daishu.view.NewestOfferView;
 import com.coco3g.daishu.view.TopBarView;
 
-import java.net.IDN;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CarDetailActivity extends BaseActivity {
     private TopBarView mTopbar;
