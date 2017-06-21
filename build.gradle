@@ -72,4 +72,5 @@ dependencies {
     compile 'com.sunfusheng:marqueeview:1.2.0'
     compile project(':IMKit')
     compile 'com.android.support:multidex:1.0.1'
+    compile files('libs/gesture-imageview.jar')
 }

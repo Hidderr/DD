@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.andview.refreshview.callback.IFooterCallBack;
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.BrowseImageActivity;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
@@ -245,8 +246,21 @@ public class TypevauleGotoDictionary {
 
 
         } else if (value.startsWith(LOAD_ALBUM)) {  /***浏览H5页面上的图片***/
-
-            Global.showToast("浏览图片还未做好", mContext);
+            String images = hashMap.get("pic");
+            if (TextUtils.isEmpty(images)) {
+                return;
+            }
+            String[] pictures = images.split(",");
+            ArrayList<String> imageList = new ArrayList<>();
+            for (int i = 0; i < pictures.length; i++) {
+                imageList.add(pictures[i]);
+            }
+            //点击的哪张图片
+            int position = Integer.parseInt(hashMap.get("index"));
+            intent = new Intent(mContext, BrowseImageActivity.class);
+            intent.putExtra("image_list", imageList);
+            intent.putExtra("pagenum", position - 1);
+            mContext.startActivity(intent);
 
         } else if (value.startsWith(OPEN_LOADING)) {  /***打开loading进度条***/
             String title = hashMap.get("title");

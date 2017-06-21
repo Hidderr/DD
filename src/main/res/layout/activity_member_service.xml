@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/text_color_8"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -17,6 +17,8 @@
     <com.coco3g.daishu.view.SuperRefreshLayout
         android:id="@+id/sr_member_service"
         android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_marginTop="1dp"
         android:layout_height="match_parent">
 
 
@@ -24,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <LinearLayout
+                android:id="@+id/tv_member_service_root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

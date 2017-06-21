@@ -3,6 +3,7 @@ package com.coco3g.daishu.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
@@ -32,6 +33,8 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private MarqueeView marqueeView;
     private TextView mTxtRepair, mTxtNearbyStore, mTxtVisitingService;
     //
+    private LinearLayout mLinearRoot;
+    //
     private ArrayList<Map<String, String>> mBroadCastList;
 
     @Override
@@ -53,6 +56,8 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         mTxtNearbyStore = (TextView) findViewById(R.id.tv_member_service_nearby_store);
         mTxtVisitingService = (TextView) findViewById(R.id.tv_member_service_income_visiting_service);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_member_service);
+        mLinearRoot = (LinearLayout) findViewById(R.id.tv_member_service_root);
+        mLinearRoot.setVisibility(View.GONE);
         //
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
@@ -136,6 +141,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                     marqueeView.startWithList(list);
                 }
                 //
+                mLinearRoot.setVisibility(View.VISIBLE);
                 mSuperRefresh.onLoadComplete();
                 mSuperRefresh.setEnabled(false);
             }

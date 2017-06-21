@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gesture-image="http://schemas.polites.com/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent4"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <com.coco3g.daishu.view.TopBarView
+        android:id="@+id/topbar_browser_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+
+    <!--<com.polites.android.GestureImageView-->
+    <!--android:id="@+id/image_browser_image"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/topbar_browser_image"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--gesture-image:max-scale="10.0"-->
+    <!--gesture-image:min-scale="0.3"/>-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_browser_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black" />
+
+    <RelativeLayout
+        android:id="@+id/relative_browser_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/pic_download_bg"
+            android:padding="5dp"
+            android:src="@mipmap/pic_download_icon" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/browser_image_topbar"
+        layout="@layout/include_top_bar" />
+
+</RelativeLayout>
