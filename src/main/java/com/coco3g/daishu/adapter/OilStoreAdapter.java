@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class OilStoreAdapter extends BaseAdapter {
     Context mContext;
-    ArrayList<Map<String, String>> mList = new ArrayList<>();
+    ArrayList<Map<String, Object>> mList = new ArrayList<>();
     RelativeLayout.LayoutParams lp = null;
 
     public OilStoreAdapter(Context mContext) {
@@ -37,7 +37,7 @@ public class OilStoreAdapter extends BaseAdapter {
         lp.addRule(RelativeLayout.CENTER_VERTICAL);
     }
 
-    public void setList(ArrayList<Map<String, String>> list) {
+    public void setList(ArrayList<Map<String, Object>> list) {
         mList = list;
         notifyDataSetChanged();
     }
@@ -49,12 +49,12 @@ public class OilStoreAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void addList(ArrayList<Map<String, String>> list) {
+    public void addList(ArrayList<Map<String, Object>> list) {
         mList.addAll(list);
         notifyDataSetChanged();
     }
 
-    public ArrayList<Map<String, String>> getList() {
+    public ArrayList<Map<String, Object>> getList() {
         return mList;
     }
 
@@ -88,6 +88,8 @@ public class OilStoreAdapter extends BaseAdapter {
             viewHolder.mImageThumb.setLayoutParams(lp);
             viewHolder.mImageThumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
             viewHolder.mTxtName = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_name);
+            viewHolder.mTxtOil92 = (TextView) view.findViewById(R.id.tv_oil_store_item_oil_type1);
+            viewHolder.mTxtOil95 = (TextView) view.findViewById(R.id.tv_oil_store_item_oil_type2);
             viewHolder.mTxtPrice92 = (TextView) view.findViewById(R.id.tv_oil_store_item_price_92);
             viewHolder.mTxtPrice95 = (TextView) view.findViewById(R.id.tv_oil_store_item_price_95);
             viewHolder.mTxtAddress = (TextView) view.findViewById(R.id.tv_oil_tore_item_address);
@@ -98,19 +100,22 @@ public class OilStoreAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        final Map<String, String> storeMap = mList.get(position);
+        final Map<String, Object> storeMap = mList.get(position);
+        ArrayList<Map<String, String>> oilList = (ArrayList<Map<String, String>>) storeMap.get("gaslist");
         //
-        ImageLoader.getInstance().displayImage(storeMap.get("thumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init());
+        ImageLoader.getInstance().displayImage(storeMap.get("thumb") + "", viewHolder.mImageThumb, new DisplayImageOptionsUtils().init());
         //
-        viewHolder.mTxtName.setText(storeMap.get("title"));
+        viewHolder.mTxtName.setText(storeMap.get("title") + "");
         //
-        viewHolder.mTxtAddress.setText(storeMap.get("address"));
+        viewHolder.mTxtAddress.setText(storeMap.get("address") + "");
         //
         viewHolder.mTxtDistance.setText(storeMap.get("juli") + "Km");
-        //完成单数
-        viewHolder.mTxtPrice92.setText(storeMap.get("price_92") + "/L");
-        //评分
-        viewHolder.mTxtPrice95.setText(storeMap.get("price_95") + "/L");
+        //
+        viewHolder.mTxtOil92.setText(oilList.get(0).get("title"));
+        viewHolder.mTxtPrice92.setText(oilList.get(0).get("price") + "/L");
+        //
+        viewHolder.mTxtOil95.setText(oilList.get(1).get("title"));
+        viewHolder.mTxtPrice95.setText(oilList.get(1).get("price") + "/L");
         //
         viewHolder.mRelativeRoot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,12 +124,12 @@ public class OilStoreAdapter extends BaseAdapter {
                 intent.putExtra("startlat", Global.mCurrLat);
                 intent.putExtra("startlng", Global.mCurrLng);
 
-                double endLat = Double.parseDouble(storeMap.get("lat"));
-                double endLng = Double.parseDouble(storeMap.get("lng"));
+                double endLat = Double.parseDouble(storeMap.get("lat") + "");
+                double endLng = Double.parseDouble(storeMap.get("lng") + "");
                 intent.putExtra("endlat", endLat);
                 intent.putExtra("endlng", endLng);
                 //
-                intent.putExtra("storeName", storeMap.get("title"));
+                intent.putExtra("storeName", storeMap.get("title") + "");
                 mContext.startActivity(intent);
             }
         });
@@ -136,6 +141,6 @@ public class OilStoreAdapter extends BaseAdapter {
     private class ViewHolder {
         public ImageView mImageThumb;
         public RelativeLayout mRelativeRoot;
-        public TextView mTxtName, mTxtPrice92, mTxtPrice95, mTxtAddress, mTxtDistance;
+        public TextView mTxtName, mTxtOil92, mTxtOil95, mTxtPrice92, mTxtPrice95, mTxtAddress, mTxtDistance;
     }
 }

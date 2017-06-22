@@ -353,17 +353,17 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onSuccess(BaseDataBean data) {
 
-                ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
-                if (repairList == null || repairList.size() <= 0) {
+                ArrayList<Map<String, Object>> oilStoreList = (ArrayList<Map<String, Object>>) data.response;
+                if (oilStoreList == null || oilStoreList.size() <= 0) {
                     mSuperRefresh.onLoadComplete();
                     currPage--;
                     return;
                 }
-                Log.e("门店数量", repairList.size() + "");
+                Log.e("门店数量", oilStoreList.size() + "");
                 if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
-                    mAdapter.setList(repairList);
+                    mAdapter.setList(oilStoreList);
                 } else {
-                    mAdapter.addList(repairList);
+                    mAdapter.addList(oilStoreList);
                 }
                 //
                 mSuperRefresh.onLoadComplete();
