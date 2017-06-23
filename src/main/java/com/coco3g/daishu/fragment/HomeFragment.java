@@ -206,11 +206,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_7:  //二手车
+                intentToWeb(Global.H5Map.get("used_car"));
 
 
                 break;
 
             case R.id.view_home_menu_8:  //  借款服务
+                intentToWeb(Global.H5Map.get("daikuan"));
 
 
                 break;
