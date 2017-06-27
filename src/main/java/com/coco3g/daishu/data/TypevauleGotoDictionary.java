@@ -314,6 +314,7 @@ public class TypevauleGotoDictionary {
 
             if (hashMap.get("target").equals("self")) {  //当前webview加载url,不重新跳转到新的页面
                 if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                    myWebView.forbidRefresh(true);
                     myWebView.loadUrl(hashMap.get("url"));
                 } else {
                     mWebview.loadUrl(hashMap.get("url"), Global.getTokenTimeStampHeader(mContext));
@@ -325,6 +326,7 @@ public class TypevauleGotoDictionary {
                 ((Activity) mContext).startActivityForResult(intent, Global.REFRESH_DATA);
             } else {  //当没有传递"self"时候，默认当前页面打开
                 if (myWebView != null && TextUtils.isEmpty(myWebView.getCurrentUrl())) {
+                    myWebView.forbidRefresh(true);
                     myWebView.loadUrl(hashMap.get("url"));
                 } else {
                     mWebview.loadUrl(hashMap.get("url"), Global.getTokenTimeStampHeader(mContext));
