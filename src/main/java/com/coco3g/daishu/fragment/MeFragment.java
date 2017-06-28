@@ -1,6 +1,9 @@
 package com.coco3g.daishu.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,14 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.adapter.CarShopAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
@@ -39,7 +45,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private View mMeView;
     ImageView mImageAvatar, mImageQRCode, mImageRightArrow;
     HorizontalScrollView mHorizontalScroll;
-    LinearLayout mLinearGuangGao;
+    LinearLayout mLinearGuangGao, mLinearMyCar;
     RelativeLayout mRelativeInfo, mRelativeShopping;
     TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType, mTxtAddMyCar;
     //
@@ -97,6 +103,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
         mTxtAddMyCar = (TextView) mMeView.findViewById(R.id.tv_me_frag_add_my_car);
         mLinearGuangGao = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_guang_gao_List);
+        mLinearMyCar = (LinearLayout) mMeView.findViewById(R.id.linear_me_car_binding);
         //
         avatar_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 6, Global.screenWidth / 6);
         avatar_lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -185,6 +192,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.tv_me_frag_add_my_car:  //新增绑定
+                getMyCar();
 
                 break;
 
@@ -320,9 +328,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 if (data.response instanceof List) { //有时候返回的是空数组
                     return;
                 } else {
-                    Global.USERINFOMAP = (Map<String, String>) data.response;
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("password"), Global.LOGIN_INFO);
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone"), Global.USERINFOMAP.get("nickname"), Global.USERINFOMAP.get("password"), Global.LOGIN_INFO_LAST);
+                    Global.USERINFOMAP = (Map<String, Object>) data.response;
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone") + "", Global.USERINFOMAP.get("nickname") + "", Global.USERINFOMAP.get("password") + "", Global.LOGIN_INFO);
+                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone") + "", Global.USERINFOMAP.get("nickname") + "", Global.USERINFOMAP.get("password") + "", Global.LOGIN_INFO_LAST);
                     //
                 }
                 setMyInfo();
@@ -344,15 +352,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public void setMyInfo() {
         //头像
         if (Global.USERINFOMAP != null) {
-            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar"), mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
+            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar") + "", mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
             //名字
-            mTxtName.setText(Global.USERINFOMAP.get("nickname"));
+            mTxtName.setText(Global.USERINFOMAP.get("nickname") + "");
             //
             mTxtMemberID.setVisibility(View.VISIBLE);
             mTxtMemberID.setText("会员ID号：" + Global.USERINFOMAP.get("vipno"));
             //会员类型
             mTxtMemberType.setVisibility(View.VISIBLE);
-            mTxtMemberType.setText(Global.USERINFOMAP.get("vip_level"));
+            mTxtMemberType.setText(Global.USERINFOMAP.get("vip_level") + "");
 //            //会员专属二维码
 //            String vip = Global.USERINFOMAP.get("groupid");
 //            if (!TextUtils.isEmpty(vip) && vip.equals("1")) {
@@ -364,6 +372,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //            }
             //
 //            mSettingItemList.get(0).setEFen(Global.USERINFOMAP.get("ecoin"));
+
+            //设置爱车保姆
+            addMyCar();
+
         } else {
             ImageLoader.getInstance().displayImage("drawable://" + R.mipmap.pic_default_avatar_icon, mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
             //名字
@@ -420,7 +432,140 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
             });
         }
+    }
 
+
+    //添加汽车保姆
+    public void addMyCar() {
+//        int childNum = mLinearMyCar.getChildCount();
+//        if (childNum > 1) {
+//            mLinearMyCar.removeViews(0, childNum - 1);
+//        }
+
+        mLinearMyCar.removeAllViews();
+
+        final ArrayList<Map<String, String>> myCarList = (ArrayList<Map<String, String>>) Global.USERINFOMAP.get("mycars");
+        if (myCarList != null && myCarList.size() > 0) {
+            //添加汽车保姆
+            for (int i = 0; i < myCarList.size(); i++) {
+                MeMenuImageView meMenuImageView = new MeMenuImageView(getActivity());
+                meMenuImageView.setTextColor(R.color.text_color_1);
+                meMenuImageView.setIcon(myCarList.get(i).get("brandthumb"), myCarList.get(i).get("chepai"));
+                final int finalI = i;
+                meMenuImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra("url", myCarList.get(finalI).get("url"));
+                    }
+                });
+                mLinearMyCar.addView(meMenuImageView);
+            }
+        }
+        //添加新增绑定接口
+
+        MeMenuImageView meMenuImageView = new MeMenuImageView(getActivity());
+        meMenuImageView.setIcon(R.mipmap.pic_me_car_add, "新增绑定");
+        meMenuImageView.setTextColor(R.color.text_color_1);
+        meMenuImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Global.checkoutLogin(getActivity())) {
+                    getMyCar();
+                }
+            }
+        });
+        mLinearMyCar.addView(meMenuImageView);
+
+    }
+
+    //获取我的汽车
+    public void getMyCar() {
+        HashMap<String, String> params = new HashMap<>();
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_MY_CAR, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                ArrayList<Map<String, String>> myCarList = (ArrayList<Map<String, String>>) data.response;
+                if (myCarList == null || myCarList.size() <= 0) {
+                    remindDialog();
+                } else if (myCarList.size() == 1) {
+                    getBandingCarBaoMuUrl(myCarList.get(0).get("id"));
+                } else {
+                    chooseMyCarDialog(myCarList);
+                }
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, getActivity());
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
+    }
+
+    //没有添加汽车信息的时候，提醒信息
+    public void remindDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("提示");
+        builder.setMessage("请先在\"首页——我的汽车\"添加车辆信息");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    //选择我的汽车
+    public void chooseMyCarDialog(ArrayList<Map<String, String>> myCarList) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_me_frag_my_car_list, null);
+        ListView mListView = (ListView) view.findViewById(R.id.listview_me_frag_my_car_list);
+        final CarShopAdapter mAdapter = new CarShopAdapter(getActivity());
+        mAdapter.setList(myCarList);
+        mListView.setAdapter(mAdapter);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        //
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog.dismiss();
+                getBandingCarBaoMuUrl(mAdapter.getList().get(position).get("id"));
+            }
+        });
+
+    }
+
+
+    //获取我的汽车
+    public void getBandingCarBaoMuUrl(String carid) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", carid);
+        new BaseDataPresenter(getActivity()).loadData(DataUrl.GET_MY_CAR_BANGDING_BAOMU_URL, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                Map<String, String> map = (Map<String, String>) data.response;
+                Intent intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", map.get("url"));
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, getActivity());
+            }
+
+            @Override
+            public void onError() {
+            }
+        });
     }
 
 

@@ -89,8 +89,8 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
 //                    setUserInfo();
 
                     /*设置用户头像*/
-                    RongIM.getInstance().setCurrentUserInfo(new UserInfo(Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("realname"),
-                            Uri.parse(Global.USERINFOMAP.get("avatar"))));
+                    RongIM.getInstance().setCurrentUserInfo(new UserInfo(Global.USERINFOMAP.get("id") + "", Global.USERINFOMAP.get("realname") + "",
+                            Uri.parse(Global.USERINFOMAP.get("avatar") + "")));
                     RongIM.getInstance().setMessageAttachedUserInfo(true);
 
                     RongIM.setConversationBehaviorListener(RongUtils.this);
@@ -135,8 +135,8 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
                         RongIM.getInstance().setSendMessageListener(new RongIM.OnSendMessageListener() {
                             @Override
                             public Message onSend(Message message) {
-                                message.getContent().setUserInfo(new UserInfo(Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("nickname"),
-                                        Uri.parse(Global.USERINFOMAP.get("avatar"))));
+                                message.getContent().setUserInfo(new UserInfo(Global.USERINFOMAP.get("id") + "", Global.USERINFOMAP.get("nickname") + "",
+                                        Uri.parse(Global.USERINFOMAP.get("avatar") + "")));
 //                                TextMessage tm = (TextMessage) message.getContent();
 //                                SpannableString temContent = faceConversionUtil.getExpressionString(mContext, tm.getContent());
 //                                TextMessage myTextMessage = TextMessage.obtain("aaaaa" + "");
@@ -280,8 +280,8 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
     //刷新用户信息
     public void refreshUserInfo() {
         if (RongIM.getInstance() != null) {
-            RongIM.getInstance().refreshUserInfoCache(new UserInfo(Global.USERINFOMAP.get("id"), Global.USERINFOMAP.get("realname"),
-                    Uri.parse(Global.USERINFOMAP.get("avatar"))));
+            RongIM.getInstance().refreshUserInfoCache(new UserInfo(Global.USERINFOMAP.get("id") + "", Global.USERINFOMAP.get("realname") + "",
+                    Uri.parse(Global.USERINFOMAP.get("avatar") + "")));
         }
     }
 
@@ -297,11 +297,9 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
     }
 
 
-
     public void ignoreUnreadMessage(String targetID) {
         RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, targetID);
     }
-
 
 
     /**
@@ -463,7 +461,7 @@ public class RongUtils implements RongIM.ConversationBehaviorListener {
             @Override
             public void onCountChanged(int i) {
                 //先查看是否有系统消息
-                Conversation conversion = RongIM.getInstance().getConversation(Conversation.ConversationType.PRIVATE, Global.USERINFOMAP.get("adminid"));
+                Conversation conversion = RongIM.getInstance().getConversation(Conversation.ConversationType.PRIVATE, Global.USERINFOMAP.get("adminid") + "");
 
                 //
                 Bundle bundle = new Bundle();

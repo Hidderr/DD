@@ -72,7 +72,7 @@ public class Global {
     public static final String localVideoPath = "video"; // 应用的视频存放目录
     public static final String localAudioPath = "audio"; // 应用的音频存放目录
     public static String NOTICE_MSG_TYPE = ""; // 通知下发，携带的数据
-    public static Map<String, String> USERINFOMAP = null;  //用户信息
+    public static Map<String, Object> USERINFOMAP = null;  //用户信息
     public static Map<String, String> H5Map = null;  //所有的h5
     //当前定位的数据
     public static String locationCity = ""; // 定位城市

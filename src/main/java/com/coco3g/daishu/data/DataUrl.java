@@ -137,6 +137,14 @@ public class DataUrl {
      **/
     public static final String DEL_CONTACT_RECORD = BASE_URL + "member/chat_del";
     /**
+     * 获取我的汽车
+     **/
+    public static final String GET_MY_CAR = BASE_URL + "member_car/get_mycar";
+    /**
+     * 获取绑定汽车保姆的url
+     **/
+    public static final String GET_MY_CAR_BANGDING_BAOMU_URL = BASE_URL + "member_car/get_cbm_url";
+    /**
      * 微信支付统一下单接口  http://xuanhong.test.coco3g.com/v1/pay/get_weixin_prepay_id
      **/
     public static final String WEIXIN_PAY_GET_PREPAYID = BASE_URL + "/pay/get_weixin_prepay_id";

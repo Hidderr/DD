@@ -178,10 +178,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(BaseDataBean data) {
                 if (data.code == 200) {
-                    Global.USERINFOMAP = (Map<String, String>) data.response;
+                    Global.USERINFOMAP = (Map<String, Object>) data.response;
                     Global.savePassWord(LoginActivity.this, mLoginPassWord);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), mLoginPassWord, Global.LOGIN_INFO);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname"), mLoginPassWord, Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO);
+                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO_LAST);
                     //
                     if (Global.MAINACTIVITY_CONTEXT != null) {
                         ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
@@ -253,9 +253,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (data.response == null) {
                     return;
                 }
-                Global.USERINFOMAP = (Map<String, String>) data.response;
-                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone"), mPassWord, avatar, Global.LOGIN_INFO);
-                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone"), mPassWord, avatar, Global.LOGIN_INFO_LAST);
+                Global.USERINFOMAP = (Map<String, Object>) data.response;
+                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone") + "", mPassWord, avatar, Global.LOGIN_INFO);
+                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone") + "", mPassWord, avatar, Global.LOGIN_INFO_LAST);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

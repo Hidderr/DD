@@ -228,10 +228,10 @@ public class StartActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(BaseDataBean data) {
                 if (data.code == 200) {
-                    Global.USERINFOMAP = (Map<String, String>) data.response;
+                    Global.USERINFOMAP = (Map<String, Object>) data.response;
                     Global.savePassWord(StartActivity.this, password);
-                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO);
-                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname"), password, Global.LOGIN_INFO_LAST);
+                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname") + "", password, Global.LOGIN_INFO);
+                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname") + "", password, Global.LOGIN_INFO_LAST);
                     //
                     new RongUtils(StartActivity.this).init();
 //                    Intent intent = new Intent(StartActivity.this, MainActivity.class);

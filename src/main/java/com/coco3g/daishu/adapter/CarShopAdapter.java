@@ -1,6 +1,7 @@
 package com.coco3g.daishu.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,11 +91,15 @@ public class CarShopAdapter extends BaseAdapter {
 
         Map<String, String> map = mList.get(position);
 
-        ImageLoader.getInstance().displayImage(map.get("thumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
-        //
-        viewHolder.mTxtName.setText(map.get("title"));
-
-
+        if (!TextUtils.isEmpty(map.get("title")) && !TextUtils.isEmpty(map.get("thumb"))) {
+            ImageLoader.getInstance().displayImage(map.get("thumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+            //
+            viewHolder.mTxtName.setText(map.get("title"));
+        } else {   //适配器在个人信息里面还用到过
+            ImageLoader.getInstance().displayImage(map.get("brandthumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+            //
+            viewHolder.mTxtName.setText(map.get("chepai"));
+        }
         return view;
     }
 

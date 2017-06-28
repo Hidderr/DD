@@ -112,7 +112,7 @@
                         android:drawablePadding="8dp"
                         android:drawableTop="@mipmap/pic_nearby_store_icon"
                         android:gravity="center"
-                        android:text="附近门店"
+                        android:text="洗车"
                         android:textColor="@color/text_color_1"
                         android:textSize="14sp" />
 

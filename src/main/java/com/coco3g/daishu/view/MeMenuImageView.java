@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 public class MeMenuImageView extends LinearLayout {
@@ -45,6 +47,16 @@ public class MeMenuImageView extends LinearLayout {
         mImageIcon.setImageResource(resID);
         mTxtTitle.setText(title);
     }
+
+    public void setIcon(String resID, String title) {
+        ImageLoader.getInstance().displayImage(resID,mImageIcon,new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+        mTxtTitle.setText(title);
+    }
+
+    public void setTextColor(int color) {
+        mTxtTitle.setTextColor(color);
+    }
+
 
     public void setSelected(int index, boolean selected) {
         super.setSelected(selected);

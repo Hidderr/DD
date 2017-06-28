@@ -239,7 +239,7 @@ public class MyWebView extends RelativeLayout {
                 return true;
             }
         });
-        if (Global.USERINFOMAP != null && !TextUtils.isEmpty(Global.USERINFOMAP.get("id"))) {
+        if (Global.USERINFOMAP != null && !TextUtils.isEmpty(Global.USERINFOMAP.get("id")+"")) {
             CookieSyncManager.createInstance(mContext);
             CookieManager cookieManager = CookieManager.getInstance();
             String cookie = cookieManager.getCookie("cookie");
