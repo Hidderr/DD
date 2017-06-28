@@ -55,7 +55,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     String[] mMeInfoTitles = new String[]{"购物车", "收藏", "优惠券", "地址管理", "账户余额", "服务账单", "合同摘要", "会员升级"};
     //
-    Drawable drawableRight, drawableDown;
+    Drawable drawableLeft, drawableRight, drawableDown;
     boolean isNurseExpands = false;
 
     private RelativeLayout.LayoutParams avatar_lp;
@@ -74,6 +74,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         //
         drawableRight = getResources().getDrawable(R.mipmap.pic_arrow_grey_right);
         drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
+        drawableLeft = getResources().getDrawable(R.mipmap.pic_my_car_icon);
+        drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
         drawableDown = getResources().getDrawable(R.mipmap.pic_arrow_grey_down);
         drawableDown.setBounds(0, 0, drawableDown.getMinimumWidth(), drawableDown.getMinimumHeight());
         return mMeView;
@@ -161,12 +163,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_me_mime_car_nurse: // 车保姆面板
                 if (isNurseExpands) { // 隐藏
                     isNurseExpands = false;
-                    mTxtCarNurse.setCompoundDrawables(null, null, drawableRight, null);
+                    mTxtCarNurse.setCompoundDrawables(drawableLeft, null, drawableRight, null);
                     mTxtCarNurse.setCompoundDrawablePadding(10);
                     mHorizontalScroll.setVisibility(View.GONE);
                 } else { // 展开
                     isNurseExpands = true;
-                    mTxtCarNurse.setCompoundDrawables(null, null, drawableDown, null);
+                    mTxtCarNurse.setCompoundDrawables(drawableLeft, null, drawableDown, null);
                     mTxtCarNurse.setCompoundDrawablePadding(10);
                     mHorizontalScroll.setVisibility(View.VISIBLE);
                 }
