@@ -49,10 +49,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     RelativeLayout mRelativeInfo, mRelativeShopping;
     TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType, mTxtAddMyCar;
     //
-    MeMenuImageView meMenu1, meMenu2, meMenu3, meMenu4;
+    MeMenuImageView meMenu1, meMenuDaiFaHuo, meMenu2, meMenu3, meMenu4;
     MeMenuImageView[] meMenus;
-    int[] mShoppingResID = new int[]{R.mipmap.pic_dai_pay_money_icon, R.mipmap.pic_dai_shou_huo_icon, R.mipmap.pic_dai_comment_icon, R.mipmap.pic_shou_hou_icon};
-    String[] mShoppingTitles = new String[]{"待付款", "待收货", "待评价", "售后"};
+    int[] mShoppingResID = new int[]{R.mipmap.pic_dai_pay_money_icon, R.mipmap.pic_dai_fahuo_icon, R.mipmap.pic_dai_shou_huo_icon, R.mipmap.pic_dai_comment_icon, R.mipmap.pic_shou_hou_icon};
+    String[] mShoppingTitles = new String[]{"待付款", "待发货", "待收货", "待评价", "售后"};
     //
     HomeMenuImageView mHomeMenu1, mHomeMenu2, mHomeMenu3, mHomeMenu4, mHomeMenu5, mHomeMenu6, mHomeMenu7, mHomeMenu8;
     HomeMenuImageView[] mHomeMenus;
@@ -69,7 +69,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     boolean meFragIsVisible = true; //meFragment在MainActivity中是否可见
 
 
-    //
+//
 //    OnLogoutListener onLogoutListener;
 
 
@@ -110,10 +110,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mImageAvatar.setLayoutParams(avatar_lp);
         //
         meMenu1 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_1);
+        meMenuDaiFaHuo = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_fa_huo);
         meMenu2 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_2);
         meMenu3 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_3);
         meMenu4 = (MeMenuImageView) mMeView.findViewById(R.id.view_me_menu_4);
-        meMenus = new MeMenuImageView[]{meMenu1, meMenu2, meMenu3, meMenu4};
+        meMenus = new MeMenuImageView[]{meMenu1, meMenuDaiFaHuo, meMenu2, meMenu3, meMenu4};
         mHomeMenu1 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_5);
         mHomeMenu2 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_6);
         mHomeMenu3 = (HomeMenuImageView) mMeView.findViewById(R.id.view_me_menu_7);
@@ -144,6 +145,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
         //
         meMenu1.setOnClickListener(this);
+        meMenuDaiFaHuo.setOnClickListener(this);
         meMenu2.setOnClickListener(this);
         meMenu3.setOnClickListener(this);
         meMenu4.setOnClickListener(this);
@@ -198,6 +200,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_me_menu_1:  //代付款
                 intentToWeb(Global.H5Map.get("notpayment"));
+
+                break;
+
+            case R.id.view_me_menu_fa_huo:  //代发货
+                intentToWeb(Global.H5Map.get("notsend"));
 
                 break;
             case R.id.view_me_menu_2:  //待收货
@@ -421,7 +428,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             ImageLoader.getInstance().displayImage(guangGaoList.get(i).get("image"), imageView, new DisplayImageOptionsUtils().init());
             //
             mLinearGuangGao.addView(imageView);
-            //
+//
             final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -463,7 +470,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             }
         }
         //添加新增绑定接口
-
         MeMenuImageView meMenuImageView = new MeMenuImageView(getActivity());
         meMenuImageView.setIcon(R.mipmap.pic_me_car_add, "新增绑定");
         meMenuImageView.setTextColor(R.color.text_color_1);

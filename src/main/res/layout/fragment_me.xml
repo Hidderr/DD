@@ -201,10 +201,17 @@
             android:layout_marginTop="1dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:weightSum="4">
+            android:weightSum="5">
 
             <com.coco3g.daishu.view.MeMenuImageView
                 android:id="@+id/view_me_menu_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+            <com.coco3g.daishu.view.MeMenuImageView
+                android:id="@+id/view_me_menu_fa_huo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
