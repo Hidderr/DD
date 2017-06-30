@@ -68,6 +68,8 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
 
     private int currPage = 1;
 
+    private String currLocation = "";//当前所在的区的地址
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,17 +180,15 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.image_shai_xuan_list_curr_location:   //当前位置定位
-                startLocation(true);
+                startLocation(false);
 
                 break;
         }
-
-
     }
 
 
     //定位
-    public void startLocation(boolean isGetList) {
+    public void startLocation(final boolean isGetList) {
         new RequestPermissionUtils(this).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
         //定位
         new LocationUtil(this).initLocationAndStart(true, 1000, false, null).setAMapLocationChanged(new LocationUtil.AMapLocationChanged() {
@@ -204,8 +204,11 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 mRelativeCurrLocation.setVisibility(View.VISIBLE);
                 mTxtCurrLocation.setText(aMapLocation.getCity() + aMapLocation.getAoiName() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
                 mTxtAddress.setText(aMapLocation.getDistrict());
+                currLocation = aMapLocation.getDistrict();
                 //
-                getShaiXuanList(aMapLocation.getCity());
+                if (isGetList) {
+                    getShaiXuanList(aMapLocation.getCity());
+                }
             }
         });
     }
@@ -217,12 +220,13 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
         }
         ArrayList<Map<String, String>> typeList = new ArrayList<>();
         typeList = types[typePosition];
-        popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4, 0, typeList, currSelected[typePosition]);
+        popupwindow = new ChoosePopupwindow(this, Global.screenWidth, 0, typeList, currSelected[typePosition], currLocation);
         popupwindow.showAsDropDown(view, -5, 0);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override
             public void textSelected(int position) {
                 if (typePosition == 0) {
+                    currLocation = "";
                     currSelected[2] = -1;
                 } else if (typePosition == 2) {
                     currSelected[0] = -1;
@@ -263,6 +267,19 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 shaiXuanList = (ArrayList<Map<String, String>>) map.get("joinlist");
                 //
                 types = new ArrayList[]{addressList, storeTypeList, orderList, shaiXuanList};
+                //
+                Map<String, String> city = new HashMap<String, String>();
+//                city.put("title", Global.locationCity);
+                city.put("title", "全部");
+                city.put("id", "0");
+                addressList.add(0, city);
+                //查找当前定位的区
+                for (int i = 0; i < addressList.size(); i++) {
+                    if (currLocation.equals(addressList.get(i).get("title"))) {
+                        currSelected[0] = i;
+                        break;
+                    }
+                }
                 //
                 getStoreList();
             }

@@ -2,6 +2,7 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,7 @@ public class OilStoreAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(mContext).inflate(R.layout.a_oil_store_item, null);
             viewHolder.mImageThumb = (ImageView) view.findViewById(R.id.image_oil_store_item_thumb);
+            viewHolder.mImageTakePhone = (ImageView) view.findViewById(R.id.image_store_shai_xuan_item_phone);
             viewHolder.mImageThumb.setLayoutParams(lp);
             viewHolder.mImageThumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
             viewHolder.mTxtName = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_name);
@@ -133,13 +135,20 @@ public class OilStoreAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
+        viewHolder.mImageTakePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + storeMap.get("phone")));
+                mContext.startActivity(intent);
+            }
+        });
 
 
         return view;
     }
 
     private class ViewHolder {
-        public ImageView mImageThumb;
+        public ImageView mImageThumb, mImageTakePhone;
         public RelativeLayout mRelativeRoot;
         public TextView mTxtName, mTxtOil92, mTxtOil95, mTxtPrice92, mTxtPrice95, mTxtAddress, mTxtDistance;
     }

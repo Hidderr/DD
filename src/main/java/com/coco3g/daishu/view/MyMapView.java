@@ -69,7 +69,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     boolean showDialog;
 
     //
-    private String typeid = "";  //获取的地点类型  	-1=洗车店，1=维修养护和维修救援 ,-1 :某个汽车类型的某个配置的车型的最新报价
+    private String typeid = "";  //获取的地点类型  	2=洗车店，1=维修养护和维修救援 ,-1 :某个汽车类型的某个配置的车型的最新报价
     private String carid = "";  //汽车最新报价的id
 
 
@@ -199,19 +199,29 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                 locationSuccessed(new LatLng(mCurrLat, mCurrLng));
 
                 if (mCurrLat != 0 && mCurrLng != 0) {
+                    //
+                    if (mlastMarker != null) {
+                        resetlastmarker();
+                    }
+                    //清理之前搜索结果的marker
+                    if (poiOverlay != null) {
+                        poiOverlay.removeFromMap();
+                        poiOverlay = null;
+                    }
+                    aMap.clear();
+                    //
                     if (showDialog) {
-
-                        if (typeid.equals("-1")) {
+                        if (typeid.equals("-1")) {  //洗车
                             getNewestOffer(true);
                         } else {
-                            getRepairStoreList(getResources().getString(R.string.loading), true);  //接口获取信息
+                            getRepairStoreList(getResources().getString(R.string.loading), true);  //维修养护
                         }
 
                     } else {
-                        if (typeid.equals("-1")) {
+                        if (typeid.equals("-1")) {   //洗车
                             getNewestOffer(true);
                         } else {
-                            getRepairStoreList(null, true);  //接口获取信息
+                            getRepairStoreList(null, true);  //维修养护
                         }
                     }
                 }
@@ -326,7 +336,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
         params.put("lng", mCurrLatLonPoint.getLongitude() + "");
         params.put("distance", mBaseDistance + "");
         if (!TextUtils.isEmpty(typeid)) {
-            params.put("joinid", typeid);  //-1=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+            params.put("joinid", typeid);  //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
         }
         Log.e("地图传参", "distance " + mBaseDistance + "   joinid " + typeid);
         new BaseDataPresenter(mContext).loadData(DataUrl.GET_REPAIR_STORE, params, loadMsg, new IBaseDataListener() {
@@ -354,7 +364,7 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     }
 
 
-    //
+    //获取汽车最新报价的店
     public void getNewestOffer(final boolean isZoomToSpan) {
         HashMap<String, String> params = new HashMap<>();
         params.put("carid", carid);

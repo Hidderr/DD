@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_vip_icon, R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_insurance,
             R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_menu_borrow_money_service};
-    String[] mNavTitles = new String[]{"我的汽车", "会员服务", "我要买车", "低价车险", "车载用品", "折扣油站", "二手车", "借款服务"};
+    String[] mNavTitles = new String[]{"我的汽车", "会员服务", "我要买车", "低价车险", "爱车改装", "折扣油站", "二手车", "借款服务"};
     //
     OnRepairClickListener onRepairClickListener = null;
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.view_home_menu_1:  //我的汽车
-                intentToWeb(Global.H5Map.get("mycar"));
+                intentToWeb(Global.H5Map.get("mycar"), false);
 
                 break;
 
@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_4: //低价车险
-                intentToWeb(Global.H5Map.get("baoxian"));
+                intentToWeb(Global.H5Map.get("baoxian"), true);
 
 //                //违章查询
 //                if (!Global.checkoutLogin(getActivity())) {
@@ -191,7 +191,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.view_home_menu_5:  //车载用品
+            case R.id.view_home_menu_5:  //爱车改装
 
                 intent = new Intent(getActivity(), CategoryActivity.class);
                 startActivity(intent);
@@ -206,14 +206,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.view_home_menu_7:  //二手车
-                intentToWeb(Global.H5Map.get("used_car"));
+                intentToWeb(Global.H5Map.get("used_car"), false);
 
 
                 break;
 
             case R.id.view_home_menu_8:  //  借款服务
-                intentToWeb(Global.H5Map.get("daikuan"));
-
+                intentToWeb(Global.H5Map.get("daikuan"), false);
 
                 break;
 
@@ -221,25 +220,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void intentToWeb(String url) {
+    public void intentToWeb(String url, boolean hideTopbar) {
         if (!Global.checkoutLogin(getActivity())) {
             return;
         }
+
         if (url.equals("#")) {
             return;
         }
 
         if (url.startsWith("http://coco3g-app/open_tabview")) {
-            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(mContext);
+            TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(getActivity());
             typevauleGotoDictionary.gotoViewChoose(url);
             return;
         }
 
-        Intent intent = new Intent(mContext, WebActivity.class);
+        Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", url);
+        if (hideTopbar) {
+            intent.putExtra("hidetopbar", true);
+        }
         startActivity(intent);
     }
-
 
     //获取banner图片
     public void getBanner() {

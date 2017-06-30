@@ -47,6 +47,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
 
     private ArrayList<Map<String, String>> gradeList;  //维修等级
     private int currChooseIndex = -1;
+    private String currChooseTitle = "";
 
     private Marker detailMarker;
     private LatLonPoint mCurrLatLonPoint = null;
@@ -141,7 +142,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.image_repair_website_store_route:
+            case R.id.image_repair_website_store_route:  //路线导航
                 intent = new Intent(this, DriveRouteActivity.class);
                 PoiItem mCurrentPoi = (PoiItem) detailMarker.getObject();
                 RepairStoreBean bean = new RepairStoreBean();
@@ -171,7 +172,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     }
 
     public void showPopupWidnow() {
-        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 4 - 70, 0, gradeList, currChooseIndex);
+        final ChoosePopupwindow popupwindow = new ChoosePopupwindow(this, Global.screenWidth, 0, gradeList, currChooseIndex, null);
         popupwindow.showAsDropDown(rightView, -5, 35);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override
@@ -217,7 +218,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
         new BaseDataPresenter(this).loadData(DataUrl.GET_REPAIR_GRAGE_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                Map<String,Object> map = (Map<String, Object>) data.response;
+                Map<String, Object> map = (Map<String, Object>) data.response;
                 gradeList = (ArrayList<Map<String, String>>) map.get("joinlist");
             }
 

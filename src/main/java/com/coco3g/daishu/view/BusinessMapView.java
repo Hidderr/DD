@@ -39,7 +39,7 @@ public class BusinessMapView extends RelativeLayout implements View.OnClickListe
     private ImageView mImageThumb, mImageRoute;
     //
 
-    private String typeid = "-1";  //获取的地点类型  	门店类型：1=洗车店，2=维修点，3=附近门店 4=维修养护 ,-1 = 汽车最新报价
+    private String typeid = "-1";  //获取的地点类型  	门店类型：1=洗车店，2=维修点 ,-1 = 汽车最新报价
 
     private Marker detailMarker;
     private LatLonPoint mCurrLatLonPoint = null;

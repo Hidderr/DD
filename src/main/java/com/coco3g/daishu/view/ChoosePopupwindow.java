@@ -2,7 +2,9 @@ package com.coco3g.daishu.view;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,7 +29,8 @@ public class ChoosePopupwindow extends PopupWindow {
     OnTextSeclectedListener onTextSeclectedListener;
 
 
-    public ChoosePopupwindow(final Context mContext, int width, int height, ArrayList<Map<String, String>> infoList, int selectedIndex) {
+    public ChoosePopupwindow(final Context mContext, int width, int height, ArrayList<Map<String, String>> infoList, int selectedIndex,
+                             String selectedTitle) {
         this.mContext = mContext;
 
         LinearLayout linearLayout;
@@ -40,16 +43,24 @@ public class ChoosePopupwindow extends PopupWindow {
             final TextView textView = new TextView(mContext);
             if (selectedIndex == i) {
                 textView.setTextColor(mContext.getResources().getColor(R.color.text_color_red_2));
+                Drawable drawable = ContextCompat.getDrawable(mContext, R.mipmap.pic_dui_hao_icon);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                textView.setCompoundDrawables(null, null, drawable, null);
+            } else if (!TextUtils.isEmpty(selectedTitle) && selectedTitle.equals(infoList.get(i).get("title"))) {
+                textView.setTextColor(mContext.getResources().getColor(R.color.text_color_red_2));
+                Drawable drawable = ContextCompat.getDrawable(mContext, R.mipmap.pic_dui_hao_icon);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                textView.setCompoundDrawables(null, null, drawable, null);
             } else {
                 textView.setTextColor(mContext.getResources().getColor(R.color.text_color_2));
             }
 //            textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.selector_txt_yellow_color));
-            textView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.white));
-            textView.setPadding(0, margin_8, 0, margin_8);
+            textView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
             textView.setText(infoList.get(i).get("title"));
             textView.setTextSize(14f);
+            textView.setPadding(Global.dipTopx(mContext, 30f), margin_8, Global.dipTopx(mContext, 30f), margin_8);
             textView.setTag(i);
-            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView.setGravity(Gravity.START);
             //
             LinearLayout.LayoutParams txt_lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);

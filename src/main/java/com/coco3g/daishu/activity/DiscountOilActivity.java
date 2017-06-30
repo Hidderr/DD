@@ -63,6 +63,7 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
 
     private ArrayList<Map<String, String>>[] types;
     private int currSelected[] = new int[]{-1, -1, -1};
+    private String currLocation = "";//当前所在的区的地址
 
     private int currPosition;
     private ChoosePopupwindow popupwindow;
@@ -189,7 +190,8 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
                 Global.mCurrLng = currLng = aMapLocation.getLongitude();
                 //
 //                mTopbar.setLocationCity(Global.locationCity);
-                mTxtAddress.setText(Global.locationCity);
+                mTxtAddress.setText(aMapLocation.getDistrict());
+                currLocation = aMapLocation.getDistrict();
                 Log.e("定位结果", "city " + Global.locationCity + "  mCurrLat   " + Global.mCurrLat + "  mCurrLng" + Global.mCurrLng);
                 //
                 getShaiXuanList(aMapLocation.getCity());
@@ -203,12 +205,15 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
         }
         ArrayList<Map<String, String>> typeList = new ArrayList<>();
         typeList = types[typePosition];
-        popupwindow = new ChoosePopupwindow(this, Global.screenWidth / 3, 0, typeList, currSelected[typePosition]);
+        popupwindow = new ChoosePopupwindow(this, Global.screenWidth, 0, typeList, currSelected[typePosition], null);
         popupwindow.showAsDropDown(view, -5, 0);
         popupwindow.setOnTextSeclectedListener(new ChoosePopupwindow.OnTextSeclectedListener() {
             @Override
             public void textSelected(int position) {
                 if (typePosition == 0 || typePosition == 2) {
+                    if (typePosition == 0) {
+                        currLocation = "";
+                    }
                     currSelected[1] = -1;
                 } else if (typePosition == 1) {
                     currSelected[0] = -1;
@@ -266,9 +271,17 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
                 oilList = (ArrayList<Map<String, String>>) map.get("yklist");
                 //
                 Map<String, String> city = new HashMap<String, String>();
-                city.put("title", Global.locationCity);
+//                city.put("title", Global.locationCity);
+                city.put("title", "全部");
                 city.put("id", "0");
                 addressList.add(0, city);
+                //查找当前定位的区
+                for (int i = 0; i < addressList.size(); i++) {
+                    if (currLocation.equals(addressList.get(i).get("title"))) {
+                        currSelected[0] = i;
+                        break;
+                    }
+                }
                 //
                 types = new ArrayList[]{addressList, orderList, shaiXuanList};
                 oilTypes = new String[oilList.size()];
