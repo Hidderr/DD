@@ -199,7 +199,7 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 Global.mCurrLng = currLng = aMapLocation.getLongitude();
                 //
                 mTopbar.setLocationCity(Global.locationCity);
-                Log.e("定位结果", "city " + Global.locationCity + "  mCurrLat   " + Global.mCurrLat + "  mCurrLng" + Global.mCurrLng);
+                Log.e("定位结果", "city " + Global.locationCity + "   **"+aMapLocation.getDistrict());
                 //
                 mRelativeCurrLocation.setVisibility(View.VISIBLE);
                 mTxtCurrLocation.setText(aMapLocation.getCity() + aMapLocation.getAoiName() + aMapLocation.getStreet() + aMapLocation.getStreetNum());

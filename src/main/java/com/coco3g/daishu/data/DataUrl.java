@@ -129,6 +129,10 @@ public class DataUrl {
      **/
     public static final String GET_CAR_TYPE_DETIL = BASE_URL + "cartype/get_car_detail";
     /**
+     * 获取维修点详情
+     **/
+    public static final String GET_STORE_DETAIL = BASE_URL + "store/get_detail";
+    /**
      * 获取联系人列表
      **/
     public static final String GET_CONTACT_LIST = BASE_URL + "member/get_chat_list";

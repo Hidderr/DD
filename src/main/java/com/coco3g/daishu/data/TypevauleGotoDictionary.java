@@ -7,21 +7,24 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 
-import com.andview.refreshview.callback.IFooterCallBack;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.BrowseImageActivity;
+import com.coco3g.daishu.activity.DriveRouteActivity;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.bean.LocationBean;
+import com.coco3g.daishu.bean.RepairStoreBean;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.net.utils.RongUtils;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
@@ -186,16 +189,17 @@ public class TypevauleGotoDictionary {
                 e.printStackTrace();
             }
         } else if (value.startsWith(OPEN_NEW_WINDOW)) {  /***git push -u origin master打开指定界面(newtag代表指定界面的标识)***/
-            Global.showToast("打开指定界面还未做好", mContext);
+//            Global.showToast("打开指定界面还未做好", mContext);
 
 
-
-
-
-
-
-
-
+            if (hashMap.get("newtag").equals("navigation")) {  //维修点导航
+                String id = hashMap.get("data");
+                String store_id = new String(Base64.decode(id, Base64.DEFAULT));
+                Gson gson = new Gson();
+                StoreId storeId = gson.fromJson(store_id, StoreId.class);
+                Log.e("解码", storeId.id);
+                getStoreDetail(storeId.id);
+            }
 
 
         } else if (value.startsWith(LOGOUT)) {  /***注销登录***/
@@ -546,6 +550,51 @@ public class TypevauleGotoDictionary {
                         mWebview.loadUrl(map.get("url"), Global.getTokenTimeStampHeader(mContext));
                     }
                 }
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+
+    class StoreId {
+        public String id;
+    }
+
+    /**
+     * 获取未修点详情
+     */
+    public void getStoreDetail(String id) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", id);
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_STORE_DETAIL, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                Map<String, String> storeMap = (Map<String, String>) data.response;
+                Intent intent = new Intent(mContext, DriveRouteActivity.class);
+                RepairStoreBean bean = new RepairStoreBean();
+                bean.lat = Double.parseDouble(storeMap.get("lat"));
+                bean.lng = Double.parseDouble(storeMap.get("lng"));
+                bean.photos = storeMap.get("thumb");
+                bean.title = storeMap.get("name");
+                bean.address = storeMap.get("address");
+                bean.phone = storeMap.get("phone");
+                //
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("data", bean);
+                intent.putExtras(bundle);
+                intent.putExtra("startlat", Global.mCurrLat);
+                intent.putExtra("startlng", Global.mCurrLng);
+                mContext.startActivity(intent);
 
             }
 

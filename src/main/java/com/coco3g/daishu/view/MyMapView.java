@@ -191,8 +191,8 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                 }
                 //
                 String city = aMapLocation.getCity();
-                mCurrLat = aMapLocation.getLatitude();
-                mCurrLng = aMapLocation.getLongitude();
+                Global.mCurrLat = mCurrLat = aMapLocation.getLatitude();
+                Global.mCurrLng = mCurrLng = aMapLocation.getLongitude();
                 Log.e("定位结果", "city " + city + "  mCurrLat   " + mCurrLat + "  mCurrLng" + mCurrLng);
 
                 mCurrLatLonPoint = new LatLonPoint(mCurrLat, mCurrLng);
