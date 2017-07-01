@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.adapter.MemberServiceAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.Constants;
 import com.coco3g.daishu.data.DataUrl;
@@ -16,6 +17,7 @@ import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BannerView;
+import com.coco3g.daishu.view.MyListView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.coco3g.daishu.view.TopBarView;
 import com.sunfusheng.marqueeview.MarqueeView;
@@ -39,6 +41,10 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private LinearLayout mLinearRoot;
     //
     private ArrayList<Map<String, String>> mBroadCastList;
+    //
+    private MyListView mListView;
+    private MemberServiceAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +66,14 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         mTxtVisitingService = (TextView) findViewById(R.id.tv_member_service_income_visiting_service);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_member_service);
         mLinearRoot = (LinearLayout) findViewById(R.id.tv_member_service_root);
+        mListView = (MyListView) findViewById(R.id.listview_member_service);
         mLinearRoot.setVisibility(View.GONE);
         //
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
+                mBanner.clearList();
+                mAdapter.clearList();
                 getBanner();
             }
 
@@ -78,6 +87,9 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         mTxtRepair.setOnClickListener(this);
         mTxtNearbyStore.setOnClickListener(this);
         mTxtVisitingService.setOnClickListener(this);
+        //
+        mAdapter = new MemberServiceAdapter(this);
+        mListView.setAdapter(mAdapter);
     }
 
 
@@ -179,9 +191,41 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                     marqueeView.startWithList(list);
                 }
                 //
+                getGuangGaoList();
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, MemberServiceActivity.this);
+                mSuperRefresh.onLoadComplete();
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefresh.onLoadComplete();
+            }
+        });
+    }
+
+
+    //获取广告列表
+    public void getGuangGaoList() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", "1");
+        params.put("catid", "3");
+        new BaseDataPresenter(MemberServiceActivity.this).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+
+                ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;
+                if (mList == null || mList.size() <= 0) {
+                    mSuperRefresh.onLoadComplete();
+                    return;
+                }
+                mAdapter.setList(mList);
+                //
                 mLinearRoot.setVisibility(View.VISIBLE);
                 mSuperRefresh.onLoadComplete();
-                mSuperRefresh.setEnabled(false);
             }
 
             @Override

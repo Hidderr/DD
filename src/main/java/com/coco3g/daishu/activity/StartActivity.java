@@ -118,36 +118,36 @@ public class StartActivity extends Activity implements View.OnClickListener {
         }
     }
 
+//
+//    private void timerControl() {
+//        mTimer = new Timer();
+//        mTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        showComeIn();
+//                        mTimer.cancel();
+//                    }
+//                });
+//            }
+//        };
+//        mTimer.schedule(mTask, 1000, 1000);
+//    }
 
-    private void timerControl() {
-        mTimer = new Timer();
-        mTask = new TimerTask() {
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showComeIn();
-                        mTimer.cancel();
-                    }
-                });
-            }
-        };
-        mTimer.schedule(mTask, 1000, 1000);
-    }
-
-    /**
-     * 播放视频过程中,显示登录注册按钮
-     */
-    private void showComeIn() {
-        mTxtComeIn.setVisibility(View.VISIBLE);
-        PropertyValuesHolder pvhZ = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(mTxtComeIn, pvhZ);
-        animator.setDuration(1000);// 动画时间
-        animator.setInterpolator(new LinearInterpolator());// 动画插值
-        animator.start();
-    }
+//    /**
+//     * 播放视频过程中,显示登录注册按钮
+//     */
+//    private void showComeIn() {
+//        mTxtComeIn.setVisibility(View.VISIBLE);
+//        PropertyValuesHolder pvhZ = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
+//        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(mTxtComeIn, pvhZ);
+//        animator.setDuration(1000);// 动画时间
+//        animator.setInterpolator(new LinearInterpolator());// 动画插值
+//        animator.start();
+//    }
 
 
     private void init() {

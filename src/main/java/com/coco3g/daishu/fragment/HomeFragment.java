@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     HomeAdapter mAdapter;
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_vip_icon, R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_insurance,
-            R.mipmap.pic_menu_car_goodsing, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_menu_borrow_money_service};
+            R.mipmap.pic_car_gai_zhuang_icon, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_menu_borrow_money_service};
     String[] mNavTitles = new String[]{"我的汽车", "会员服务", "我要买车", "低价车险", "爱车改装", "折扣油站", "二手车", "借款服务"};
     //
     OnRepairClickListener onRepairClickListener = null;
