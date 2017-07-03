@@ -193,7 +193,7 @@ public class MyWebView extends RelativeLayout {
                     intent.putExtra("url", url);
                     intent.putExtra("hidetopbar", hideTopbar);
                     mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
+//                    ((Activity) mContext).finish();
                     return true;
                 }
                 return false;
