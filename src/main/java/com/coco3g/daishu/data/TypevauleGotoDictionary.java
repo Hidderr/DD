@@ -203,6 +203,9 @@ public class TypevauleGotoDictionary {
             } else if (hashMap.get("newtag").equals("home")) {
                 ((Activity) mContext).finish();
                 new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.LOG_OUT, null);
+            } else if (hashMap.get("newtag").equals("login")) {
+                intent = new Intent(mContext, LoginActivity.class);
+                mContext.startActivity(intent);
             }
 
 
