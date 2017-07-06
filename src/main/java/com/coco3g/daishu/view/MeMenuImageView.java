@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -49,12 +50,22 @@ public class MeMenuImageView extends LinearLayout {
     }
 
     public void setIcon(String resID, String title) {
-        ImageLoader.getInstance().displayImage(resID,mImageIcon,new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+        ImageLoader.getInstance().displayImage(resID, mImageIcon, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
         mTxtTitle.setText(title);
     }
 
     public void setTextColor(int color) {
         mTxtTitle.setTextColor(color);
+    }
+
+
+    //在我的-爱车保姆，设置图片大小
+    public void setDrawableSize() {
+        RelativeLayout.LayoutParams image_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 8, Global.screenWidth / 10);
+        image_lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        image_lp.setMargins(0, Global.dipTopx(mContext, 3f), 0, 0);
+        mImageIcon.setLayoutParams(image_lp);
+
     }
 
 

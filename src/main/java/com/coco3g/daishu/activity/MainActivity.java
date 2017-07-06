@@ -14,6 +14,7 @@ import com.amap.api.location.AMapLocation;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.fragment.GoodsFragment;
+import com.coco3g.daishu.fragment.GoodsFragment1;
 import com.coco3g.daishu.fragment.HomeFragment;
 import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
@@ -41,7 +42,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private static FragmentManager mFragManager = null;
     //
     private HomeFragment mHomeFrag;
-    private GoodsFragment mGoodsFrag;
+    private GoodsFragment1 mGoodsFrag;
     private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
@@ -78,7 +79,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         mImageShop = (BottomNavImageView) findViewById(R.id.view_nav_shop);
         mImageMe = (BottomNavImageView) findViewById(R.id.view_nav_me);
         //
-        mNavTitles = new String[]{getString(R.string.nav_title_home), getString(R.string.nav_title_goods_hui), getString(R.string.nav_title_income), getString(R.string.nav_title_shop),
+        mNavTitles = new String[]{getString(R.string.nav_title_home), getString(R.string.nav_title_city_partner), getString(R.string.nav_title_income), getString(R.string.nav_title_shop),
                 getString(R.string.nav_title_me)};
         mImageRes = new BottomNavImageView[]{mImageHome, mImageRead, mImageIncome, mImageShop, mImageMe};
         for (int i = 0; i < mImageRes.length; i++) {
@@ -201,11 +202,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 break;
             case 1: // 商品汇
                 mTopbar.showNomalTopbar();
-                mTopbar.setTitle(getResources().getString(R.string.nav_title_goods_hui));
+                mTopbar.setTitle(getResources().getString(R.string.nav_title_city_partner));
                 mTopbar.setSettingVisible(false);
                 mTopbar.showJiangLi(false);
                 if (mGoodsFrag == null) {
-                    mGoodsFrag = new GoodsFragment();
+                    mGoodsFrag = new GoodsFragment1();
                     transaction.add(R.id.frame_main_content, mGoodsFrag);
                 } else {
                     transaction.show(mGoodsFrag);

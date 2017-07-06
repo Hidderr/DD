@@ -70,6 +70,7 @@
     <!--MainActivity-->
     <string name="nav_title_home">首页</string>
     <string name="nav_title_goods_hui">商品汇</string>
+    <string name="nav_title_city_partner">城市合伙人</string>
     <string name="nav_title_income">收益</string>
     <string name="nav_title_shop">维修救援</string>
     <string name="nav_title_me">我的</string>

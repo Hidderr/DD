@@ -47,7 +47,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     HorizontalScrollView mHorizontalScroll;
     LinearLayout mLinearGuangGao, mLinearMyCar;
     RelativeLayout mRelativeInfo, mRelativeShopping;
-    TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType, mTxtAddMyCar;
+    TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType;
     //
     MeMenuImageView meMenu1, meMenuDaiFaHuo, meMenu2, meMenu3, meMenu4;
     MeMenuImageView[] meMenus;
@@ -101,7 +101,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mTxtName = (TextView) mMeView.findViewById(R.id.tv_me_top_username);
         mTxtMemberID = (TextView) mMeView.findViewById(R.id.tv_me_top_member_id);
         mTxtMemberType = (TextView) mMeView.findViewById(R.id.tv_me_top_member_type);
-        mTxtAddMyCar = (TextView) mMeView.findViewById(R.id.tv_me_frag_add_my_car);
         mLinearGuangGao = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_guang_gao_List);
         mLinearMyCar = (LinearLayout) mMeView.findViewById(R.id.linear_me_car_binding);
         //
@@ -140,7 +139,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mImageQRCode.setOnClickListener(this);
 //        mTxtLogout.setOnClickListener(this);
         mRelativeInfo.setOnClickListener(this);
-        mTxtAddMyCar.setOnClickListener(this);
 
 
         //
@@ -190,11 +188,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.relative_me_frag_my_info:  //个人信息
                 intentToWeb(Global.H5Map.get("myinfo"));
-
-                break;
-
-            case R.id.tv_me_frag_add_my_car:  //新增绑定
-                getMyCar();
 
                 break;
 
@@ -356,6 +349,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    //展示个人信息
     public void setMyInfo() {
         //头像
         if (Global.USERINFOMAP != null) {
@@ -458,31 +452,34 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 MeMenuImageView meMenuImageView = new MeMenuImageView(getActivity());
                 meMenuImageView.setTextColor(R.color.text_color_1);
                 meMenuImageView.setIcon(myCarList.get(i).get("brandthumb"), myCarList.get(i).get("chepai"));
+//                meMenuImageView.setDrawableSize();
                 final int finalI = i;
                 meMenuImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), WebActivity.class);
                         intent.putExtra("url", myCarList.get(finalI).get("url"));
+                        startActivity(intent);
                     }
                 });
                 mLinearMyCar.addView(meMenuImageView);
             }
-        }
-        //添加新增绑定接口
-        MeMenuImageView meMenuImageView = new MeMenuImageView(getActivity());
-        meMenuImageView.setIcon(R.mipmap.pic_me_car_add, "新增绑定");
-        meMenuImageView.setTextColor(R.color.text_color_1);
-        meMenuImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Global.checkoutLogin(getActivity())) {
-                    getMyCar();
+        } else {
+            //添加新增绑定接口
+            MeMenuImageView meMenuImageView = new MeMenuImageView(getActivity());
+            meMenuImageView.setIcon(R.mipmap.pic_me_car_add, "新增绑定");
+//            meMenuImageView.setDrawableSize();
+            meMenuImageView.setTextColor(R.color.text_color_1);
+            meMenuImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Global.checkoutLogin(getActivity())) {
+                        getMyCar();
+                    }
                 }
-            }
-        });
-        mLinearMyCar.addView(meMenuImageView);
-
+            });
+            mLinearMyCar.addView(meMenuImageView);
+        }
     }
 
     //获取我的汽车

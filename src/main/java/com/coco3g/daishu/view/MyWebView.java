@@ -57,6 +57,8 @@ public class MyWebView extends RelativeLayout {
     ConfigTopBarMenu configtopbarmenu;
     public TypevauleGotoDictionary typevauleGotoDictionary;
 
+    private String coco3g_url = "";//协议Url,判断的时候用的到
+
     public MyWebView(Context context) {
         super(context);
         mContext = context;
@@ -172,6 +174,7 @@ public class MyWebView extends RelativeLayout {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub
                 Log.e("coco3g协议", url);
+
                 if (url.startsWith("tel:")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     mContext.startActivity(intent);
@@ -186,8 +189,19 @@ public class MyWebView extends RelativeLayout {
                 } else if (url.contains("http://www.zhixunchelian.com/bxtx/index.do?")) {
                     webView.loadUrl(url);
 
+                } else if (url.contains("http://open.iauto360.cn")) {  //车保姆
+                    if (!TextUtils.isEmpty(url) && url.startsWith("http://open.iauto360.cn/html/main.html?") ) {  //排除跳转两次
+                        webView.loadUrl(url);
+                    } else {
+                        mUrl  = url;
+                        Intent intent = new Intent(mContext, WebActivity.class);
+                        intent.putExtra("url", url);
+                        intent.putExtra("hidetopbar", hideTopbar);
+                        mContext.startActivity(intent);
+//                    ((Activity) mContext).finish();
+                        return true;
+                    }
                 } else {
-
                     mUrl = url;
                     Intent intent = new Intent(mContext, WebActivity.class);
                     intent.putExtra("url", url);
@@ -239,7 +253,7 @@ public class MyWebView extends RelativeLayout {
                 return true;
             }
         });
-        if (Global.USERINFOMAP != null && !TextUtils.isEmpty(Global.USERINFOMAP.get("id")+"")) {
+        if (Global.USERINFOMAP != null && !TextUtils.isEmpty(Global.USERINFOMAP.get("id") + "")) {
             CookieSyncManager.createInstance(mContext);
             CookieManager cookieManager = CookieManager.getInstance();
             String cookie = cookieManager.getCookie("cookie");
