@@ -199,6 +199,10 @@ public class TypevauleGotoDictionary {
                 StoreId storeId = gson.fromJson(store_id, StoreId.class);
                 Log.e("解码", storeId.id);
                 getStoreDetail(storeId.id);
+
+            } else if (hashMap.get("newtag").equals("home")) {
+                ((Activity) mContext).finish();
+                new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.LOG_OUT, null);
             }
 
 

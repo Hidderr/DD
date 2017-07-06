@@ -93,7 +93,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //
         mFragManager = getSupportFragmentManager();
         setTabSelection(0);
-        // 接收融云未读消息（私聊）的广播
+        // 退出登录后返回到首页
         mLogoutBroadcast = new Coco3gBroadcastUtils(MainActivity.this);
         mLogoutBroadcast.receiveBroadcast(Coco3gBroadcastUtils.LOG_OUT).setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
             @Override
