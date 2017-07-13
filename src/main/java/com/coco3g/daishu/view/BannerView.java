@@ -27,9 +27,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 
 import com.coco3g.daishu.R;
-import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.data.Global;
-import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -57,10 +55,16 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
     ArrayList<Map<String, String>> mCurrBannerList = new ArrayList<Map<String, String>>();
     PageChangeListener pagechangelistener;
     boolean mIsVideo = false;
-    //    JCVideoPlayerStandard jcVideoView;
-//    RelativeLayout mRelativeSurfaceViewMain;
-    SurfaceView mSurfaceVideo;
-    MySurfaceHolder mSurfaceHolder;
+
+    public BannerView(Context context) {
+        super(context);
+        // TODO Auto-generated constructor stub
+        mContext = context;
+        options = new DisplayImageOptions.Builder().showImageOnLoading(R.mipmap.pic_default_icon).showImageForEmptyUri(R.mipmap.pic_default_icon)
+                .showImageOnFail(R.mipmap.pic_default_icon).cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(false).build();
+        initView();
+    }
 
     public BannerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -71,6 +75,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT).resetViewBeforeLoading(false).build();
         initView();
     }
+
 
     public BannerView setScreenRatio(int ratio) {
         mScreenRatio = ratio;
@@ -86,6 +91,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         addView(mView, lp);
         return this;
     }
+
 
     /**
      * 设置是否包含视频
@@ -185,41 +191,27 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
     }
 
     public ArrayList<Map<String, String>> getData() {
-        // TODO Auto-generated method stub
         return mCurrBannerList;
     }
 
+    public void setList(final String videoimg, final String videourl, final String fullvideourl, final List<String> list) {
+        //
+        mPoints.setPointNum(list.size());
+        mPoints.setSelectIndex(mCurrPagerItemPosition);
+        mIsBannerScroll = true;
 
-//    public void setList(final String videoimg, final String videourl, final String fullvideourl, final List<String> list) {
-//        //
-//        if (mIsVideo && !TextUtils.isEmpty(videoimg) && !TextUtils.isEmpty(videourl)) {
-//            mPoints.setPointNum(list.size() + 1);
-//            //
-//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / mScreenRatio);
-//            mSurfaceVideo = new SurfaceView(mContext, null);
-//            mSurfaceVideo.setTag(fullvideourl);
-//            mSurfaceVideo.setLayoutParams(lp);
-//            mSurfaceHolder = new MySurfaceHolder(mContext, mSurfaceVideo, videourl);
-//            mSurfaceVideo.getHolder().setKeepScreenOn(true);
-//            mSurfaceVideo.getHolder().addCallback(mSurfaceHolder);
-//        } else {
-//            mPoints.setPointNum(list.size());
-//        }
-//        mPoints.setSelectIndex(mCurrPagerItemPosition);
-//        mIsBannerScroll = true;
-//
-//        initTimer();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                    if (jcVideoView != null) {
-////                        jcVideoView.startPlayLogic();
-////                    }
-//                mPagerAdapter = new MyViewPagerAdapter(videoimg, videourl, list);
-//                mViewpagerBanner.setAdapter(mPagerAdapter);
-//            }
-//        }, 200);
-//    }
+        initTimer();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                    if (jcVideoView != null) {
+//                        jcVideoView.startPlayLogic();
+//                    }
+                mPagerAdapter = new MyViewPagerAdapter(videoimg, videourl, list);
+                mViewpagerBanner.setAdapter(mPagerAdapter);
+            }
+        }, 200);
+    }
 
 //    public int getListSize() {
 //        return mPageViewList.size();
@@ -265,7 +257,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
+        public Object instantiateItem(ViewGroup container, int position) {
 ////            Log.e("position", position + "--");
 //            try {
 //                container.removeView(mListViews.get(position));
@@ -273,93 +265,14 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
 //                e.printStackTrace();
 //            }
 //            container.addView(mListViews.get(position), 0);
-            if (mIsVideo) {
-                if (position == 0 && !TextUtils.isEmpty(videoimg) && !TextUtils.isEmpty(videourl)) {
-//                    try {
-//                        jcVideoView = new JCVideoPlayerStandard(mContext);
-//                        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.dipTopx(mContext, 200f));
-//                        jcVideoView.setLayoutParams(lp);
-//                        //
-//                        jcVideoView.setUp(videourl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "");
-//                        ImageLoader.getInstance().displayImage(videoimg, jcVideoView.thumbImageView, options);
-//                        container.addView(jcVideoView, 0);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    return jcVideoView;
-//                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.dipTopx(mContext, 200f));
-//                    mSurfaceVideo = new SurfaceView(mContext, null);
-//                    mSurfaceVideo.setLayoutParams(lp);
-//                    mSurfaceHolder = new MySurfaceHolder(mContext, mSurfaceVideo, videourl);
-//                    mSurfaceVideo.getHolder().setKeepScreenOn(true);
-//                    mSurfaceVideo.getHolder().addCallback(mSurfaceHolder);
-//                    mSurefaceHolder.setOnShowButtonLisntener(new MySurfaceHolder.ShowButtonListener() {
-//                        @Override
-//                        public void showButton() {
-//
-//                        }
-//                    }).setOnPauseListener(new MySurfaceHolder.PauseListener() {
-//                        @Override
-//                        public void videoPause() {
-//                        }
-//                    });
-                    boolean b = false;
-                    if (container.getChildCount() > 0) {
-                        for (int i = 0; i < container.getChildCount(); i++) {
-                            if (container.getChildAt(i) instanceof SurfaceView) {
-                                b = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!b) {
-                        container.addView(mSurfaceVideo, 0);
-                    }
-                    return mSurfaceVideo;
-                } else {
-                    ImageView image = new ImageView(mContext);
-                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / mScreenRatio);
-                    image.setLayoutParams(lp);
-                    image.setScaleType(ScaleType.CENTER_CROP);
-                    image.setImageResource(R.mipmap.pic_default_icon);
-                    ImageLoader.getInstance().displayImage(mListDatas.get(position - 1), image, options);
-                    container.addView(image, 0);
-                    //
-                    image.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String url = mCurrBannerList.get(position).get("linkurl");
-                            if (!TextUtils.isEmpty(url)) {
-                                Intent intent = new Intent(mContext, WebActivity.class);
-                                intent.putExtra("url", url);
-                                mContext.startActivity(intent);
-                            }
-                        }
-                    });
-                    return image;
-                }
-            } else {
-                ImageView image = new ImageView(mContext);
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(Global.screenWidth, Global.screenHeight / mScreenRatio);
-                image.setLayoutParams(lp);
-                image.setScaleType(ScaleType.CENTER_CROP);
-                image.setImageResource(R.mipmap.pic_default_icon);
-                ImageLoader.getInstance().displayImage(mListDatas.get(position), image, options);
-                container.addView(image, 0);
-                //
-                image.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String url = mCurrBannerList.get(position).get("linkurl");
-                        if (!TextUtils.isEmpty(url)) {
-                            Intent intent = new Intent(mContext, WebActivity.class);
-                            intent.putExtra("url", url);
-                            mContext.startActivity(intent);
-                        }
-                    }
-                });
-                return image;
-            }
+            ImageView image = new ImageView(mContext);
+            LayoutParams lp = new LayoutParams(Global.screenWidth, Global.screenHeight / mScreenRatio);
+            image.setLayoutParams(lp);
+            image.setScaleType(ScaleType.CENTER_CROP);
+            image.setImageResource(R.mipmap.pic_default_icon);
+            ImageLoader.getInstance().displayImage(mListDatas.get(position), image, options);
+            container.addView(image, 0);
+            return image;
 
         }
 
@@ -447,7 +360,6 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
 
     };
 
-
     /**
      * 暂停banner滚动
      */
@@ -487,19 +399,6 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         mPoints.setSelectIndex(mCurrPagerItemPosition);
         mIsBannerScroll = true;
         initTimer();
-    }
-
-//    public void pausePlayVideo() {
-////        jcVideoView = null;
-//        if (mSurfaceHolder != null) {
-//            mSurfaceHolder.stop();
-//        }
-//    }
-
-    public void startVideo() {
-        if (mSurfaceHolder != null) {
-//            mSurfaceHolder.pauseAndStart();
-        }
     }
 
     public void setOnPageChangeListener(PageChangeListener pagechangelistener) {
