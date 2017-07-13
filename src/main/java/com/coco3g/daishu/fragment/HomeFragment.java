@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,9 +30,11 @@ import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.HomeMenuImageView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //广告的页面
     int currPage = 1;
+    private ArrayList<Map<String, String>> mOneGuangGaoList;
 
 
     @Override
@@ -88,6 +92,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mMenu7 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_7);
         mMenu8 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_8);
         mImageMiddleBanner = (ImageView) mHeadView.findViewById(R.id.image_home_middle_banner);
+        LinearLayout.LayoutParams banner_lp = new LinearLayout.LayoutParams(Global.screenWidth, Global.screenWidth * 5 / 18);
+        mImageMiddleBanner.setLayoutParams(banner_lp);
+
         mBanner.setScreenRatio(2);
         mMenuRes = new HomeMenuImageView[]{mMenu1, mMenu2, mMenu3, mMenu4, mMenu5, mMenu6, mMenu7, mMenu8};
         for (int i = 0; i < mNavIconResID.length; i++) {
@@ -120,6 +127,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mMenu6.setOnClickListener(this);
         mMenu7.setOnClickListener(this);
         mMenu8.setOnClickListener(this);
+        mImageMiddleBanner.setOnClickListener(this);
         //跑马灯
         mTxtBoardcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
             @Override
@@ -216,6 +224,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
+            case R.id.image_home_middle_banner:  //单个广告
+                intent = new Intent(mContext, WebActivity.class);
+                if (!TextUtils.isEmpty(mOneGuangGaoList.get(0).get("url"))) {
+                    intent.putExtra("url", mOneGuangGaoList.get(0).get("url"));
+                    mContext.startActivity(intent);
+                }
+
+                break;
+
         }
     }
 
@@ -309,7 +326,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(BaseDataBean data) {
                 Global.H5Map = (Map<String, String>) data.response;
                 //
-                getGuangGaoList();
+                getOneGuangGao();
             }
 
             @Override
@@ -321,6 +338,42 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onError() {
                 mSuperRefreshLayout.onLoadComplete();
+            }
+        });
+    }
+
+
+    //获取首页单个广告
+    public void getOneGuangGao() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", "1");
+        params.put("catid", "4");
+        new BaseDataPresenter(mContext).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                mOneGuangGaoList = (ArrayList<Map<String, String>>) data.response;
+                if (mOneGuangGaoList == null || mOneGuangGaoList.size() <= 0) {
+                    mImageMiddleBanner.setVisibility(View.GONE);
+                } else {
+                    mImageMiddleBanner.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(mOneGuangGaoList.get(0).get("image"), mImageMiddleBanner, new DisplayImageOptionsUtils().init());
+                }
+                //
+                getGuangGaoList();
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+                Global.showToast(data.msg, mContext);
+                mSuperRefreshLayout.onLoadComplete();
+                currPage--;
+            }
+
+            @Override
+            public void onError() {
+                mSuperRefreshLayout.onLoadComplete();
+                currPage--;
             }
         });
     }

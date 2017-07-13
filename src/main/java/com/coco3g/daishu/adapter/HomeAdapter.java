@@ -2,6 +2,7 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.UriMatcher;
 import android.media.Image;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -121,8 +122,10 @@ public class HomeAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, WebActivity.class);
-                    intent.putExtra("url", map.get("url"));
-                    mContext.startActivity(intent);
+                    if (!TextUtils.isEmpty(map.get("url"))) {
+                        intent.putExtra("url", map.get("url"));
+                        mContext.startActivity(intent);
+                    }
                 }
             });
 

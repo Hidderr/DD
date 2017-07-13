@@ -14,11 +14,36 @@
 
     </com.coco3g.daishu.view.TopBarView>
 
+    <RelativeLayout
+        android:id="@+id/relative_shai_xuan_list_shangjia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/tobbar_shai_xuan_list"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_shai_xuan_list_shangjia_ruzhu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_txt_grey_bg"
+            android:drawableLeft="@mipmap/pic_shangjia_ruzhu_icon"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/pic_arrow_grey_right"
+            android:gravity="center_vertical"
+            android:text="欢迎商家免费入驻"
+            android:paddingRight="20dp"
+            android:textColor="@color/text_color_1"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/linear_shai_xuan_list_tiaojian"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tobbar_shai_xuan_list"
+        android:layout_below="@+id/relative_shai_xuan_list_shangjia"
         android:layout_marginTop="1dp"
         android:background="@color/white"
         android:weightSum="4">
