@@ -116,7 +116,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 intent = new Intent(MemberServiceActivity.this, ShaiXuanListActivity.class);
-//                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "附近门店");
                 startActivity(intent);
 
