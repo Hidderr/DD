@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
@@ -40,15 +42,15 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private MarqueeView marqueeView;
     private TextView mTxtRepair, mTxtNearbyStore, mTxtVisitingService;
     //
-    private LinearLayout mLinearRoot;
-    //
     private ArrayList<Map<String, String>> mBroadCastList;
     //
-    private MyListView mListView;
+    private ListView mListView;
     //    private MemberServiceAdapter mAdapter;
     private StoreShaiXuanAdapter mAdapter;
 
     private int currPage = 1;  //门店信息
+
+    private View mHeadView;
 
 
     @Override
@@ -63,17 +65,18 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private void init() {
         mTopBar = (TopBarView) findViewById(R.id.topbar_membar_service);
         mTopBar.setTitle("会员服务");
-        mBanner = (BannerView) findViewById(R.id.banner_member_service);
-        mBanner.setScreenRatio(2);
-        marqueeView = (MarqueeView) findViewById(R.id.tv_member_service_boardcast);
-        mTxtRepair = (TextView) findViewById(R.id.tv_member_service_repair);
-        mTxtNearbyStore = (TextView) findViewById(R.id.tv_member_service_nearby_store);
-        mTxtVisitingService = (TextView) findViewById(R.id.tv_member_service_income_visiting_service);
+        mListView = (ListView) findViewById(R.id.listview_member_service);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_member_service);
-        mLinearRoot = (LinearLayout) findViewById(R.id.tv_member_service_root);
-        mListView = (MyListView) findViewById(R.id.listview_member_service);
-        mLinearRoot.setVisibility(View.GONE);
         //
+        mHeadView = LayoutInflater.from(this).inflate(R.layout.view_member_service_header, null);
+        mBanner = (BannerView) mHeadView.findViewById(R.id.banner_member_service);
+        mBanner.setScreenRatio(2);
+        marqueeView = (MarqueeView) mHeadView.findViewById(R.id.tv_member_service_boardcast);
+        mTxtRepair = (TextView) mHeadView.findViewById(R.id.tv_member_service_repair);
+        mTxtNearbyStore = (TextView) mHeadView.findViewById(R.id.tv_member_service_nearby_store);
+        mTxtVisitingService = (TextView) mHeadView.findViewById(R.id.tv_member_service_income_visiting_service);
+        //
+        mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
@@ -97,6 +100,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         //
         mAdapter = new StoreShaiXuanAdapter(this);
         mListView.setAdapter(mAdapter);
+
     }
 
 
@@ -226,6 +230,10 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onSuccess(BaseDataBean data) {
 
+                if (mListView.getHeaderViewsCount() <= 0) {
+                    mListView.addHeaderView(mHeadView);
+                }
+                ///
                 ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
                 if (repairList == null || repairList.size() <= 0) {
                     mSuperRefresh.onLoadComplete();
@@ -239,7 +247,6 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                     mAdapter.addList(repairList);
                 }
                 //
-                mLinearRoot.setVisibility(View.VISIBLE);
                 mSuperRefresh.onLoadComplete();
             }
 
