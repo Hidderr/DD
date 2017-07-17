@@ -100,7 +100,7 @@
                         android:drawablePadding="8dp"
                         android:drawableTop="@mipmap/pic_repair_baoyang_icon"
                         android:gravity="center"
-                        android:text="维修保养"
+                        android:text="快修门店"
                         android:textColor="@color/text_color_1"
                         android:textSize="14sp" />
 
@@ -112,7 +112,7 @@
                         android:drawablePadding="8dp"
                         android:drawableTop="@mipmap/pic_nearby_store_icon"
                         android:gravity="center"
-                        android:text="附近门店"
+                        android:text="优惠洗车"
                         android:textColor="@color/text_color_1"
                         android:textSize="14sp" />
 
