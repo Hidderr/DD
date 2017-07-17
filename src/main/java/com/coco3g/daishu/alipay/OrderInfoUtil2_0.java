@@ -84,7 +84,7 @@ public class OrderInfoUtil2_0 {
 
         keyValues.put("version", "1.0");
 
-        keyValues.put("notify_url", "http://qym.test.coco3g.com/v1/pay/alipay_return");
+        keyValues.put("notify_url", "http://daishu.test.coco3g.com/v1/pay/alipay_return");
 
         return keyValues;
     }

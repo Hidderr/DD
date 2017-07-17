@@ -22,6 +22,7 @@ import com.coco3g.daishu.activity.DriveRouteActivity;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
+import com.coco3g.daishu.alipay.AliPayUtils;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.bean.LocationBean;
 import com.coco3g.daishu.bean.RepairStoreBean;
@@ -31,6 +32,7 @@ import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.DateTime;
 import com.coco3g.daishu.utils.LocationUtil;
+import com.coco3g.daishu.utils.OpenWXPayUtils;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.EditTextItemView;
 import com.coco3g.daishu.view.MyProgressDialog;
@@ -300,6 +302,23 @@ public class TypevauleGotoDictionary {
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
+            try {
+                String type = hashMap.get("type");
+                if (type.equalsIgnoreCase("alipay")) {
+                    new AliPayUtils(mContext).payV2(hashMap.get("orderid"), hashMap.get("goodsname"), hashMap.get("goodsdetail"),
+                            Float.parseFloat(hashMap.get("price")));
+                } else if (type.equalsIgnoreCase("weixin")) {
+                    new OpenWXPayUtils(mContext, hashMap.get("orderid"), hashMap.get("goodsname"), hashMap.get("goodsdetail"),
+                            Float.parseFloat(hashMap.get("price"))).setOnPayCompleteListener(new OpenWXPayUtils.OnPayCompleteListener() {
+                        @Override
+                        public void payComplete(int paystate) {
+                            ((Activity) mContext).finish();
+                        }
+                    }).pay();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (value.startsWith(CALL_EDIT_DIALOG)) {
             callEditDialog(hashMap);
 //            try {
