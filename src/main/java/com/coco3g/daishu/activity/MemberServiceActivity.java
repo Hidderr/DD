@@ -3,12 +3,16 @@ package com.coco3g.daishu.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.MemberServiceAdapter;
+import com.coco3g.daishu.adapter.StoreShaiXuanAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
 import com.coco3g.daishu.data.Constants;
 import com.coco3g.daishu.data.DataUrl;
@@ -38,12 +42,15 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private MarqueeView marqueeView;
     private TextView mTxtRepair, mTxtNearbyStore, mTxtVisitingService;
     //
-    private LinearLayout mLinearRoot;
-    //
     private ArrayList<Map<String, String>> mBroadCastList;
     //
-    private MyListView mListView;
-    private MemberServiceAdapter mAdapter;
+    private ListView mListView;
+    //    private MemberServiceAdapter mAdapter;
+    private StoreShaiXuanAdapter mAdapter;
+
+    private int currPage = 1;  //门店信息
+
+    private View mHeadView;
 
 
     @Override
@@ -58,28 +65,31 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private void init() {
         mTopBar = (TopBarView) findViewById(R.id.topbar_membar_service);
         mTopBar.setTitle("会员服务");
-        mBanner = (BannerView) findViewById(R.id.banner_member_service);
-        mBanner.setScreenRatio(2);
-        marqueeView = (MarqueeView) findViewById(R.id.tv_member_service_boardcast);
-        mTxtRepair = (TextView) findViewById(R.id.tv_member_service_repair);
-        mTxtNearbyStore = (TextView) findViewById(R.id.tv_member_service_nearby_store);
-        mTxtVisitingService = (TextView) findViewById(R.id.tv_member_service_income_visiting_service);
+        mListView = (ListView) findViewById(R.id.listview_member_service);
         mSuperRefresh = (SuperRefreshLayout) findViewById(R.id.sr_member_service);
-        mLinearRoot = (LinearLayout) findViewById(R.id.tv_member_service_root);
-        mListView = (MyListView) findViewById(R.id.listview_member_service);
-        mLinearRoot.setVisibility(View.GONE);
         //
+        mHeadView = LayoutInflater.from(this).inflate(R.layout.view_member_service_header, null);
+        mBanner = (BannerView) mHeadView.findViewById(R.id.banner_member_service);
+        mBanner.setScreenRatio(2);
+        marqueeView = (MarqueeView) mHeadView.findViewById(R.id.tv_member_service_boardcast);
+        mTxtRepair = (TextView) mHeadView.findViewById(R.id.tv_member_service_repair);
+        mTxtNearbyStore = (TextView) mHeadView.findViewById(R.id.tv_member_service_nearby_store);
+        mTxtVisitingService = (TextView) mHeadView.findViewById(R.id.tv_member_service_income_visiting_service);
+        //
+        mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
             public void onRefreshing() {
                 mBanner.clearList();
                 mAdapter.clearList();
+                currPage = 1;
                 getBanner();
             }
 
             @Override
             public void onLoadMore() {
-
+                currPage++;
+                getStoreList();
             }
         });
         //
@@ -88,8 +98,9 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         mTxtNearbyStore.setOnClickListener(this);
         mTxtVisitingService.setOnClickListener(this);
         //
-        mAdapter = new MemberServiceAdapter(this);
+        mAdapter = new StoreShaiXuanAdapter(this);
         mListView.setAdapter(mAdapter);
+
     }
 
 
@@ -105,7 +116,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
 //                intent = new Intent(mContext, RepairWebsiteActivity.class);
                 intent = new Intent(MemberServiceActivity.this, ShaiXuanListActivity.class);
                 intent.putExtra("typeid", "1");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "维修保养");
+                intent.putExtra("title", "快修门店");
                 startActivity(intent);
 
                 break;
@@ -116,8 +127,8 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 intent = new Intent(MemberServiceActivity.this, ShaiXuanListActivity.class);
-//                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-                intent.putExtra("title", "附近门店");
+                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("title", "优惠洗车");
                 startActivity(intent);
 
                 break;
@@ -191,7 +202,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                     marqueeView.startWithList(list);
                 }
                 //
-                getGuangGaoList();
+                getStoreList();
             }
 
             @Override
@@ -207,24 +218,35 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         });
     }
 
-
-    //获取广告列表
-    public void getGuangGaoList() {
+    //获取附近的汽车店的信息
+    public void getStoreList() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("page", "1");
-        params.put("catid", "3");
-        new BaseDataPresenter(MemberServiceActivity.this).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
+        params.put("lat", Global.mCurrLat + "");
+        params.put("lng", Global.mCurrLng + "");
+        params.put("order", "1");
+        params.put("page", currPage + "");
+        Log.e("地图传参", "area " + params.get("area") + "   qualific " + params.get("qualific") + "   order" + params.get("order") + "    joinid" + params.get("joinid"));
+        new BaseDataPresenter(MemberServiceActivity.this).loadData(DataUrl.GET_REPAIR_STORE, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
 
-                ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;
-                if (mList == null || mList.size() <= 0) {
+                if (mListView.getHeaderViewsCount() <= 0) {
+                    mListView.addHeaderView(mHeadView);
+                }
+                ///
+                ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
+                if (repairList == null || repairList.size() <= 0) {
                     mSuperRefresh.onLoadComplete();
+                    currPage--;
                     return;
                 }
-                mAdapter.setList(mList);
+                Log.e("门店数量", repairList.size() + "");
+                if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
+                    mAdapter.setList(repairList);
+                } else {
+                    mAdapter.addList(repairList);
+                }
                 //
-                mLinearRoot.setVisibility(View.VISIBLE);
                 mSuperRefresh.onLoadComplete();
             }
 
@@ -232,13 +254,49 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
             public void onFailure(BaseDataBean data) {
                 Global.showToast(data.msg, MemberServiceActivity.this);
                 mSuperRefresh.onLoadComplete();
+                currPage--;
             }
 
             @Override
             public void onError() {
                 mSuperRefresh.onLoadComplete();
+                currPage--;
             }
         });
     }
+
+
+//    //获取广告列表
+//    public void getGuangGaoList() {
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("page", "1");
+//        params.put("catid", "3");
+//        new BaseDataPresenter(MemberServiceActivity.this).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
+//            @Override
+//            public void onSuccess(BaseDataBean data) {
+//
+//                ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;
+//                if (mList == null || mList.size() <= 0) {
+//                    mSuperRefresh.onLoadComplete();
+//                    return;
+//                }
+//                mAdapter.setList(mList);
+//                //
+//                mLinearRoot.setVisibility(View.VISIBLE);
+//                mSuperRefresh.onLoadComplete();
+//            }
+//
+//            @Override
+//            public void onFailure(BaseDataBean data) {
+//                Global.showToast(data.msg, MemberServiceActivity.this);
+//                mSuperRefresh.onLoadComplete();
+//            }
+//
+//            @Override
+//            public void onError() {
+//                mSuperRefresh.onLoadComplete();
+//            }
+//        });
+//    }
 
 }

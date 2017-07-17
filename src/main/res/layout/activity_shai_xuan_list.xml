@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:layout_below="@+id/tobbar_shai_xuan_list"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_shai_xuan_list_shangjia_ruzhu"

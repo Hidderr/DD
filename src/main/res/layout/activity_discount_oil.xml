@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:layout_below="@+id/tobbar_discount_oil"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_discount_oil_shangjia_ruzhu"
