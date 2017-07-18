@@ -56,6 +56,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Global.MAINACTIVITY_CONTEXT != null) {
+            finish();
+        }
         setContentView(R.layout.activity_main);
         Global.MAINACTIVITY_CONTEXT = this;
         initView();

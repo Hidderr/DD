@@ -5,7 +5,7 @@ android {
         dashudashi {
             keyAlias 'DaiShuDaShi'
             keyPassword 'daishudashi.com'
-            storeFile file('/Users/lisen/Documents/AS-workspace/DaiShu/daishudashi.jks')
+            storeFile file('/Users/coco3g/Documents/project/DaiShu/DaiShuDaShi/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
     }

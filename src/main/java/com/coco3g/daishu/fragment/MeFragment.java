@@ -126,7 +126,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         //
         for (int i = 0; i < mShoppingResID.length; i++) {
             meMenus[i].setIcon(mShoppingResID[i], mShoppingTitles[i]);
-            meMenus[i].setUnReadCount(2);
         }
         for (int i = 0; i < mMeInfoResID.length; i++) {
             mHomeMenus[i].setIcon(mMeInfoResID[i], mMeInfoTitles[i]);
@@ -373,6 +372,20 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //            }
             //
 //            mSettingItemList.get(0).setEFen(Global.USERINFOMAP.get("ecoin"));
+
+
+            Map<String, String> shopInfoMap = (Map<String, String>) Global.USERINFOMAP.get("bill");
+            //代付款
+            meMenu1.setUnReadCount(Integer.parseInt(shopInfoMap.get("notpayment")));
+            //代付款
+            meMenuDaiFaHuo.setUnReadCount(Integer.parseInt(shopInfoMap.get("notsend")));
+            //代付款
+            meMenu2.setUnReadCount(Integer.parseInt(shopInfoMap.get("notreciev")));
+            //代付款
+            meMenu3.setUnReadCount(Integer.parseInt(shopInfoMap.get("notevas")));
+            //代付款
+            meMenu4.setUnReadCount(Integer.parseInt(shopInfoMap.get("saleafter")));
+
 
             //设置爱车保姆
             addMyCar();

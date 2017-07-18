@@ -163,8 +163,9 @@ public class TypevauleGotoDictionary {
 
         } else if (value.startsWith(OPEN_GALLERY)) {  /***打开相册，上传图片***/
             new RequestPermissionUtils(mContext).aleraPermission(Manifest.permission.CAMERA, 1);  //首先检查权限
-            openGallery();
+            openGallery(hashMap.get("uptype"));
             CALLBACKTAG = Global.parseCustomUrl(value);
+
 
 
         } else if (value.startsWith(SHARE)) {  /***分享***/
@@ -388,19 +389,39 @@ public class TypevauleGotoDictionary {
 
 
     // //打开相册
-    public void openGallery() {
-        int cropWidth = Global.dipTopx(mContext, 150f);
+    public void openGallery(String uptype) {
         ImagePicker.getInstance().destory();
-        ImagePicker.getInstance()
-                .setOutPutX(cropWidth)
-                .setOutPutY(cropWidth)
-                .setFocusWidth(cropWidth)
-                .setFocusHeight(cropWidth)
-                .setShowCamera(true)
-                .setMultiMode(false)
-                .setCrop(true)
-                .setStyle(CropImageView.Style.CIRCLE);
-        ImagePicker.getInstance().start((Activity) mContext);
+        if (uptype.equals("8")) {  //二手车上传图片
+            ImagePicker.getInstance()
+                    .setShowCamera(true)
+                    .setMultiMode(false)
+                    .setCrop(false).start((Activity) mContext);
+        } else if (uptype.equals("1")) {   //上传头像
+            int cropWidth = Global.dipTopx(mContext, 150f);
+            ImagePicker.getInstance()
+                    .setOutPutX(cropWidth)
+                    .setOutPutY(cropWidth)
+                    .setFocusWidth(cropWidth)
+                    .setFocusHeight(cropWidth)
+                    .setShowCamera(true)
+                    .setMultiMode(false)
+                    .setCrop(true)
+                    .setStyle(CropImageView.Style.CIRCLE);
+            ImagePicker.getInstance().start((Activity) mContext);
+        } else if (uptype.equals("7")) {  //实名认证
+            int cropWidth = Global.screenWidth * 3 / 4;
+            int cropHeight = cropWidth * 2 / 3;
+            ImagePicker.getInstance().setSelectLimit(4)
+                    .setOutPutX(cropWidth)
+                    .setOutPutY(cropHeight)
+                    .setFocusWidth(cropWidth)
+                    .setFocusHeight(cropHeight)
+                    .setShowCamera(true)
+                    .setMultiMode(false)
+                    .setCrop(true)
+                    .start((Activity) mContext);
+        }
+
     }
 
     //提示对话框

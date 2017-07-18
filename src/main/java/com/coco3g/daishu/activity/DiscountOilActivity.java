@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class DiscountOilActivity extends BaseActivity implements View.OnClickListener {
     private TopBarView mTopbar;
-    private TextView mTxtAddress, mTxtOilType;
+    private TextView mTxtAddress, mTxtOilType, mTxtChargeYouKa;
     private RelativeLayout mRelativeAddress, mRelativeMoRen, mRelativeShaiXuan;
     private SuperRefreshLayout mSuperRefresh;
     private ListView mListView;
@@ -114,6 +114,7 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
         //
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_discount_oil_header, null);
         mTxtOilType = (TextView) mHeadView.findViewById(R.id.tv_oil_tore_card_type);
+        mTxtChargeYouKa = (TextView) mHeadView.findViewById(R.id.tv_dicount_oil_header_charge_youka);
         mRecyclerView = (RecyclerView) mHeadView.findViewById(R.id.rv_discount_oil_header_image);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -125,6 +126,7 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
         mRelativeMoRen.setOnClickListener(this);
         mRelativeShaiXuan.setOnClickListener(this);
         mTxtOilType.setOnClickListener(this);
+        mTxtChargeYouKa.setOnClickListener(this);
         //
         mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
@@ -172,6 +174,17 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.tv_oil_tore_card_type:  //油卡类型
                 chooseOilType();
+
+                break;
+
+            case R.id.tv_dicount_oil_header_charge_youka:  //充值油卡
+
+                if (Global.H5Map.get("youka_topup").equals("#")) {
+                    return;
+                }
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("url", Global.H5Map.get("youka_topup"));
+                startActivity(intent);
 
                 break;
         }
@@ -249,6 +262,7 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
                     return;
                 } else {
                     currOilIndex = which;
+                    mTxtOilType.setText(oilTypes[currOilIndex]);
                     getOilCardList(oilList.get(currOilIndex).get("id"), true);
                 }
             }
@@ -288,6 +302,8 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
                 for (int i = 0; i < oilList.size(); i++) {
                     oilTypes[i] = oilList.get(i).get("title");
                 }
+                //
+                mTxtOilType.setText(oilTypes[0]);
                 //
                 getOilCardList(oilList.get(0).get("id"), false);
             }
