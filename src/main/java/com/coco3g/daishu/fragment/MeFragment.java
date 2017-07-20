@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.RegisterActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.adapter.CarShopAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
@@ -328,9 +329,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     return;
                 } else {
                     Global.USERINFOMAP = (Map<String, Object>) data.response;
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone") + "", Global.USERINFOMAP.get("nickname") + "", Global.USERINFOMAP.get("password") + "", Global.LOGIN_INFO);
-                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone") + "", Global.USERINFOMAP.get("nickname") + "", Global.USERINFOMAP.get("password") + "", Global.LOGIN_INFO_LAST);
+//                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone") + "", Global.USERINFOMAP.get("nickname") + "", Global.USERINFOMAP.get("password") + "", Global.LOGIN_INFO);
+//                    Global.saveLoginInfo(getActivity(), Global.USERINFOMAP.get("phone") + "", Global.USERINFOMAP.get("nickname") + "", Global.USERINFOMAP.get("password") + "", Global.LOGIN_INFO_LAST);
                     //
+//                    Global.serializeData(getActivity(), Global.USERINFOMAP, Global.LOGIN_INFO);
                 }
                 setMyInfo();
             }

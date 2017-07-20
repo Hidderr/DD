@@ -1,4 +1,4 @@
-package com.coco3g.xuanhong.wxapi;
+package com.coco3g.daishu.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,7 +1,5 @@
 package com.coco3g.daishu.activity;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.webkit.CookieSyncManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,31 +41,23 @@ import cn.jpush.android.api.JPushInterface;
  * Created by lisen on 16/2/4.
  */
 @SuppressWarnings("ALL")
-public class StartActivity extends Activity implements View.OnClickListener {
+public class StartActivity extends Activity {
     RelativeLayout mRelativeVideoBg;
     SurfaceView mSurfaceVideo;
-    TextView mTxtComeIn;
     MySurfaceHolder mSurefaceHolder;
     //
     boolean intoMain = false;
     DisplayImageOptions options;
-
-    private String password;
-
-    boolean isClickComeIn;  //点击了"键入袋鼠好车"
     //
-//    public String SHARE_APP_TAG = "first";
-//    boolean isFirst = false;
     int mTimeCount = 5; // 倒计时5s
     Timer mTimer;
     TimerTask mTask;
-
     private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start1);
+        setContentView(R.layout.activity_start);
         if (!isTaskRoot()) {
             Intent mainIntent = getIntent();
             String action = mainIntent.getAction();
@@ -90,65 +79,17 @@ public class StartActivity extends Activity implements View.OnClickListener {
         //
         mRelativeVideoBg = (RelativeLayout) findViewById(R.id.relative_start_video_bg);
         mSurfaceVideo = (SurfaceView) findViewById(R.id.surface_start);
-        mTxtComeIn = (TextView) findViewById(R.id.tv_start_come_in);
         //
         mSurefaceHolder = new MySurfaceHolder(this, mSurfaceVideo);
         mSurfaceVideo.getHolder().setKeepScreenOn(true);
         mSurfaceVideo.getHolder().addCallback(mSurefaceHolder);
-//        timerControl();
-        //
-        mTxtComeIn.setOnClickListener(this);
         //
         CookieSyncManager.createInstance(this);
-        Global.LOGIN_INFO_MAP = Global.readLoginInfo(this, Global.LOGIN_INFO);
-        password = Global.readPassWord(StartActivity.this);
+        Global.LOGIN_INFO_MAP = (HashMap<String, String>) Global.readSerializeData(this, Global.LOGIN_INFO);
+        Global.LOGIN_OPENID = (String) Global.readSerializeData(this, Global.LOGIN_INFO_OPENID);
         //
         init();
     }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_start_come_in:
-                isClickComeIn = true;
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-        }
-    }
-
-//
-//    private void timerControl() {
-//        mTimer = new Timer();
-//        mTask = new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        showComeIn();
-//                        mTimer.cancel();
-//                    }
-//                });
-//            }
-//        };
-//        mTimer.schedule(mTask, 1000, 1000);
-//    }
-
-//    /**
-//     * 播放视频过程中,显示登录注册按钮
-//     */
-//    private void showComeIn() {
-//        mTxtComeIn.setVisibility(View.VISIBLE);
-//        PropertyValuesHolder pvhZ = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
-//        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(mTxtComeIn, pvhZ);
-//        animator.setDuration(1000);// 动画时间
-//        animator.setInterpolator(new LinearInterpolator());// 动画插值
-//        animator.start();
-//    }
-
 
     private void init() {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(StartActivity.this);
@@ -170,24 +111,11 @@ public class StartActivity extends Activity implements View.OnClickListener {
         // 获取屏幕尺寸
         Global.getScreenWH(StartActivity.this);
         //
-        if (Global.LOGIN_INFO_MAP != null && !TextUtils.isEmpty(password)) {
-            login(Global.LOGIN_INFO_MAP.get("phone"), password);
-        } else {
-
-//            Intent intent = new Intent(StartActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//                if (isFirst) {
-//                    Intent intent = new Intent(StartActivity2.this, GuideActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                } else {
-//                    Intent intent = new Intent(StartActivity2.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                }
+        if (Global.LOGIN_INFO_MAP != null && !TextUtils.isEmpty(Global.LOGIN_INFO_MAP.get("password"))) {
+            login(Global.LOGIN_INFO_MAP.get("phone"), Global.LOGIN_INFO_MAP.get("password"));
+        } else if (!TextUtils.isEmpty(Global.LOGIN_OPENID)) {
+            threeOtherLogin();
         }
-
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -205,11 +133,9 @@ public class StartActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
-            if (!isClickComeIn) {
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+            Intent intent = new Intent(StartActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     };
 
@@ -229,40 +155,69 @@ public class StartActivity extends Activity implements View.OnClickListener {
             public void onSuccess(BaseDataBean data) {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, Object>) data.response;
-                    Global.savePassWord(StartActivity.this, password);
-                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname") + "", password, Global.LOGIN_INFO);
-                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname") + "", password, Global.LOGIN_INFO_LAST);
+//                    Global.serializeData(StartActivity.this, Global.USERINFOMAP, Global.LOGIN_INFO);
+//                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname") + "", password, Global.LOGIN_INFO);
+//                    Global.saveLoginInfo(StartActivity.this, phone, Global.USERINFOMAP.get("nickname") + "", password, Global.LOGIN_INFO_LAST);
                     //
                     new RongUtils(StartActivity.this).init();
 //                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
 //                    startActivity(intent);
-                } else {
-
-//                    if (!isClickComeIn) {
-//                        Intent intent = new Intent(StartActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                    }
                 }
-//                finish();
             }
 
             @Override
             public void onFailure(BaseDataBean data) {
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
             }
 
             @Override
             public void onError() {
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
             }
         });
 
     }
 
+    //第三方登录与后台进行绑定
+    public void threeOtherLogin() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("qqkey", Global.LOGIN_OPENID);
+        params.put("uuid", Constants.JPUSH_REGISTERID);
+        new BaseDataPresenter(this).loadData(DataUrl.REGISTER, params, getResources().getString(R.string.login_loading), new IBaseDataListener() {
+            @Override
+            public void onSuccess(BaseDataBean data) {
+                if (data.response == null) {
+                    return;
+                }
+                Global.USERINFOMAP = (Map<String, Object>) data.response;
+                Global.serializeData(StartActivity.this, Global.LOGIN_OPENID, Global.LOGIN_INFO_OPENID);
+//                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+//                startActivity(intent);
+                //连接融云
+                new RongUtils(StartActivity.this).init();
+//                finish();
+
+            }
+
+            @Override
+            public void onFailure(BaseDataBean data) {
+//                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+            }
+
+            @Override
+            public void onError() {
+//                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+            }
+        });
+    }
 
     @Override
     protected void onPause() {

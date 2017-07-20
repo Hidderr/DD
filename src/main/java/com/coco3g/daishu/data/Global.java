@@ -60,11 +60,12 @@ import java.util.regex.Pattern;
 
 public class Global {
     public static final String rootPath = "com_app_daishudashi";
-    public static final String APP_CACHE = rootPath + "data"; // 用户信息
-    public static final String LOGIN_INFO = rootPath + "login"; // 用户登录信息
-    public static final String LOGIN_INFO_LAST = rootPath + "loginlastperson"; // 最后一位用户登录信息
-    public static final String LOGIN_PASSWORD = rootPath + "loginpassword"; // 登录密码
-    public static final String RONGTOKEN_INFO = rootPath + "rongtokeninfo"; // 融云token保存
+    public static final String APP_CACHE = "data"; // 用户信息
+    public static final String LOGIN_INFO = "login"; // 用户登录信息
+    //    public static final String LOGIN_INFO_LAST = rootPath + "loginlastperson"; // 最后一位用户登录信息
+    public static final String LOGIN_INFO_OPENID = "login_open_id"; // 通过openid登录
+    public static final String RONGTOKEN_INFO = "rong_token_info"; // 融云token保存
+    public static String LOGIN_OPENID = "";
 
     public static final String localThumbPath = "thumbnail"; // 应用的图片存放目录
     public static final String DOWNLOAD = "download"; // 应用的图片下载目录
@@ -79,7 +80,7 @@ public class Global {
     public static double mCurrLat = 0; // 定位城市纬度
     public static double mCurrLng = 0; // 定位城市经度
     //
-    public static Context MAINACTIVITY_CONTEXT = null;  //当前MainActivity的上下文
+//    public static Context MAINACTIVITY_CONTEXT = null;  //当前MainActivity的上下文
 
     /**
      * 融云token
@@ -453,8 +454,12 @@ public class Global {
      * @param hm
      */
     public static void serializeData(Context context, Object hm, String dir) {
-        String path = context.getFilesDir().getPath() + File.separator + dir;
-        File f = new File(path);
+        String path = context.getFilesDir().getPath() + File.separator + rootPath;
+        File filedir = new File(path);
+        if (!filedir.exists()) {
+            filedir.mkdirs();
+        }
+        File f = new File(path + File.separator + dir);
         try {
             if (!f.exists()) {
                 f.createNewFile();
@@ -496,7 +501,12 @@ public class Global {
      * @return
      */
     public static Object readSerializeData(Context context, String dir) {
-        String path = context.getFilesDir().getPath() + File.separator + dir;
+//        String path = context.getFilesDir().getPath() + File.separator + dir;
+        String path = context.getFilesDir().getPath() + File.separator + rootPath + File.separator + dir;
+        File filedir = new File(path);
+        if (!filedir.exists()) {
+            return null;
+        }
         Object o = new Object();
         File f = new File(path);
         if (f.exists()) {
@@ -527,31 +537,17 @@ public class Global {
     }
 
     /**
-     * 保存应用中的轻量级数据
+     * 删除序列化
      *
      * @param context
-     * @param key
-     * @param value
+     * @param dir
      */
-    public static void saveTempData(Context context, String key, String value) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences("daling_temp_data", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
-
-    /**
-     * 读取应用中的轻量级数据
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static String readTempData(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("daling_temp_data",
-                Activity.MODE_PRIVATE);
-        String value = sharedPreferences.getString(key, "");
-        return value;
+    public static void deleteSerializeData(Context context, String dir) {
+        String path = context.getFilesDir().getPath() + File.separator + rootPath + File.separator + dir;
+        File f = new File(path);
+        if (f.exists()) {
+            f.delete();
+        }
     }
 
     /**
@@ -581,62 +577,6 @@ public class Global {
             return false;
         } else {
             return true;
-        }
-    }
-
-    /**
-     * 保存登录信息
-     *
-     * @param context
-     * @param username
-     * @param password
-     */
-    public static void saveLoginInfo(Context context, String phone, String username, String password, String dir) {
-        HashMap<String, String> loginmap = new HashMap<String, String>();
-        loginmap.put("phone", phone);
-        loginmap.put("password", password);
-        loginmap.put("name", username);
-        serializeData(context, loginmap, dir);
-    }
-
-    /**
-     * 读取登录信息
-     *
-     * @param context
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-
-    public static HashMap<String, String> readLoginInfo(Context context, String dir) {
-        return (HashMap<String, String>) readSerializeData(context, dir);
-    }
-
-    /*
-    * 保存登录密码
-    * */
-    public static void savePassWord(Context context, String password) {
-        serializeData(context, password, LOGIN_PASSWORD);
-    }
-
-    /*
-    * 读取登录密码
-    * */
-    public static String readPassWord(Context context) {
-        return (String) readSerializeData(context, LOGIN_PASSWORD);
-    }
-
-
-    /**
-     * 删除序列化
-     *
-     * @param context
-     * @param dir
-     */
-    public static void deleteSerializeData(Context context, String dir) {
-        String path = context.getFilesDir().getPath() + File.separator + dir;
-        File f = new File(path);
-        if (f.exists()) {
-            f.delete();
         }
     }
 
@@ -1025,9 +965,8 @@ public class Global {
             Global.MODEL = null;
             BaseActivity.CONTEXTLIST.clear();
             BaseActivity.CONTEXTLIST = null;
-            Global.deleteSerializeData(context, Global.APP_CACHE); //清除token
-            Global.deleteSerializeData(context, Global.LOGIN_INFO); //清除token
-            Global.deleteSerializeData(context, Global.LOGIN_PASSWORD); //清除token
+            Global.deleteSerializeData(context, Global.APP_CACHE);
+            Global.deleteSerializeData(context, Global.LOGIN_INFO);
             //
         } catch (Exception e) {
             e.printStackTrace();
@@ -1056,10 +995,12 @@ public class Global {
     public static void logout(Context mContext) {
         Global.USERINFOMAP = null;
         Global.deleteSerializeData(mContext, Global.APP_CACHE);
-        Global.deleteSerializeData(mContext, Global.LOGIN_PASSWORD);  //删除登录密码
         Global.deleteSerializeData(mContext, Global.LOGIN_INFO);  //删除个人信息
         Global.deleteSerializeData(mContext, Global.RONGTOKEN_INFO);  //删除融云的token
 //        new RongUtils(mContext).disConnect();
+        Global.RONG_TOKEN = null;
+        Global.LOGIN_INFO_MAP = null;
+        Global.deleteSerializeData(mContext, Global.LOGIN_INFO_OPENID);
         //
         // 除cookie
         Global.clearCookie(mContext);

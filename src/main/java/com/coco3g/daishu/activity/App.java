@@ -10,12 +10,14 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.coco3g.daishu.bean.ChatItemDataBean;
+import com.coco3g.daishu.data.Constants;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.umeng.analytics.MobclickAgent;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,7 +61,10 @@ public class App extends MultiDexApplication {
         config.writeDebugLogs();
         config.threadPoolSize(5);
         ImageLoader.getInstance().init(config.build());
-        //
+        //友盟配置
+        MobclickAgent.UMAnalyticsConfig umengConfig = new MobclickAgent.UMAnalyticsConfig(this, Constants.UMENG_APP_KEY, Constants.UMENG_CHANNEL_ID,
+                MobclickAgent.EScenarioType.E_UM_NORMAL, true);
+        MobclickAgent.startWithConfigure(umengConfig);
 
        /**
          * OnCreate 会被多个进程重入，这段保护代码，确保只有您需要使用 RongIM 的进程和 Push 进程执行了 init。

@@ -39,7 +39,7 @@ public class QQLoginUtils {
      * QQ登录
      */
     public QQLoginUtils login() {
-        myProgressDialog = MyProgressDialog.show(mContext, mContext.getResources().getString(R.string.bangding_qq), false, false);
+        myProgressDialog = MyProgressDialog.show(mContext, mContext.getResources().getString(R.string.bangding_qq), true, true);
         mTencent = Tencent.createInstance(Constants.QQ_APP_ID, mContext.getApplicationContext());
         qqLoginUiListener = new qqLoginUiListener();
         mTencent.login((Activity) mContext, "all", qqLoginUiListener);
@@ -50,6 +50,7 @@ public class QQLoginUtils {
         @Override
         public void onError(UiError error) {
             // TODO Auto-generated method stub
+            myProgressDialog.cancel();
             if (error.errorCode == 110406) {
                 Global.showToast("测试阶段，该qq号未获得授权，请联系管理员", mContext);
                 logincomplete(null, null, null);

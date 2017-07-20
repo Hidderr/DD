@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.utils.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -46,12 +47,16 @@ public class BaseFragmentActivity extends FragmentActivity {
         win.setAttributes(winParams);
     }
 
-    public void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
-    public void onPause() {
+    @Override
+    protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

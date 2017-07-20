@@ -190,10 +190,10 @@ public class MyWebView extends RelativeLayout {
                     webView.loadUrl(url);
 
                 } else if (url.contains("http://open.iauto360.cn")) {  //车保姆
-                    if (!TextUtils.isEmpty(url) && url.startsWith("http://open.iauto360.cn/html/main.html?") ) {  //排除跳转两次
+                    if (!TextUtils.isEmpty(url) && url.startsWith("http://open.iauto360.cn/html/main.html?")) {  //排除跳转两次
                         webView.loadUrl(url);
                     } else {
-                        mUrl  = url;
+                        mUrl = url;
                         Intent intent = new Intent(mContext, WebActivity.class);
                         intent.putExtra("url", url);
                         intent.putExtra("hidetopbar", hideTopbar);
@@ -229,6 +229,11 @@ public class MyWebView extends RelativeLayout {
                 if (onRefreshFinished != null) {
                     onRefreshFinished.refreshFinished();
                 }
+
+//                if (!mUrl.contains("pull_down")) {
+//                    mXRefreshView.setPullLoadEnable(false);
+//                    mXRefreshView.setPullRefreshEnable(false);
+//                }
 //                if (mProgress != null) {
 //                    try {
 //                        mProgress.cancel();
@@ -380,7 +385,9 @@ public class MyWebView extends RelativeLayout {
 
 
     public void unRegisterBroadcast() {
-        mCurrBoardCast.unregisterBroadcast();
+        if (mCurrBoardCast != null) {
+            mCurrBoardCast.unregisterBroadcast();
+        }
     }
 
     public void setOnConfigMenuListener(ConfigTopBarMenu configtopbarmenu) {

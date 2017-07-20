@@ -29,6 +29,8 @@ import com.coco3g.daishu.presenter.BaseDataPresenter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.microedition.khronos.opengles.GL;
+
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     private ImageView mImageWXLogin, mImageQQLogin;
@@ -50,7 +52,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 //        Global.getScreenWH(this);
-
+        weiXinLoginUtils = new WeiXinLoginUtils(LoginActivity.this);
         initView();
 
     }
@@ -101,10 +103,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mImageQQLogin.setOnClickListener(this);
         mTxtKanKan.setOnClickListener(this);
         //
-        final HashMap<String, String> loginMap = Global.readLoginInfo(LoginActivity.this, Global.LOGIN_INFO_LAST);
-        if (loginMap != null) {
-            mEditPhone.setText(loginMap.get("phone"));
-        }
+//        String lastPhone = (String)Global.readSerializeData(LoginActivity.this, Global.LOGIN_INFO_LAST);
+//        if (!TextUtils.isEmpty(lastPhone)) {
+//            mEditPhone.setText(lastPhone);
+//        }
     }
 
     @Override
@@ -150,7 +152,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.image_login_weixin:   //微信登录
-//                wxLogin();
+                wxLogin();
 
                 break;
 
@@ -168,7 +170,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
     }
 
-
     //登录
     public void login(final String mLoginPhone, final String mLoginPassWord) {
         HashMap<String, String> params = new HashMap<>();
@@ -179,16 +180,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onSuccess(BaseDataBean data) {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, Object>) data.response;
-                    Global.savePassWord(LoginActivity.this, mLoginPassWord);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO);
-                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO_LAST);
+                    Global.serializeData(LoginActivity.this, Global.USERINFOMAP, Global.LOGIN_INFO);
+//                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO);
+//                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO_LAST);
                     //
-                    if (Global.MAINACTIVITY_CONTEXT != null) {
-                        ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
-                        Global.MAINACTIVITY_CONTEXT = null;
-                    }
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+//                    if (Global.MAINACTIVITY_CONTEXT != null) {
+//                        ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
+//                        Global.MAINACTIVITY_CONTEXT = null;
+//                    }
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    startActivity(intent);
                     new RongUtils(LoginActivity.this).init();
                     finish();
                 } else {
@@ -220,7 +221,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
 
     }
-
 
     //微信登录
     public void wxLogin() {
@@ -254,10 +254,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     return;
                 }
                 Global.USERINFOMAP = (Map<String, Object>) data.response;
-                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone") + "", mPassWord, avatar, Global.LOGIN_INFO);
-                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone") + "", mPassWord, avatar, Global.LOGIN_INFO_LAST);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone") + "", mPassWord, avatar, Global.LOGIN_INFO);
+//                Global.saveLoginInfo(LoginActivity.this, Global.USERINFOMAP.get("phone") + "", mPassWord, avatar, Global.LOGIN_INFO_LAST);
+                Global.serializeData(LoginActivity.this, openID, Global.LOGIN_INFO_OPENID);
+                Global.deleteSerializeData(LoginActivity.this, Global.LOGIN_INFO);  //删除个人信息
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
                 finish();
 
             }
@@ -272,7 +274,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     intent.putExtra("nickname", nickname);
                     intent.putExtra("avatar", avatar);
                     intent.putExtra("qqkey", openID);
-                    startActivity(intent);
+                    startActivityForResult(intent, Constants.REGISTER_REQUEST_CODE);
                 }
             }
 
@@ -283,5 +285,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (weiXinLoginUtils != null) {
+            weiXinLoginUtils.unregisterReceiver();
+        }
+    }
 }

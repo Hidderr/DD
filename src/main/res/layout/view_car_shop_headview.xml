@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/text_color_9"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/text_color_9"
+              android:orientation="vertical">
 
     <com.coco3g.daishu.view.BannerView
         android:id="@+id/banner_car_shop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
 
     <TextView
@@ -21,55 +21,25 @@
         android:paddingTop="8dp"
         android:text="推荐品牌"
         android:textColor="@color/text_color_1"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:weightSum="1">
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
 
-        <ImageView
-            android:id="@+id/tv_car_shop_recommend_1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear_car_shop_recommend"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:src="@mipmap/pic_aodi_icon" />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/tv_car_shop_recommend_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:src="@mipmap/pic_dazhong_icon" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
-        <ImageView
-            android:id="@+id/tv_car_shop_recommend_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:src="@mipmap/pic_benchi_icon" />
-
-        <ImageView
-            android:id="@+id/tv_car_shop_recommend_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:src="@mipmap/pic_baoma_icon" />
-    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -81,68 +51,33 @@
         android:paddingTop="8dp"
         android:text="热销车型"
         android:textColor="@color/text_color_1"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
         android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_car_shop_hotsale_1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear_car_shop_hotsale"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="奥迪"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_car_shop_hotsale_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="大众"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+            <!--<TextView-->
+            <!--android:id="@+id/tv_car_shop_hotsale_1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="奥迪"-->
+            <!--android:textColor="@color/text_color_1"-->
+            <!--android:textSize="14sp"/>-->
 
-        <TextView
-            android:id="@+id/tv_car_shop_hotsale_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="奔驰"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_car_shop_hotsale_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:background="@color/white"
-            android:gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="宝马"
-            android:textColor="@color/text_color_1"
-            android:textSize="14sp" />
-    </LinearLayout>
+    </HorizontalScrollView>
+
 
 </LinearLayout>

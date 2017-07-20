@@ -20,6 +20,7 @@ import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.BrowseImageActivity;
 import com.coco3g.daishu.activity.DriveRouteActivity;
 import com.coco3g.daishu.activity.LoginActivity;
+import com.coco3g.daishu.activity.MainActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.alipay.AliPayUtils;
@@ -221,17 +222,7 @@ public class TypevauleGotoDictionary {
                 public void onClick(DialogInterface dialog, int which) {
                     // TODO Auto-generated method stub
                     new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.LOG_OUT, null);
-                    Global.USERINFOMAP = null;
-//                    Global.RONG_TOKEN = null;
-                    Global.deleteSerializeData(mContext, Global.APP_CACHE);
-                    Global.deleteSerializeData(mContext, Global.LOGIN_PASSWORD);  //删除登录密码
-                    Global.deleteSerializeData(mContext, Global.LOGIN_INFO);  //删除个人信息
-                    Global.deleteSerializeData(mContext, Global.RONGTOKEN_INFO);  //删除融云的token
-                    //
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(intent);
-                    // 除cookie
-                    Global.clearCookie(mContext);
+                    Global.logout(mContext);
                     ((Activity) mContext).finish();
                     //
                     mWebview.loadUrl("javascript:c3_navtive_user.callback('" + hashMap.get("callbackTag") + "')");

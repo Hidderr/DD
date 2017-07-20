@@ -14,7 +14,6 @@ import com.amap.api.location.AMapLocation;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.fragment.GoodsFragment;
-import com.coco3g.daishu.fragment.GoodsFragment1;
 import com.coco3g.daishu.fragment.HomeFragment;
 import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
@@ -42,7 +41,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private static FragmentManager mFragManager = null;
     //
     private HomeFragment mHomeFrag;
-    private GoodsFragment1 mGoodsFrag;
+    private GoodsFragment mGoodsFrag;
     private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
     private MeFragment mMeFrag;
@@ -56,11 +55,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Global.MAINACTIVITY_CONTEXT != null) {
-            finish();
-        }
+//        if (Global.MAINACTIVITY_CONTEXT != null) {
+//            finish();
+//        }
         setContentView(R.layout.activity_main);
-        Global.MAINACTIVITY_CONTEXT = this;
+//        Global.MAINACTIVITY_CONTEXT = this;
         initView();
         startLocation();
     }
@@ -209,7 +208,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setSettingVisible(false);
                 mTopbar.showJiangLi(false);
                 if (mGoodsFrag == null) {
-                    mGoodsFrag = new GoodsFragment1();
+                    mGoodsFrag = new GoodsFragment();
                     transaction.add(R.id.frame_main_content, mGoodsFrag);
                 } else {
                     transaction.show(mGoodsFrag);
@@ -390,6 +389,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             Global.MODEL = null;
             BaseActivity.CONTEXTLIST.clear();
             BaseActivity.CONTEXTLIST = null;
+//            Global.MAINACTIVITY_CONTEXT = null;
             Global.deleteSerializeData(this, Global.APP_CACHE); //清除token
             //
         } catch (Exception e) {
@@ -401,7 +401,16 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         isForeground = false;
-        mLogoutBroadcast.unregisterBroadcast();
+        if (mLogoutBroadcast != null) {
+            mLogoutBroadcast.unregisterBroadcast();
+        }
+        if (CurrBroadcast != null) {
+            CurrBroadcast.unregisterBroadcast();
+        }
+        if (CurrUnreadBroadcast != null) {
+            CurrUnreadBroadcast.unregisterBroadcast();
+        }
+
 //        mLogoutBroadcast.unregisterBroadcast();
 //        systemBroadcast.unregisterBroadcast();
     }

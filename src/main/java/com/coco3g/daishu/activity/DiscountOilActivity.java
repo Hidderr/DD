@@ -322,9 +322,9 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
     //获取油卡类型
     public void getOilCardList(String id, final boolean onlyGetCard) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("gcatid", id);
-        params.put("page", "1");
-        new BaseDataPresenter(this).loadData(DataUrl.GET_CAR_GOODS_LIST, params, null, new IBaseDataListener() {
+//        params.put("gcatid", id);
+//        params.put("page", "1");
+        new BaseDataPresenter(this).loadData(DataUrl.GET_YOUKA_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
                 ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;

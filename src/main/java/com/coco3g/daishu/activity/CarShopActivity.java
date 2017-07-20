@@ -28,6 +28,7 @@ import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.coco3g.daishu.view.TopBarView;
+import com.iflytek.cloud.thirdparty.V;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CarShopActivity extends BaseActivity  {
+public class CarShopActivity extends BaseActivity {
     private TopBarView mTopbar;
     private ListView mListView, mListViewRight;
     private View mHeadView;
@@ -45,11 +46,12 @@ public class CarShopActivity extends BaseActivity  {
 
     private ProgressBar progressBar;
 
-    private TextView mTxtHot1, mTxtHot2, mTxtHot3, mTxtHot4;
-    private TextView[] mTxtHots;
+    //    private TextView mTxtHot1, mTxtHot2, mTxtHot3, mTxtHot4;
+//    private TextView[] mTxtHots;
     private BannerView mBannerView;
-    private ImageView mImageRecomd1, mImageRecomd2, mImageRecomd3, mImageRecomd4;
-    private ImageView[] mImageRecomds;
+    private LinearLayout mLinearCommend, mLinearHotSale;
+    //    private ImageView mImageRecomd1, mImageRecomd2, mImageRecomd3, mImageRecomd4;
+//    private ImageView[] mImageRecomds;
     private LinearLayout.LayoutParams thumb_lp;
 
 
@@ -91,23 +93,24 @@ public class CarShopActivity extends BaseActivity  {
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_car_shop_headview, null);
         mBannerView = (BannerView) mHeadView.findViewById(R.id.banner_car_shop);
         mBannerView.setScreenRatio(2);
-        mImageRecomd1 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_1);
-        mImageRecomd2 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_2);
-        mImageRecomd3 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_3);
-        mImageRecomd4 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_4);
-        thumb_lp = new LinearLayout.LayoutParams(Global.screenWidth / 8, Global.screenWidth / 8);
+        mLinearCommend = (LinearLayout) mHeadView.findViewById(R.id.linear_car_shop_recommend);
+        mLinearHotSale = (LinearLayout) mHeadView.findViewById(R.id.linear_car_shop_hotsale);
+//        mImageRecomd1 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_1);
+//        mImageRecomd2 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_2);
+//        mImageRecomd3 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_3);
+//        mImageRecomd4 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_4);
+        thumb_lp = new LinearLayout.LayoutParams(Global.screenWidth / 4, Global.screenWidth / 10);
         thumb_lp.gravity = Gravity.CENTER_VERTICAL;
-        thumb_lp.weight = 0.25f;
-        mImageRecomd1.setLayoutParams(thumb_lp);
-        mImageRecomd2.setLayoutParams(thumb_lp);
-        mImageRecomd3.setLayoutParams(thumb_lp);
-        mImageRecomd4.setLayoutParams(thumb_lp);
-        mTxtHot1 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_1);
-        mTxtHot2 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_2);
-        mTxtHot3 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_3);
-        mTxtHot4 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_4);
-        mTxtHots = new TextView[]{mTxtHot1, mTxtHot2, mTxtHot3, mTxtHot4};
-        mImageRecomds = new ImageView[]{mImageRecomd1, mImageRecomd2, mImageRecomd3, mImageRecomd4};
+//        mImageRecomd1.setLayoutParams(thumb_lp);
+//        mImageRecomd2.setLayoutParams(thumb_lp);
+//        mImageRecomd3.setLayoutParams(thumb_lp);
+//        mImageRecomd4.setLayoutParams(thumb_lp);
+//        mTxtHot1 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_1);
+//        mTxtHot2 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_2);
+//        mTxtHot3 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_3);
+//        mTxtHot4 = (TextView) mHeadView.findViewById(R.id.tv_car_shop_hotsale_4);
+//        mTxtHots = new TextView[]{mTxtHot1, mTxtHot2, mTxtHot3, mTxtHot4};
+//        mImageRecomds = new ImageView[]{mImageRecomd1, mImageRecomd2, mImageRecomd3, mImageRecomd4};
         //
         mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
@@ -243,8 +246,13 @@ public class CarShopActivity extends BaseActivity  {
             @Override
             public void onSuccess(BaseDataBean data) {
                 Map<String, Object> map = (Map<String, Object>) data.response;
-
+                if (recomdBrandList != null && recomdBrandList.size() > 0) {
+                    mLinearCommend.removeAllViews();
+                }
                 recomdBrandList = (ArrayList<Map<String, String>>) map.get("recom");
+                if (hotBrandList != null && hotBrandList.size() > 0) {
+                    mLinearHotSale.removeAllViews();
+                }
                 hotBrandList = (ArrayList<Map<String, String>>) map.get("hot");
                 showRecomdAndHotBrand();
                 //
@@ -306,39 +314,61 @@ public class CarShopActivity extends BaseActivity  {
         });
     }
 
+    /**
+     * 设置推荐品牌和热销车型
+     */
     public void showRecomdAndHotBrand() {
+        // 推荐品牌
+        if (recomdBrandList != null && recomdBrandList.size() > 0) {
+            mLinearCommend.setVisibility(View.VISIBLE);
+            for (int i = 0; i < recomdBrandList.size(); i++) {
+                final ImageView image = new ImageView(CarShopActivity.this);
+                image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                image.setLayoutParams(thumb_lp);
+                image.setTag(recomdBrandList.get(i).get("id"));
+                ImageLoader.getInstance().displayImage(recomdBrandList.get(i).get("thumb"), image, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+                image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currBrandId = (String) image.getTag();
+                        progressBar.setVisibility(View.VISIBLE);
+                        //
+                        currPageType = 1;
+                        mCarTypeAdapter.clearList();
+                        getOneBrandTypeList();
 
-        for (int i = 0; i < mImageRecomds.length; i++) {
-            ImageLoader.getInstance().displayImage(recomdBrandList.get(i).get("thumb"), mImageRecomds[i], new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
-            final int finalI = i;
-            mImageRecomds[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currBrandId = recomdBrandList.get(finalI).get("id");
-                    progressBar.setVisibility(View.VISIBLE);
-                    //
-                    currPageType = 1;
-                    mCarTypeAdapter.clearList();
-                    getOneBrandTypeList();
-
-                }
-            });
+                    }
+                });
+                mLinearCommend.addView(image, thumb_lp);
+            }
+        } else {
+            mLinearCommend.setVisibility(View.GONE);
         }
-
-        for (int j = 0; j < mTxtHots.length; j++) {
-            mTxtHots[j].setText(hotBrandList.get(j).get("title"));
-            final int finalJ = j;
-            mTxtHots[j].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currBrandId = hotBrandList.get(finalJ).get("id");
-                    progressBar.setVisibility(View.VISIBLE);
-                    //
-                    currPageType = 1;
-                    mCarTypeAdapter.clearList();
-                    getOneBrandTypeList();
-                }
-            });
+        // 热销车型
+        if (hotBrandList != null && hotBrandList.size() > 0) {
+            mLinearHotSale.setVisibility(View.VISIBLE);
+            for (int j = 0; j < hotBrandList.size(); j++) {
+                final TextView tv = new TextView(CarShopActivity.this);
+                tv.setText(hotBrandList.get(j).get("title"));
+                tv.setLayoutParams(thumb_lp);
+                tv.setGravity(Gravity.CENTER);
+                tv.setTextColor(getResources().getColor(R.color.text_color_1));
+                tv.setTag(hotBrandList.get(j).get("id"));
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currBrandId = (String) tv.getTag();
+                        progressBar.setVisibility(View.VISIBLE);
+                        //
+                        currPageType = 1;
+                        mCarTypeAdapter.clearList();
+                        getOneBrandTypeList();
+                    }
+                });
+                mLinearHotSale.addView(tv, thumb_lp);
+            }
+        } else {
+            mLinearHotSale.setVisibility(View.GONE);
         }
     }
 

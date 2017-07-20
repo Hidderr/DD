@@ -5,7 +5,7 @@ android {
         dashudashi {
             keyAlias 'DaiShuDaShi'
             keyPassword 'daishudashi.com'
-            storeFile file('/Users/lisen/Documents/AS-workspace/DaiShu/daishudashi.jks')
+            storeFile file('/Users/lisen/Documents/DaiShu-workspace/DaiShu/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
     }
@@ -55,9 +55,7 @@ dependencies {
     }
     compile files('libs/jpush-android-2.1.9.jar')
     compile files('libs/alipaySdk-20170309.jar')
-    compile files('libs/open_sdk_r5788_lite.jar')
     compile files('libs/libammsdk.jar')
-    compile files('libs/umeng-analytics-v6.0.1.jar')
     compile files('libs/AMap_Search_V5.0.0_20170309.jar')
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
     //
@@ -73,4 +71,6 @@ dependencies {
     compile project(':IMKit')
     compile 'com.android.support:multidex:1.0.1'
     compile files('libs/gesture-imageview.jar')
+    compile files('libs/open_sdk_r5043_lite.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

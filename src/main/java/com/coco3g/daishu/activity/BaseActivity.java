@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.utils.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -50,11 +51,13 @@ public class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

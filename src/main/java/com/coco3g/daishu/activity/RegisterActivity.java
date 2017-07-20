@@ -182,15 +182,20 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(BaseDataBean data) {
                 Global.USERINFOMAP = (Map<String, Object>) data.response;
-                Global.saveLoginInfo(RegisterActivity.this, mPhone, Global.USERINFOMAP.get("nickname") + "", mPassWord, Global.LOGIN_INFO);
-                Global.saveLoginInfo(RegisterActivity.this, mPhone, Global.USERINFOMAP.get("nickname") + "", mPassWord, Global.LOGIN_INFO_LAST);
-                //
-                if (Global.MAINACTIVITY_CONTEXT != null) {
-                    ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
-                    Global.MAINACTIVITY_CONTEXT = null;
+                if (!TextUtils.isEmpty(logintype)) {
+                    Global.serializeData(RegisterActivity.this, qqkey, Global.LOGIN_INFO_OPENID);
+                    Global.deleteSerializeData(RegisterActivity.this, Global.LOGIN_INFO);  //删除个人信息
+                } else {
+                    Global.serializeData(RegisterActivity.this, Global.USERINFOMAP, Global.LOGIN_INFO);
+//                    Global.serializeData(RegisterActivity.this, mPhone, Global.LOGIN_INFO_LAST);
                 }
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
+                //
+//                if (Global.MAINACTIVITY_CONTEXT != null) {
+//                    ((Activity) Global.MAINACTIVITY_CONTEXT).finish();
+//                    Global.MAINACTIVITY_CONTEXT = null;
+//                }
+//                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+//                startActivity(intent);
                 setResult(Constants.REGISTER_SUCCESS_RETURN_CODE);
                 new RongUtils(RegisterActivity.this).init();
                 finish();

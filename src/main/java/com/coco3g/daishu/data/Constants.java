@@ -38,12 +38,14 @@ public class Constants {
     public static final String QQ_APP_ID = "1106153655";
     // 微信登录
     public static final String WEIXIN_APP_ID = "wxe5010d9959f38525";
-    public static final String WEIXIN_APP_SECRET = "a45b185493c064bd5c28b38abfde04ef";
+    public static final String WEIXIN_APP_SECRET = "87e0f6dd00d2f5683cae1d640c17e67e";
 
     // 商户号
     public static final String MCH_ID = "1480633502";
     // API密钥，在商户平台设置
     public static final String API_KEY = "5ACC061AC05C377A285E7BE27CC26871";
-
+    // 友盟
+    public static final String UMENG_APP_KEY = "59705f52a40fa30e2b001626";
+    public static final String UMENG_CHANNEL_ID = "DaiShu";
 
 }

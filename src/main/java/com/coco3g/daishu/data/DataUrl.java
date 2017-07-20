@@ -6,7 +6,7 @@ package com.coco3g.daishu.data;
 
 public class DataUrl {
 
-    public static final String BASE_URL = "http://daishu.test.coco3g.com/v1/"; // 测试域名
+    public static final String BASE_URL = "http://daishu.coco3g.net/v1/"; // 测试域名
 
     public static final String BASE_XIEYI_URL = "http://daishu.test.coco3g.com/"; // 协议(注册)
 
@@ -80,6 +80,10 @@ public class DataUrl {
      * 获取车载用品商品列表
      * */
     public static final String GET_CAR_GOODS_LIST = BASE_URL + "goods/index";
+    /**
+     * 获取油卡列表
+     */
+    public static final String GET_YOUKA_LIST = BASE_URL + "goods/youka_list";
     /*
      * 获取车载用品搜索结果
      * */
