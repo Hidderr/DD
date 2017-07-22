@@ -99,7 +99,7 @@ public class CarShopActivity extends BaseActivity {
 //        mImageRecomd2 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_2);
 //        mImageRecomd3 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_3);
 //        mImageRecomd4 = (ImageView) mHeadView.findViewById(R.id.tv_car_shop_recommend_4);
-        thumb_lp = new LinearLayout.LayoutParams(Global.screenWidth / 4, Global.screenWidth / 10);
+        thumb_lp = new LinearLayout.LayoutParams(Global.screenWidth / 4, Global.screenWidth / 8);
         thumb_lp.gravity = Gravity.CENTER_VERTICAL;
 //        mImageRecomd1.setLayoutParams(thumb_lp);
 //        mImageRecomd2.setLayoutParams(thumb_lp);
@@ -117,6 +117,7 @@ public class CarShopActivity extends BaseActivity {
             @Override
             public void onRefreshing() {
                 mAdapter.clearList();
+                currPage = 1;
                 getBanner();
             }
 
@@ -323,7 +324,7 @@ public class CarShopActivity extends BaseActivity {
             mLinearCommend.setVisibility(View.VISIBLE);
             for (int i = 0; i < recomdBrandList.size(); i++) {
                 final ImageView image = new ImageView(CarShopActivity.this);
-                image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 image.setLayoutParams(thumb_lp);
                 image.setTag(recomdBrandList.get(i).get("id"));
                 ImageLoader.getInstance().displayImage(recomdBrandList.get(i).get("thumb"), image, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));

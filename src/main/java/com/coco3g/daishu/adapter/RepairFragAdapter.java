@@ -56,11 +56,11 @@ public class RepairFragAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 1;
-//        if (mList == null) {
-//            return 0;
-//        }
-//        return mList.size();
+//        return 1;
+        if (mList == null) {
+            return 0;
+        }
+        return mList.size();
     }
 
     @Override
@@ -88,17 +88,17 @@ public class RepairFragAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
-//        final Map<String, String> map = mList.get(position);
-
+        //
+        final Map<String, String> map = mList.get(position);
+        viewHolder.mTxtCar.setText(map.get("prov_key") + map.get("initial") + map.get("licenc"));
         viewHolder.mLinearRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra("url", map.get("url"));
+                mContext.startActivity(intent);
             }
         });
-
-
         return view;
     }
 

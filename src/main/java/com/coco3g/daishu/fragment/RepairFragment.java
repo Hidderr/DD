@@ -252,13 +252,18 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(BaseDataBean data) {
                 mBroadCastList = (ArrayList<Map<String, String>>) data.response;
                 if (mBroadCastList != null && mBroadCastList.size() > 0) {
-                    ArrayList<String> list = new ArrayList<String>();
+                    ArrayList<String> list = new ArrayList<>();
                     for (int i = 0; i < mBroadCastList.size(); i++) {
                         list.add(mBroadCastList.get(i).get("title"));
                     }
                     mTxtRepairBoradcast.startWithList(list);
                 }
                 mLinearRoot.setVisibility(View.VISIBLE);
+                // 我的汽车信息
+                if (Global.USERINFOMAP != null) {
+                    ArrayList<Map<String, String>> myCarList = (ArrayList<Map<String, String>>) Global.USERINFOMAP.get("mycars");
+                    mAdapter.setList(myCarList);
+                }
                 mListView.setAdapter(mAdapter);
                 mSuperRefreshLayout.onLoadComplete();
             }

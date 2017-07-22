@@ -118,7 +118,7 @@ public class CategoryActivity extends BaseActivity implements View.OnClickListen
                         Intent intent = new Intent(CategoryActivity.this, CarCategoryListActivity.class);
                         intent.putExtra("fromType", 1);
                         intent.putExtra("searchKey", searchKey);
-                        startActivityForResult(intent, 1);
+                        startActivity(intent);
                         return true;
                     }
                 }

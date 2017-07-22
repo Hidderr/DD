@@ -16,7 +16,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
-        android:text="川A 123445"
+        android:text=""
         android:textColor="@color/text_color_1"
         android:textSize="15sp" />
 

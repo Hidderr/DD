@@ -180,6 +180,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onSuccess(BaseDataBean data) {
                 if (data.code == 200) {
                     Global.USERINFOMAP = (Map<String, Object>) data.response;
+                    Global.USERINFOMAP.put("password", mLoginPassWord);
                     Global.serializeData(LoginActivity.this, Global.USERINFOMAP, Global.LOGIN_INFO);
 //                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO);
 //                    Global.saveLoginInfo(LoginActivity.this, mLoginPhone, Global.USERINFOMAP.get("nickname") + "", mLoginPassWord, Global.LOGIN_INFO_LAST);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -71,7 +72,15 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         mTopbar.setOnHomeSearchListener(new TopBarView.OnHomeSearchListener() {
             @Override
             public void homeSearch(String searchKey) {
-
+//                Log.e("searchkey", searchKey);
+                if (TextUtils.isEmpty(searchKey)) {
+                    Global.showToast("搜索内容为空", MainActivity.this);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, CarCategoryListActivity.class);
+                    intent.putExtra("fromType", 1);
+                    intent.putExtra("searchKey", searchKey);
+                    startActivity(intent);
+                }
             }
         });
         //
