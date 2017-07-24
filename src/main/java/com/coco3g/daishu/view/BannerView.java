@@ -17,6 +17,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -32,6 +33,8 @@ import com.coco3g.daishu.data.Global;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import static java.lang.Thread.sleep;
 
 public class BannerView extends RelativeLayout implements OnPageChangeListener {
     Context mContext;
@@ -130,9 +133,14 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
                         dx = Math.abs(startX - endX);
                         dy = Math.abs(startY - endY);
                         if (dx <= 8) { // 点击事件
-//                            if (mCurrBannerList != null && mCurrBannerList.size() > 0) {
-//                                String linkurl = mCurrBannerList.get(mCurrPagerItemPosition).linkurl;
-//                                if (TextUtils.isEmpty(linkurl)) {
+                            if (mCurrBannerList != null && mCurrBannerList.size() > 0) {
+                                String linkurl = mCurrBannerList.get(mCurrPagerItemPosition).get("linkurl");
+                                if (!TextUtils.isEmpty(linkurl) && !linkurl.equals("#")) {
+                                    Intent intent = new Intent(mContext, WebActivity.class);
+                                    intent.putExtra("url", linkurl);
+                                    mContext.startActivity(intent);
+                                }
+                            }
 //                                    return false;
 //                                } else {
 //                                    Intent intent = null;
@@ -169,6 +177,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
 //                                }
 //                            }
                         }
+
                         mIsBannerScroll = true;
                         initTimer();
                         break;
@@ -274,18 +283,6 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
             image.setImageResource(R.mipmap.pic_default_icon);
             ImageLoader.getInstance().displayImage(mListDatas.get(position), image, options);
             //
-            image.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String url = mCurrBannerList.get(position).get("linkurl");
-                    if (!TextUtils.isEmpty(url) && !url.equals("#")) {
-                        Intent intent = new Intent(mContext, WebActivity.class);
-                        intent.putExtra("url", url);
-                        mContext.startActivity(intent);
-                    }
-                }
-            });
-            //
             container.addView(image, 0);
             return image;
 
@@ -347,6 +344,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
                     Message mess = new Message();
                     mess.what = MSG_PAGER_SCROLL_CONTROLL;
                     mHandlerMain.sendMessage(mess);
+                    Log.e("banne滚动", "计时时间到！！！！！！");
                 } else {
                     return;
                 }
