@@ -123,7 +123,7 @@ public class ForgetPassWordActivity extends BaseActivity implements View.OnClick
         });
     }
 
-    //登录
+    //
     public void changePassword() {
         HashMap<String, String> params = new HashMap<>();
         params.put("phone", mPhone);

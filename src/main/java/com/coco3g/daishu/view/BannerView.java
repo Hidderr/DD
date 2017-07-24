@@ -27,6 +27,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 
 import com.coco3g.daishu.R;
+import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.data.Global;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -258,7 +259,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
 ////            Log.e("position", position + "--");
 //            try {
 //                container.removeView(mListViews.get(position));
@@ -272,6 +273,19 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
             image.setScaleType(ScaleType.CENTER_CROP);
             image.setImageResource(R.mipmap.pic_default_icon);
             ImageLoader.getInstance().displayImage(mListDatas.get(position), image, options);
+            //
+            image.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url = mCurrBannerList.get(position).get("linkurl");
+                    if (!TextUtils.isEmpty(url) && !url.equals("#")) {
+                        Intent intent = new Intent(mContext, WebActivity.class);
+                        intent.putExtra("url", url);
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
+            //
             container.addView(image, 0);
             return image;
 
