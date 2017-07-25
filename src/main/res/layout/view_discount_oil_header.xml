@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/text_color_8"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/text_color_8"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:maxLines="1"
             android:text="油卡类型"
             android:textColor="@color/text_color_1"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_oil_tore_card_type"
@@ -36,21 +36,90 @@
             android:paddingTop="10dp"
             android:text="中国石油"
             android:textColor="@color/text_color_2"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </RelativeLayout>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_discount_oil_header_image"
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/rv_discount_oil_header_image"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="0.5dp"-->
+    <!--android:background="@color/white"-->
+    <!--android:paddingLeft="5dp"-->
+    <!--android:paddingRight="5dp"-->
+    <!--android:paddingTop="5dp"-->
+    <!--android:scrollbars="none" />-->
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0.5dp"
+        android:layout_weight="2"
         android:background="@color/white"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:scrollbars="none"/>
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp">
 
+        <LinearLayout
+            android:id="@+id/linear_discount_oil_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_oil_type_thumb_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@mipmap/default_image" />
+
+            <TextView
+                android:id="@+id/tv_oil_type_title_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:maxLines="2"
+                android:textColor="@color/text_color_1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_discount_oil_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_oil_type_thumb_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@mipmap/default_image" />
+
+            <TextView
+                android:id="@+id/tv_oil_type_title_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:maxLines="2"
+                android:textColor="@color/text_color_1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_dicount_oil_header_charge_youka"
@@ -68,7 +137,7 @@
         android:text="充值油卡"
         android:textColor="@color/text_color_1"
         android:textSize="14sp"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 
 </LinearLayout>

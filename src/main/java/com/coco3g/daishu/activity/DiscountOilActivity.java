@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -24,11 +26,13 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.utils.LocationUtil;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.ChoosePopupwindow;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.coco3g.daishu.view.TopBarView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,8 +49,11 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
     private SuperRefreshLayout mSuperRefresh;
     private ListView mListView;
     private OilStoreAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private OilTypeAdapter mOilAdapter;
+    //    private RecyclerView mRecyclerView;
+//    private OilTypeAdapter mOilAdapter;
+    private TextView mTxtOilType1, mTxtOilType2;
+    private ImageView mImageOilType1, mImageOilType2;
+    private LinearLayout mLinearOilType1, mLinearOilType2;
     //
     private View mHeadView;
     //
@@ -72,6 +79,10 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
     //油卡的选项
     String[] oilTypes;
     private int currOilIndex = 0;
+
+
+    private LinearLayout.LayoutParams mOilThumb_lp;
+    private ArrayList<Map<String, String>> mOilTypeList;
 
 
     @Override
@@ -115,18 +126,29 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_discount_oil_header, null);
         mTxtOilType = (TextView) mHeadView.findViewById(R.id.tv_oil_tore_card_type);
         mTxtChargeYouKa = (TextView) mHeadView.findViewById(R.id.tv_dicount_oil_header_charge_youka);
-        mRecyclerView = (RecyclerView) mHeadView.findViewById(R.id.rv_discount_oil_header_image);
+        mTxtOilType1 = (TextView) mHeadView.findViewById(R.id.tv_oil_type_title_1);
+        mTxtOilType2 = (TextView) mHeadView.findViewById(R.id.tv_oil_type_title_2);
+        mLinearOilType1 = (LinearLayout) mHeadView.findViewById(R.id.linear_discount_oil_1);
+        mLinearOilType2 = (LinearLayout) mHeadView.findViewById(R.id.linear_discount_oil_2);
+        mImageOilType1 = (ImageView) mHeadView.findViewById(R.id.image_oil_type_thumb_1);
+        mImageOilType2 = (ImageView) mHeadView.findViewById(R.id.image_oil_type_thumb_2);
+        mOilThumb_lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Global.screenWidth / 3 - Global.dipTopx(this, 15f));
+        mImageOilType1.setLayoutParams(mOilThumb_lp);
+        mImageOilType2.setLayoutParams(mOilThumb_lp);
+//        mRecyclerView = (RecyclerView) mHeadView.findViewById(R.id.rv_discount_oil_header_image);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mOilAdapter = new OilTypeAdapter(this);
-        mRecyclerView.setAdapter(mOilAdapter);
+//        mRecyclerView.setLayoutManager(linearLayoutManager);
+//        mOilAdapter = new OilTypeAdapter(this);
+//        mRecyclerView.setAdapter(mOilAdapter);
         //
         mRelativeAddress.setOnClickListener(this);
         mRelativeMoRen.setOnClickListener(this);
         mRelativeShaiXuan.setOnClickListener(this);
         mTxtOilType.setOnClickListener(this);
         mTxtChargeYouKa.setOnClickListener(this);
+        mLinearOilType1.setOnClickListener(this);
+        mLinearOilType2.setOnClickListener(this);
         //
         mSuperRefresh.setCanLoadMore();
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
@@ -187,6 +209,26 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
                 startActivity(intent);
 
                 break;
+
+            case R.id.linear_discount_oil_1:  //中石油油卡
+                if (mOilTypeList != null && mOilTypeList.size() >= 1) {
+                    intent = new Intent(this, WebActivity.class);
+                    intent.putExtra("url", mOilTypeList.get(0).get("linkurl"));
+                    startActivity(intent);
+                }
+
+                break;
+
+            case R.id.linear_discount_oil_2:  //中石化油卡
+                if (mOilTypeList != null && mOilTypeList.size() >= 2) {
+                    intent = new Intent(this, WebActivity.class);
+                    intent.putExtra("url", mOilTypeList.get(1).get("linkurl"));
+                    startActivity(intent);
+                }
+
+                break;
+
+
         }
     }
 
@@ -327,10 +369,19 @@ public class DiscountOilActivity extends BaseActivity implements View.OnClickLis
         new BaseDataPresenter(this).loadData(DataUrl.GET_YOUKA_LIST, params, null, new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
-                ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;
-                if (mList != null && mList.size() > 0) {
-                    mOilAdapter.clearList();
-                    mOilAdapter.setList(mList);
+                mOilTypeList = (ArrayList<Map<String, String>>) data.response;
+                if (mOilTypeList != null && mOilTypeList.size() > 0) {
+                    for (int i = 0; i < mOilTypeList.size(); i++) {
+                        if (i == 0) {
+                            ImageLoader.getInstance().displayImage(mOilTypeList.get(i).get("thumb"), mImageOilType1, new DisplayImageOptionsUtils().init());
+                            mTxtOilType1.setText(mOilTypeList.get(i).get("title"));
+                        } else if (i == 1) {
+                            ImageLoader.getInstance().displayImage(mOilTypeList.get(i).get("thumb"), mImageOilType2, new DisplayImageOptionsUtils().init());
+                            mTxtOilType2.setText(mOilTypeList.get(i).get("title"));
+                        }
+                    }
+//                    mOilAdapter.clearList();
+//                    mOilAdapter.setList(mList);
                     if (mListView.getHeaderViewsCount() < 1) {
                         mListView.addHeaderView(mHeadView);
                     }
