@@ -344,7 +344,6 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
                     Message mess = new Message();
                     mess.what = MSG_PAGER_SCROLL_CONTROLL;
                     mHandlerMain.sendMessage(mess);
-                    Log.e("banne滚动", "计时时间到！！！！！！");
                 } else {
                     return;
                 }
