@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.BrowseImageActivity;
+import com.coco3g.daishu.activity.DiscountOilActivity;
 import com.coco3g.daishu.activity.DriveRouteActivity;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.MainActivity;
@@ -168,7 +169,6 @@ public class TypevauleGotoDictionary {
             CALLBACKTAG = Global.parseCustomUrl(value);
 
 
-
         } else if (value.startsWith(SHARE)) {  /***分享***/
             if (mSharePopupWindow == null) {
                 mSharePopupWindow = new SharePopupWindow(mContext, hashMap);
@@ -210,6 +210,10 @@ public class TypevauleGotoDictionary {
             } else if (hashMap.get("newtag").equals("login")) {
                 intent = new Intent(mContext, LoginActivity.class);
                 mContext.startActivity(intent);
+            } else if (hashMap.get("newtag").equals("disyouika")) {
+                intent = new Intent(mContext, DiscountOilActivity.class);
+                mContext.startActivity(intent);
+                ((Activity)mContext).finish();
             }
 
 
