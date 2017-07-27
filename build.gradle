@@ -5,7 +5,7 @@ android {
         dashudashi {
             keyAlias 'DaiShuDaShi'
             keyPassword 'daishudashi.com'
-            storeFile file('/Users/coco3g/Documents/project/DaiShu/DaiShuDaShi/daishudashi.jks')
+            storeFile file('/Users/lisen/Documents/DaiShu-workspace/DaiShu/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
     }
@@ -53,7 +53,6 @@ dependencies {
         exclude module: 'support-annotations'
         exclude module: 'support-v4'
     }
-    compile files('libs/jpush-android-2.1.9.jar')
     compile files('libs/alipaySdk-20170309.jar')
     compile files('libs/libammsdk.jar')
     compile files('libs/AMap_Search_V5.0.0_20170309.jar')
@@ -73,4 +72,6 @@ dependencies {
     compile files('libs/gesture-imageview.jar')
     compile files('libs/open_sdk_r5043_lite.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('libs/jpush-android-3.0.8.jar')
+    compile files('libs/jcore-android-1.1.6.jar')
 }

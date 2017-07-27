@@ -835,10 +835,10 @@ public class Global {
     }
 
 
-    public static void playAudio(Context context) {
+    public static void playAudio(Context context, String filename) {
         AssetFileDescriptor fileDescriptor = null;
         try {
-            fileDescriptor = context.getAssets().openFd("ring_1.mp3");
+            fileDescriptor = context.getAssets().openFd(filename + ".mp3");
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(),
                     fileDescriptor.getStartOffset(),

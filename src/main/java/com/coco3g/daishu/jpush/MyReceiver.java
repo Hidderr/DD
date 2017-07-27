@@ -11,6 +11,7 @@ import com.coco3g.daishu.activity.StartActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.bean.JPushData;
 import com.coco3g.daishu.data.Constants;
+import com.coco3g.daishu.data.Global;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -27,7 +28,7 @@ import cn.jpush.android.api.JPushInterface;
  * 如果不定义这个 Receiver，则： 1) 默认用户会打开主界面 2) 接收不到自定义消息
  */
 public class MyReceiver extends BroadcastReceiver {
-    private static final String TAG = "QianQu";
+    private static final String TAG = "DaiShu";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -40,7 +41,7 @@ public class MyReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.e(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-            // processCustomMessage(context, bundle);
+            processCustomMessage(context, bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.e(TAG, "[MyReceiver] 接收到推送下来的通知");
@@ -103,47 +104,51 @@ public class MyReceiver extends BroadcastReceiver {
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             Gson gson = new Gson();
             JPushData jpdata = gson.fromJson(extras, new JPushData().getClass());
-            String msgtype = jpdata.msgtype;
-            String value = "";
-            if ("1".equals(msgtype)) { // 订单号
-                value = jpdata.txt;
-            } else if ("2".equals(msgtype)) { // 商品ID
-                value = jpdata.txt;
-            } else if ("3".equals(msgtype)) { // url
-                value = jpdata.txt;
-            }
-            if (MainActivity.isForeground) { // 应用内
-                if ("1".equals(msgtype)) {
+            String msgtype = jpdata.txt;
+            Global.playAudio(context, msgtype);
+//            if (msgtype.equalsIgnoreCase("shakealarm")) {
+//
+//            }
+//            String value = "";
+//            if ("1".equals(msgtype)) { // 订单号
+//                value = jpdata.txt;
+//            } else if ("2".equals(msgtype)) { // 商品ID
+//                value = jpdata.txt;
+//            } else if ("3".equals(msgtype)) { // url
+//                value = jpdata.txt;
+//            }
+//            if (MainActivity.isForeground) { // 应用内
+//                if ("1".equals(msgtype)) {
+////                    Intent intent = new Intent(context, WebActivity.class);
+////                    intent.putExtra("title", "订单详情");
+////                    intent.putExtra("url", DataUrl.ORDER_DETAIL_WAP_URL + value);
+////                    context.startActivity(intent);
+//                } else if ("2".equals(msgtype)) { // 商品ID
+////                    Intent intent = new Intent(context, GoodsDetailActivity.class);
+////                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+////                    intent.putExtra("title", "");
+////                    intent.putExtra("goodsid", Integer.parseInt(value));
+////                    context.startActivity(intent);
+//                } else if ("3".equals(msgtype)) { // url
 //                    Intent intent = new Intent(context, WebActivity.class);
-//                    intent.putExtra("title", "订单详情");
-//                    intent.putExtra("url", DataUrl.ORDER_DETAIL_WAP_URL + value);
-//                    context.startActivity(intent);
-                } else if ("2".equals(msgtype)) { // 商品ID
-//                    Intent intent = new Intent(context, GoodsDetailActivity.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    value = URLDecoder.decode(value, "utf-8");
+//                    intent.putExtra("url", value);
 //                    intent.putExtra("title", "");
-//                    intent.putExtra("goodsid", Integer.parseInt(value));
 //                    context.startActivity(intent);
-                } else if ("3".equals(msgtype)) { // url
-                    Intent intent = new Intent(context, WebActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    value = URLDecoder.decode(value, "utf-8");
-                    intent.putExtra("url", value);
-                    intent.putExtra("title", "");
-                    context.startActivity(intent);
-                }
-            } else { // 应用外
-                Intent intent = new Intent(context, StartActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("msgtype", msgtype);
-                if ("2".equals(msgtype)) {
-                    intent.putExtra("value", Integer.parseInt(value));
-                } else {
-                    value = URLDecoder.decode(value, "utf-8");
-                    intent.putExtra("value", value);
-                }
-                context.startActivity(intent);
-            }
+//                }
+//            } else { // 应用外
+//                Intent intent = new Intent(context, StartActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.putExtra("msgtype", msgtype);
+//                if ("2".equals(msgtype)) {
+//                    intent.putExtra("value", Integer.parseInt(value));
+//                } else {
+//                    value = URLDecoder.decode(value, "utf-8");
+//                    intent.putExtra("value", value);
+//                }
+//                context.startActivity(intent);
+//            }
         } catch (Exception e) {
             Intent intent = new Intent(context, StartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

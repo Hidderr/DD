@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.coco3g.daishu">
 
+    <uses-permission android:name="com.coco3g.daishu.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -25,6 +26,16 @@
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
     <uses-permission android:name="android.intent.action.MEDIA_SCANNER_STARTED"/>
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+
+    <!-- Optional for location -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <!-- Required -->
+    <permission
+        android:name="com.coco3g.daishu.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
 
     <application
         android:name=".activity.App"
@@ -277,7 +288,7 @@
             android:value="DaiShu"/>
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="5b8108f6f5d4d687c621984f"/> <!-- </>值来自开发者平台取得的AppKey -->
+            android:value="e2381c0b6e45e66b7ae2b1a0"/> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- android:value="40b8a220aca7c0bfd8dae113"/> &lt;!&ndash;  </>值来自开发者平台取得的AppKey&ndash;&gt; -->
 
 

@@ -175,6 +175,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         HashMap<String, String> params = new HashMap<>();
         params.put("phone", mLoginPhone);
         params.put("password", mLoginPassWord);
+        params.put("uuid", Constants.JPUSH_REGISTERID);
         new BaseDataPresenter(this).loadData(DataUrl.LOGIN, params, getResources().getString(R.string.logining), new IBaseDataListener() {
             @Override
             public void onSuccess(BaseDataBean data) {
