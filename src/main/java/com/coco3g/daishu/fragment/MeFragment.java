@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.HomeMenuImageView;
 import com.coco3g.daishu.view.MeMenuImageView;
 import com.coco3g.daishu.view.MyQRcodeView;
+import com.coco3g.daishu.view.SharePopupWindow;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     HorizontalScrollView mHorizontalScroll;
     LinearLayout mLinearGuangGao, mLinearMyCar;
     RelativeLayout mRelativeInfo, mRelativeShopping;
+    LinearLayout mLinearRoot;
     TextView mTxtCarNurse, mTxtAccount, mTxtName, mTxtMemberID, mTxtMemberType;
     //
     MeMenuImageView meMenu1, meMenuDaiFaHuo, meMenu2, meMenu3, meMenu4;
@@ -68,6 +71,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout.LayoutParams avatar_lp;
     //
     boolean meFragIsVisible = true; //meFragment在MainActivity中是否可见
+
+    private SharePopupWindow mSharePopupWindow;
 
 
 //
@@ -94,6 +99,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mImageRightArrow = (ImageView) mMeView.findViewById(R.id.image_me_top_arrow);
         mRelativeInfo = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_my_info);
         mRelativeShopping = (RelativeLayout) mMeView.findViewById(R.id.relative_me_frag_shopping_zhangdan);
+        mLinearRoot = (LinearLayout) mMeView.findViewById(R.id.linear_me_frag_root);
         //
         mHorizontalScroll = (HorizontalScrollView) mMeView.findViewById(R.id.horizontal_scroll_me_car_binding);
         //
@@ -306,7 +312,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         MyQRcodeView view = new MyQRcodeView(getActivity());
         builder.setView(view);
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         dialog.show();
         //
@@ -314,6 +320,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         params.width = Global.screenWidth * 3 / 4;
 //        params.height = p ;
         dialog.getWindow().setAttributes(params);
+        //
+        view.setOnShareClickListener(new MyQRcodeView.OnShareClickListener() {
+            @Override
+            public void onShare() {
+                dialog.dismiss();
+                shareToPeople();
+            }
+        });
     }
 
 
@@ -582,6 +596,25 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onError() {
+            }
+        });
+    }
+
+    //分享
+    public void shareToPeople() {
+        if (mSharePopupWindow == null) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("title", "袋鼠好车");
+            hashMap.put("url", Global.USERINFOMAP.get("recomurl") + "");
+            //
+            mSharePopupWindow = new SharePopupWindow(getActivity(), hashMap);
+        }
+        mSharePopupWindow.showAtLocation(mLinearRoot, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //
+        mSharePopupWindow.setOnShareClickListener(new SharePopupWindow.OnShareClickListener() {
+            @Override
+            public void onShareClick() {
+                mSharePopupWindow.dismiss();
             }
         });
     }

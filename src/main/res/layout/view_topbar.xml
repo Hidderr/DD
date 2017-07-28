@@ -132,7 +132,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="1dp"
-            android:drawableRight="@mipmap/pic_arrow_down_icon"
             android:gravity="center_vertical"
             android:maxLength="3"
             android:padding="10dp"

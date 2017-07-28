@@ -56,7 +56,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/image_my_qrcode_avatar"
-            android:text="微信扫一扫，下载注册"
+            android:text="二维码扫一扫，下载注册"
             android:textColor="@color/text_color_1"
             android:textSize="14sp" />
 
@@ -68,11 +68,11 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/image_my_qrcode_avatar"
+            android:background="@drawable/shape_txt_blue_bg"
             android:paddingBottom="10dp"
             android:paddingLeft="45dp"
             android:paddingRight="45dp"
             android:paddingTop="10dp"
-            android:background="@drawable/shape_txt_blue_bg"
             android:text="推荐给好友"
             android:textColor="@color/text_color_blue_5"
             android:textSize="16sp" />

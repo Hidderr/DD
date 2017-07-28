@@ -74,7 +74,9 @@ public class MyQRcodeView extends RelativeLayout {
         mTxtShare.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (onShareClickListener != null) {
+                    onShareClickListener.onShare();
+                }
             }
         });
         //
@@ -86,15 +88,24 @@ public class MyQRcodeView extends RelativeLayout {
         if (Global.USERINFOMAP != null) {
 
             //头像
-            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar")+"", mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
+            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("avatar") + "", mImageAvatar, new DisplayImageOptionsUtils().circleImageInit());
             //二维码
-            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("recomqr")+"", mImageQRcode, new DisplayImageOptionsUtils().init());
+            ImageLoader.getInstance().displayImage(Global.USERINFOMAP.get("recomqr") + "", mImageQRcode, new DisplayImageOptionsUtils().init());
 //            ImageLoader.getInstance().displayImage("drawable://" + R.mipmap.pic_qrcode_default, mImageQRcode, new DisplayImageOptionsUtils().init());
             //名字
-            mTxtName.setText(Global.USERINFOMAP.get("nickname")+"");
+            mTxtName.setText(Global.USERINFOMAP.get("nickname") + "");
 
         }
+    }
 
+    private OnShareClickListener onShareClickListener;
+
+    public interface OnShareClickListener {
+       void onShare();
+    }
+
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        this.onShareClickListener = onShareClickListener;
     }
 
 

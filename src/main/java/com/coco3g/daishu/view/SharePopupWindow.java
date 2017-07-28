@@ -78,18 +78,22 @@ public class SharePopupWindow extends PopupWindow implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.share_iv_qq: // qq分享
+                onShareClick();
                 mShareType = 1;
                 mShareAppUtils = new ShareAppUtils(mContext, 1, mShareUrl, mShareTitle, mShareDesc, mShareImage);
                 break;
             case R.id.share_iv_weixin: // 微信分享
+                onShareClick();
                 mShareType = 2;
                 mShareAppUtils = new ShareAppUtils(mContext, 2, mShareUrl, mShareTitle, mShareDesc, mShareImage);
                 break;
             case R.id.share_iv_pengyouquan: // 朋友圈分享
+                onShareClick();
                 mShareType = 3;
                 mShareAppUtils = new ShareAppUtils(mContext, 3, mShareUrl, mShareTitle, mShareDesc, mShareImage);
                 break;
             case R.id.share_iv_weibo: // 新浪微博分享
+                onShareClick();
                 mShareType = 4;
                 mShareAppUtils = new ShareAppUtils(mContext, 4, mShareUrl, mShareTitle, mShareDesc, mShareImage);
                 break;
@@ -103,4 +107,22 @@ public class SharePopupWindow extends PopupWindow implements View.OnClickListene
     }
 
 
+    private OnShareClickListener onShareClickListener;
+
+    public interface OnShareClickListener {
+        void onShareClick();
+    }
+
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        this.onShareClickListener = onShareClickListener;
+    }
+
+    public void onShareClick() {
+        if (onShareClickListener != null) {
+            onShareClickListener.onShareClick();
+        }
+    }
+
+
 }
+
