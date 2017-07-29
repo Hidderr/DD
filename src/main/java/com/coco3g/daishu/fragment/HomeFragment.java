@@ -99,6 +99,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mMenuRes = new HomeMenuImageView[]{mMenu1, mMenu2, mMenu3, mMenu4, mMenu5, mMenu6, mMenu7, mMenu8};
         for (int i = 0; i < mNavIconResID.length; i++) {
             mMenuRes[i].setIcon(mNavIconResID[i], mNavTitles[i]);
+            if (i <= 3) {
+                mMenuRes[i].setImagePadding(5, 5, 5, 5);
+            } else {
+                mMenuRes[i].setImagePadding(5, 0, 5, 5);
+            }
         }
         mListView.addHeaderView(mHeadView);
         //

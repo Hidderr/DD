@@ -236,7 +236,7 @@ public class RepairWebsiteActivity extends BaseActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
         myMapView.onResume();
-        if (gradeList == null) {
+        if (typeid.equals("1") && gradeList == null) {  // 1:表示维修救援
             getRepairGradeList();
         }
     }

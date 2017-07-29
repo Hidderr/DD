@@ -121,7 +121,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
 
                 break;
 
-            case R.id.tv_member_service_nearby_store:  //附近门店
+            case R.id.tv_member_service_nearby_store:  //洗车
                 //洗车
                 if (!Global.checkoutLogin(MemberServiceActivity.this)) {
                     return;

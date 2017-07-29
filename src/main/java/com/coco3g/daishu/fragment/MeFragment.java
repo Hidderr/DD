@@ -136,7 +136,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }
         for (int i = 0; i < mMeInfoResID.length; i++) {
             mHomeMenus[i].setIcon(mMeInfoResID[i], mMeInfoTitles[i]);
-            mHomeMenus[i].setImagePadding();
+            mHomeMenus[i].setImagePadding(10, 10, 10, 10);
 //            mHomeMenus[i].setTextSize(13f);
         }
         //

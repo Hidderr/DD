@@ -11,6 +11,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.coco3g.daishu.activity.RepairWebsiteActivity;
 import com.coco3g.daishu.data.Global;
@@ -68,9 +69,13 @@ public class MyPoiOverlay {
      * @since V2.1.0
      */
     public void zoomToSpan() {
-        if (mPois != null && mPois.size() > 0) {
+        if (mPois != null && mPois.size() == 1) {  //一条数据就是自己的位置
             if (mamap == null)
                 return;
+            PoiItem poiItem = mPois.get(0);
+            LatLonPoint latLonPoint = poiItem.getLatLonPoint();
+            mamap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()), 15), 1000, null);
+        } else if (mPois.size() > 1) {
             LatLngBounds bounds = getLatLngBounds();
             mamap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
         }

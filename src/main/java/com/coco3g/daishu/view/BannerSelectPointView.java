@@ -49,13 +49,14 @@ public class BannerSelectPointView extends View {
         Bitmap b = null;
         for (int i = 0; i < mViewNum; i++) {
             if (i == mCurrSelectIndex) {
-                b = BitmapFactory.decodeResource(getResources(), R.mipmap.pic_banner_video_selected);
+                b = BitmapFactory.decodeResource(getResources(), R.mipmap.pic_banner_selected_icon);
             } else {
-                b = BitmapFactory.decodeResource(getResources(), R.mipmap.pic_banner_video_unselected);
+                b = BitmapFactory.decodeResource(getResources(), R.mipmap.pic_banner_unselected_icon);
             }
-            float vl = (float) getMeasuredWidth() / 2 - (float) (mViewNum * b.getWidth() + (mViewNum - 1) * b.getWidth()) / 2;
-            vl = vl + (float) i * 2 * b.getWidth();
-            canvas.drawBitmap(b, vl, getMeasuredHeight() - 4 * b.getHeight(), null);
+//            float vl = (float) getMeasuredWidth() / 2 - (float) (mViewNum * b.getWidth() + (mViewNum - 1) * b.getWidth()) / 2;
+            float vl = 130 - (float) (mViewNum * b.getWidth() + (mViewNum - 1) * b.getWidth()/2);
+            vl = vl + (float) i * 3 * b.getWidth();
+            canvas.drawBitmap(b, vl, getMeasuredHeight() - 2 * b.getHeight(), null);
         }
     }
 

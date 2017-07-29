@@ -51,10 +51,12 @@ public class HomeMenuImageView extends LinearLayout {
         mTxtTitle.setTextSize(size);
     }
 
-    public void setImagePadding() {
-        int padding_10 = Global.dipTopx(mContext, 10f);
-//        int padding_10 = Global.dipTopx(mContext,10f);
-        mImageIcon.setPadding(padding_10, padding_10, padding_10, padding_10);
+    public void setImagePadding(float left, float top, float right, float bottom) {
+        int padding_left = Global.dipTopx(mContext, left);
+        int padding_top = Global.dipTopx(mContext, top);
+        int padding_right = Global.dipTopx(mContext, right);
+        int padding_bottom = Global.dipTopx(mContext, bottom);
+        mImageIcon.setPadding(padding_left, padding_top, padding_right, padding_bottom);
     }
 
     public void setSelected(int index, boolean selected) {

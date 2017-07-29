@@ -211,14 +211,14 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
                     aMap.clear();
                     //
                     if (showDialog) {
-                        if (typeid.equals("-1")) {  //洗车
+                        if (typeid.equals("-1")) {  //汽车最新报价
                             getNewestOffer(true);
                         } else {
                             getRepairStoreList(getResources().getString(R.string.loading), true);  //维修养护
                         }
 
                     } else {
-                        if (typeid.equals("-1")) {   //洗车
+                        if (typeid.equals("-1")) {   //汽车最新报价
                             getNewestOffer(true);
                         } else {
                             getRepairStoreList(null, true);  //维修养护
@@ -344,8 +344,8 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
             public void onSuccess(BaseDataBean data) {
 
                 ArrayList<Map<String, String>> repairList = (ArrayList<Map<String, String>>) data.response;
-                if (repairList == null || repairList.size() <= 0) {
-                    return;
+                if (repairList == null) {
+                    repairList = new ArrayList<Map<String, String>>();
                 }
                 Log.e("门店数量", repairList.size() + "");
                 showRepairStore(repairList, isZoomToSpan);
@@ -411,7 +411,6 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
 //        ArrayList<PoiItem> poiItemList = new ArrayList<PoiItem>();
         int size = repairList.size();
         for (int i = 0; i < size + 1; i++) {
-
 
             PoiItem poiItem = null;
 
