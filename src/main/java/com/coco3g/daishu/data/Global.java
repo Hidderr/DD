@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.activity.BaseActivity;
 import com.coco3g.daishu.activity.LoginActivity;
+import com.coco3g.daishu.utils.DateTime;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,6 +67,8 @@ public class Global {
     public static final String LOGIN_INFO_OPENID = "login_open_id"; // 通过openid登录
     public static final String RONGTOKEN_INFO = "rong_token_info"; // 融云token保存
     public static String LOGIN_OPENID = "";
+    public static final String SPLASH_SHOW_DAY = rootPath + "splash_show_day"; // 导航界面的显示日期
+
 
     public static final String localThumbPath = "thumbnail"; // 应用的图片存放目录
     public static final String DOWNLOAD = "download"; // 应用的图片下载目录
@@ -1007,6 +1010,29 @@ public class Global {
 //        ((Activity) mContext).finish();
         Intent intent = new Intent(mContext, LoginActivity.class);
         mContext.startActivity(intent);
+    }
+
+    /**
+     * 是否显示导航界面（每天只显示一次）
+     *
+     * @param context
+     * @param isSave  是否保存数据
+     * @return
+     */
+    public static boolean isShowSplash(Context context, boolean isSave) {
+        String showDay = "";
+        if (Global.readSerializeData(context, Global.SPLASH_SHOW_DAY) != null) {
+            showDay = (String) Global.readSerializeData(context, Global.SPLASH_SHOW_DAY);
+        }
+        String today = DateTime.getDateFormated("yyyy-MM-dd");
+        if (TextUtils.isEmpty(showDay) || !today.equals(showDay)) {
+            if (isSave) {
+                Global.serializeData(context, today, Global.SPLASH_SHOW_DAY);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

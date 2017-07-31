@@ -19,20 +19,20 @@
     </com.coco3g.daishu.view.SuperRefreshLayout>
 
 
-    <com.coco3g.daishu.view.SuperRefreshLayout
-        android:id="@+id/sr_income_frag_webview"
+    <!--<com.coco3g.daishu.view.SuperRefreshLayout-->
+    <!--android:id="@+id/sr_income_frag_webview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:visibility="visible">-->
+
+    <com.coco3g.daishu.view.MyWebView
+        android:id="@+id/webview_income_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
-        <com.coco3g.daishu.view.MyWebView
-            android:id="@+id/webview_income_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    </com.coco3g.daishu.view.MyWebView>
 
-        </com.coco3g.daishu.view.MyWebView>
-
-    </com.coco3g.daishu.view.SuperRefreshLayout>
+    <!--</com.coco3g.daishu.view.SuperRefreshLayout>-->
 
 
 </RelativeLayout>

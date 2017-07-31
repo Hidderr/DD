@@ -33,7 +33,7 @@ public class IncomeFragment extends Fragment {
     private ListView mListView;
     private IncomeAdapter mAdapter;
     private MyWebView myWebView;
-    private SuperRefreshLayout mSuperRefresh, mSuperRefreshWebview;
+    private SuperRefreshLayout mSuperRefresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public class IncomeFragment extends Fragment {
     private void intview() {
         mListView = (ListView) mIncomeView.findViewById(R.id.listview_income_frag);
         mSuperRefresh = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag);
-        mSuperRefreshWebview = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag_webview);
+//        mSuperRefreshWebview = (SuperRefreshLayout) mIncomeView.findViewById(R.id.sr_income_frag_webview);
         myWebView = (MyWebView) mIncomeView.findViewById(R.id.webview_income_fragment);
         mAdapter = new IncomeAdapter(mContext);
         mListView.setAdapter(mAdapter);
-        myWebView.setRefreshEnable(false);
+        myWebView.setRefreshEnable(true);
         //
         mSuperRefresh.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
             @Override
@@ -65,18 +65,18 @@ public class IncomeFragment extends Fragment {
             }
         });
         //
-        mSuperRefreshWebview.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
-            @Override
-            public void onRefreshing() {
-                mAdapter.clearList();
-                getIncomeList();
-            }
-
-            @Override
-            public void onLoadMore() {
-
-            }
-        });
+//        mSuperRefreshWebview.setSuperRefreshLayoutListener(new SuperRefreshLayout.SuperRefreshLayoutListener() {
+//            @Override
+//            public void onRefreshing() {
+//                mAdapter.clearList();
+//                getIncomeList();
+//            }
+//
+//            @Override
+//            public void onLoadMore() {
+//
+//            }
+//        });
         //
         mSuperRefresh.setRefreshingLoad();
 
@@ -102,28 +102,28 @@ public class IncomeFragment extends Fragment {
                 //
                 if (incomeList == null || incomeList.size() <= 0) {
                     mSuperRefresh.setVisibility(View.GONE);
-                    mSuperRefreshWebview.setVisibility(View.VISIBLE);
+                    myWebView.setVisibility(View.VISIBLE);
                     myWebView.loadUrl(Global.H5Map.get("jiangli"));
                 } else {
                     mSuperRefresh.setVisibility(View.VISIBLE);
-                    mSuperRefreshWebview.setVisibility(View.GONE);
+                    myWebView.setVisibility(View.GONE);
                 }
                 //
                 mSuperRefresh.onLoadComplete();
-                mSuperRefreshWebview.onLoadComplete();
+//                mSuperRefreshWebview.onLoadComplete();
             }
 
             @Override
             public void onFailure(BaseDataBean data) {
 //                Global.showToast(data.msg, mContext);
                 mSuperRefresh.onLoadComplete();
-                mSuperRefreshWebview.onLoadComplete();
+//                mSuperRefreshWebview.onLoadComplete();
             }
 
             @Override
             public void onError() {
                 mSuperRefresh.onLoadComplete();
-                mSuperRefreshWebview.onLoadComplete();
+//                mSuperRefreshWebview.onLoadComplete();
 
             }
         });
