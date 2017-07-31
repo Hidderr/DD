@@ -7,7 +7,8 @@
     <RelativeLayout
         android:id="@+id/relative_home_frag_mycar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image_home_item_thumb"
@@ -95,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/image_home_frag_image"
@@ -125,9 +126,9 @@
                 android:id="@+id/tv_home_guang_gao_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:padding="8dp"
                 android:text="油量充足，状态良好"
                 android:textColor="@color/text_color_4" />
 

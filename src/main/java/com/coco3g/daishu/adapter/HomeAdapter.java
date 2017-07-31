@@ -116,7 +116,8 @@ public class HomeAdapter extends BaseAdapter {
             //
             ImageLoader.getInstance().displayImage(map.get("image"), viewHolder.mImageGuangGao, new DisplayImageOptionsUtils().init());
             viewHolder.mTxtGGTitle.setText(map.get("title"));
-            viewHolder.mTxtGGContent.setText(map.get("description"));
+            String description = (map.get("description")).trim();
+            viewHolder.mTxtGGContent.setText(description);
             //
             viewHolder.mRelativeGuangGao.setOnClickListener(new View.OnClickListener() {
                 @Override
