@@ -158,7 +158,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.view_home_menu_1:  //我的汽车
-                intentToWeb(Global.H5Map.get("mycar"), false);
+//                intentToWeb(Global.H5Map.get("mycar"), false);
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", Global.H5Map.get("mycar"));
+                startActivity(intent);
 
                 break;
 
