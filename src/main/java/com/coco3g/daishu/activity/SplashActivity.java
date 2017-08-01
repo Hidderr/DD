@@ -1,5 +1,6 @@
 package com.coco3g.daishu.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.RequestPermissionUtils;
 import com.coco3g.daishu.view.CircleIndicator;
 
 import java.util.ArrayList;
@@ -165,6 +167,10 @@ public class SplashActivity extends Activity {
         });
     }
 
+
+
+
+
     /**
      * 获取启动界面列表
      */
@@ -211,6 +217,7 @@ public class SplashActivity extends Activity {
     protected void onResume() {
         super.onResume();
         initTimer();
+        new RequestPermissionUtils(this).aleraPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
     }
 
     /**

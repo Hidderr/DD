@@ -90,7 +90,33 @@ public class RepairFragAdapter extends BaseAdapter {
         }
         //
         final Map<String, String> map = mList.get(position);
-        viewHolder.mTxtCar.setText(map.get("prov_key") + map.get("initial") + map.get("licenc"));
+
+        String province = map.get("prov_key");
+        String carType = map.get("initial");
+        String carNum = map.get("licenc");
+
+        if (TextUtils.isEmpty(province)) {
+            province = "";
+        }
+
+        if (TextUtils.isEmpty(carType)) {
+            carType = "";
+        }
+
+        if (TextUtils.isEmpty(carNum)) {
+            carNum = "";
+        }
+
+
+        if (TextUtils.isEmpty(province) && TextUtils.isEmpty(carType) && TextUtils.isEmpty(carNum)) {
+            viewHolder.mTxtCar.setVisibility(View.GONE);
+            viewHolder.mTxtContent.setVisibility(View.GONE);
+        } else {
+            viewHolder.mTxtCar.setVisibility(View.VISIBLE);
+            viewHolder.mTxtContent.setVisibility(View.VISIBLE);
+            viewHolder.mTxtCar.setText(province + carType + carNum);
+        }
+
         viewHolder.mLinearRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

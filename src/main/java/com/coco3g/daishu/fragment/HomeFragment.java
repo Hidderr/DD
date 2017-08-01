@@ -121,8 +121,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mMenuRes[i].setImagePadding(5, 0, 5, 5);
             }
         }
-        //设置我的汽车的信息
-        setMyCarInfo();
 
         mListView.addHeaderView(mHeadView);
         //
@@ -171,6 +169,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        setMyCarInfo();
     }
 
     @Override
@@ -268,6 +267,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         startActivity(intent);
     }
+
+
 
     //设置我的汽车的状态的情况
     public void setMyCarInfo() {

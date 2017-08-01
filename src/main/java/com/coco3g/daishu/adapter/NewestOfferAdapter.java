@@ -102,10 +102,10 @@ public class NewestOfferAdapter extends BaseAdapter {
         //
         ImageLoader.getInstance().displayImage(map.get("thumb"), viewHolder.mImageThumb, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
         //
-        viewHolder.mTxtHighPrice.setText(map.get("price"));
+        viewHolder.mTxtHighPrice.setText(map.get("price")+"万");
         viewHolder.mTxtHighPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
         //
-        viewHolder.mTxtLowPrice.setText(map.get("shopprice"));
+        viewHolder.mTxtLowPrice.setText(map.get("shopprice") + "万");
         //
         viewHolder.mTxtAddress.setText("地址：" + map.get("location"));
         //

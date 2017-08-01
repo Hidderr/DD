@@ -262,7 +262,9 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
                 // 我的汽车信息
                 if (Global.USERINFOMAP != null) {
                     ArrayList<Map<String, String>> myCarList = (ArrayList<Map<String, String>>) Global.USERINFOMAP.get("mycars");
-                    mAdapter.setList(myCarList);
+                    if (myCarList != null && myCarList.size() >= 1) {
+                        mAdapter.setList(myCarList);
+                    }
                 }
                 mListView.setAdapter(mAdapter);
                 mSuperRefreshLayout.onLoadComplete();
