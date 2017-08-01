@@ -174,9 +174,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:paddingLeft="5dp"
         android:background="@color/white"
         android:focusable="true"
+        android:paddingLeft="5dp"
         android:visibility="visible">
 
         <ImageView
@@ -207,7 +207,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:padding="5dp"
-                android:text="车型、车牌"
+                android:text="请登录后查看"
                 android:textColor="@color/text_color_4"
                 android:textSize="14sp" />
 
@@ -222,6 +222,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_below="@+id/tv_home_item_splitline">
 
                 <LinearLayout
@@ -246,15 +247,20 @@
                         android:layout_below="@+id/tv_home_mycar_title"
                         android:background="@color/text_color_10" />
 
-                    <TextView
+                    <com.coco3g.daishu.view.MarqueeText
                         android:id="@+id/tv_home_mycar_subtitle2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="5dp"
-                        android:maxLines="3"
+                        android:singleLine="true"
                         android:padding="5dp"
-                        android:text="******"
-                        android:textColor="@color/text_color_4" />
+                        android:textColor="@color/text_color_4"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusableInTouchMode="true"
+                        android:scrollHorizontally="true"
+                        android:text="******" />
+
 
                 </LinearLayout>
             </RelativeLayout>
@@ -266,10 +272,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingRight="5dp"
             android:paddingLeft="5dp"
-            android:visibility="gone"
-            android:src="@mipmap/pic_arrow_right_home_icon" />
+            android:paddingRight="5dp"
+            android:src="@mipmap/pic_arrow_right_home_icon"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

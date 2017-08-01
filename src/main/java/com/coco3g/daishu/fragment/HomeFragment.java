@@ -34,6 +34,7 @@ import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.utils.DisplayImageOptionsUtils;
 import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.HomeMenuImageView;
+import com.coco3g.daishu.view.MarqueeText;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sunfusheng.marqueeview.MarqueeView;
@@ -54,7 +55,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     HomeMenuImageView mMenu1, mMenu2, mMenu3, mMenu4, mMenu5, mMenu6, mMenu7, mMenu8;
     ImageView mImageMycar;
     RelativeLayout mRelativeMycar;
-    TextView mTxtMycarTitle, mTxtMycarSubTitle1, mTxtMycarSubTitle2;
+    TextView mTxtMycarTitle, mTxtMycarSubTitle1;
+    MarqueeText mTxtMycarSubTitle2;
     ImageView mImageMiddleBanner;
     HomeAdapter mAdapter;
     RelativeLayout.LayoutParams mMycarThumb_lp;
@@ -99,7 +101,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mImageMycar = (ImageView) mHeadView.findViewById(R.id.image_home_item_mycar_thumb);
         mTxtMycarTitle = (TextView) mHeadView.findViewById(R.id.tv_home_mycar_title);
         mTxtMycarSubTitle1 = (TextView) mHeadView.findViewById(R.id.tv_home_mycar_subtitle1);
-        mTxtMycarSubTitle2 = (TextView) mHeadView.findViewById(R.id.tv_home_mycar_subtitle2);
+        mTxtMycarSubTitle2 = (MarqueeText) mHeadView.findViewById(R.id.tv_home_mycar_subtitle2);
         mRelativeMycar = (RelativeLayout) mHeadView.findViewById(R.id.relative_home_frag_mycar);
         mMycarThumb_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 5, Global.screenWidth / 5);
         mMycarThumb_lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -275,7 +277,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mRelativeMycar.setVisibility(View.GONE);
             } else {
                 mRelativeMycar.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(myCarList.get(0).get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+                ImageLoader.getInstance().displayImage(myCarList.get(0).get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_item_test));
                 mTxtMycarTitle.setText(myCarList.get(0).get("cartype") + "    " + myCarList.get(0).get("chepai"));
                 //
                 Map<String, String> myCarCondition = (Map<String, String>) Global.USERINFOMAP.get("mycar_record");
@@ -293,7 +295,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         } else if (Global.readSerializeData(mContext, Global.MY_CAR) != null) {
             Map<String, String> myCarMap = (Map<String, String>) Global.readSerializeData(mContext, Global.MY_CAR);
-            ImageLoader.getInstance().displayImage(myCarMap.get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+            ImageLoader.getInstance().displayImage(myCarMap.get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_item_test));
             mTxtMycarTitle.setText(myCarMap.get("cartype") + "    " + myCarMap.get("chepai"));
             //
             mTxtMycarSubTitle1.setText(myCarMap.get("type"));
