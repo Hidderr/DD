@@ -296,7 +296,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         } else if (Global.readSerializeData(mContext, Global.MY_CAR) != null) {
             Map<String, String> myCarMap = (Map<String, String>) Global.readSerializeData(mContext, Global.MY_CAR);
             ImageLoader.getInstance().displayImage(myCarMap.get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_item_test));
-            mTxtMycarTitle.setText(myCarMap.get("cartype") + "    " + myCarMap.get("chepai"));
+            String carType = myCarMap.get("cartype");
+            String chePai = myCarMap.get("chepai");
+            if (!TextUtils.isEmpty(carType) && !TextUtils.isEmpty(chePai)) {
+                mTxtMycarTitle.setText(carType + "    " + chePai);
+            } else {
+                mTxtMycarTitle.setText("请登录后查看");
+            }
             //
             mTxtMycarSubTitle1.setText(myCarMap.get("type"));
             mTxtMycarSubTitle2.setText(myCarMap.get("text"));

@@ -406,6 +406,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             BaseActivity.CONTEXTLIST = null;
 //            Global.MAINACTIVITY_CONTEXT = null;
             Global.deleteSerializeData(this, Global.APP_CACHE); //清除token
+            mHomeFrag.onDestroy();
+            mHomeFrag = null;
             //
         } catch (Exception e) {
             e.printStackTrace();
