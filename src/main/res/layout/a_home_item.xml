@@ -8,10 +8,10 @@
         android:id="@+id/relative_home_frag_mycar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
-            android:id="@+id/image_home_item_thumb"
+            android:id="@+id/image_home_item_mycar_thumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/relative_home_item_content"
@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="1dp"
-            android:layout_toRightOf="@+id/image_home_item_thumb"
+            android:layout_toRightOf="@+id/image_home_item_mycar_thumb"
             android:background="@color/white">
 
             <TextView
-                android:id="@+id/tv_home_item_title"
+                android:id="@+id/tv_home_mycar_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -43,7 +43,7 @@
                 android:id="@+id/tv_home_item_splitline"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/tv_home_item_title"
+                android:layout_below="@+id/tv_home_mycar_title"
                 android:background="@color/text_color_10" />
 
             <LinearLayout
@@ -59,7 +59,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_home_item_subtitle1"
+                        android:id="@+id/tv_home_mycar_subtitle1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/pic_battery_icon"
@@ -69,7 +69,7 @@
                         android:textColor="@color/text_color_red_2" />
 
                     <TextView
-                        android:id="@+id/tv_home_item_subtitle2"
+                        android:id="@+id/tv_home_mycar_subtitle2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/pic_gasoline_icon"
@@ -96,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image_home_frag_image"

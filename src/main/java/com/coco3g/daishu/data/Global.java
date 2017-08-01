@@ -63,6 +63,7 @@ public class Global {
     public static final String rootPath = "com_app_daishudashi";
     public static final String APP_CACHE = "data"; // 用户信息
     public static final String LOGIN_INFO = "login"; // 用户登录信息
+    public static final String MY_CAR = "mycar"; // 绑定车智慧大的我的汽车的信息
     //    public static final String LOGIN_INFO_LAST = rootPath + "loginlastperson"; // 最后一位用户登录信息
     public static final String LOGIN_INFO_OPENID = "login_open_id"; // 通过openid登录
     public static final String RONGTOKEN_INFO = "rong_token_info"; // 融云token保存

@@ -40,17 +40,25 @@ public class MyReceiver extends BroadcastReceiver {
             // send the Registration Id to your server...
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-            Log.e(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+            Log.e(TAG, "[MyReceiver] 接收到推送下来的自定义消息: msg_content" + bundle.getString(JPushInterface.EXTRA_MESSAGE));
             processCustomMessage(context, bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.e(TAG, "[MyReceiver] 接收到推送下来的通知");
-            int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.e(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+//            int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+//            Log.e(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+//            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+//            Log.e(TAG, "[MyReceiver] 接收到推送下来的通知的exttra_extra: " + extras);
+
 //            processCustomMessage(context, bundle);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.e(TAG, "[MyReceiver] 用户点击打开了通知");
-            processCustomMessage(context, bundle);
+//            processCustomMessage(context, bundle);
+            if (!MainActivity.isForeground) {
+                Intent intent1 = new Intent(context, StartActivity.class);
+                context.startActivity(intent1);
+            }
+
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.e(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             // 在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity，
@@ -99,13 +107,24 @@ public class MyReceiver extends BroadcastReceiver {
 
     // send msg to MainActivity
     private void processCustomMessage(Context context, Bundle bundle) {
-        JPushInterface.clearAllNotifications(context);
+        if (MainActivity.isForeground) {
+            JPushInterface.clearAllNotifications(context);
+        }
         try {
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             Gson gson = new Gson();
             JPushData jpdata = gson.fromJson(extras, new JPushData().getClass());
-            String msgtype = jpdata.txt;
-            Global.playAudio(context, msgtype);
+            String msgtype = jpdata.msgtype;
+            if (msgtype.equals("4")) {  //语音播报
+                String msgAudiotype = jpdata.txt;
+                Global.playAudio(context, msgAudiotype);
+                //修改首页里面的信息
+                MainActivity.setMycarTuiSongInfo(jpdata.title, jpdata.msg_content);
+            } else if (msgtype.equals("3")) {
+
+            }
+
+
 //            if (msgtype.equalsIgnoreCase("shakealarm")) {
 //
 //            }

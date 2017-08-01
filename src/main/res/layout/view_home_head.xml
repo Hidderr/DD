@@ -74,9 +74,9 @@
             android:gravity="center" />
 
         <!--<ImageView-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/text_color_10" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/text_color_10" />-->
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_2"
@@ -86,9 +86,9 @@
             android:gravity="center" />
 
         <!--<ImageView-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/text_color_10" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/text_color_10" />-->
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_3"
@@ -98,9 +98,9 @@
             android:gravity="center" />
 
         <!--<ImageView-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/text_color_10" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/text_color_10" />-->
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_4"
@@ -126,9 +126,9 @@
             android:gravity="center" />
 
         <!--<ImageView-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/text_color_10" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/text_color_10" />-->
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_6"
@@ -138,9 +138,9 @@
             android:gravity="center" />
 
         <!--<ImageView-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/text_color_10" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/text_color_10" />-->
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_7"
@@ -150,9 +150,9 @@
             android:gravity="center" />
 
         <!--<ImageView-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/text_color_10" />-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/text_color_10" />-->
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_8"
@@ -168,5 +168,108 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:src="@mipmap/pic_home_middle_banner" />
+
+    <RelativeLayout
+        android:id="@+id/relative_home_frag_mycar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        android:background="@color/white"
+        android:focusable="true"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/image_home_item_mycar_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/relative_home_item_content"
+            android:layout_alignTop="@+id/relative_home_item_content"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:scaleType="centerInside"
+            android:src="@mipmap/pic_item_test" />
+
+        <RelativeLayout
+            android:id="@+id/relative_home_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:layout_toLeftOf="@+id/image_home_head_arrow_right"
+            android:layout_toRightOf="@+id/image_home_item_mycar_thumb"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_home_mycar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:padding="5dp"
+                android:text="车型、车牌"
+                android:textColor="@color/text_color_4"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/tv_home_item_splitline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_home_mycar_title"
+                android:background="@color/text_color_10" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_item_splitline">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_home_mycar_subtitle1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:padding="5dp"
+                        android:text="******"
+                        android:textColor="@color/text_color_red_2" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/tv_home_mycar_title"
+                        android:background="@color/text_color_10" />
+
+                    <TextView
+                        android:id="@+id/tv_home_mycar_subtitle2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:maxLines="3"
+                        android:padding="5dp"
+                        android:text="******"
+                        android:textColor="@color/text_color_4" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/image_home_head_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:visibility="gone"
+            android:src="@mipmap/pic_arrow_right_home_icon" />
+    </RelativeLayout>
 
 </LinearLayout>

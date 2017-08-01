@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -51,8 +52,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     MarqueeView mTxtBoardcast;
     HomeMenuImageView[] mMenuRes;
     HomeMenuImageView mMenu1, mMenu2, mMenu3, mMenu4, mMenu5, mMenu6, mMenu7, mMenu8;
+    ImageView mImageMycar;
+    RelativeLayout mRelativeMycar;
+    TextView mTxtMycarTitle, mTxtMycarSubTitle1, mTxtMycarSubTitle2;
     ImageView mImageMiddleBanner;
     HomeAdapter mAdapter;
+    RelativeLayout.LayoutParams mMycarThumb_lp;
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_vip_icon, R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_insurance,
             R.mipmap.pic_car_gai_zhuang_icon, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_menu_borrow_money_service};
@@ -91,6 +96,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mMenu6 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_6);
         mMenu7 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_7);
         mMenu8 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_home_menu_8);
+        mImageMycar = (ImageView) mHeadView.findViewById(R.id.image_home_item_mycar_thumb);
+        mTxtMycarTitle = (TextView) mHeadView.findViewById(R.id.tv_home_mycar_title);
+        mTxtMycarSubTitle1 = (TextView) mHeadView.findViewById(R.id.tv_home_mycar_subtitle1);
+        mTxtMycarSubTitle2 = (TextView) mHeadView.findViewById(R.id.tv_home_mycar_subtitle2);
+        mRelativeMycar = (RelativeLayout) mHeadView.findViewById(R.id.relative_home_frag_mycar);
+        mMycarThumb_lp = new RelativeLayout.LayoutParams(Global.screenWidth / 5, Global.screenWidth / 5);
+        mMycarThumb_lp.addRule(RelativeLayout.CENTER_VERTICAL);
+        mImageMycar.setLayoutParams(mMycarThumb_lp);
+
         mImageMiddleBanner = (ImageView) mHeadView.findViewById(R.id.image_home_middle_banner);
         LinearLayout.LayoutParams banner_lp = new LinearLayout.LayoutParams(Global.screenWidth, Global.screenWidth * 5 / 18);
         mImageMiddleBanner.setLayoutParams(banner_lp);
@@ -105,6 +119,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mMenuRes[i].setImagePadding(5, 0, 5, 5);
             }
         }
+        //设置我的汽车的信息
+        setMyCarInfo();
+
         mListView.addHeaderView(mHeadView);
         //
         mSuperRefreshLayout.setCanLoadMore();
@@ -133,6 +150,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mMenu7.setOnClickListener(this);
         mMenu8.setOnClickListener(this);
         mImageMiddleBanner.setOnClickListener(this);
+        mRelativeMycar.setOnClickListener(this);
         //跑马灯
         mTxtBoardcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
             @Override
@@ -157,6 +175,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
+            case R.id.relative_home_frag_mycar:     //首页显示的我的汽车的信息
+                intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", Global.H5Map.get("mycar"));
+                startActivity(intent);
+
+                break;
+
             case R.id.view_home_menu_1:  //我的汽车
 //                intentToWeb(Global.H5Map.get("mycar"), false);
                 intent = new Intent(getActivity(), WebActivity.class);
@@ -169,41 +194,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(getActivity(), MemberServiceActivity.class);
                 startActivity(intent);
 
-//                //维护养修
-//                if (!Global.checkoutLogin(getActivity())) {
-//                    return;
-//                }
-////                intent = new Intent(mContext, RepairWebsiteActivity.class);
-//                intent = new Intent(mContext, ShaiXuanListActivity.class);
-//                intent.putExtra("typeid", "1");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-//                intent.putExtra("title", "维修养护");
-//                startActivity(intent);
-
                 break;
 
             case R.id.view_home_menu_3:  //我要买车
                 intent = new Intent(getActivity(), CarShopActivity.class);
                 startActivity(intent);
 
-//                //洗车
-//                if (!Global.checkoutLogin(getActivity())) {
-//                    return;
-//                }
-//                intent = new Intent(mContext, ShaiXuanListActivity.class);
-//                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
-//                intent.putExtra("title", "洗车");
-//                startActivity(intent);
-
                 break;
 
             case R.id.view_home_menu_4: //低价车险
                 intentToWeb(Global.H5Map.get("baoxian"), true);
-
-//                //违章查询
-//                if (!Global.checkoutLogin(getActivity())) {
-//                    return;
-//                }
-//                intentToWeb(Global.H5Map.get("weizhang"));
 
                 break;
 
@@ -223,7 +223,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.view_home_menu_7:  //二手车
                 intentToWeb(Global.H5Map.get("used_car"), false);
-
 
                 break;
 
@@ -267,6 +266,56 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         startActivity(intent);
     }
+
+    //设置我的汽车的状态的情况
+    public void setMyCarInfo() {
+        if (Global.USERINFOMAP != null) {
+            ArrayList<Map<String, String>> myCarList = (ArrayList<Map<String, String>>) Global.USERINFOMAP.get("mycars");
+            if (myCarList == null || myCarList.size() <= 0) {
+                mRelativeMycar.setVisibility(View.GONE);
+            } else {
+                mRelativeMycar.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(myCarList.get(0).get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+                mTxtMycarTitle.setText(myCarList.get(0).get("cartype") + "    " + myCarList.get(0).get("chepai"));
+                //
+                Map<String, String> myCarCondition = (Map<String, String>) Global.USERINFOMAP.get("mycar_record");
+                mTxtMycarSubTitle1.setText(myCarCondition.get("type"));
+                mTxtMycarSubTitle2.setText(myCarCondition.get("text"));
+                //
+                Map<String, String> myCarMap = new HashMap<>();
+                myCarMap.put("brandthumb", myCarList.get(0).get("brandthumb"));
+                myCarMap.put("cartype", myCarList.get(0).get("cartype"));
+                myCarMap.put("chepai", myCarList.get(0).get("chepai"));
+                myCarMap.put("type", myCarCondition.get("type"));
+                myCarMap.put("text", myCarCondition.get("text"));
+                Global.serializeData(mContext, myCarMap, Global.MY_CAR);
+            }
+
+        } else if (Global.readSerializeData(mContext, Global.MY_CAR) != null) {
+            Map<String, String> myCarMap = (Map<String, String>) Global.readSerializeData(mContext, Global.MY_CAR);
+            ImageLoader.getInstance().displayImage(myCarMap.get("brandthumb"), mImageMycar, new DisplayImageOptionsUtils().init(R.mipmap.pic_default_car_icon));
+            mTxtMycarTitle.setText(myCarMap.get("cartype") + "    " + myCarMap.get("chepai"));
+            //
+            mTxtMycarSubTitle1.setText(myCarMap.get("type"));
+            mTxtMycarSubTitle2.setText(myCarMap.get("text"));
+        }
+    }
+
+    //设置推送信息来的车的状况
+    public void setMycarTuiSongInfo(String subtitle1, String subtitle2) {
+
+        mTxtMycarSubTitle1.setText(subtitle1);
+        mTxtMycarSubTitle2.setText(subtitle2);
+        Map<String, String> myCarMap = (Map<String, String>) Global.readSerializeData(mContext, Global.MY_CAR);
+        if (myCarMap == null) {
+            myCarMap = new HashMap<>();
+        }
+        myCarMap.put("type", subtitle1);
+        myCarMap.put("text", subtitle2);
+        Global.serializeData(mContext, myCarMap, Global.MY_CAR);
+
+    }
+
 
     //获取banner图片
     public void getBanner() {
@@ -368,6 +417,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 //
                 getGuangGaoList();
+                //
+                setMyCarInfo();
 
             }
 
@@ -403,9 +454,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 //添加我的爱车信息
                 if (mAdapter.getList() == null || mAdapter.getList().size() <= 0) {
-                    Map<String, String> myCarMap = new HashMap<String, String>();
-                    myCarMap.put("type", "mycar");
-                    homeList.add(0, myCarMap);
+//                    Map<String, String> myCarMap = new HashMap<String, String>();
+//                    myCarMap.put("type", "mycar");
+//                    homeList.add(0, myCarMap);
                     //
                     mAdapter.setList(homeList);
                 } else {

@@ -2,15 +2,12 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.UriMatcher;
-import android.media.Image;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -87,12 +84,12 @@ public class HomeAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.a_home_item, null);
             viewHolder.mRelativeMyCar = (RelativeLayout) view.findViewById(R.id.relative_home_frag_mycar);
             viewHolder.mRelativeGuangGao = (RelativeLayout) view.findViewById(R.id.relative_home_frag_guang_gao_item);
-            viewHolder.mImageThumb = (ImageView) view.findViewById(R.id.image_home_item_thumb);
+            viewHolder.mImageThumb = (ImageView) view.findViewById(R.id.image_home_item_mycar_thumb);
             viewHolder.mImageThumb.setLayoutParams(lp);
             viewHolder.mImageThumb.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            viewHolder.mTxtTitle = (TextView) view.findViewById(R.id.tv_home_item_title);
-            viewHolder.mTxtSubTitle1 = (TextView) view.findViewById(R.id.tv_home_item_subtitle1);
-            viewHolder.mTxtSubTitle2 = (TextView) view.findViewById(R.id.tv_home_item_subtitle2);
+            viewHolder.mTxtTitle = (TextView) view.findViewById(R.id.tv_home_mycar_title);
+            viewHolder.mTxtSubTitle1 = (TextView) view.findViewById(R.id.tv_home_mycar_subtitle1);
+            viewHolder.mTxtSubTitle2 = (TextView) view.findViewById(R.id.tv_home_mycar_subtitle2);
             viewHolder.mTxtGGTitle = (TextView) view.findViewById(R.id.tv_home_guang_gao_title);
             viewHolder.mTxtGGContent = (TextView) view.findViewById(R.id.tv_home_guang_gao_content);
             //

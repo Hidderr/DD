@@ -41,7 +41,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             R.drawable.nav_me_icon};
     private static FragmentManager mFragManager = null;
     //
-    private HomeFragment mHomeFrag;
+    private static HomeFragment mHomeFrag;
     private GoodsFragment mGoodsFrag;
     private IncomeFragment mIncomeFrag;
     private RepairFragment mRepairFrag;
@@ -356,6 +356,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         });
     }
 
+    public static void setMycarTuiSongInfo(String subtitle1, String subtitle2) {
+        if (mHomeFrag != null) {
+            mHomeFrag.setMycarTuiSongInfo(subtitle1, subtitle2);
+        }
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -404,6 +410,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isForeground = false;
     }
 
     @Override

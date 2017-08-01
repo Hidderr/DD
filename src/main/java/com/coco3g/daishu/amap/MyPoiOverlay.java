@@ -48,7 +48,12 @@ public class MyPoiOverlay {
             com.amap.api.services.core.PoiItem item = mPois.get(i);
             Marker marker = mamap.addMarker(getMarkerOptions(i, item.getTitle(), item.getPoiId()));
             marker.setObject(item);
-            mPoiMarks.add(marker);
+            if (item.getPoiId().equals("#")) {  //我的位置
+                marker.setAnchor(0.5f, 0.17f);
+            } else {
+                marker.setAnchor(0.2f, 0.39f);
+            }
+            mPoiMarks.add (marker);
         }
     }
 
