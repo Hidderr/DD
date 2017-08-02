@@ -90,7 +90,7 @@ public class BannerView extends RelativeLayout implements OnPageChangeListener {
         } else if (mScreenRatio == 3) {
             lp = new LayoutParams(Global.screenWidth, Global.screenWidth / 3);
         } else {
-            lp = new LayoutParams(Global.screenWidth, Global.screenWidth / 2);
+            lp = new LayoutParams(Global.screenWidth, Global.screenWidth * 3 / 5);
         }
         removeAllViews();
         addView(mView, lp);

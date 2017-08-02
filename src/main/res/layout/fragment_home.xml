@@ -19,4 +19,71 @@
             android:listSelector="@color/transparent" />
     </com.coco3g.daishu.view.SuperRefreshLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/relative_home_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_home_frag_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="1dp"
+            android:gravity="center_vertical"
+            android:maxLength="3"
+            android:padding="10dp"
+            android:text="定位中"
+            android:textColor="@color/black_1"
+            android:textSize="14sp" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/edit_home_frag_search"
+            android:layout_alignLeft="@+id/edit_home_frag_search"
+            android:layout_alignRight="@+id/edit_home_frag_search"
+            android:layout_alignTop="@+id/edit_home_frag_search"
+            android:layout_centerVertical="true"
+            android:alpha="0.8"
+            android:background="@drawable/shape_edit_white_bg">
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edit_home_frag_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:layout_toLeftOf="@+id/image_home_frag_thumb"
+            android:layout_toRightOf="@+id/tv_home_frag_location"
+            android:drawableRight="@mipmap/pic_home_search_icon"
+            android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:paddingBottom="7dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="7dp"
+            android:singleLine="true"
+            android:textColor="@color/black_1"
+            android:textColorHint="@color/text_color_1"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/image_home_frag_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/pic_home_frag_logo_icon" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

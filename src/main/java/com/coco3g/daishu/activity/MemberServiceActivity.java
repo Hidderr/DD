@@ -1,34 +1,32 @@
 package com.coco3g.daishu.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coco3g.daishu.R;
-import com.coco3g.daishu.adapter.MemberServiceAdapter;
 import com.coco3g.daishu.adapter.StoreShaiXuanAdapter;
 import com.coco3g.daishu.bean.BaseDataBean;
-import com.coco3g.daishu.data.Constants;
 import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.data.TypevauleGotoDictionary;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
 import com.coco3g.daishu.view.BannerView;
-import com.coco3g.daishu.view.MyListView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 import com.coco3g.daishu.view.TopBarView;
-import com.sunfusheng.marqueeview.MarqueeView;
+import com.coco3g.daishu.view.UPMarqueeView;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -39,7 +37,10 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
     private TopBarView mTopBar;
     private BannerView mBanner;
     private SuperRefreshLayout mSuperRefresh;
-    private MarqueeView marqueeView;
+    //    private MarqueeView marqueeView;
+    private UPMarqueeView upMarqueeView;
+    private RelativeLayout mRelativeBroadcast;
+    List<View> mMarqueeViews = new ArrayList<>();
     private TextView mTxtRepair, mTxtNearbyStore, mTxtVisitingService;
     //
     private ArrayList<Map<String, String>> mBroadCastList;
@@ -71,7 +72,9 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         mHeadView = LayoutInflater.from(this).inflate(R.layout.view_member_service_header, null);
         mBanner = (BannerView) mHeadView.findViewById(R.id.banner_member_service);
         mBanner.setScreenRatio(2);
-        marqueeView = (MarqueeView) mHeadView.findViewById(R.id.tv_member_service_boardcast);
+        upMarqueeView = (UPMarqueeView) mHeadView.findViewById(R.id.upmarquee_member_service_header);
+        mRelativeBroadcast = (RelativeLayout) mHeadView.findViewById(R.id.relative_member_service_header_broadcast);
+//        marqueeView = (MarqueeView) mHeadView.findViewById(R.id.tv_member_service_boardcast);
         mTxtRepair = (TextView) mHeadView.findViewById(R.id.tv_member_service_repair);
         mTxtNearbyStore = (TextView) mHeadView.findViewById(R.id.tv_member_service_nearby_store);
         mTxtVisitingService = (TextView) mHeadView.findViewById(R.id.tv_member_service_income_visiting_service);
@@ -195,11 +198,15 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
             public void onSuccess(BaseDataBean data) {
                 mBroadCastList = (ArrayList<Map<String, String>>) data.response;
                 if (mBroadCastList != null && mBroadCastList.size() > 0) {
-                    ArrayList<String> list = new ArrayList<String>();
-                    for (int i = 0; i < mBroadCastList.size(); i++) {
-                        list.add(mBroadCastList.get(i).get("title"));
-                    }
-                    marqueeView.startWithList(list);
+//                    ArrayList<String> list = new ArrayList<String>();
+//                    for (int i = 0; i < mBroadCastList.size(); i++) {
+//                        list.add(mBroadCastList.get(i).get("title"));
+//                    }
+                    setBroadcastInfo();
+                    mRelativeBroadcast.setVisibility(View.VISIBLE);
+//                    marqueeView.startWithList(list);
+                } else {
+                    mRelativeBroadcast.setVisibility(View.GONE);
                 }
                 //
                 getStoreList();
@@ -265,38 +272,61 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         });
     }
 
+    /**
+     * 初始化需要循环的View
+     * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
+     * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
+     */
+    private void setBroadcastInfo() {
+        for (int i = 0; i < mBroadCastList.size(); i = i + 2) {
+            final int position = i;
+            //设置滚动的单个布局
+            LinearLayout moreView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.view_marquee, null);
+            //初始化布局的控件
+            TextView tv1 = (TextView) moreView.findViewById(R.id.tv_marquee_title1);
+            TextView tv2 = (TextView) moreView.findViewById(R.id.tv_marquee_title2);
 
-//    //获取广告列表
-//    public void getGuangGaoList() {
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("page", "1");
-//        params.put("catid", "3");
-//        new BaseDataPresenter(MemberServiceActivity.this).loadData(DataUrl.GET_HOME_GUANG_GAO_LIST, params, null, new IBaseDataListener() {
-//            @Override
-//            public void onSuccess(BaseDataBean data) {
-//
-//                ArrayList<Map<String, String>> mList = (ArrayList<Map<String, String>>) data.response;
-//                if (mList == null || mList.size() <= 0) {
-//                    mSuperRefresh.onLoadComplete();
-//                    return;
-//                }
-//                mAdapter.setList(mList);
-//                //
-//                mLinearRoot.setVisibility(View.VISIBLE);
-//                mSuperRefresh.onLoadComplete();
-//            }
-//
-//            @Override
-//            public void onFailure(BaseDataBean data) {
-//                Global.showToast(data.msg, MemberServiceActivity.this);
-//                mSuperRefresh.onLoadComplete();
-//            }
-//
-//            @Override
-//            public void onError() {
-//                mSuperRefresh.onLoadComplete();
-//            }
-//        });
-//    }
+            /**
+             * 设置监听
+             */
+            moreView.findViewById(R.id.rl).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = mBroadCastList.get(position).get("linkurl");
+                    if (!TextUtils.isEmpty(url)) {
+                        Intent intent = new Intent(MemberServiceActivity.this, WebActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            });
+            /**
+             * 设置监听
+             */
+            moreView.findViewById(R.id.rl2).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = mBroadCastList.get(position + 1).get("linkurl");
+                    if (!TextUtils.isEmpty(url)) {
+                        Intent intent = new Intent(MemberServiceActivity.this, WebActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            });
+            //进行对控件赋值
+            tv1.setText(mBroadCastList.get(i).get("title"));
+            if (mBroadCastList.size() > i + 1) {
+                //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
+                tv2.setText(mBroadCastList.get(i + 1).get("title"));
+            } else {
+                moreView.findViewById(R.id.rl2).setVisibility(View.GONE);
+            }
+
+            //添加到循环滚动数组里面去
+            mMarqueeViews.add(moreView);
+        }
+        upMarqueeView.setViews(mMarqueeViews);
+    }
 
 }

@@ -194,10 +194,10 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_right);
         switch (index) {
             case 0: // 首页
-                mTopbar.setTitle(getResources().getString(R.string.nav_title_home));
-                mTopbar.showHomeTopbar();
+//                mTopbar.showHomeTopbar();
                 mTopbar.setSettingVisible(false);
                 mTopbar.showJiangLi(false);
+                mTopbar.setVisibility(View.GONE);
                 if (mHomeFrag == null) {
                     mHomeFrag = (HomeFragment) new HomeFragment();
                     transaction.add(R.id.frame_main_content, mHomeFrag);
@@ -216,6 +216,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_city_partner));
                 mTopbar.setSettingVisible(false);
                 mTopbar.showJiangLi(false);
+                mTopbar.setVisibility(View.VISIBLE);
                 if (mGoodsFrag == null) {
                     mGoodsFrag = new GoodsFragment();
                     transaction.add(R.id.frame_main_content, mGoodsFrag);
@@ -231,6 +232,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_income));
                 mTopbar.setSettingVisible(false);
                 mTopbar.showJiangLi(true);
+                mTopbar.setVisibility(View.VISIBLE);
                 if (mIncomeFrag == null) {
                     mIncomeFrag = new IncomeFragment();
                     transaction.add(R.id.frame_main_content, mIncomeFrag);
@@ -246,6 +248,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setTitle(getResources().getString(R.string.nav_title_shop));
                 mTopbar.setSettingVisible(false);
                 mTopbar.showJiangLi(false);
+                mTopbar.setVisibility(View.VISIBLE);
                 if (mRepairFrag == null) {
                     mRepairFrag = new RepairFragment();
                     transaction.add(R.id.frame_main_content, mRepairFrag);
@@ -262,6 +265,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTopbar.setTitle(getResources().getString(R.string.personal_center));
                 mTopbar.setSettingVisible(true);
                 mTopbar.showJiangLi(false);
+                mTopbar.setVisibility(View.VISIBLE);
                 if (mMeFrag == null) {
                     mMeFrag = new MeFragment();
                     transaction.add(R.id.frame_main_content, mMeFrag);
@@ -350,7 +354,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 Global.mCurrLat = aMapLocation.getLatitude();
                 Global.mCurrLng = aMapLocation.getLongitude();
                 //
-                mTopbar.setLocationCity(Global.locationCity);
+//                mTopbar.setLocationCity(Global.locationCity);
+                mHomeFrag.mTxtLocation.setText(Global.locationCity);
                 Log.e("定位结果", "city " + Global.locationCity + "  mCurrLat   " + Global.mCurrLat + "  mCurrLng" + Global.mCurrLng);
             }
         });

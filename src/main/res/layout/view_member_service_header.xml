@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.coco3g.daishu.view.BannerView
@@ -10,45 +10,83 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:id="@+id/linear_member_service_boardcast_bar"
+    <!--<LinearLayout-->
+    <!--android:id="@+id/linear_member_service_boardcast_bar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/white"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:paddingTop="8dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingLeft="20dp"-->
+    <!--android:paddingRight="20dp"-->
+    <!--android:text="通告"-->
+    <!--android:textColor="@color/text_color_red_3"-->
+    <!--android:textStyle="italic" />-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="0.5dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:background="@color/text_color_8" />-->
+
+    <!--<com.sunfusheng.marqueeview.MarqueeView-->
+    <!--android:id="@+id/tv_member_service_boardcast"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:mvAnimDuration="1000"-->
+    <!--app:mvInterval="3000"-->
+    <!--app:mvSingleLine="true"-->
+    <!--app:mvTextColor="@color/text_color_red_2"-->
+    <!--app:mvTextSize="14sp">-->
+
+    <!--</com.sunfusheng.marqueeview.MarqueeView>-->
+
+    <!--</LinearLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/relative_member_service_header_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="通告"
-            android:textColor="@color/text_color_red_3"
-            android:textStyle="italic" />
+        <!--<TextView-->
+        <!--android:id="@+id/txt_home_head_broadcast"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:text="@string/daishu_toutiao"-->
+        <!--android:textColor="@color/text_color_1"-->
+        <!--android:textSize="16sp" />-->
 
         <ImageView
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/text_color_8" />
+            android:id="@+id/image_home_head_toutiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/pic_1" />
 
-        <com.sunfusheng.marqueeview.MarqueeView
-            android:id="@+id/tv_member_service_boardcast"
+        <com.coco3g.daishu.view.UPMarqueeView
+            android:id="@+id/upmarquee_member_service_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mvAnimDuration="1000"
-            app:mvInterval="3000"
-            app:mvSingleLine="true"
-            app:mvTextColor="@color/text_color_red_2"
-            app:mvTextSize="14sp">
-
-        </com.sunfusheng.marqueeview.MarqueeView>
-
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/image_home_head_toutiao" />
+    </RelativeLayout>
 
 
     <ImageView
@@ -61,8 +99,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingTop="20dp"
         android:paddingBottom="20dp"
+        android:paddingTop="20dp"
         android:weightSum="3">
 
         <TextView

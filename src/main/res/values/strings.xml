@@ -20,6 +20,7 @@
     <string name="welcome_to_shop">欢迎来到**商城</string>
     <string name="in_shop">进入商城</string>
     <string name="in_collect">进入收藏</string>
+    <string name="daishu_toutiao">袋鼠\n头条</string>
 
 
     <!--LoginActivity-->

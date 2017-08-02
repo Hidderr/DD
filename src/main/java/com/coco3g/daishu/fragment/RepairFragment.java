@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -36,10 +37,12 @@ import com.coco3g.daishu.view.BannerView;
 import com.coco3g.daishu.view.HomeMenuImageView;
 import com.coco3g.daishu.view.LoginRegisterView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
+import com.coco3g.daishu.view.UPMarqueeView;
 import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -51,7 +54,10 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
     private View mRepairView;
     BannerView mBanner;
     LinearLayout mLinearMenu, mLinearRoot;
-    MarqueeView mTxtRepairBoradcast;
+    //    MarqueeView mTxtRepairBoradcast;
+    UPMarqueeView upMarqueeView;
+    RelativeLayout mRelativeBroadcast;
+    List<View> mMarqueeViews = new ArrayList<>();
     //
     HomeMenuImageView[] mMenuRes;
     HomeMenuImageView mRepairMenu1, mRepairMenu2, mRepairMenu3, mRepairMenu4, mRepairMenu5;
@@ -78,7 +84,9 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         mLinearRoot = (LinearLayout) mHeadView.findViewById(R.id.linear_repair_root);
         mLinearRoot.setVisibility(View.GONE);
         mLinearMenu = (LinearLayout) mHeadView.findViewById(R.id.linear_repair_menu);
-        mTxtRepairBoradcast = (MarqueeView) mHeadView.findViewById(R.id.tv_repair_boardcast);
+        upMarqueeView = (UPMarqueeView) mHeadView.findViewById(R.id.upmarquee_repair_frag_head);
+        mRelativeBroadcast = (RelativeLayout) mHeadView.findViewById(R.id.relative_repair_frag_broadcast);
+//        mTxtRepairBoradcast = (MarqueeView) mHeadView.findViewById(R.id.tv_repair_boardcast);
         mRepairMenu1 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_1);
         mRepairMenu2 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_2);
         mRepairMenu3 = (HomeMenuImageView) mHeadView.findViewById(R.id.view_repair_menu_3);
@@ -109,18 +117,18 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         mRepairMenu3.setOnClickListener(this);
         mRepairMenu4.setOnClickListener(this);
         mRepairMenu5.setOnClickListener(this);
-        //跑马灯
-        mTxtRepairBoradcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, TextView textView) {
-                String url = mBroadCastList.get(position).get("linkurl");
-                if (!TextUtils.isEmpty(url)) {
-                    Intent intent = new Intent(getActivity(), WebActivity.class);
-                    intent.putExtra("url", url);
-                    startActivity(intent);
-                }
-            }
-        });
+//        //跑马灯
+//        mTxtRepairBoradcast.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position, TextView textView) {
+//                String url = mBroadCastList.get(position).get("linkurl");
+//                if (!TextUtils.isEmpty(url)) {
+//                    Intent intent = new Intent(getActivity(), WebActivity.class);
+//                    intent.putExtra("url", url);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
         //
         startLocation(false);
         mAdapter = new RepairFragAdapter(getActivity());
@@ -252,11 +260,15 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(BaseDataBean data) {
                 mBroadCastList = (ArrayList<Map<String, String>>) data.response;
                 if (mBroadCastList != null && mBroadCastList.size() > 0) {
-                    ArrayList<String> list = new ArrayList<>();
-                    for (int i = 0; i < mBroadCastList.size(); i++) {
-                        list.add(mBroadCastList.get(i).get("title"));
-                    }
-                    mTxtRepairBoradcast.startWithList(list);
+//                    ArrayList<String> list = new ArrayList<>();
+//                    for (int i = 0; i < mBroadCastList.size(); i++) {
+//                        list.add(mBroadCastList.get(i).get("title"));
+//                    }
+                    setBroadcastInfo();
+                    mRelativeBroadcast.setVisibility(View.VISIBLE);
+//                    mTxtRepairBoradcast.startWithList(list);
+                } else {
+                    mRelativeBroadcast.setVisibility(View.GONE);
                 }
                 mLinearRoot.setVisibility(View.VISIBLE);
                 // 我的汽车信息
@@ -325,8 +337,64 @@ public class RepairFragment extends Fragment implements View.OnClickListener {
         });
         builder.setNegativeButton("取消", null);
         builder.create().show();
+    }
 
 
+    /**
+     * 初始化需要循环的View
+     * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
+     * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
+     */
+    private void setBroadcastInfo() {
+        for (int i = 0; i < mBroadCastList.size(); i = i + 2) {
+            final int position = i;
+            //设置滚动的单个布局
+            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.view_marquee, null);
+            //初始化布局的控件
+            TextView tv1 = (TextView) moreView.findViewById(R.id.tv_marquee_title1);
+            TextView tv2 = (TextView) moreView.findViewById(R.id.tv_marquee_title2);
+
+            /**
+             * 设置监听
+             */
+            moreView.findViewById(R.id.rl).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = mBroadCastList.get(position).get("linkurl");
+                    if (!TextUtils.isEmpty(url)) {
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            });
+            /**
+             * 设置监听
+             */
+            moreView.findViewById(R.id.rl2).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = mBroadCastList.get(position + 1).get("linkurl");
+                    if (!TextUtils.isEmpty(url)) {
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            });
+            //进行对控件赋值
+            tv1.setText(mBroadCastList.get(i).get("title"));
+            if (mBroadCastList.size() > i + 1) {
+                //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
+                tv2.setText(mBroadCastList.get(i + 1).get("title"));
+            } else {
+                moreView.findViewById(R.id.rl2).setVisibility(View.GONE);
+            }
+
+            //添加到循环滚动数组里面去
+            mMarqueeViews.add(moreView);
+        }
+        upMarqueeView.setViews(mMarqueeViews);
     }
 
 

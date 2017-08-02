@@ -10,53 +10,91 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:id="@+id/linear_home_boardcast_bar"
+    <!--<LinearLayout-->
+    <!--android:id="@+id/linear_home_boardcast_bar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/white"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:paddingRight="15dp"-->
+    <!--android:paddingTop="5dp">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingLeft="20dp"-->
+    <!--android:paddingRight="20dp"-->
+    <!--android:src="@mipmap/pic_bugle_icon" />-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="0.5dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:background="@color/text_color_8" />-->
+
+    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/tv_home_boardcast"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="广播滚动"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textColor="@color/text_color_6"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textSize="14sp" />&ndash;&gt;-->
+
+    <!--<com.sunfusheng.marqueeview.MarqueeView-->
+    <!--android:id="@+id/tv_home_boardcast"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:mvAnimDuration="1000"-->
+    <!--app:mvInterval="3000"-->
+    <!--app:mvSingleLine="true"-->
+    <!--app:mvTextColor="@color/text_color_red_2"-->
+    <!--app:mvTextSize="14sp">-->
+
+    <!--</com.sunfusheng.marqueeview.MarqueeView>-->
+
+
+    <!--</LinearLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/relative_home_head_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingRight="15dp"
-        android:paddingTop="5dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:src="@mipmap/pic_bugle_icon" />
-
-        <ImageView
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/text_color_8" />
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp">
 
         <!--<TextView-->
-        <!--android:id="@+id/tv_home_boardcast"-->
-        <!--android:layout_width="match_parent"-->
+        <!--android:id="@+id/txt_home_head_broadcast"-->
+        <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:text="广播滚动"-->
-        <!--android:textColor="@color/text_color_6"-->
-        <!--android:textSize="14sp" />-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:text="@string/daishu_toutiao"-->
+        <!--android:textColor="@color/text_color_1"-->
+        <!--android:textSize="16sp" />-->
 
-        <com.sunfusheng.marqueeview.MarqueeView
-            android:id="@+id/tv_home_boardcast"
+        <ImageView
+            android:id="@+id/image_home_head_toutiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/pic_1" />
+
+        <com.coco3g.daishu.view.UPMarqueeView
+            android:id="@+id/upmarquee_home_head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mvAnimDuration="1000"
-            app:mvInterval="3000"
-            app:mvSingleLine="true"
-            app:mvTextColor="@color/text_color_red_2"
-            app:mvTextSize="14sp">
-
-        </com.sunfusheng.marqueeview.MarqueeView>
-
-
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/image_home_head_toutiao" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -222,8 +260,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_below="@+id/tv_home_item_splitline">
+                android:layout_below="@+id/tv_home_item_splitline"
+                android:layout_marginRight="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,15 +289,15 @@
                         android:id="@+id/tv_home_mycar_subtitle2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:padding="5dp"
-                        android:textColor="@color/text_color_4"
                         android:ellipsize="marquee"
                         android:focusable="true"
-                        android:marqueeRepeatLimit="marquee_forever"
                         android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:padding="5dp"
                         android:scrollHorizontally="true"
-                        android:text="******" />
+                        android:singleLine="true"
+                        android:text="******"
+                        android:textColor="@color/text_color_4" />
 
 
                 </LinearLayout>
