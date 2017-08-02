@@ -22,18 +22,21 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/default_image" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/relative_repair_website_store_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image_store_shai_xuan_item_thumb"
+            android:layout_alignTop="@+id/image_store_shai_xuan_item_thumb"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/image_store_shai_xuan_item_thumb"
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/relative_shai_xuan_item_store_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="4dp">
 
                 <TextView
                     android:id="@+id/tv_store_shai_xuan_item_name"
@@ -65,10 +68,49 @@
             </RelativeLayout>
 
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/relative_store_shai_xuan_item_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_above="@+id/linear_shore_shai_xuan_item_pingjia"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tv_store_shai_xuan_item_disprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="优惠价"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/image_store_shaixuan_item_line"
+                    android:layout_width="0.5dp"
+                    android:layout_height="13dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_store_shai_xuan_item_disprice"
+                    android:background="@color/text_color_2" />
+
+                <TextView
+                    android:id="@+id/tv_store_shai_xuan_item_groprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/image_store_shaixuan_item_line"
+                    android:text="团购价"
+                    android:textColor="@color/text_color_1"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_shore_shai_xuan_item_pingjia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_above="@+id/relative_store_shai_xuan_item_address"
                 android:orientation="horizontal">
 
                 <TextView
@@ -92,7 +134,8 @@
 
                 <ImageView
                     android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="13dp"
+                    android:layout_gravity="center_vertical"
                     android:background="@color/text_color_2" />
 
                 <TextView
@@ -109,9 +152,10 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/relative_store_shai_xuan_item_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp">
+                android:layout_alignParentBottom="true">
 
                 <TextView
                     android:id="@+id/tv_store_shai_xuan_item_address"
@@ -138,6 +182,6 @@
             </RelativeLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

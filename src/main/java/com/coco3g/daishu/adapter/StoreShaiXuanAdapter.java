@@ -2,7 +2,11 @@ package com.coco3g.daishu.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +34,11 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<Map<String, String>> mList = new ArrayList<>();
     RelativeLayout.LayoutParams lp = null;
+    String typeid = "1";  //  1;快修门店   2；洗车店
 
-    public StoreShaiXuanAdapter(Context mContext) {
+    public StoreShaiXuanAdapter(Context mContext, String typeid) {
         this.mContext = mContext;
+        this.typeid = typeid;
         lp = new RelativeLayout.LayoutParams(Global.screenWidth / 4, Global.screenWidth / 4);
         lp.addRule(RelativeLayout.CENTER_VERTICAL);
     }
@@ -93,7 +99,10 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
             viewHolder.mTxtOrders = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_orders);
             viewHolder.mTxtAddress = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_address);
             viewHolder.mTxtDistance = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_distance);
+            viewHolder.mTxtDisPrice = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_disprice);
+            viewHolder.mTxtGroupPrice = (TextView) view.findViewById(R.id.tv_store_shai_xuan_item_groprice);
             viewHolder.mRelativeRoot = (RelativeLayout) view.findViewById(R.id.relative_store_shai_xuan_item_root);
+            viewHolder.mRelativePrice = (RelativeLayout) view.findViewById(R.id.relative_store_shai_xuan_item_price);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -115,6 +124,31 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
         } else {
             viewHolder.mTxtType.setVisibility(View.GONE);
         }
+
+        //是洗车店的话显示价格
+        if (typeid.equals("2")) {
+            viewHolder.mRelativePrice.setVisibility(View.VISIBLE);
+            String disprice = storeMap.get("disprice");
+            if (!TextUtils.isEmpty(disprice)) {
+                SpannableString spannableString = new SpannableString("优惠价    " + disprice);
+                spannableString.setSpan(new ForegroundColorSpan(Color.RED), 3, disprice.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                viewHolder.mTxtDisPrice.setText(spannableString);
+            } else {
+                viewHolder.mTxtDisPrice.setText("优惠价     暂无");
+            }
+            String grouprice = storeMap.get("groprice");
+            if (!TextUtils.isEmpty(grouprice)) {
+                SpannableString spannableString = new SpannableString("团购价    " + grouprice);
+                spannableString.setSpan(new ForegroundColorSpan(Color.RED), 3, disprice.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                viewHolder.mTxtGroupPrice.setText(spannableString);
+            } else {
+                viewHolder.mTxtGroupPrice.setText("团购价     暂无");
+            }
+
+        } else {
+            viewHolder.mRelativePrice.setVisibility(View.GONE);
+        }
+
         //完成单数
         viewHolder.mTxtOrders.setText(storeMap.get("ordnums") + "单");
         //评分
@@ -136,7 +170,8 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
 
     private class ViewHolder {
         public ImageView mImageThumb;
-        public RelativeLayout mRelativeRoot;
-        public TextView mTxtName, mTxtType, mTxtPingFen, mTxtOrders, mTxtAddress, mTxtDistance;
+        public RelativeLayout mRelativeRoot, mRelativePrice;
+        public TextView mTxtName, mTxtType, mTxtPingFen, mTxtOrders, mTxtAddress, mTxtDistance, mTxtDisPrice, mTxtGroupPrice;
+
     }
 }

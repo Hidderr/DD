@@ -101,7 +101,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
         mTxtNearbyStore.setOnClickListener(this);
         mTxtVisitingService.setOnClickListener(this);
         //
-        mAdapter = new StoreShaiXuanAdapter(this);
+        mAdapter = new StoreShaiXuanAdapter(this,"0");
         mListView.setAdapter(mAdapter);
 
     }
@@ -118,7 +118,7 @@ public class MemberServiceActivity extends BaseActivity implements View.OnClickL
                 }
 //                intent = new Intent(mContext, RepairWebsiteActivity.class);
                 intent = new Intent(MemberServiceActivity.this, ShaiXuanListActivity.class);
-                intent.putExtra("typeid", "1");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("typeid", "1");   //2=快修门店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
                 intent.putExtra("title", "快修门店");
                 startActivity(intent);
 

@@ -122,7 +122,7 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
         mRelativeShaiXuan.setOnClickListener(this);
         mImageLocation.setOnClickListener(this);
         //
-        mAdapter = new StoreShaiXuanAdapter(ShaiXuanListActivity.this);
+        mAdapter = new StoreShaiXuanAdapter(ShaiXuanListActivity.this, typeid);
         mListView.setAdapter(mAdapter);
         //
         mSuperRefresh.setCanLoadMore();
@@ -199,7 +199,7 @@ public class ShaiXuanListActivity extends BaseActivity implements View.OnClickLi
                 Global.mCurrLng = currLng = aMapLocation.getLongitude();
                 //
                 mTopbar.setLocationCity(Global.locationCity);
-                Log.e("定位结果", "city " + Global.locationCity + "   **"+aMapLocation.getDistrict());
+                Log.e("定位结果", "city " + Global.locationCity + "   **" + aMapLocation.getDistrict());
                 //
                 mRelativeCurrLocation.setVisibility(View.VISIBLE);
                 mTxtCurrLocation.setText(aMapLocation.getDistrict() + aMapLocation.getAoiName() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
