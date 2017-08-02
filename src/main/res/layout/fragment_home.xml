@@ -37,7 +37,7 @@
             android:maxLength="3"
             android:padding="10dp"
             android:text="定位中"
-            android:textColor="@color/black_1"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
 
