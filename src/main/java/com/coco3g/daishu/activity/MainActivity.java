@@ -3,6 +3,7 @@ package com.coco3g.daishu.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.coco3g.daishu.fragment.HomeFragment;
 import com.coco3g.daishu.fragment.IncomeFragment;
 import com.coco3g.daishu.fragment.MeFragment;
 import com.coco3g.daishu.fragment.RepairFragment;
+import com.coco3g.daishu.net.utils.VersionUpdateUtils;
 import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.utils.LocationUtil;
 import com.coco3g.daishu.utils.RequestPermissionUtils;
@@ -159,6 +161,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     public void onResume() {
         super.onResume();
         isForeground = true;
+        // 检查新版本
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new VersionUpdateUtils(MainActivity.this).checkUpdate(false, ""); // 检查最新版本
+            }
+        }, 500);
     }
 
     @Override
