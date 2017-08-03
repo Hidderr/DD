@@ -102,6 +102,14 @@ public class WebActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (url.contains("autorefresh")) { // 如果当前页面包含autorefresh，那么该页面每次返回都要刷新数据
+            mWebView.reLoadUrl();
+        }
+    }
+
     private void initView() {
         //
         mTopBar = (TopBarView) findViewById(R.id.topbar_my_webview);

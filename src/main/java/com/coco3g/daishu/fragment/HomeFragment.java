@@ -346,6 +346,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             mTxtMycarSubTitle1.setText(myCarMap.get("type"));
             mTxtMycarSubTitle2.setText(myCarMap.get("text"));
         }
+        if (Global.USERINFOMAP == null) { // 未登录
+            mTxtMycarTitle.setText("请登录后查看");
+            mTxtMycarSubTitle1.setText("******");
+            mTxtMycarSubTitle2.setText("******");
+        }
     }
 
     //设置推送信息来的车的状况

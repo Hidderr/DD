@@ -1005,6 +1005,7 @@ public class Global {
         Global.RONG_TOKEN = null;
         Global.LOGIN_INFO_MAP = null;
         Global.deleteSerializeData(mContext, Global.LOGIN_INFO_OPENID);
+        Global.deleteSerializeData(mContext, Global.MY_CAR);
         //
         // 除cookie
         Global.clearCookie(mContext);
