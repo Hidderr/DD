@@ -32,7 +32,7 @@ public class BaseActivity extends Activity {
         CONTEXTLIST.add(this);
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.white);
+        tintManager.setStatusBarTintResource(R.color.black);
     }
 
     @TargetApi(19)
