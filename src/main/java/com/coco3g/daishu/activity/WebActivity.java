@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -108,6 +109,16 @@ public class WebActivity extends BaseActivity {
         if (hideTopbar) {
             mTopBar.setVisibility(View.GONE);
         }
+        mTopBar.setOnClickLeftListener(new TopBarView.OnClickLeftView() {
+            @Override
+            public void onClickLeftView() {
+                if (mWebView.canBack()) {
+                    mWebView.goBack();
+                } else {
+                    finish();
+                }
+            }
+        });
         TextView tv = new TextView(WebActivity.this);
         tv.setGravity(Gravity.START | Gravity.CENTER);
         tv.setText(getString(R.string.save));
@@ -534,6 +545,17 @@ public class WebActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mWebView.canBack()) {
+                mWebView.goBack();
+            } else {
+                finish();
+            }
+        }
+        return true;
+    }
 
     @Override
     protected void onDestroy() {

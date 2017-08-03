@@ -284,6 +284,14 @@ public class MyWebView extends RelativeLayout {
 //        webView.loadUrl(url);
 //    }
 
+    public void goBack() {
+        webView.goBack();
+    }
+
+    public boolean canBack() {
+        return webView.canGoBack();
+    }
+
     public WebView getCurrentWebview() {
         return webView;
     }
