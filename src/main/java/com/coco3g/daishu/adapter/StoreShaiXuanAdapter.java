@@ -130,17 +130,13 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
             viewHolder.mRelativePrice.setVisibility(View.VISIBLE);
             String disprice = storeMap.get("disprice");
             if (!TextUtils.isEmpty(disprice)) {
-                SpannableString spannableString = new SpannableString("优惠价    " + disprice);
-                spannableString.setSpan(new ForegroundColorSpan(Color.RED), 3, disprice.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                viewHolder.mTxtDisPrice.setText(spannableString);
+                viewHolder.mTxtDisPrice.setText("优惠价    " + disprice);
             } else {
                 viewHolder.mTxtDisPrice.setText("优惠价     暂无");
             }
             String grouprice = storeMap.get("groprice");
             if (!TextUtils.isEmpty(grouprice)) {
-                SpannableString spannableString = new SpannableString("团购价    " + grouprice);
-                spannableString.setSpan(new ForegroundColorSpan(Color.RED), 3, disprice.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                viewHolder.mTxtGroupPrice.setText(spannableString);
+                viewHolder.mTxtGroupPrice.setText("团购价    " + grouprice);
             } else {
                 viewHolder.mTxtGroupPrice.setText("团购价     暂无");
             }

@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/image_store_shai_xuan_item_thumb"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/default_image" />
