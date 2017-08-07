@@ -69,8 +69,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RelativeLayout.LayoutParams mMycarThumb_lp;
     //
     int[] mNavIconResID = new int[]{R.mipmap.pic_menu_my_car, R.mipmap.pic_menu_vip_icon, R.mipmap.pic_menu_buy_car, R.mipmap.pic_menu_car_insurance,
-            R.mipmap.pic_car_gai_zhuang_icon, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_menu_borrow_money_service};
-    String[] mNavTitles = new String[]{"我的汽车", "会员服务", "我要买车", "低价车险", "爱车改装", "折扣油站", "二手车", "借款服务"};
+            R.mipmap.pic_car_gai_zhuang_icon, R.mipmap.pic_menu_gasoline, R.mipmap.pic_menu_second_hand_car, R.mipmap.pic_home_temp};
+    String[] mNavTitles = new String[]{"我的汽车", "会员服务", "我要买车", "低价车险", "爱车改装", "折扣油站", "二手车", "房车旅行"};
     //
     OnRepairClickListener onRepairClickListener = null;
     private ArrayList<Map<String, String>> mBroadCastList;  //跑马灯
@@ -266,9 +266,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.view_home_menu_8:  //  借款服务
-                intentToWeb(Global.H5Map.get("daikuan"), false);
-
+            case R.id.view_home_menu_8:  //  房车旅行
+//                intentToWeb(Global.H5Map.get("daikuan"), false);
                 break;
 
             case R.id.image_home_middle_banner:  //单个广告
