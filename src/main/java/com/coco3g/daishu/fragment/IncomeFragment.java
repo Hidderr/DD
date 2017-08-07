@@ -1,6 +1,7 @@
 package com.coco3g.daishu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.coco3g.daishu.data.DataUrl;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.listener.IBaseDataListener;
 import com.coco3g.daishu.presenter.BaseDataPresenter;
+import com.coco3g.daishu.utils.Coco3gBroadcastUtils;
 import com.coco3g.daishu.view.MyWebView;
 import com.coco3g.daishu.view.SuperRefreshLayout;
 
@@ -34,12 +36,22 @@ public class IncomeFragment extends Fragment {
     private IncomeAdapter mAdapter;
     private MyWebView myWebView;
     private SuperRefreshLayout mSuperRefresh;
+    private Coco3gBroadcastUtils mCoco3gShouyi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
         mIncomeView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_income, null);
         intview();
+        mCoco3gShouyi = new Coco3gBroadcastUtils(getActivity());
+        mCoco3gShouyi.receiveBroadcast(Coco3gBroadcastUtils.SEND_SHOUYI_REFRESH_FLAG)
+                .setOnReceivebroadcastListener(new Coco3gBroadcastUtils.OnReceiveBroadcastListener() {
+                    @Override
+                    public void receiveReturn(Intent intent) {
+                        mAdapter.clearList();
+                        getIncomeList();
+                    }
+                });
         return mIncomeView;
     }
 
@@ -129,4 +141,11 @@ public class IncomeFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mCoco3gShouyi != null) {
+            mCoco3gShouyi.unregisterBroadcast();
+        }
+    }
 }

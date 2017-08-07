@@ -93,6 +93,7 @@ public class MyWebView extends RelativeLayout {
 
             @Override
             public void onRefresh() {
+                new Coco3gBroadcastUtils(mContext).sendBroadcast(Coco3gBroadcastUtils.SEND_SHOUYI_REFRESH_FLAG, null);
                 webView.reload();
             }
 

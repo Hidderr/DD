@@ -26,6 +26,7 @@ public class Coco3gBroadcastUtils {
     public static final String SEND_RONG_MESSAGE_FLAG = "send_rong_message_flag"; // 发送融云消息后要发送的广播
     public static final String SEND_REFRESH_HOME_ORDER_LIST_FLAG = "send_refresh_home_order_list_flag"; // 发布完订单后，立即刷新首页的列表
     public static final String LOG_OUT = "logout"; // 退出登录
+    public static final String SEND_SHOUYI_REFRESH_FLAG = "send_shouyi_refresh_flag"; // 刷新收益界面
     //
     private ReceiveBroadCast receiveBroadCast; // 广播实例
     OnReceiveBroadcastListener onreceivebroadcastlistener = null;
