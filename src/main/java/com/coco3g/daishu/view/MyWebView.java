@@ -191,7 +191,7 @@ public class MyWebView extends RelativeLayout {
                     webView.loadUrl(url);
 
                 } else if (url.contains("http://open.iauto360.cn")) {  //车保姆
-                    if (!TextUtils.isEmpty(url) && url.startsWith("http://open.iauto360.cn/html/main.html?")) {  //排除跳转两次
+                    if (!TextUtils.isEmpty(url) && url.startsWith("http://open.iauto360.cn/h5")) {  //排除跳转两次
                         webView.loadUrl(url);
                     } else {
                         mUrl = url;
