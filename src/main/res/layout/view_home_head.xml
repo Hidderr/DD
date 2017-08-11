@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <com.coco3g.daishu.view.BannerView
         android:id="@+id/banner_home_frag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <!--<LinearLayout-->
     <!--android:id="@+id/linear_home_boardcast_bar"-->
@@ -85,7 +85,7 @@
             android:id="@+id/image_home_head_toutiao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/pic_1" />
+            android:src="@mipmap/pic_1"/>
 
         <com.coco3g.daishu.view.UPMarqueeView
             android:id="@+id/upmarquee_home_head"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/image_home_head_toutiao" />
+            android:layout_toRightOf="@+id/image_home_head_toutiao"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -102,14 +102,14 @@
         android:layout_marginTop="5dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="3">
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <!--<ImageView-->
         <!--android:layout_width="1dp"-->
@@ -120,8 +120,8 @@
             android:id="@+id/view_home_menu_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <!--<ImageView-->
         <!--android:layout_width="1dp"-->
@@ -132,8 +132,8 @@
             android:id="@+id/view_home_menu_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <!--<ImageView-->
         <!--android:layout_width="1dp"-->
@@ -145,7 +145,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:gravity="center" />
+            android:gravity="center"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -154,14 +155,14 @@
         android:layout_marginBottom="1dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="3">
 
         <com.coco3g.daishu.view.HomeMenuImageView
             android:id="@+id/view_home_menu_5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <!--<ImageView-->
         <!--android:layout_width="1dp"-->
@@ -172,8 +173,8 @@
             android:id="@+id/view_home_menu_6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <!--<ImageView-->
         <!--android:layout_width="1dp"-->
@@ -184,8 +185,8 @@
             android:id="@+id/view_home_menu_7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <!--<ImageView-->
         <!--android:layout_width="1dp"-->
@@ -197,7 +198,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:gravity="center" />
+            android:gravity="center"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <ImageView
@@ -205,7 +207,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@mipmap/pic_home_middle_banner" />
+        android:src="@mipmap/pic_home_middle_banner"/>
 
     <RelativeLayout
         android:id="@+id/relative_home_frag_mycar"
@@ -226,7 +228,7 @@
             android:layout_centerVertical="true"
             android:background="@color/white"
             android:scaleType="centerInside"
-            android:src="@mipmap/pic_item_test" />
+            android:src="@mipmap/pic_item_test"/>
 
         <RelativeLayout
             android:id="@+id/relative_home_item_content"
@@ -247,14 +249,14 @@
                 android:padding="5dp"
                 android:text="请登录后查看"
                 android:textColor="@color/text_color_4"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <ImageView
                 android:id="@+id/tv_home_item_splitline"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/tv_home_mycar_title"
-                android:background="@color/text_color_10" />
+                android:background="@color/text_color_10"/>
 
 
             <RelativeLayout
@@ -277,13 +279,13 @@
                         android:lines="1"
                         android:padding="5dp"
                         android:text="******"
-                        android:textColor="@color/text_color_red_2" />
+                        android:textColor="@color/text_color_red_2"/>
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/tv_home_mycar_title"
-                        android:background="@color/text_color_10" />
+                        android:background="@color/text_color_10"/>
 
                     <com.coco3g.daishu.view.MarqueeText
                         android:id="@+id/tv_home_mycar_subtitle2"
@@ -297,7 +299,7 @@
                         android:scrollHorizontally="true"
                         android:singleLine="true"
                         android:text="******"
-                        android:textColor="@color/text_color_4" />
+                        android:textColor="@color/text_color_4"/>
 
 
                 </LinearLayout>
@@ -313,7 +315,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:src="@mipmap/pic_arrow_right_home_icon"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </LinearLayout>
