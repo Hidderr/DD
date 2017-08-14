@@ -21,131 +21,131 @@
         android:layout_marginTop="1dp"
         android:background="@color/white">
 
-
         <ListView
             android:id="@+id/listview_member_service"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@null">
+            android:divider="@color/text_color_8"
+            android:dividerHeight="0.5dp">
 
         </ListView>
 
-            <!--<LinearLayout-->
-                <!--android:id="@+id/tv_member_service_root"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical">-->
+        <!--<LinearLayout-->
+        <!--android:id="@+id/tv_member_service_root"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
 
-                <!--<com.coco3g.daishu.view.BannerView-->
-                    <!--android:id="@+id/banner_member_service"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content" />-->
+        <!--<com.coco3g.daishu.view.BannerView-->
+        <!--android:id="@+id/banner_member_service"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/linear_member_service_boardcast_bar"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:paddingBottom="8dp"-->
-                    <!--android:paddingTop="8dp">-->
+        <!--<LinearLayout-->
+        <!--android:id="@+id/linear_member_service_boardcast_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingBottom="8dp"-->
+        <!--android:paddingTop="8dp">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:paddingLeft="20dp"-->
-                        <!--android:paddingRight="20dp"-->
-                        <!--android:text="通告"-->
-                        <!--android:textColor="@color/text_color_red_3"-->
-                        <!--android:textStyle="italic" />-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:paddingRight="20dp"-->
+        <!--android:text="通告"-->
+        <!--android:textColor="@color/text_color_red_3"-->
+        <!--android:textStyle="italic" />-->
 
-                    <!--<ImageView-->
-                        <!--android:layout_width="0.5dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_marginRight="10dp"-->
-                        <!--android:background="@color/text_color_8" />-->
+        <!--<ImageView-->
+        <!--android:layout_width="0.5dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:background="@color/text_color_8" />-->
 
-                    <!--<com.sunfusheng.marqueeview.MarqueeView-->
-                        <!--android:id="@+id/tv_member_service_boardcast"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--app:mvAnimDuration="1000"-->
-                        <!--app:mvInterval="3000"-->
-                        <!--app:mvSingleLine="true"-->
-                        <!--app:mvTextColor="@color/text_color_red_2"-->
-                        <!--app:mvTextSize="14sp">-->
+        <!--<com.sunfusheng.marqueeview.MarqueeView-->
+        <!--android:id="@+id/tv_member_service_boardcast"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:mvAnimDuration="1000"-->
+        <!--app:mvInterval="3000"-->
+        <!--app:mvSingleLine="true"-->
+        <!--app:mvTextColor="@color/text_color_red_2"-->
+        <!--app:mvTextSize="14sp">-->
 
-                    <!--</com.sunfusheng.marqueeview.MarqueeView>-->
+        <!--</com.sunfusheng.marqueeview.MarqueeView>-->
 
-                <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
 
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0.5dp"-->
-                    <!--android:src="@color/text_color_8" />-->
+        <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.5dp"-->
+        <!--android:src="@color/text_color_8" />-->
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:paddingTop="20dp"-->
-                    <!--android:paddingBottom="20dp"-->
-                    <!--android:weightSum="3">-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingTop="20dp"-->
+        <!--android:paddingBottom="20dp"-->
+        <!--android:weightSum="3">-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_member_service_repair"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:drawablePadding="8dp"-->
-                        <!--android:drawableTop="@mipmap/pic_repair_baoyang_icon"-->
-                        <!--android:gravity="center"-->
-                        <!--android:text="快修门店"-->
-                        <!--android:textColor="@color/text_color_1"-->
-                        <!--android:textSize="14sp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/tv_member_service_repair"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:drawablePadding="8dp"-->
+        <!--android:drawableTop="@mipmap/pic_repair_baoyang_icon"-->
+        <!--android:gravity="center"-->
+        <!--android:text="快修门店"-->
+        <!--android:textColor="@color/text_color_1"-->
+        <!--android:textSize="14sp" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_member_service_nearby_store"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:drawablePadding="8dp"-->
-                        <!--android:drawableTop="@mipmap/pic_nearby_store_icon"-->
-                        <!--android:gravity="center"-->
-                        <!--android:text="优惠洗车"-->
-                        <!--android:textColor="@color/text_color_1"-->
-                        <!--android:textSize="14sp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/tv_member_service_nearby_store"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:drawablePadding="8dp"-->
+        <!--android:drawableTop="@mipmap/pic_nearby_store_icon"-->
+        <!--android:gravity="center"-->
+        <!--android:text="优惠洗车"-->
+        <!--android:textColor="@color/text_color_1"-->
+        <!--android:textSize="14sp" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_member_service_income_visiting_service"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:drawablePadding="8dp"-->
-                        <!--android:drawableTop="@mipmap/pic_visiting_service_icon"-->
-                        <!--android:gravity="center"-->
-                        <!--android:text="上门服务"-->
-                        <!--android:textColor="@color/text_color_1"-->
-                        <!--android:textSize="14sp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/tv_member_service_income_visiting_service"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:drawablePadding="8dp"-->
+        <!--android:drawableTop="@mipmap/pic_visiting_service_icon"-->
+        <!--android:gravity="center"-->
+        <!--android:text="上门服务"-->
+        <!--android:textColor="@color/text_color_1"-->
+        <!--android:textSize="14sp" />-->
 
-                <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0.5dp"-->
-                    <!--android:src="@color/text_color_8" />-->
+        <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.5dp"-->
+        <!--android:src="@color/text_color_8" />-->
 
-                <!--<com.coco3g.daishu.view.MyListView-->
-                    <!--android:id="@+id/listview_member_service"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
+        <!--<com.coco3g.daishu.view.MyListView-->
+        <!--android:id="@+id/listview_member_service"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-                <!--</com.coco3g.daishu.view.MyListView>-->
-            <!--</LinearLayout>-->
+        <!--</com.coco3g.daishu.view.MyListView>-->
+        <!--</LinearLayout>-->
 
     </com.coco3g.daishu.view.SuperRefreshLayout>
 

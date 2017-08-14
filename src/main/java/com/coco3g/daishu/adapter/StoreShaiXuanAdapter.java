@@ -142,7 +142,7 @@ public class StoreShaiXuanAdapter extends BaseAdapter {
             }
 
         } else {
-            viewHolder.mRelativePrice.setVisibility(View.GONE);
+            viewHolder.mRelativePrice.setVisibility(View.INVISIBLE);
         }
 
         //完成单数

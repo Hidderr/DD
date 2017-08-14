@@ -72,7 +72,7 @@
                 android:id="@+id/relative_store_shai_xuan_item_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/linear_shore_shai_xuan_item_pingjia"
+                android:layout_below="@+id/relative_shai_xuan_item_store_name"
                 android:layout_marginTop="4dp">
 
                 <TextView
@@ -109,8 +109,8 @@
                 android:id="@+id/linear_shore_shai_xuan_item_pingjia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/relative_store_shai_xuan_item_price"
                 android:layout_marginTop="4dp"
-                android:layout_above="@+id/relative_store_shai_xuan_item_address"
                 android:orientation="horizontal">
 
                 <TextView
@@ -155,7 +155,8 @@
                 android:id="@+id/relative_store_shai_xuan_item_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_marginTop="4dp"
+                android:layout_below="@+id/linear_shore_shai_xuan_item_pingjia">
 
                 <TextView
                     android:id="@+id/tv_store_shai_xuan_item_address"
