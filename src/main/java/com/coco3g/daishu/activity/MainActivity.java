@@ -63,6 +63,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 //        }
         setContentView(R.layout.activity_main);
 //        Global.MAINACTIVITY_CONTEXT = this;
+        String url = getIntent().getStringExtra("url");
+        if (!TextUtils.isEmpty(url)) {
+            Intent intent = new Intent(this, WebActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+        }
         initView();
         startLocation();
     }

@@ -58,11 +58,11 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         Global.getScreenWH(this);
         //
-        if (!Global.isShowSplash(SplashActivity.this, false)) {
-            Intent intent = new Intent(SplashActivity.this, StartActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        if (!Global.isShowSplash(SplashActivity.this, false)) {
+//            Intent intent = new Intent(SplashActivity.this, StartActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
         mAdapter = new SplashAdapter(this);
         initView();
         getStartPicList();
@@ -136,7 +136,6 @@ public class SplashActivity extends Activity {
                                         startActivity(intent);
                                     }
                                 } else if (linkurl.startsWith("http://")) {
-                                    intent.putExtra("skip", "web");
                                     intent.putExtra("url", linkurl);
                                     startActivity(intent);
                                 }
@@ -168,9 +167,6 @@ public class SplashActivity extends Activity {
     }
 
 
-
-
-
     /**
      * 获取启动界面列表
      */
@@ -186,7 +182,7 @@ public class SplashActivity extends Activity {
                 for (int i = 0; i < imagelist.size(); i++) {
                     SplashPicListBean.SplashPicData splashPicData = new SplashPicListBean.SplashPicData();
                     splashPicData.thumb = imagelist.get(i).get("thumb");
-                    splashPicData.linkurl = imagelist.get(i).get("likurl");
+                    splashPicData.linkurl = imagelist.get(i).get("linkurl");
                     mCurrSplashList.add(splashPicData);
                 }
                 //

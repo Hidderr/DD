@@ -558,7 +558,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onClick(View view) {
                     String url = mBroadCastList.get(position).get("linkurl");
-                    if (!TextUtils.isEmpty(url)) {
+                    if (url.startsWith("http://coco3g-app/")) {
+                        TypevauleGotoDictionary typevauleGotoDictionary = new TypevauleGotoDictionary(getActivity());
+                        typevauleGotoDictionary.gotoViewChoose(url);
+                    } else if (!TextUtils.isEmpty(url)) {
                         Intent intent = new Intent(getActivity(), WebActivity.class);
                         intent.putExtra("url", url);
                         startActivity(intent);

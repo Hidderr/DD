@@ -22,6 +22,8 @@ import com.coco3g.daishu.activity.DiscountOilActivity;
 import com.coco3g.daishu.activity.DriveRouteActivity;
 import com.coco3g.daishu.activity.LoginActivity;
 import com.coco3g.daishu.activity.MainActivity;
+import com.coco3g.daishu.activity.MemberServiceActivity;
+import com.coco3g.daishu.activity.ShaiXuanListActivity;
 import com.coco3g.daishu.activity.TabViewWebActivity;
 import com.coco3g.daishu.activity.WebActivity;
 import com.coco3g.daishu.alipay.AliPayUtils;
@@ -213,7 +215,15 @@ public class TypevauleGotoDictionary {
             } else if (hashMap.get("newtag").equals("disyouika")) {
                 intent = new Intent(mContext, DiscountOilActivity.class);
                 mContext.startActivity(intent);
-                ((Activity)mContext).finish();
+                ((Activity) mContext).finish();
+            } else if (hashMap.get("newtag").equals("dis_wash_car")) {  //跳转到优惠洗车
+                if (!Global.checkoutLogin(mContext)) {
+                    return;
+                }
+                intent = new Intent(mContext, ShaiXuanListActivity.class);
+                intent.putExtra("typeid", "2");   //2=洗车店，1=维修养护和维修救援，附近门店(不传参)，汽修厂、爱车保姆快修店（根据获取的维修类型id）
+                intent.putExtra("title", "优惠洗车");
+                mContext.startActivity(intent);
             }
 
 
