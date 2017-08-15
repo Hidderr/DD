@@ -17,7 +17,6 @@ import com.amap.api.maps.model.PolylineOptions;
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.data.Global;
 import com.coco3g.daishu.view.MyEndMarkerView;
-import com.coco3g.daishu.view.MyLocationMarkerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,11 +89,11 @@ public class RouteOverlay {
      * @since V2.1.0
      */
     protected BitmapDescriptor getStartBitmapDescriptor() {
-//        return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon);
+        return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon);
 
 
-        MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(mContext);
-        return BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(myLocationMarkerView, Global.screenWidth / 5, Global.screenWidth / 6));
+//        MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(mContext);
+//        return BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(myLocationMarkerView, Global.screenWidth / 5, Global.screenWidth / 6));
     }
 
     /**

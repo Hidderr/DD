@@ -468,9 +468,9 @@ public class MyMapView extends RelativeLayout implements AMap.OnMarkerClickListe
     private void resetlastmarker() {
         int index = poiOverlay.getPoiIndex(mlastMarker);
 
-        MyMarkerView markerView = new MyMarkerView(mContext);
-        markerView.setInfo(mlastMarker.getTitle());
-        mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(markerView, Global.screenWidth / 5, Global.screenWidth / 6)));
+//        MyMarkerView markerView = new MyMarkerView(mContext);
+//        markerView.setInfo(mlastMarker.getTitle());
+        mlastMarker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_red_icon));
         mlastMarker = null;
 
     }

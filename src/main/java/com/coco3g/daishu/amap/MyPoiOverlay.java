@@ -13,10 +13,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.coco3g.daishu.activity.RepairWebsiteActivity;
-import com.coco3g.daishu.data.Global;
-import com.coco3g.daishu.view.MyLocationMarkerView;
-import com.coco3g.daishu.view.MyMarkerView;
+import com.coco3g.daishu.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +45,12 @@ public class MyPoiOverlay {
             com.amap.api.services.core.PoiItem item = mPois.get(i);
             Marker marker = mamap.addMarker(getMarkerOptions(i, item.getTitle(), item.getPoiId()));
             marker.setObject(item);
-            if (item.getPoiId().equals("#")) {  //我的位置
-                marker.setAnchor(0.5f, 0.17f);
-            } else {
-                marker.setAnchor(0.2f, 0.39f);
-            }
-            mPoiMarks.add (marker);
+//            if (item.getPoiId().equals("#")) {  //我的位置
+//                marker.setAnchor(0.5f, 0.17f);
+//            } else {
+//                marker.setAnchor(0.2f, 0.39f);
+//            }
+            mPoiMarks.add(marker);
         }
     }
 
@@ -142,22 +139,32 @@ public class MyPoiOverlay {
     }
 
 
+//    //添加marker到地图上时候的bitmap
+//    protected BitmapDescriptor getBitmapDescriptor(int arg0, String storeName, String markerId) {
+//        View view = null;
+//        if (markerId.equals("#")) {
+//            MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(mContext);
+//            view = myLocationMarkerView;
+//
+//        } else {
+//            MyMarkerView markerView = new MyMarkerView(mContext);
+//            markerView.setInfo(storeName);
+//            view = markerView;
+//        }
+//        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(view, Global.screenWidth / 5, Global.screenWidth / 6));
+//        return icon;
+//    }
+
     //添加marker到地图上时候的bitmap
     protected BitmapDescriptor getBitmapDescriptor(int arg0, String storeName, String markerId) {
         View view = null;
         if (markerId.equals("#")) {
-            MyLocationMarkerView myLocationMarkerView = new MyLocationMarkerView(mContext);
-            view = myLocationMarkerView;
-
+            return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_arrow_icon);
         } else {
-            MyMarkerView markerView = new MyMarkerView(mContext);
-            markerView.setInfo(storeName);
-            view = markerView;
+            return BitmapDescriptorFactory.fromResource(R.mipmap.pic_location_red_icon);
         }
 
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(Global.getViewBitmap(view,
-                Global.screenWidth / 5, Global.screenWidth / 6));
-        return icon;
+
     }
 
 

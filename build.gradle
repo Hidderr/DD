@@ -15,8 +15,8 @@ android {
         applicationId "com.coco3g.daishu"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 104
-        versionName "1.0.4"
+        versionCode 105
+        versionName "1.0.5"
 
         multiDexEnabled true
 
