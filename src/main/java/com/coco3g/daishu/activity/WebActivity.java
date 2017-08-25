@@ -2,7 +2,6 @@ package com.coco3g.daishu.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -43,7 +42,8 @@ import java.util.Map;
 /**
  * Created by lisen on 16/3/3 16:34.
  */
-public class WebActivity extends BaseActivity {
+public class
+WebActivity extends BaseActivity {
     TopBarView mTopBar;
     //    XRefreshView mXRefreshView;
     MyWebView mWebView;

@@ -6,13 +6,17 @@ package com.coco3g.daishu.data;
 
 public class DataUrl {
 
-    public static final String BASE_URL = "http://daishu.coco3g.net/v1/"; // 测试域名
+    //    public static final String BASE_URL = "http://daishu.coco3g.net/v1/"; // 测试域名
+    public static final String BASE_URL = "http://app.stbloc.com/v1/"; // 正式域名
 
-    public static final String BASE_XIEYI_URL = "http://daishu.test.coco3g.com/"; // 协议(注册)
+    //    public static final String BASE_XIEYI_URL = "http://daishu.test.coco3g.com/"; // 协议(注册)
+    public static final String BASE_XIEYI_URL = "http://app.stbloc.com/"; // 协议(注册)
 
-    public static final String BASE_REPAIR_URL = "http://daishu.test.coco3g.com/index/index/weixiudian/id/"; // 维修点详情拼接url
+    //    public static final String BASE_REPAIR_URL = "http://daishu.test.coco3g.com/index/index/weixiudian/id/"; // 维修点详情拼接url
+    public static final String BASE_REPAIR_URL = "http://app.stbloc.com/index/index/weixiudian/id/"; // 维修点详情拼接url
 
-    public static final String BASE_CAR_PARAMETER_DETAIL = "http://daishu.test.coco3g.com/index/goods/cardetail/id/"; // 汽车参数详情baseurl
+    //    public static final String BASE_CAR_PARAMETER_DETAIL = "http://daishu.test.coco3g.com/index/goods/cardetail/id/"; // 汽车参数详情baseurl
+    public static final String BASE_CAR_PARAMETER_DETAIL = "http://app.stbloc.com/index/goods/cardetail/id/"; // 汽车参数详情baseurl
 
 
     /**

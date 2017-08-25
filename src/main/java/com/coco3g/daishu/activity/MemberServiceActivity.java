@@ -32,6 +32,7 @@ import java.util.Map;
 
 /**
  * Created by lisen on 16/2/4.
+ *
  */
 public class MemberServiceActivity extends BaseActivity implements View.OnClickListener {
     private TopBarView mTopBar;

@@ -5,7 +5,7 @@ android {
         dashudashi {
             keyAlias 'DaiShuDaShi'
             keyPassword 'daishudashi.com'
-            storeFile file('D:/AndroidProject/MyApplication/DaiShuDaShi/daishudashi.jks')
+            storeFile file('F:/DaiShu/DaiShuDaShi/daishudashi.jks')
             storePassword 'daishudashi.com'
         }
     }
@@ -53,6 +53,7 @@ dependencies {
         exclude module: 'support-annotations'
         exclude module: 'support-v4'
     }
+
     compile files('libs/alipaySdk-20170309.jar')
     compile files('libs/libammsdk.jar')
     compile files('libs/AMap_Search_V5.0.0_20170309.jar')

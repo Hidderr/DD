@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.coco3g.daishu.R;
 import com.coco3g.daishu.adapter.CategoryOneAdapter;
@@ -31,6 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * 主界面--》爱车改装
+ *
+ */
 public class CategoryActivity extends BaseActivity implements View.OnClickListener {
 
     ImageView mImageBack;

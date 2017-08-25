@@ -41,7 +41,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     String[] mNavTitles;
     int[] mNavIconResID = new int[]{R.drawable.nav_home_icon, R.drawable.nav_goods_icon, R.drawable.nav_income_icon, R.drawable.nav_repair_icon,
             R.drawable.nav_me_icon};
-    private static FragmentManager mFragManager = null;
+    private static FragmentManager  mFragManager = null;
     //
     private static HomeFragment mHomeFrag;
     private GoodsFragment mGoodsFrag;

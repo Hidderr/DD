@@ -126,7 +126,6 @@ public class CarCategoryListAdapter extends BaseRecyclerAdapter<CarCategoryListA
 
     public class SimpleAdapterViewHolder extends RecyclerView.ViewHolder {
 
-
         private LinearLayout mLinearRoot;
         private ImageView mImageThumb, mImageShoppingCart;
         private TextView mTxtTitle, mTxtContent, mTxtPrice;
